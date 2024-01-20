@@ -3,3 +3,4 @@
 - Comment source code nếu logic, phân chia phức tạp, sau này nhìn lại dễ hiểu, dễ teamwork
 - Phát triển các feature trên git branch riêng, có thể tạo các pull requests
 - ...
+- README syntax: [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
