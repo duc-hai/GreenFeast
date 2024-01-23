@@ -1,0 +1,141 @@
+openapi: 3.0.3
+info:
+  title: Green Feast - Swagger API Document
+  description: |-
+    The API documentation is a technical content, it contains all the information required to work with the API, with detailed information about resources, methods, requests and responses, testimonial information, … supported by instructions and examples.
+
+      API documentation is typically created and maintained using conventional text editors. API description formats like the OpenAPI/Swagger Specification automate document processing, making it easier for teams to create and maintain them.
+
+    _OpenAPI Specification is an API description format for REST APIs. An OpenAPI file allows you to describe the entire API including:_
+      - Enables endpoints (/users) and how each endpoint operates (GET, POST, PUT, DELETE).
+      - Input & output parameters of each API.
+      - Authentication method.
+      - Contact information, certificates (HTTP/HTTPS), terms of use and more.
+      - API specifications can be written in YAML or JSON. This format is easy to read and understand for both users and computer languages.
+    
+    **To view this api document as an interface, you can download the OpenAPI (Swagger) Editor extension in VSCode, then open this api document file and click the `OpenAPI` button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste content from this file to sites [Swagger Editor](https://editor.swagger.io/)**
+    
+    Some reference links:
+    - [Introducing swagger](https://topdev.vn/blog/gioi-thieu-swagger-cong-cu-document-cho-restfull-apis/)
+    - [Swagger for Express.js REST API](https://www.youtube.com/watch?v=vhFK6hXV-Qo)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: luuduchai.nt@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:3000
+    description: Development mode
+  - url: https://greenfeast.space
+    description: Production mode
+tags:
+  - name: auth
+    description: Sign in, sign up account
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space
+
+paths:
+  /auth/signin:
+    post:
+      tags:
+        - auth
+      summary: Login account
+      description: Login account with username (phone number) & password, then return access token & refresh token
+      operationId: signin
+      requestBody: 
+        description: Pass username and password, account type is 0 (employee) or 1 (customer)
+        content: 
+          # application/json:
+          #   schema:
+          #     $ref: '#/components/schemas/Account'
+          # application/xml:
+          #   schema:
+          #     $ref: '#/components/schemas/Account'
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     $ref: '#/components/schemas/Account'
+          application/json:
+            schema:
+              type: object
+              properties: 
+                username:
+                  type: string
+                  example: 0123456789
+                password:
+                  type: string
+                  example: luuduchai
+                account_type:
+                  type: integer
+                  example: 0
+        required: true
+      responses:
+        '200':
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: login successfully
+                  data: 
+                    type: object
+                    properties:
+                      access_token: 
+                        type: string
+                        example: qiewoqekjiIUWE312iU
+                      refresh_token:
+                        type: string
+                        example: ueoiwq3UIOUieuoiwq2e
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Account'
+                  
+            # application/json:
+            #   schema:
+            #     $ref: '#/components/schemas/Account'         
+            
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Account not found
+        '422':
+          description: Validation exception
+            
+components:
+  schemas:
+    Account:
+      required:
+        - username
+        - password
+        - account_type
+        - user_id
+      type: object
+      properties:
+        username:
+          type: string
+          format: int64
+          example: 0123456789
+        password:
+          type: string
+          example: luuduchai
+        user_id: 
+          type: string
+          format: int64
+          example: 31keui1ui3120
+        account_type:
+          type: number
+          format: int32
+          description: 0 is employee, 1 is customer
+      xml:
+        name: account
