@@ -6,36 +6,36 @@ const jwt = require('jsonwebtoken')
 
 class AccountService {
     async loginAccount (req, res, next) {
-        const { username, password, account_type } = req.body
-
-        //Check validation inputs
-        let result = validationResult(req)
-        if (result.errors.length != 0) {
-            result = result.mapped()
-            let message 
-            for (let i in result) {
-                message = result[i].msg
-                break //Just get first message error
-            }
-            return res.status(400).json({
-                status: 'error',
-                message
-            })
-        }
-
         try {
+            const { username, password, account_type, ...rest } = req.body
+
+            //Check validation inputs
+            let result = validationResult(req)
+            if (result.errors.length != 0) {
+                result = result.mapped()
+                let message 
+                for (let i in result) {
+                    message = result[i].msg
+                    break //Just get first message error
+                }
+
+                //throw new Error(message)
+                return next([400, 'error', message])
+            }
+
+
             let account = await Account.findOne({ _id: username, account_type: account_type })
 
             //Account is not exist
             if (!account) {
-                return res.status(400).json({ status: 'error', message: 'Email or password is incorrect' })
+                return next([400, 'error', 'Email or password is incorrect'])
             }
 
             //Password is not correct
             const matched = await bcrypt.compareSync(password, account.password)
 
             if (!matched) {
-                return res.status(400).json({ status: 'error', message: 'Email or password is incorrect' })
+                return next([400, 'error', 'Email or password is incorrect'])
             }
 
             //Account is correct: create access token and refresh token
@@ -43,8 +43,10 @@ class AccountService {
             const refreshToken = jwt.sign({ username: account.username }, process.env.REFRESH_TOKEN_SECRET_KEY)
 
             res.cookie('access_token', accessToken, {
-                //Config cookie just accessed by server
-                httpOnly: true,
+                httpOnly: true, //Config cookie just accessed by server
+                signed: true, //Cookie secure, prevents client-side modifications
+                maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
+                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })
             
             return res.status(200).json({
@@ -57,50 +59,41 @@ class AccountService {
             })
         }
         catch (err) {
-            return res.status(400).json({
-                status: 'error',
-                message: err.message,
-            })
+            return next([400, 'error', err.message])
         }
     }
 
     async signupAccount (req, res, next) {
-        const { username, password, full_name } = req.body || null
-
-        //Check validation inputs
-        let result = validationResult(req)
-        if (result.errors.length != 0) {
-            result = result.mapped()
-            let message 
-            for (let i in result) {
-                message = result[i].msg
-                break //Just get first message error
-            }
-            return res.status(400).json({
-                status: 'error',
-                message
-            })
-        }
-
         try {
+            const { username, password, full_name, ...rest } = req.body || null
+
+            //Check validation inputs
+            let result = validationResult(req)
+            if (result.errors.length != 0) {
+                result = result.mapped()
+                let message 
+                for (let i in result) {
+                    message = result[i].msg
+                    break //Just get first message error
+                }
+                return next([400, 'error', message])
+            }
+
             //Check whether username is exist or not
             const checkDuplicateUsername = await Account.findOne({ _id: username, account_type : 1 })
-
+          
             if (checkDuplicateUsername)
-                return res.status(403).json({
-                    status: 'error',
-                    message: 'account already exists'
-                })
-            
+                return next([403, 'error', 'account already exists'])
+
+            //encrypt the new account's password
+            const hashPassword = await bcrypt.hashSync(password, 10)
+
             //Create new user
             let newUser = new User({
                 full_name: full_name,
                 user_type: 1
             })    
             newUser = await newUser.save()
-
-            //encrypt the new account's password
-            const hashPassword = await bcrypt.hashSync(password, 10)
 
             let newAccount = new Account({
                 _id: username,
@@ -116,10 +109,7 @@ class AccountService {
             })
         }
         catch (err) {
-            return res.status(400).json({
-                status: 'error',
-                message: err.message,
-            })
+            return next([400, 'error', err.message])
         }
     }
 }
