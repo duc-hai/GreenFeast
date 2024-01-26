@@ -15,7 +15,7 @@ const user = new Schema (
             position: { type: String },
             access: { type: String }, //Temporary
             experience: { type: String },
-            day_work: { type: Date, default: new Date().toString() },
+            day_work: { type: Date, default: Date.now },
         },
 
         customer: {

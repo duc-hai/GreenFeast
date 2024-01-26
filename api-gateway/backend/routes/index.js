@@ -4,6 +4,7 @@ const accountSerice = require('../services/AccountService')
 const validation = require('../middlewares/validation')
 
 router.post('/auth/signin', validation.validatorLogin(), accountSerice.loginAccount)
+router.post('/auth/signup', validation.validatorRegister(), accountSerice.signupAccount)
 
 router.use('/', (req, res) => {
     res.status(404).json({status: 'error', message: 'url not found'})
