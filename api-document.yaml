@@ -158,16 +158,7 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: sign up account successfully
-                  data: 
-                    type: object
-                    properties:
-                      access_token: 
-                        type: string
-                        example: qiewoqekjiIUWE312iU
-                      refresh_token:
-                        type: string
-                        example: ueoiwq3UIOUieuoiwq2e
+                    example: Account 0123456789 is created successfully
             application/xml:
               schema:
                 $ref: '#/components/schemas/Account'
