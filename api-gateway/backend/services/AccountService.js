@@ -91,7 +91,7 @@ class AccountService {
             //Create new user
             let newUser = new User({
                 full_name: full_name,
-                user_type: 1
+                role: 1
             })    
             newUser = await newUser.save()
 

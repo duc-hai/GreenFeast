@@ -9,7 +9,7 @@ const user = new Schema (
         gender: { type: String, default: "None" },
         phone_number: { type: String, maxLength: 11 },
         address: { type: String },
-        user_type : { type: Number },
+        role : { type: Number },
 
         employee: {
             position: { type: String },
