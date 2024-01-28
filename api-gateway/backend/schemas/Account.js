@@ -12,8 +12,8 @@ const account = new Schema (
     },
 )
 
-account.methods.findAccount = function (callback) {
-    return mongoose.model('Account').find({}, callback)
-}
+// account.methods.findAccount = function (callback) {
+//     return mongoose.model('Account').find({}, callback)
+// }
 
 module.exports = mongoose.model('Account', account);

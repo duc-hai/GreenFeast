@@ -1,0 +1,39 @@
+# Docker compose for database only (mongodb)
+
+version: '3.8'
+services:
+  database:
+    container_name: database
+    image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+    restart: always
+    environment: 
+      MONGO_INITDB_DATABASE: api-gateway
+      #MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    expose: 
+      - 27017 #This service will open port 27017 so that other containers can communicate
+    volumes: # save data after container is deleted
+      - dbdata6:/data/db
+    networks:
+      - node-network
+volumes:
+  dbdata6:
+
+networks:
+  node-network:
+    driver: bridge
+
+#docker compose -p api-gateway-mongodb up -d 
+#up is build file, d is detach, after install with be auto exit
+
+#docker exec -it database bash: use mongo shell and docker container (database is container's name). This isn't working, try command below
+#docker exec -it database mongosh : database is container's name
+#mongo --username root --password password --authenticationDatabase admin
+
+#db : show databases
+#use <db_name>
+#db.myCollection.insertOne({name: Hai})
+#show collections
+#db.myCollection.find()

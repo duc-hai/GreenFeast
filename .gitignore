@@ -1,1 +1,4 @@
 api-gateway/backend/node_modules
+api-gateway/backend/build/node_modules
+api-gateway/backend/build/*
+!api-gateway/backend/build/index.js

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  nginx:
+    build:
+      context: . #Docker file is the same level
+    ports:
+      - 80:80
+    volumes: #override interface nginx default #copy file, folder from local computer to docker
+      #../../frontend/build is path to front end source code (folder build)
+      #/usr/share/nginx/html is path to interface nginx default 
+      - ../../frontend/build:/usr/share/nginx/html
+      - ./default.conf:/etc/nginx/conf.d/default.conf #config default nginx
+#docker compose -p api-gateway-nginx up -d

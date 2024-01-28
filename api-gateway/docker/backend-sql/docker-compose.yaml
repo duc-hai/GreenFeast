@@ -1,0 +1,50 @@
+# Merge database and backend into 1 docker compose file will auto create network
+# The reason is 2 container seperate doesn't have any communication. That's why we need a network 
+version: '3.8'
+services:
+  backend: #name of service
+    container_name: backend
+    build:
+      context: ../../backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
+      - DB_HOST=database # database is service's name
+
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container
+      # Any packets sent to port 27017 on the local machine will be forwarded to port 27017 in the docker container
+    expose:
+      - 3000
+    networks:
+      - node-network
+
+  database:
+    container_name: database
+    image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+    restart: always
+    environment: 
+      MONGO_INITDB_DATABASE: api-gateway
+      #MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    expose: 
+      - 27017 #This service will open port 27017 so that other containers can communicate
+    volumes: # save data after container is deleted
+      - dbdata6:/data/db
+    networks:
+      - node-network
+volumes:
+  dbdata6:
+
+networks:
+  node-network:
+    driver: bridge
+
+#docker compose -p nodejs-mongodb up -d 
+
+#up is build file (run container), d is detach, after install with be auto exit
+#then open "Log" in container backend to see work log
