@@ -2,15 +2,5 @@
     "presets": [
         "@babel/preset-env"
     ],
-    "parserOpts": {
-        "allowReturnOutsideFunction": true
-    },
-    "plugins": [
-        [
-            "module-resolver",
-            {
-                "root": ["."]
-            }
-        ]
-    ]
+    "parserOpts": { "allowReturnOutsideFunction": true } 
 }

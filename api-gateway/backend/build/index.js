@@ -3,8 +3,8 @@
 var express = require('express');
 var env = require('dotenv');
 var app = express();
-var database = require("./database/connectMongo");
-var routes = require("./routes");
+var database = require('./database/connectMongo');
+var routes = require('./routes');
 var cookieParser = require('cookie-parser');
 env.config();
 database.connect();
