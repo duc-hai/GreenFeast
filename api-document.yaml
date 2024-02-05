@@ -29,16 +29,16 @@ externalDocs:
   description: Find more about Swagger
   url: http://swagger.io
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3000/api
     description: Development mode
-  - url: https://greenfeast.space
+  - url: https://greenfeast.space/api
     description: Production mode
 tags:
   - name: auth
     description: Sign in, sign up account
     externalDocs:
       description: More details
-      url: https://greenfeast.space
+      url: https://greenfeast.space/api
 
 paths:
   /auth/signin:
