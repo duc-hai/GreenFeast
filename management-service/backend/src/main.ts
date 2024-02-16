@@ -4,7 +4,7 @@ import { HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false }); //abortOnError option is used to show errors instead of the default exiting application with code 1 if there is an error
-  // app.use(logger); //Link middleware with all registed path
+  //app.use(logger); //Link middleware with all registed path
   app.useGlobalPipes(new ValidationPipe({
     //disableErrorMessages: true,
     whitelist: true, //All field is not exist in dto will be discard

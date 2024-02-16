@@ -1,14 +1,13 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuController } from './menu.controller';
 import { MenuService } from './menu.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-//import { User } from 'entities/user.entity';
+import { Menu } from 'entities/menu.entity';
 
 @Module({
+    imports: [TypeOrmModule.forFeature([Menu])],
     controllers: [MenuController],
     providers: [MenuService],
-    exports: [MenuService] //Optional, dùng để chia sẻ instance của menuservice cho các module khác có thể sử dụng
-    //Để sử dụng ở module khác, cần imports module MenuModule và sử dụng
+    exports: [MenuService, TypeOrmModule] //Optional, to share instance of menuservice for other modules to use
 })
 export class MenuModule {}
-
