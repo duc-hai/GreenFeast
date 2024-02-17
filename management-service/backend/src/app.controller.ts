@@ -5,12 +5,13 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-  // @All()
+  // @Get()
+  // getHello(): string {
+  //   return this.appService.getHello();
+  // }
+
+  // @All('/*')
   // catchNotFound(@Res() res) {
-  //   return res.status(HttpStatus.NOT_FOUND).json({ status: 'error', message: 'url not found'})
+  //   return res.status(HttpStatus.NOT_FOUND).json({ status: 'error', message: 'Không tìm thấy đường dẫn'})
   // }
 }

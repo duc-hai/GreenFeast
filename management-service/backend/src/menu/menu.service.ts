@@ -4,25 +4,137 @@ import { Menu } from 'entities/menu.entity';
 import { Repository } from 'typeorm';
 import { v2 as cloudinary } from 'cloudinary';
 import * as fs from 'fs';
+import { CreateMenuDto } from './dto/create-menu.dto';
+import { create } from 'domain';
+import { Category } from 'entities/category.entity';
+import { UpdateMenuDto } from './dto/update-menu.dto';
 
 @Injectable()
 export class MenuService {
     constructor(
-        @InjectRepository(Menu) private menuRepository: Repository<Menu>
+        @InjectRepository(Menu) private menuRepository: Repository<Menu>,
+
+        @InjectRepository(Category) private categoryRepository: Repository<Category>
     ) {}
 
-    async createMenu(file: Express.Multer.File): Promise<any> {
+    async getAllMenu(pageQuery: number, perPageQuery: number): Promise<any> {
         try {
-            //console.log(file)
+            //Pagination
+            const page = pageQuery || 1 //Default is 1
+            const perPage = perPageQuery || parseInt(process.env.PER_PAGE_MENU) || 10 //Each page get 10 items
 
-            if (!file)
+            const skip = (perPage * page) - perPage //In first page, skip 0 index
+
+            const [result, total] = await this.menuRepository.findAndCount({
+                where: {
+                    isDeleted: false
+                },
+                take: perPage,
+                skip: skip,
+                order: {
+                    name: "ASC"
+                }
+            })
+
+            const paginationResult = {
+                currentPage: page,
+                totalItems: total,
+                eachPage: perPage,
+                totalPage: Math.ceil(total / perPage)
+            }
+
+            return {
+                result, paginationResult
+            }
+        }
+        catch (err) {
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            })
+        }
+    }
+
+    async getByCategory (categoryId : number): Promise<any> {
+        try {
+            if (!categoryId) 
                 throw new HttpException({
                     status: 'error',
-                    message: `Đã xảy ra lỗi với file`,
+                    message: `Thiếu dữ liệu danh mục`,
                 }, HttpStatus.FORBIDDEN, {
-                    cause: `Đã xảy ra lỗi với file`
+                    cause: 'Thiếu dữ liệu danh mục' 
                 })
-                
+
+            if (typeof(categoryId) === 'string')
+                categoryId = parseInt(categoryId)
+
+            const result = await this.menuRepository.find({
+                where: {
+                    isDeleted: false,
+                    category_id: categoryId
+                },
+                order: {
+                    name: "ASC"
+                }
+            })
+
+            if (!result)
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy thực đơn hợp lệ`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Không tìm thấy thực đơn hợp lệ' 
+                })
+
+            return result 
+        }
+        catch (err) {
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            })
+        }
+    }
+
+    async createMenu(file: Express.Multer.File, createMenuDto: CreateMenuDto): Promise<any> {
+        try {
+            //console.log(file)
+            //console.log(createMenuDto)
+
+            if (!file) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Lỗi khi tải file lên`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: `Lỗi khi tải file lên`
+                })
+
+            //Convert for the right data type
+            if (typeof(createMenuDto.price) === 'string')
+                createMenuDto.price = parseInt(createMenuDto.price)
+
+            if (typeof(createMenuDto.category_id) === 'string')
+                createMenuDto.category_id = parseInt(createMenuDto.category_id)
+
+            //Check foreign key of category table
+            const checkForeignKeyCategory = await this.categoryRepository.findOneBy({
+                id: createMenuDto.category_id,
+                isDeleted: false
+            })
+
+            if (!checkForeignKeyCategory)
+                throw new HttpException({
+                    status: 'error',
+                    message: `Danh mục không hợp lệ`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: `Danh mục không hợp lệ`
+                })
+
+            //Config cloudinary path to upload
             cloudinary.config({
                 cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
                 api_key: process.env.CLOUDINARY_API_KEY,
@@ -37,7 +149,7 @@ export class MenuService {
                     image: result.secure_url,
                     created_at: new Date()
                 },
-                ... {}
+                ... createMenuDto
             } //JS Spread
 
             const menu = await this.menuRepository.create(menuData)
@@ -49,7 +161,85 @@ export class MenuService {
             return menu
         }
         catch (err) {
-            this.removeImageAfterUploadCloud(file.path)
+            //If 'file' is truthy, it's means that image uploaded on server, we need to remove it (whether success or failure)
+            if (file)
+                this.removeImageAfterUploadCloud(file.path)
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            })
+        }
+    }
+
+    async updateMenu (file: Express.Multer.File, updateMenuDto: UpdateMenuDto, id: number): Promise<any> {
+        try {
+            //console.log(file)
+
+            if (!id) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Thiếu mã thực đơn`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Thiếu mã thực đơn' 
+                })
+
+            if (updateMenuDto.category_id) {
+                //Check foreign key of category table
+                const checkForeignKeyCategory = await this.categoryRepository.findOneBy({
+                    id: updateMenuDto.category_id,
+                    isDeleted: false
+                })
+
+                if (!checkForeignKeyCategory)
+                    throw new HttpException({
+                        status: 'error',
+                        message: `Danh mục không hợp lệ`,
+                    }, HttpStatus.FORBIDDEN, {
+                        cause: `Danh mục không hợp lệ`
+                    })
+            }
+
+            let resultCloudinary = null
+
+            if (file) {
+                //Config cloudinary path to upload
+                cloudinary.config({
+                    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                    api_key: process.env.CLOUDINARY_API_KEY,
+                    api_secret: process.env.CLOUDINARY_API_SECRET
+                })
+
+                resultCloudinary = await cloudinary.uploader.upload(file.path, { unique_filename: true }) //If error occur, 'catch exception' below will handle it
+
+                this.removeImageAfterUploadCloud(file.path)
+            }
+
+            const updateData = {
+                ... updateMenuDto,
+                ... {
+                    updated_at: new Date(),
+                }
+            }
+
+            if (resultCloudinary) 
+                Object.assign(updateData, { image: resultCloudinary.secure_url })
+
+            const resultUpdate = await this.menuRepository.update({
+                id: id,
+                isDeleted: false
+            }, updateData)
+
+            if (resultUpdate.affected === 0) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Đã xảy ra lỗi`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Đã xảy ra lỗi'
+                })
+        }
+        catch (err) {
             throw new HttpException({
                 status: 'error',
                 message: `${err.message}`,
@@ -60,11 +250,48 @@ export class MenuService {
     }
 
     async removeImageAfterUploadCloud (filePath: string): Promise<any> {
-        fs.unlink(filePath, (err) => {
+        fs.unlink(filePath, err => {
             if (err)
                 console.error(`Xảy ra lỗi khi xóa file: ${err}`)
         })
 
         //console.log('Xóa thành công file local')
+    }
+
+    async deleteMenu(id: number): Promise<any> {
+        try {
+            if (!id) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Thiếu mã thực đơn`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Thiếu mã thực đơn' 
+                })
+
+            //Soft delete
+            const result = await this.menuRepository.update({
+                id: id,
+                isDeleted: false
+            }, {
+                isDeleted: true,
+                deleted_at: new Date()
+            })
+            
+            if (result.affected === 0) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy thực đơn`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Không tìm thấy thực đơn' 
+                })
+        }
+        catch (err) {
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            })
+        }
     }
 }

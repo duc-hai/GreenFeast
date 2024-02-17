@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param } from
 import { AreaService } from './area.service';
 import { Response } from 'express';
 import { CreateAreaDto } from './dto/create-area.dto';
+import { UpdateAreaDto } from './dto/update-area.dto';
 
 @Controller('area')
 export class AreaController {
@@ -38,7 +39,7 @@ export class AreaController {
     // }
 
     @Put('/update/:id')
-    async updateArea (@Res() res: Response, @Param() params: any, @Body() updateTableDto: CreateAreaDto) : Promise<any> {
+    async updateArea (@Res() res: Response, @Param() params: any, @Body() updateTableDto: UpdateAreaDto) : Promise<any> {
         try {
             const result = await this.areaService.updateArea(params.id, updateTableDto);
 

@@ -11,6 +11,8 @@ import { PrinterController } from './printer/printer.controller';
 import { PrinterModule } from './printer/printer.module';
 import { CategoryModule } from './category/category.module';
 import { PromotionModule } from './promotion/promotion.module';
+import { APP_FILTER } from '@nestjs/core';
+import { NotFoundFilter } from 'filter/notfound.filter';
 
 @Module({
   imports: [MenuModule, TableModule, AreaModule, ConfigModule.forRoot({
@@ -33,7 +35,10 @@ import { PromotionModule } from './promotion/promotion.module';
     retryDelay: 3000, //Delay between reconnection attempts (ms), default is 3000
   }), PrinterModule, CategoryModule, PromotionModule],
   controllers: [AppController, PrinterController], 
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_FILTER,
+    useClass: NotFoundFilter //Handle exception not found by own way
+  }],
 })
 
 export class AppModule {

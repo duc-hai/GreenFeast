@@ -1,8 +1,12 @@
 import { IsNotEmpty, IsNumber, IsString, Min, Max, IsInt, IsOptional } from "class-validator";
 
 export class CreateAreaDto {
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({
+        message: 'Tên khu vực không để trống'
+    })
+    @IsString({
+        message: 'Tên khu vực không hợp lệ'
+    })
     name: string;
 
     //@IsNumber()
@@ -12,7 +16,10 @@ export class CreateAreaDto {
     @IsOptional()
     price_percentage: number;
 
-    @IsString()
+    @IsOptional()
+    @IsString({
+        message: 'Mô tả không hợp lệ'
+    })
     description: string;
 
     //@MinLength(5, { message: 'This field must be than 5 character' })

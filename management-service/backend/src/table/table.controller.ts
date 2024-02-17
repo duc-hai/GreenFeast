@@ -4,6 +4,7 @@ import { TableService } from './table.service';
 import { Response } from 'express';
 import { CreateTableAutoDto } from './dto/create-tables-auto.dto';
 import { DeleteTablesDto } from './dto/delete-table.dto';
+import { UpdateTableDto } from './dto/update-table.dto';
 
 @Controller('table')
 export class TableController {
@@ -47,7 +48,7 @@ export class TableController {
     }
 
     @Put('/update/:id')
-    async updateTable (@Res() res: Response, @Param() params: any, @Body() updateTableDto: CreateTableDto): Promise<any> {
+    async updateTable (@Res() res: Response, @Param() params: any, @Body() updateTableDto: UpdateTableDto): Promise<any> {
         try {
             const result = await this.tableService.updateTable(params.id, updateTableDto);
 

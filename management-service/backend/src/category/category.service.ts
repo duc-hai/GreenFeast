@@ -1,4 +1,4 @@
-import { ForbiddenException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'entities/category.entity';
 import { Repository } from 'typeorm';
@@ -84,7 +84,12 @@ export class CategoryService {
             }, categoryDataUpdate)
 
             if (result.affected === 0)
-                throw new NotFoundException('Đã xảy ra lỗi')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Đã xảy ra lỗi`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Đã xảy ra lỗi'
+                })
         }
         catch (err) {
             throw new HttpException({
@@ -118,7 +123,12 @@ export class CategoryService {
             })
 
             if (result.affected === 0) {
-                throw new NotFoundException('Không tìm thấy khu vực phù hợp')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy danh mục phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy danh mục phù hợp'
+                })
             }
         }
         catch (err) {

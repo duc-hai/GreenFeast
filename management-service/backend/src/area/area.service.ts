@@ -1,8 +1,9 @@
-import { HttpException, HttpStatus, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Area } from '../../entities/area.entity';
 import { Repository } from 'typeorm';
 import { CreateAreaDto } from './dto/create-area.dto';
+import { UpdateAreaDto } from './dto/update-area.dto';
 
 @Injectable()
 export class AreaService {
@@ -17,11 +18,19 @@ export class AreaService {
             const areas = await this.areaRepository.find({
                 where: {
                     isDeleted: false,
+                },
+                order: {
+                    name: "ASC"
                 }
             });
 
             if (!areas) 
-                throw new NotFoundException('Không tìm thấy khu vực nào');
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy khu vực phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy khu vực phù hợp'
+                })
     
             return areas;
         }
@@ -65,7 +74,7 @@ export class AreaService {
         }
     }
 
-    async updateArea (id, data): Promise<any> {
+    async updateArea (id: number, data: UpdateAreaDto): Promise<any> {
         try {
             id = parseInt(id.toString())
             // console.log(id, data)
@@ -73,7 +82,12 @@ export class AreaService {
             const result = await this.areaRepository.update({ id: id, isDeleted: false}, updateData)
             
             if (result.affected === 0) //Affected is record be influenced, 0 means no record updated
-                throw new NotFoundException('Không tìm thấy khu vực phù hợp')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy khu vực phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy khu vực phù hợp'
+                })
         }
         catch (err) {
             throw new HttpException({
@@ -95,7 +109,12 @@ export class AreaService {
             const result = await this.areaRepository.update({ id: id, isDeleted: false}, {isDeleted: true, deleted_at: new Date()})
 
             if(result.affected === 0)
-                throw new NotFoundException('Không tìm thấy khu vực phù hợp')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy khu vực phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy khu vực phù hợp'
+                })
         }
         catch (err) {
             throw new HttpException({

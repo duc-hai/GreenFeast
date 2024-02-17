@@ -1,4 +1,4 @@
-import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Table } from '../../entities/table.entity';
 import { Repository } from 'typeorm';
@@ -6,6 +6,7 @@ import { CreateTableDto } from './dto/create-table.dto';
 import { Area } from 'entities/area.entity';
 import { CreateTableAutoDto } from './dto/create-tables-auto.dto';
 import { DeleteTablesDto } from './dto/delete-table.dto';
+import { UpdateTableDto } from './dto/update-table.dto';
 
 @Injectable()
 export class TableService {
@@ -19,11 +20,24 @@ export class TableService {
 
     async getTablesByArea(area_id: number): Promise<any> {
         try {
-            const results = await this.tableRepository.findBy({area_id: area_id, isDeleted: false})
+            const results = await this.tableRepository.find({
+                where: {
+                    area_id: area_id, 
+                    isDeleted: false
+                },
+                order: {
+                    name: "ASC"
+                }
+            })
 
             // || results.length == 0
             if (!results ) {
-                throw new NotFoundException('Không tìm thấy bàn phù hợp nào');
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy bàn phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy bàn phù hợp'
+                })
             }
             
             return results
@@ -48,7 +62,12 @@ export class TableService {
             //console.log(checkForeignKey)
 
             if (!checkForeignKey)
-                throw new NotFoundException('Không tìm thấy id khu vực')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy id khu vực`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy id khu vực'
+                })
 
             const tableData = {
                 ...createTableDto,
@@ -82,7 +101,12 @@ export class TableService {
             //console.log(checkForeignKey)
 
             if (!checkForeignKey)
-            throw new NotFoundException('Không tìm thấy id khu vực')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy id khu vực`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy id khu vực'
+                })
         
             let arrayInsert = []
             let from = parseInt(createTableAutoDto.from.toString()) || 1
@@ -129,7 +153,7 @@ export class TableService {
         return num    
     }
 
-    async updateTable (id, data) {
+    async updateTable (id: number, data: UpdateTableDto) {
         try {
             id = parseInt(id.toString())
             
@@ -144,7 +168,12 @@ export class TableService {
             }, updateData)
 
             if (result.affected === 0)
-                throw new NotFoundException('Không tìm thấy bàn phù hợp')
+                throw new HttpException({
+                    status: 'error',
+                    message: `Không tìm thấy bàn phù hợp`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Không tìm thấy bàn phù hợp'
+                })
         }
         catch (err) {
             throw new HttpException({
