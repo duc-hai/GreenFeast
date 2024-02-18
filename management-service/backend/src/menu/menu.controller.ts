@@ -23,6 +23,18 @@ export class MenuController {
         }
     }
 
+    @Get('/search')
+    async searchMenu(@Res() res: Response, @Query('keyword') keyword): Promise<any> {
+        try {
+            const result = await this.menuService.searchMenu(keyword)
+
+            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+        }
+        catch (err) {
+            return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
+        }
+    }
+
     @Get('/get-by-category/:id')
     async getByCategory (@Param() param: any, @Res() res: Response): Promise<any> {
         try {

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
-import { LoggerMiddleware } from 'middlewares/logger.middleware';
+import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false }); //abortOnError option is used to show errors instead of the default exiting application with code 1 if there is an error

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Area } from '../../entities/area.entity';
+import { Area } from '../entities/area.entity';
 import { Repository } from 'typeorm';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';

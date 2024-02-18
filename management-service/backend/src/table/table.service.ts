@@ -1,9 +1,9 @@
 import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Table } from '../../entities/table.entity';
+import { Table } from '../entities/table.entity';
 import { Repository } from 'typeorm';
 import { CreateTableDto } from './dto/create-table.dto';
-import { Area } from 'entities/area.entity';
+import { Area } from 'src/entities/area.entity';
 import { CreateTableAutoDto } from './dto/create-tables-auto.dto';
 import { DeleteTablesDto } from './dto/delete-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';

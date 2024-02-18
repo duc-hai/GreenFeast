@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Menu } from 'entities/menu.entity';
-import { Repository } from 'typeorm';
+import { Menu } from 'src/entities/menu.entity';
+import { Like, Repository } from 'typeorm';
 import { v2 as cloudinary } from 'cloudinary';
 import * as fs from 'fs';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { create } from 'domain';
-import { Category } from 'entities/category.entity';
+import { Category } from 'src/entities/category.entity';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 
 @Injectable()
@@ -292,6 +292,38 @@ export class MenuService {
             }, HttpStatus.FORBIDDEN, {
                 cause: err 
             })
+        }
+    }
+
+    async searchMenu(keyword: string): Promise<any> {
+        try {
+            if (!keyword) 
+                throw new HttpException({
+                    status: 'error',
+                    message: `Thiếu từ khóa tìm kiếm`,
+                }, HttpStatus.FORBIDDEN, {
+                    cause: 'Thiếu từ khóa tìm kiếm' 
+                })
+
+            const searchKeywordTypeOrm = `%${keyword.split('').join('%')}%`
+            
+            const result = await this.menuRepository.find({
+                where: [
+                    //not case sensitive 
+                    { name: Like(`%${keyword}%`), isDeleted: false }, //Search by keyword. Eg: chay -> "Món chay ngon"
+                    { name: Like(searchKeywordTypeOrm), isDeleted: false } //Search by acronyms. Eg: mc -> "Món chay"
+                ]
+            })
+
+            return result
+        }
+        catch (err) {
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            }) 
         }
     }
 }

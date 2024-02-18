@@ -12,7 +12,7 @@ import { PrinterModule } from './printer/printer.module';
 import { CategoryModule } from './category/category.module';
 import { PromotionModule } from './promotion/promotion.module';
 import { APP_FILTER } from '@nestjs/core';
-import { NotFoundFilter } from 'filter/notfound.filter';
+import { NotFoundFilter } from 'src/filter/notfound.filter';
 
 @Module({
   imports: [MenuModule, TableModule, AreaModule, ConfigModule.forRoot({
