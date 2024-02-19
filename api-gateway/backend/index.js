@@ -1,7 +1,7 @@
 const express = require('express')
 const env = require('dotenv')
 const app = express()
-const database = require('./database/connectMongo')
+const database = require('./config/connectMongo')
 const routes = require('./routes')
 const cookieParser = require('cookie-parser')
 
@@ -15,7 +15,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 const HOST = process.env.HOST || '0.0.0.0' || 'localhost'
 const PORT = process.env.PORT || 3000
 
-app.use('/', routes)
+app.use('/api', routes)
 
 app.listen(PORT, () => {
     console.log(`API Gateway is running at http://${HOST}:${PORT}`)
