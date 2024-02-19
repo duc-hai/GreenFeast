@@ -7,7 +7,6 @@ import { AreaModule } from './area/area.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { PrinterController } from './printer/printer.controller';
 import { PrinterModule } from './printer/printer.module';
 import { CategoryModule } from './category/category.module';
 import { PromotionModule } from './promotion/promotion.module';
@@ -34,7 +33,7 @@ import { NotFoundFilter } from 'src/filter/notfound.filter';
     retryAttempts: 5, //Number of attempts to connect to the database, default is 10
     retryDelay: 3000, //Delay between reconnection attempts (ms), default is 3000
   }), PrinterModule, CategoryModule, PromotionModule],
-  controllers: [AppController, PrinterController], 
+  controllers: [AppController], 
   providers: [AppService, {
     provide: APP_FILTER,
     useClass: NotFoundFilter //Handle exception not found by own way

@@ -16,10 +16,30 @@ export class PromotionService {
         @InjectRepository(Menu) private menuRepository: Repository<Menu>,
     ) {}
 
+    async getFormPromotion(): Promise<any> {
+        try {
+            return JSON.parse(fs.readFileSync(join(process.cwd(), './src/reference-data/form-promotion.json')).toString())
+        }
+        catch (err) {
+            throw new HttpException({
+                status: 'error',
+                message: `${err.message}`,
+            }, HttpStatus.FORBIDDEN, {
+                cause: err 
+            })
+        }
+    }
+
     async findAllPromotion(): Promise<any> {
         try {
-            const resultDataFromDB = await this.promotionRepository.findBy({
-                isDeleted: false,
+            const resultDataFromDB = await this.promotionRepository.find({
+                where: {
+                    isDeleted: false,
+                },
+                order: {
+                    updated_at: "DESC",
+                    created_at: "DESC"
+                }
             })
 
             //The promotion form should not only display numbers 1, 2, 3... but must also display specific names so that the client can understand.

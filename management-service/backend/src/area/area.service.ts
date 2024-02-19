@@ -20,7 +20,9 @@ export class AreaService {
                     isDeleted: false,
                 },
                 order: {
-                    name: "ASC"
+                    name: "ASC",
+                    updated_at: "DESC",
+                    created_at: "DESC",
                 }
             });
 

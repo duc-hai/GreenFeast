@@ -15,6 +15,10 @@ export class CategoryService {
             const categories = await this.categoryRepository.find({
                 where: {
                     isDeleted: false,
+                },
+                order: {
+                    updated_at: "DESC",
+                    created_at: "DESC"
                 }
             })
 

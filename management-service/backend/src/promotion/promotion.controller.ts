@@ -57,4 +57,16 @@ export class PromotionController {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
         }
     }
+
+    @Get('/get-form-promotion')
+    async getFormPromotion (@Res() res: Response): Promise<any> {
+        try {
+            const result = await this.promotionService.getFormPromotion()
+
+            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thành công', data: result})
+        }
+        catch (err) {
+            return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
+        }
+    }
 }

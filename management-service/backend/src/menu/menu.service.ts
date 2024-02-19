@@ -32,7 +32,9 @@ export class MenuService {
                 take: perPage,
                 skip: skip,
                 order: {
-                    name: "ASC"
+                    name: "ASC",
+                    updated_at: "DESC",
+                    created_at: "DESC",
                 }
             })
 

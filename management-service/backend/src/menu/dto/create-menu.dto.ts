@@ -18,17 +18,17 @@ export class CreateMenuDto {
     @IsNotEmpty({
         message: 'Giá không được để trống'
     })
-    // @IsInt({
-    //     message: 'Giá phải là một số hợp lệ'
-    // })
+    @IsInt({
+        message: 'Giá phải là một số hợp lệ'
+    })
     price: number;
 
     @IsNotEmpty({
         message: 'Danh mục không được để trống',
     })
-    // @IsInt({
-    //     message: 'Mã danh mục không hợp lệ'
-    // })
+    @IsInt({
+        message: 'Mã danh mục không hợp lệ'
+    })
     category_id: number;
 
     @IsOptional()
