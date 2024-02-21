@@ -1,28 +1,28 @@
 const { check } = require('express-validator')
 
 const validatorLogin = () => [
-    check('username').exists().withMessage('Please enter your username')
-        .notEmpty().withMessage('Username is required')
-        .isMobilePhone().withMessage('Please enter a phone number'),
+    check('username').exists().withMessage('Vui lòng nhập tên đăng nhập')
+        .notEmpty().withMessage('Tên đăng nhập không được để trống')
+        .isMobilePhone().withMessage('Số điện thoại không hợp lệ'),
 
-    check('password').exists().withMessage('Please enter your password')
-        .notEmpty().withMessage('Password is required')
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    check('password').exists().withMessage('Vui lòng nhập mật khẩu')
+        .notEmpty().withMessage('Mật khẩu không được để trống')
+        .isLength({ min: 6 }).withMessage('Mật khẩu phải có ít nhất 6 kí tự'),
 
-    check('account_type').exists().withMessage('Please enter your account type')
-        .notEmpty().withMessage('Account type is required')
-        .isNumeric().withMessage('Account type must be number')
-        .isIn([0, 1]).withMessage('Account type must be 0 (employee) or 1 (customer')
+    // check('account_type').exists().withMessage('Vui lòng nhập loại tài khoản')
+    //     .notEmpty().withMessage('Loại tài khoản không được để trống')
+    //     .isNumeric().withMessage('Loại tài khoản không hợp lệ')
+    //     .isIn([1, 2]).withMessage('Loại tài khoản không hợp lệ') //Account type must be 1 (employee) or 2 (customer)
 ]
 
 const validatorRegister = () => [
-    check('username').exists().withMessage('Please enter your username')
-        .notEmpty().withMessage('Username is required')
-        .isMobilePhone().withMessage('Please enter a phone number'),
+    check('username').exists().withMessage('Vui lòng nhập tên đăng nhập')
+        .notEmpty().withMessage('Tên đăng nhập không được để trống')
+        .isMobilePhone().withMessage('Số điện thoại không hợp lệ'),
 
-    check('password').exists().withMessage('Please enter your password')
-        .notEmpty().withMessage('Password is required')
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    check('password').exists().withMessage('Vui lòng nhập mật khẩu')
+        .notEmpty().withMessage('Mật khẩu không được để trống')
+        .isLength({ min: 6 }).withMessage('Mật khẩu phải có ít nhất 6 kí tự'),
 ]
 
 module.exports = {
