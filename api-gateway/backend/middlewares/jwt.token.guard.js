@@ -27,7 +27,7 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
 
         const user = await User.findOne({
             _id: verified.username,
-            user_type: 2
+            user_type: 1
         })
 
         if (!user)

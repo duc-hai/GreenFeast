@@ -4,6 +4,10 @@ const { validationResult } = require('express-validator')
 const bcrypt = require('bcrypt')
 const { verify } = require('jsonwebtoken')
 const jwt = require('jsonwebtoken')
+const Role = require('../models/role')
+const { v4: uuidv4 } = require('uuid')
+const { join } = require('path')
+const fs = require('fs')
 
 class AccountService {
     //For customer
@@ -11,8 +15,8 @@ class AccountService {
         try {
             const { username, password, ...rest } = req.body || null
 
-            const account_type = 2
-
+            const account_type = req.locals.accountType || 2
+            
             //Check validation inputs
             let result = validationResult(req)
             if (result.errors.length != 0) {
@@ -175,6 +179,95 @@ class AccountService {
     async testJWT (req, res, next) {
         console.log(req.user)
         return res.status(200).json({success: 'success'})
+    }
+
+    async createEmployeeeAccount (req, res, next) {
+        try {
+            const { username, password, full_name, role, position, experience, grants, ... rest } = req.body || null
+
+            //Check validation inputs
+            let resultValidation = validationResult(req)
+            if (resultValidation.errors.length != 0) {
+                resultValidation = resultValidation.mapped()
+                let message 
+                for (let i in resultValidation) {
+                    message = resultValidation[i].msg
+                    break //Just get first message error
+                }
+                return next([400, 'error', message])
+            }
+
+            //Check whether username is exist or not
+            const checkDuplicateUsername = await Account.findOne({ _id: username, account_type : 1 })
+          
+            if (checkDuplicateUsername)
+                return next([403, 'error', 'Số điện thoại đã tồn tại'])
+
+            //If role is other, we need to create new role with other power
+            if (role === 'other') {
+            
+                if (!grants)
+                    return next([400, 'error', 'Vui lòng nhập các quyền của nhân viên'])
+
+                const uniqueString = uuidv4()
+
+                await new Role({
+                    name: uniqueString,
+                    grants: grants
+                }).save()
+            }
+
+            //encrypt the new account's password
+            const hashPassword = await bcrypt.hashSync(password, 10) //10 is saltRound, this an important argument. Because an attacker can use brute force to hack an account even though the password hashed, it is necessary to randomly generate a string of characters which call "salt" to add to the password and save it in the database.
+    
+            //Create new user
+            let newUser = new User({
+                full_name,
+                user_type: 1,
+                role,
+                employee: {
+                    position,
+                    experience
+                }
+            })    
+            newUser = await newUser.save()
+
+            if (!newUser)
+                return next([403, 'error', 'Đã xảy ra lỗi khi tạo người dùng'])
+
+            let newAccount = new Account({
+                _id: username,
+                password: hashPassword,
+                user_id: newUser._id,
+                account_type: 1
+            })
+            newAccount = await newAccount.save()
+
+            return res.status(200).json({
+                status: 'success',
+                message: `Tài khoản ${username} được tạo thành công`
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    async getResourceRbac(req, res, next) {
+        try {
+            const resourceRbacData = JSON.parse(fs.readFileSync(join(process.cwd(), './reference-data/resource.rbac.json')).toString())
+
+            //console.log(resourceRbacData)
+            //console.log(resourceRbacData[0].actions)
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách các quyền thành công',
+                data: resourceRbacData
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
     }
 }
 

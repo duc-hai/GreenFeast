@@ -68,6 +68,13 @@
         "delete:any",
         "create:any"
       ]
+    },
+    {
+      "resource": "employee",
+      "actions": [
+        "create:any",
+        "read:any"
+      ]
     }
   ]
 },

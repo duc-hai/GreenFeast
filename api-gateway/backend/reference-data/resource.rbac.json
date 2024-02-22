@@ -1,0 +1,17 @@
+[
+    {
+        "resource": "employee",
+        "name": "Nhân viên",
+        "actions": [
+            { "name": "Tạo tài khoản nhân viên", "slug": "create:any" },
+            { "name": "Xem danh sách các quyền", "slug": "read:any" }
+        ]
+    },
+    {
+        "resource": "menu",
+        "name": "Thực đơn",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" }
+        ]
+    }
+]
