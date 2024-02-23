@@ -64,12 +64,12 @@ exports.jwtTokenValidatorCustomer = async (req, res, next) => {
         if (!verified) {
             return next()
         }
-
+        
         const user = await User.findOne({
             _id: verified.username,
             user_type: 2
         })
-
+        
         if (!user)
             return next()
         

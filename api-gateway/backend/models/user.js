@@ -6,9 +6,10 @@ const user = new Schema (
     {
         full_name: { type: String },
         birthday: { type: Date },
-        gender: { type: String, default: 'None' },
+        gender: { type: String, default: 'không' },
         phone_number: { type: String, maxLength: 11, default: '' },
         address: { type: String, default: '' },
+        email: { type: String },
         
         role : { type: String },
 
@@ -21,7 +22,6 @@ const user = new Schema (
         },
 
         customer: {
-            email: { type: String },
             accumulated_points: { type: Number },
             order_list : { type : Array },
         },

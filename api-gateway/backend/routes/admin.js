@@ -11,6 +11,9 @@ router.post('/auth/signin', validation.validatorLogin(), accountType.assignAccou
 
 //Remember login with restaurant's role
 router.post('/create-employee', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('createAny', 'employee'), validation.validatorRegisterEmployee(),  accountService.createEmployeeeAccount)
+
+router.patch('/user/update', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accountType.assignAccountType(1), validation.validatorUpdateUserInfor(), accountService.updateUser)
+
 router.get('/get-resource-rbac', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('readAny', 'employee'), accountService.getResourceRbac)
 
 module.exports = router

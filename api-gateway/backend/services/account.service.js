@@ -47,7 +47,7 @@ class AccountService {
 
             //Account is correct: create access token and refresh token
             const accessToken = jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
-            const refreshToken = jwt.sign({ username: account._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+            const refreshToken = jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
 
             res.cookie('access_token', accessToken, {
                 httpOnly: true, //Config cookie just accessed by server
@@ -263,6 +263,39 @@ class AccountService {
                 status: 'success',
                 message: 'Lấy danh sách các quyền thành công',
                 data: resourceRbacData
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    //Employee or customer
+    async updateUser (req, res, next) {
+        try {
+            if (!req.user || !req.user?._id)
+                return next([404, 'error', 'Đã xảy ra lỗi, vui lòng kiểm tra trạng thái đăng nhập'])
+        
+            //Check validation inputs from body
+            let resultValidation = validationResult(req)
+            if (resultValidation.errors.length != 0) {
+                resultValidation = resultValidation.mapped()
+                let message 
+                for (let i in resultValidation) {
+                    message = resultValidation[i].msg
+                    break //Just get first message error
+                }
+                return next([400, 'error', message])
+            }
+
+            const resultUpdate = await User.findOneAndUpdate({ _id: req.user._id, user_type: req.locals.accountType }, req.body)
+
+            if (!resultUpdate)
+                return next([404, 'error', 'Đã xảy ra lỗi khi cập nhật thông tin'])
+        
+            return res.status(200).json({
+                status: 'success',
+                message: 'Cập nhật thông tin tài khoản thành công'
             })
         }
         catch (err) {

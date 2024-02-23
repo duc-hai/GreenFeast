@@ -13,7 +13,7 @@ info:
       - Contact information, certificates (HTTP/HTTPS), terms of use and more.
       - API specifications can be written in YAML or JSON. This format is easy to read and understand for both users and computer languages.
     
-    **To view this api document as an interface, you can download the OpenAPI (Swagger) Editor extension in VSCode, then open this api document file and click the `OpenAPI` button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste content from this file to sites [Swagger Editor](https://editor.swagger.io/)**
+    **To view this api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open this api document file and click the `OpenAPI` button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste content from this file to sites [Swagger Editor](https://editor.swagger.io/)**
     
     Some reference links:
     - [Introducing swagger](https://topdev.vn/blog/gioi-thieu-swagger-cong-cu-document-cho-restfull-apis/)
@@ -30,53 +30,77 @@ externalDocs:
   url: http://swagger.io
 servers:
   - url: http://localhost:3000/api
-    description: Development mode
+    description: Development mode (Gateway)
+  - url: http://localhost:4000
+    description: Management service
   - url: https://greenfeast.space/api
-    description: Production mode
+    description: Production mode  
 tags:
-  - name: auth
-    description: Sign in, sign up account
+  - name: auth 
+    description: Xử lý các vấn đề liên quan đến tài khoản user (tại API Gateway)
     externalDocs:
       description: More details
       url: https://greenfeast.space/api
-
+  
+  - name: area 
+    description: Quản lý khu vực (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api
+  
+  - name: table 
+    description: Quản lý bàn (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api
+  
+  - name: printer 
+    description: Quản lý máy in (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api
+      
+  - name: category 
+    description: Quản lý danh mục món ăn (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api
+      
+  - name: menu 
+    description: Quản lý thực đơn (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api
+      
+  - name: promotion 
+    description: Quản lý khuyến mãi (Management service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api    
 paths:
   /auth/signin:
     post:
       tags:
         - auth
-      summary: Login account
-      description: Login account with username (phone number) & password, then return access token & refresh token
-      operationId: signin
+      summary: Đăng nhập tài khoản (khách hàng)
+      description: "Đăng nhập tài khoản với username (phone number) & password, sau đó trả về access token & refresh token. Lưu ý: access token sẽ tự động lưu vào cookie của trình duyệt dưới dạng mã hóa (signed key) và chỉ server mới được truy cập (lúc gửi thao tác lên server, server tự lấy access token trong cookie ra để kiểm tra trạng thái đăng nhập), vì thế không cần thao tác gì với access token mà chỉ cần xử lý refresh token. Access token chỉ tồn tại trong 10 tiếng, sau 10 tiếng thì gửi refresh token lên để lấy lại access token mới (tự tìm hiểu thêm về cơ chế jwt), phía dưới có api lấy lại access token từ refresh token. Refresh token chỉ tồn tại trong 1 tháng, sau 1 tháng thì người dùng đăng nhập lại để lấy lại 1 cặp access & refresh token mới."
       requestBody: 
-        description: Pass username and password, account type is 0 (employee) or 1 (customer)
+        description: Truyền username (phone number) và password
         content: 
-          # application/json:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
-          # application/xml:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
-          # application/x-www-form-urlencoded:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
           application/json:
             schema:
               type: object
               properties: 
                 username:
                   type: string
-                  example: 0123456789
+                  example: "0123456789"
                 password:
                   type: string
                   example: luuduchai
-                account_type:
-                  type: integer
-                  example: 0
         required: true
       responses:
         '200':
-          description: Login successfully
+          description: Đăng nhập thành công
           content:
             application/json:
               schema:
@@ -87,57 +111,48 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: login successfully
+                    example: Đăng nhập thành công
                   data: 
                     type: object
                     properties:
                       access_token: 
                         type: string
-                        example: qiewoqekjiIUWE312iU
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDgyZGQwMDEyZGIwYjljYzM0ZTM4NyIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzA4NzAyMzI0fQ.EvtzK--HQ7ohdtO8ERJDV8HVxa7_PXAIOKp3QhrCem0
                       refresh_token:
                         type: string
-                        example: ueoiwq3UIOUieuoiwq2e
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Account'
-                  
-            # application/json:
-            #   schema:
-            #     $ref: '#/components/schemas/Account'         
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzExMjU4MzI0fQ.LuTjk9EhkW4T51BALoyDnuuBdp_PgwDVw_xZstm5z6Y
+               
             
         '400':
-          description: Invalid ID supplied
-        '404':
-          description: Account not found
-        '422':
-          description: Validation exception
+          description: "Lỗi. Khi lỗi có thể trả về các status khác nhau, không nhất thiết là 400. Có thể check status code khác 200 tức là đã xảy ra lỗi. Hoặc check status bên dưới là error tức là có lỗi. Lưu ý: chỉ trong trường hợp xử lý thành công mới trả về tham số data (1 số trường hợp thành công thì không, ví dụ như update cái gì đó thì chỉ cần trả về message là update thành công là được), còn trong các trường hợp lỗi chỉ trả về status và message"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Số điện thoại hoặc mật khẩu không đúng
 
   /auth/signup: 
     post:
       tags:
         - auth
-      summary: Resigter account
-      description: Resigter account with username (phone number) & password, fullname (optional). Note that this functionality is for customers
-      operationId: signup
+      summary: Đăng ký tài khoản (khách hàng)
+      description: Đăng ký tài khoản với username (phone number) & password, full_name (bắt buộc)
       requestBody: 
-        description: Pass username and password, fullName (optional)
+        description: Truyền username và password, full_name 
         content: 
-          # application/json:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
-          # application/xml:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
-          # application/x-www-form-urlencoded:
-          #   schema:
-          #     $ref: '#/components/schemas/Account'
           application/json:
             schema:
               type: object
               properties: 
                 username:
                   type: string
-                  example: 0123456789
+                  example: "0123456789"
                 password:
                   type: string
                   example: luuduchai
@@ -147,7 +162,7 @@ paths:
         required: true
       responses:
         '200':
-          description: Sign up account successfully
+          description: Đăng ký tài khoản thành công
           content:
             application/json:
               schema:
@@ -158,46 +173,2176 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: Account 0123456789 is created successfully
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Account'
-                  
-            # application/json:
-            #   schema:
-            #     $ref: '#/components/schemas/Account'         
+                    example: "Tài khoản 093213213212 được tạo thành công"
             
         '400':
-          description: Invalid ID supplied
-        '404':
-          description: Account not found
-        '422':
-          description: Validation exception
+          description: "Cách xử lý lỗi giống api phía trên. Lưu ý: phía backend xử lý, kiểm tra nhiều trường hợp lỗi chứ không phải 1 trường hợp nên front end chỉ cần trả về message trong response cho người dùng là được"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Số điện thoại đã tồn tại"
+                    
+  /auth/refresh-token:
+    post:
+      tags:
+        - auth
+      summary: Lấy lại access token từ fresh token (cả khách hàng và nhân viên)
+      description: Xem chi tiết tại api sign in đầu tiên
+      requestBody: 
+        description: Truyền refresh_token, phía server sẽ lấy được thông tin của user từ refresh token đó và trả về access token mới (không cần đăng nhập hay xác thực gì hết, chỉ cần gửi refresh token là đủ)
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                refresh_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NzYxNiwiZXhwIjoxNzExMjU5NjE2fQ.pCKCUFIAf-v7fwbu4VQbSt6bqQXVVvjT19wWi2Snwlg
+        required: true
+      responses:
+        '200':
+          description: Lấy thành công access token mới
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Lấy access token thành công
+                  data: 
+                    type: object
+                    properties:
+                      access_token: 
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NzYyNSwiZXhwIjoxNzA4NzAzNjI1fQ.3T73fV1McBPGFpfHZwXnyWBKbAzH9ZIHBgyC1VNplQY
+        '400':
+          description: Lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Refresh token không hợp lệ hoặc đã hết hạn
+                    
+  /auth/google:
+    get:
+      tags:
+        - auth
+      summary: Đăng nhập với google (khách hàng)
+      description: "Đăng nhập với google, chỉ cần gắn đường link này cho nút đăng nhập với google là được. Còn lại thì server sẽ tự động xử lý. Không cần truyền param hay body gì hết. (Chức năng này hiện chỉ xác thực google và chuyển hướng, chứ chưa áp dụng JWT lên nó). Lưu ý: project GreenFeast đăng ký trên Google cloud hiện chưa xuất bản và xác thực nên chỉ có 1 số tài khoản google được thêm vào danh sách testing mới đăng nhập được. Hiện đang có 2 account có thể login là: duchai621859@gmail.com và tramngantruong.1007@gmail.com" 
+      responses:
+        '200':
+          description: Đăng nhập thành công, tự động chuyển hướng về trang / (hiện đang để tạm, tùy vào nghiệp vụ mà sau này sửa lại url chuyển hướng cho đúng)
+          
+        '400':
+          description: Nếu lỗi thì tự động chuyển hướng lại trang đăng nhập
+
+  /auth/logout:
+    get:
+      tags:
+        - auth
+      summary: Đăng xuất tài khoản (cả 2 role)
+      description: "Đơn giản là xóa cookie access token trên client. Front end kiểm tra xem refresh token lưu ở đâu thì tự xóa luôn. Lưu ý: chức năng này chỉ đơn giản là xóa access token và refresh token trên cookie chứ không làm 2 token này hết hạn. Có thể thêm tokens vào black list nhưng mất thời gian và đặc biệt là JWT không hỗ trợ nên chỉ cần xóa token trong cookie là được" 
+      responses:
+        '302':
+          description: Nếu log out thành công thì server tự động chuyển hướng về trang / với status code 302 (redirect)
+          
+        '400':
+          description: Nếu có lỗi thì như cũ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+  
+  /user/update:
+    patch:
+      tags:
+        - auth 
+      summary: Cập nhật thông tin tài khoản (khách hàng)
+      description: Cập nhật các thông tin gồm full_name, birthday, gender, phone_number, address, email
+      requestBody: 
+        description: "Truyền các thông tin phía trên, tất cả đều là tùy chọn, muốn update cái gì thì gửi cái đó. Không cần gửi tham số username hay gì hết, vì server tự động lấy trong cookie ra access token để xác định ai đang đăng nhập. Lưu ý: các tham số trong body đều được check qua validator, nên cần gửi đúng định dạng phía dưới. Mỗi tham số đều có description nên cần chú ý"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                full_name:
+                  description: Có ít nhất 3 kí tự
+                  type: string
+                  example: Hải
+                birthday:
+                  type: string
+                  example: 2002-08-15
+                  description: Định dạng là yyyy/mm/dd
+                gender:   
+                  type: string
+                  example: nam
+                  description: Chỉ có nam, nữ, khác (viết thường hết)
+                phone_number:
+                  type: string
+                  example: "0123213123"
+                  description: Đúng định dạng số điện thoại
+                address: 
+                  type: string
+                  example: "Quận 7"
+                  description: Địa chỉ do người dùng tự nhập, không yêu cầu valid
+                email: 
+                  type: string
+                  example: "customer@gmail.com"
+                  description: Đúng định dạng địa chỉ email
+        required: true
+      responses:
+        '200':
+          description: Lấy thành công access token mới
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cập nhật thông tin tài khoản thành công
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Tên người dùng quá ngắn 
+                    
+  /admin/auth/signin:
+    post:
+      tags:
+        - auth 
+      summary: Đăng nhập tài khoản phía nhà hàng (nhân viên, ...)
+      description: Tương tự như chức năng sign in bên khách hàng, chỉ cần username và password, trả về access token và refresh token
+      requestBody: 
+        description: "username & password"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                username:
+                  type: string
+                  example: "031238123"
+                password:
+                  type: string
+                  example: "3123213123"
+        required: true
+      responses:
+        '200':
+          description: Đăng nhập thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Đăng nhập thành công
+                  data: 
+                    type: object
+                    properties:
+                      access_token: 
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzA4NzE2NDYxfQ.O6liDM204xOTkaUkbdkHIAn7TJ_2XgBas5JfMAWzxIg
+                      refresh_token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzExMjcyNDYxfQ.r-pmDcrQ4DFZspQYUlGoqdPeNl71Ilr_uTY5NJbd50Q"
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Số điện thoại hoặc mật khẩu không đúng                
+  /admin/user/update:
+    patch:
+      tags:
+        - auth 
+      summary: Cập nhật thông tin tài khoản (nhân viên)
+      description: Giống y chang cập nhật thông tin tài khoản khách hàng
+      requestBody: 
+        description: "Tất cả đều là tùy chọn, muốn update cái gì thì gửi cái đó. Không cần gửi tham số username hay gì hết, vì server tự động lấy trong cookie ra access token để xác định ai đang đăng nhập. Lưu ý: các tham số trong body đều được check qua validator, nên cần gửi đúng định dạng phía dưới. Mỗi tham số đều có description nên cần chú ý"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                full_name:
+                  description: Có ít nhất 3 kí tự
+                  type: string
+                  example: Hải
+                birthday:
+                  type: string
+                  example: 2002-08-15
+                  description: Định dạng là yyyy/mm/dd
+                gender:   
+                  type: string
+                  example: nam
+                  description: Chỉ có nam, nữ, khác (viết thường hết)
+                phone_number:
+                  type: string
+                  example: "0123213123"
+                  description: Đúng định dạng số điện thoại
+                address: 
+                  type: string
+                  example: "Quận 7"
+                  description: Địa chỉ do người dùng tự nhập, không yêu cầu valid
+                email: 
+                  type: string
+                  example: "customer@gmail.com"
+                  description: Đúng định dạng địa chỉ email
+        required: true
+      responses:
+        '200':
+          description: Lấy thành công access token mới
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cập nhật thông tin tài khoản thành công
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Tên người dùng quá ngắn 
+                    
+  /admin/create-employee:
+    post:
+      tags:
+        - auth 
+      summary: Tạo tài khoản nhân viên (quản lý nhà hàng)
+      description: "Quản lý nhà hàng tạo tài khoản nhân viên gồm username (số điện thoại), password, fullname và các quyền tương ứng với tài khoản đó. Ngoài ra có 1 số tham số optional là position (vị trí làm việc, như nhân viên phục vụ, thu ngân, ...) và experience (kinh nghiệm làm việc). Để sử dụng chức năng này cần đăng nhập với tài khoản có quyền hạn được phân bổ từ trước, nếu không có quyền hạn mà vào sẽ quăng ra lỗi. Có trường hợp đặc biệt khi thêm role được trình bày bên dưới"
+      requestBody: 
+        description: "position và experience là tùy chọn, có thể có hoặc không. Đối với role, có 3 tùy chọn là cashier, waitstaff và other. Đối với cashier và waitstaff thì không cần đến tham số grants, chỉ cần truyền thẳng chuỗi cashier và waitstaff vào role. Nhưng đối với other, lúc này quản lý muốn cấp 1 số quyền đặc biệt, cần có tham số là grants gồm mảng các danh sách các resource mà role đó được phép truy cập. Phía dưới có 1 api lấy ra danh sách này nên yên tâm nó gồm những cái gì. Cứ gửi grants theo định dạng bên dưới là được"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                username:
+                  example: "0312381234"
+                password:
+                  type: string
+                  example: "3123213123"
+                role: 
+                  type: string
+                  example: "other"
+                full_name:
+                  type: string
+                  example: "Lưu Đức Hải"
+                position:
+                  type: string
+                  example: "Nhân viên phục vụ"
+                experience:
+                  type: string
+                  example: "1 năm"
+                grants:
+                  type: array
+                  items: 
+                    type: object
+                    properties:
+                      resource: 
+                        type: string
+                        example: menu
+                      actions: 
+                        type: array
+                        items:
+                          type: string
+                        example: ["read:any", "update:any", "delete:any", "create:any"]
+        required: true
+      responses:
+        '200':
+          description: Tạo tài khoản thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Tài khoản 0312381234 được tạo thành công
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Tên người dùng quá ngắn                        
+                    
+  /admin/get-resource-rbac:
+    get:
+      tags:
+        - auth 
+      summary: Lấy danh sách các quyền (quản lý nhà hàng)
+      description: Khi tạo tài khoản nhân viên, quản lý nhà hàng sẽ phân quyền cho nhân viên đó, nếu role là cashier hay waistaff thì không cần lấy API danh sách các tài nguyên này. Nhưng nếu quản lý tick vào role other, thì phải call API để hiện danh sách các tài nguyên ra. Dựa trên danh sách phản hồi phía dưới mà hiển thị sao cho đẹp mắt. Resource là các mục lớn bên ngoài, actions là thao tác với resource đó (nhớ lấy name tiếng việt để hiển thị cho đẹp, mấy cái tiếng anh là id khi gửi lên server thôi). Có thể xem kĩ hơn danh sách tại api-gateway/reference-data/sample...json
+      responses:
+        '200':
+          description: Lấy danh sách thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Lấy danh sách các quyền thành công
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        resource: 
+                          type: string
+                          example: menu
+                        name: 
+                          type: string
+                          example: Thực đơn
+                        actions: 
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: Xem danh sách
+                            slug:
+                              type: string
+                              example: read:any
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi gì đó  
+                    
+  
+  /area/create:
+    post:
+      tags:
+        - area
+      summary: Tạo mới khu vực
+      description: "Tạo mới khu vực"
+      requestBody: 
+        description: name, description, price_percentage mặc định là 0 (đây là 1 option). Nó là phần trăm giảm giá, nếu bằng 0 tức là giá gốc của món ăn, < 0 tức là % giảm của món (nhân viên thì được giảm giá chẳng hạn), > 0 tức là giá tăng hơn so với món (menu ở các app thứ 3 thì giá cao hơn)
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "Tầng 1"
+                description:
+                  type: string
+                  example: "Mô tả"
+                price_percentage:
+                  type: number
+                  example: 0
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công, data là object của khu vực mới tạo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Đã thêm khu vực thành công
+                  data: 
+                    type: object
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+                    
+  /area/get-all:
+    get:
+      tags:
+        - area
+      summary: Lấy danh sách khu vực
+      description: "Lấy danh sách khu vực"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 21
+                          name: 
+                            type: string
+                            example: Tầng 1
+                          price_percentage: 
+                            type: number
+                            example: 0
+                          description: 
+                            type: string
+                            example: Mô tả
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-23T11:14:15.000Z
+                          updated_at: 
+                            type: string
+                            format: nullable
+                            example: 2024-02-23T11:14:15.000Z
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                            example: 0000-00-00T00:00:00.000Z
+                          isDeleted: 
+                            type: boolean
+                            example: false
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó 
+                      
+  /area/update/{id}:
+    put:
+      tags:
+        - area
+      summary: Cập nhật khu vực
+      description: "Cập nhật khu vực"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody: 
+        description: Tên khu vực
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "Khu vực abc"
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật khu vực thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"
+  
+  /area/delete/{id}:
+    delete:
+      tags:
+        - area
+      summary: Xóa khu vực
+      description: "Xóa khu vực"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Xóa khu vực thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+  
+  /table/create:
+    post:
+      tags:
+        - table
+      summary: Tạo mới bàn
+      description: Tạo mới bàn
+      requestBody: 
+        description: Tên bàn và mã của khu vực
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "A01"
+                area_id:
+                  type: number
+                  example: 20
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Đã thêm bàn thành công
+                  data: 
+                    type: object
+                    properties: 
+                      name: 
+                        type: string
+                        example: A01
+                      area_id: 
+                        type: number
+                        example: 20
+                      created_at: 
+                        type: string
+                        format: date-time
+                        example: 2024-02-23T12:46:11.994Z
+                      id: 
+                        type: number
+                        example: 24
+                      isDeleted: 
+                        type: boolean
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+                    
+  /table/create-auto:
+    post:
+      tags:
+        - table
+      summary: Tạo mới bàn 1 cách tự động
+      description: 1 khu vực có nhiều bàn nên nếu thêm từng bàn sẽ mất thời gian, cần có cơ chế tạo nhanh
+      requestBody: 
+        description: shortname là tên viết tắt của khu vực đó, quantity là số lượng bàn muốn tạo, from là số bàn muốn bắt đầu (optional, nếu không có thì mặc định bắt đầu từ số 1), area_id là mã khu vực
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                shortname:
+                  type: string
+                  example: "A"
+                quantity:
+                  type: number
+                  example: 3
+                from:
+                  type: number
+                  example: 11
+                area_id:
+                  type: number
+                  example: 2
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Tạo thành công bàn tự động
+                  data: 
+                    type: array
+                    items: 
+                      type: object
+                      properties: 
+                        0: 
+                          type: string
+                          example: A
+                        1: 
+                          type: string
+                          example: 1
+                        2: 
+                          type: string
+                          example: 1
+                    example: [ "A11", "A12", "A13" ]
+
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó   
+                    
+  /table/get-tables:
+    get:
+      tags:
+        - table
+      summary: Lấy danh sách bàn theo mã khu vực
+      description: "Lấy danh sách bàn theo mã khu vực chứ không hiển thị ra một lúc toàn bộ bàn"
+      parameters:
+        - in: query
+          name: area_id
+          schema:
+            type: integer
+            example: 2
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 11
+                          name: 
+                            type: string
+                            example: A07
+                          area_id: 
+                            type: number
+                            example: 2
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-05T10:25:16.000Z
+                          updated_at: 
+                            type: string
+                            format: nullable
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                          isDeleted: 
+                            type: boolean
+                      example: [
+                          {
+                            id: 11,
+                            name: A07,
+                            area_id: 2,
+                            created_at: "2024-02-05T10:25:16.000Z",
+                            updated_at: null,
+                            deleted_at: null,
+                            isDeleted: false
+                          }
+                      ]
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó   
+                      
+  /table/update/{id}:
+    put:
+      tags:
+        - table
+      summary: Cập nhật bàn
+      description: "Cập nhật bàn"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody: 
+        description: Tên bàn và mã khu vực, đều là tùy chọn
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "MMV01"
+                area_id:
+                  type: number
+                  example: 2
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật bàn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"  
+  
+  /table/delete/:
+    patch:
+      tags:
+        - table
+      summary: Xóa các bàn (Phương thức delete không phải patch)
+      description: Xóa nhiều bàn 1 lúc thay vì 1, nếu chỉ có 1 bàn thì cũng đưa vào array gồm 1 phần tử để xóa. Front end thiết kế cái nút tick để tick vào nhiều bàn xóa. Dùng delete không phải patch nha, tại swagger không cho xài delete với body
+      requestBody: 
+        description: Danh sách id của các bàn
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                ids: 
+                  type: array
+                  items: 
+                    type: number
+                  example: [13, 12, 11]
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Xóa các bàn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+
+  /printer/create:
+    post:
+      tags:
+        - printer
+      summary: Tạo mới máy in 
+      description: Chủ yếu là lưu thông tin máy in vào database, xem như là đã kết nối với máy in, khi in bill sẽ đính kèm tên máy in vào để fake máy in
+      requestBody: 
+        description: "Tên, địa chỉ ip (đúng định dạng ipv4, địa chỉ nào cũng được), area_id và printer_type là loại máy in, có 3 loại chính là 1: in hóa đơn, 2: in món ăn, 3: in nước uống. Phía dưới có api để lấy ra các loại máy in"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name: 
+                  type: string
+                  example: Máy in trệt
+                ip_address: 
+                  type: string
+                  example: 192.168.0.1
+                printer_type: 
+                  type: number
+                  example: 1
+                area_id: 
+                  type: number
+                  example: 1
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Thêm máy in thành công
+                  data: 
+                    type: object
+                    properties: 
+                      name: 
+                        type: string
+                        example: Máy in trệt
+                      ip_address: 
+                        type: string
+                        example: 192.168.0.1
+                      printer_type: 
+                        type: number
+                        example: 1
+                      area_id: 
+                        type: number
+                        example: 1
+                      created_at: 
+                        type: string
+                        format: date-time
+                        example: 2024-02-23T13:05:46.177Z
+                      id: 
+                        type: number
+                        example: 14
+                      isDeleted: 
+                        type: boolean
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó          
+  
+  /printer/get-all:
+    get:
+      tags:
+        - printer
+      summary: Lấy danh sách máy in
+      description: "Danh sách máy in. Không có tham số gì hết"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    id: 
+                      type: number
+                      example: 6
+                    name: 
+                      type: string
+                      example: Máy in tầng 1
+                    ip_address: 
+                      type: string
+                      example: 192.168.0.1
+                    printer_type: 
+                      type: number
+                      example: 1
+                    area_id: 
+                      type: number
+                      example: 2
+                    created_at: 
+                      type: string
+                      format: date-time
+                      example: 2024-02-19T15:08:37.000Z
+                    updated_at: 
+                      type: string
+                      format: date-time
+                      example: 2024-02-19T15:29:06.000Z
+                    deleted_at: 
+                      type: string
+                      format: nullable
+                    isDeleted: 
+                      type: boolean
+                    printer_type_name: 
+                      type: string
+                      example: In hóa đơn
+                example: [
+                  {
+                    id: 6,
+                    name: Máy in tầng 1,
+                    ip_address: 192.168.0.1,
+                    printer_type: 1,
+                    area_id: 2,
+                    created_at: "2024-02-19T15:08:37.000Z",
+                    updated_at: "2024-02-19T15:29:06.000Z",
+                    deleted_at: null,
+                    isDeleted: false,
+                    printer_type_name: In hóa đơn
+                  }
+                ]
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó
+                      
+  /printer/get-printer-type:
+    get:
+      tags:
+        - printer
+      summary: Lấy danh sách loại máy in
+      description: "Dùng khi tham máy in, front end sẽ call api này để hiển thị các tùy chọn của loại máy in"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Thành công
+                    data: 
+                      type: object
+                      properties: 
+                        1: 
+                          type: string
+                          example: In hóa đơn
+                        2: 
+                          type: string
+                          example: In món ăn
+                        3: 
+                          type: string
+                          example: In nước uống
+
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó          
+                      
+  /printer/update/{id}:
+    put:
+      tags:
+        - printer
+      summary: Cập nhật máy in
+      description: "Cập nhật máy in"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 2          
+          required: true
+      requestBody: 
+        description: Tham số body gồm name, ip_address, printer_type, area_id. Các tham số đều là tùy chọn
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name: 
+                  type: string
+                  example: Máy in tầng 1
+                ip_address: 
+                  type: string
+                  example: 192.168.0.1
+                printer_type: 
+                  type: number
+                  example: 1
+                area_id: 
+                  type: number
+                  example: 2
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật máy in thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
             
-components:
-  schemas:
-    Account:
-      required:
-        - username
-        - password
-        - account_type
-        - user_id
-      type: object
-      properties:
-        username:
-          type: string
-          format: int64
-          example: 0123456789
-        password:
-          type: string
-          example: luuduchai
-        user_id: 
-          type: string
-          format: int64
-          example: 31keui1ui3120
-        account_type:
-          type: number
-          format: int32
-          description: 0 is employee, 1 is customer
-      xml:
-        name: account
+  /printer/delete/{id}:
+    delete:
+      tags:
+        - printer
+      summary: Xóa máy in
+      description: Xóa máy in
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đã xóa máy in thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+          
+  /category/create:
+    post:
+      tags:
+        - category
+      summary: Tạo mới danh mục
+      description: Tạo mới danh mục
+      requestBody: 
+        description: Tên danh mục
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "Chay mặn"
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Đã thêm danh mục món thành công
+                  data: 
+                    type: object
+                    properties: 
+                      name: 
+                        type: string
+                        example: Chay mặn
+                      created_at: 
+                        type: string
+                        format: date-time
+                        example: 2024-02-23T13:33:57.521Z
+                      id: 
+                        type: number
+                        example: 2
+                      isDeleted: 
+                        type: boolean
+                        example: false
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó        
+                    
+  /category/get-all:
+    get:
+      tags:
+        - category
+      summary: Lấy danh sách danh mục
+      description: "Lấy danh sách danh mục, không tham số"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            id: 
+                              type: number
+                              example: 1
+                            name: 
+                              type: string
+                              example: Bàn chay mặn đều được ha
+                            created_at: 
+                              type: string
+                              format: date-time
+                              example: 2024-02-15T12:56:03.000Z
+                            updated_at: 
+                              type: string
+                              format: date-time
+                              example: 2024-02-15T13:20:00.000Z
+                            deleted_at: 
+                              type: string
+                              format: date-time
+                              example: 2024-02-15T13:21:40.000Z
+                            isDeleted: 
+                              type: boolean
+                        example: [
+                          {
+                            id: 1,
+                            name: Bàn chay mặn đều được ha,
+                            created_at: "2024-02-15T12:56:03.000Z",
+                            updated_at: "2024-02-15T13:20:00.000Z",
+                            deleted_at: "2024-02-15T13:21:40.000Z",
+                            isDeleted: false
+                          }
+                        ]
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó                
+                      
+  /category/update/{id}:
+    put:
+      tags:
+        - category
+      summary: Cập nhật danh mục
+      description: "Cập nhật danh mục"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody: 
+        description: Tên danh mục
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name:
+                  type: string
+                  example: "Danh mục chay mặn"
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật danh mục thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
+            
+  /category/delete/{id}:
+    delete:
+      tags:
+        - category
+      summary: Xóa danh mục
+      description: Xóa danh mục
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đã xóa danh mục thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
+            
+  /menu/create:
+    post:
+      tags:
+        - menu
+      summary: Tạo mới thực đơn
+      description: Tạo mới thực đơn, vì có upload ảnh nên các dữ liệu sẽ để trong form-data, ảnh sau khi đưa lên server sẽ được upload qua bên thứ 3 là cloudinary để lưu trữ
+      requestBody:
+        content:
+          multipart/form-data: 
+            schema:            
+              type: object
+              properties:      
+                image:            
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                  example: "Món chay 1"
+                price:
+                  type: number
+                  example: 50000
+                category_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: Mô tả của món ăn
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Thêm thực đơn thành công
+                  data: 
+                    type: object
+                    properties: 
+                      name: 
+                        type: string
+                        example: Món chay nè
+                      description: 
+                        type: string
+                        example: Mô tả của món ăn
+                      image: 
+                        type: string
+                        example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708698061/qtyigxjpzbc2xxaqwofq.png
+                      price: 
+                        type: number
+                        example: 123
+                      category_id: 
+                        type: number
+                        example: 2
+                      created_at: 
+                        type: string
+                        format: date-time
+                        example: 2024-02-23T14:21:02.257Z
+                      id: 
+                        type: number
+                        example: 18
+                      status: 
+                        type: boolean
+                      isDeleted: 
+                        type: boolean
+
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó           
+                    
+  /menu/get-all:
+    get:
+      tags:
+        - menu
+      summary: Lấy danh sách thực đơn
+      description: "Lấy danh sách thực đơn, có sử dụng kĩ thuật phân trang, do thực đơn có nhiều món, nếu load quá nhiều sẽ không hiển thị hết được. Tham số tại param: page và perPage. page là số thứ tự của trang muốn lấy, perPage là muốn phân ra mỗi trang bao nhiêu cột dữ liệu. page và perPage đều không bắt buộc. Mặc định page là 1 và perPage là 5, tức là ví dụ có 30 bản ghi thì chia perPage là 5 tức là có 6 trang, page là vị trí của số trang muốn lấy. Sau khi call api, server sẽ trả về kết quả của việc phân trang như trong response bên dưới, hãy dùng kết quả đó để hiện thị dấu phân trang cho phù hợp"
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 2
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            example: 5  
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    paginationResult: 
+                      type: object
+                      properties: 
+                        currentPage: 
+                          type: string
+                          example: 2
+                        totalItems: 
+                          type: number
+                          example: 16
+                        eachPage: 
+                          type: string
+                          example: 5
+                        totalPage: 
+                          type: number
+                          example: 4
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 5
+                          name: 
+                            type: string
+                            example: 
+                          description: 
+                            type: string
+                            example: 
+                          image: 
+                            type: string
+                            example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708099688/pcvljie2n1fcjjoqusog.png
+                          price: 
+                            type: number
+                            example: 0
+                          status: 
+                            type: boolean
+                          category_id: 
+                            type: number
+                            example: 0
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-16T16:08:08.000Z
+                          updated_at: 
+                            type: string
+                            format: nullable
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                          isDeleted: 
+                            type: boolean
+                      example: [
+                        {
+                          id: 5,
+                          name: "Món chay 0",
+                          description: "Mô tả của món ăn",
+                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708099688/pcvljie2n1fcjjoqusog.png,
+                          price: 0,
+                          status: true,
+                          category_id: 0,
+                          created_at: "2024-02-16T16:08:08.000Z",
+                          updated_at: null,
+                          deleted_at: null,
+                          isDeleted: false  
+                        }
+                      ]
+
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó              
+                      
+  /menu/update/{id}:
+    put:
+      tags:
+        - menu
+      summary: Cập nhật thực đơn
+      description: "Tương tự như lúc thêm, dùng form data, chỉ khác là các tham số đều là tùy chọn chứ không bắt buộc"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          multipart/form-data: 
+            schema:            
+              type: object
+              properties:      
+                image:            
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                  example: "Món chay 1"
+                price:
+                  type: number
+                  example: 50000
+                category_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: Mô tả của món ăn
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật thực đơn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
+            
+  /menu/get-by-category/{id}:
+    get:
+      tags:
+        - menu
+      summary: Lấy thực đơn theo mã danh mục
+      description: "Truyền mã danh mục vào đường dẫn"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 15
+                          name: 
+                            type: string
+                            example: Món chay 0
+                          description: 
+                            type: string
+                            example: Mô tả của món ăn
+                          image: 
+                            type: string
+                            example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708162236/ybn9l7vcpnvahtjfnbr2.png
+                          price: 
+                            type: number
+                            example: 123
+                          status: 
+                            type: boolean
+                          category_id: 
+                            type: number
+                            example: 1
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-17T09:30:38.000Z
+                          updated_at: 
+                            type: string
+                            format: nullable
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                          isDeleted: 
+                            type: boolean
+                      example: [
+                        {
+                          id: 15,
+                          name: Món chay 0,
+                          description: Mô tả của món ăn,
+                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708162236/ybn9l7vcpnvahtjfnbr2.png,
+                          price: 123,
+                          status: true,
+                          category_id: 1,
+                          created_at: 2024-02-17T09:30:38.000Z,
+                          updated_at: null,
+                          deleted_at: null,
+                          isDeleted: false
+                        }  
+                      ]
+  
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó            
+                      
+  /menu/delete/{id}:
+    delete:
+      tags:
+        - menu
+      summary: Xóa thực đơn
+      description: Xóa thực đơn
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đã xóa thực đơn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
+            
+  /menu/search:
+    get:
+      tags:
+        - menu
+      summary: Tìm kiếm thực đơn theo từ khóa
+      description: "Có 2 trường hợp có thể sử dụng tìm kiếm. 1 là tìm kiếm theo từ khóa rõ ràng. Ví dụ: keyword: chay -> Món chay 1. Tùy chọn tìm kiếm 2 là theo từ khóa viết tắt. Ví dụ: mc -> Món chay 1. Khi search với keyword thì server sẽ áp dụng cả 2 cách search này lên từ khóa để trả về kết quả mong muốn"
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: integer
+            example: mc
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 11
+                          name: 
+                            type: string
+                            example: Món chay 1
+                          description: 
+                            type: string
+                            example: 
+                          image: 
+                            type: string
+                            example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708150773/jy2ydeshn1g5kqj2odxx.png
+                          price: 
+                            type: number
+                            example: 123
+                          status: 
+                            type: boolean
+                          category_id: 
+                            type: number
+                            example: 2
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-17T06:19:34.000Z
+                          updated_at: 
+                            type: string
+                            format: nullable
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                          isDeleted: 
+                            type: boolean
+                      example: [
+                        {
+                          id: 11,
+                          name: Món chay 1,
+                          description: "Mô tả",
+                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708150773/jy2ydeshn1g5kqj2odxx.png,
+                          price: 123,
+                          status: true,
+                          category_id: 2,
+                          created_at: 2024-02-17T06:19:34.000Z,
+                          updated_at: null,
+                          deleted_at: null,
+                          isDeleted: false
+                        }  
+                      ]
+
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó                
+            
+  /promotion/create:
+    post:
+      tags:
+        - promotion
+      summary: Tạo mới khuyến mãi
+      description: Tạo mới khuyến mãi
+      requestBody: 
+        description: "Tên khuyến mãi, trạng thái khuyến mãi, ghi chú, form-promotion là hình thức áp dụng, 1 là cho tổng hóa đơn, 2 là cho món ăn cụ thể. Phía dưới có API để lấy danh sách form-promotion. condition_apply là điều kiện áp dụng, nếu form-promotion là 1: giảm tổng hóa đơn thì condition_apply là tổng hóa đơn, còn nếu là giảm cho món ăn thì condition_apply là mã của menu, condition_apply có kiểu number. promotion_value là giá trị khuyến mãi, nếu nhỏ hơn 0 thì là khuyến mãi, lớn hơn 0 là phụ phí (ví dụ ngày tết). promotion_value có 2 trường hợp, 1 là giảm theo %, 2 là giảm theo giá cụ thể, tham số nhận vào có thể là 1 số hoặc 1 số kèm theo %. Ví dụ 50%, -50% hoặc 10000 đều hợp lệ. auto_apply là tự động áp dụng (phía front end tick sẵn vào ô này), khuyến mãi sẽ bắt đầu áp dụng từ lúc tạo khuyến mãi, không muốn thì chọn false. Ngoài ra còn có 2 tham số là start_at, end_at, định dạng date, là ngày bắt đầu, kết thúc, 2 tham số này là tùy chọn nên có hay không cũng được"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name: 
+                  type: string
+                  example: Khuyến mãi ngày tết
+                status: 
+                  type: boolean
+                note: 
+                  type: string
+                  example: Ghi chú khuyến mãi
+                form_promotion: 
+                  type: number
+                  example: 2
+                condition_apply: 
+                  type: number
+                  example: 1
+                promotion_value: 
+                  type: string
+                  example: 50%
+                auto_apply: 
+                  type: boolean    
+        required: true
+      responses:
+        '200':
+          description: Tạo thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Thêm khuyến mãi thành công
+                    data: 
+                      type: object
+                      properties: 
+                        name: 
+                          type: string
+                          example: Khuyến mãi ngày tết
+                        status: 
+                          type: boolean
+                        note: 
+                          type: string
+                          example: Ghi chú khuyến mãi
+                        form_promotion: 
+                          type: number
+                          example: 2
+                        condition_apply: 
+                          type: number
+                          example: 1
+                        promotion_value: 
+                          type: string
+                          example: 50
+                        auto_apply: 
+                          type: boolean
+                        created_at: 
+                          type: string
+                          format: date-time
+                          example: 2024-02-23T13:50:54.834Z
+                        id: 
+                          type: number
+                          example: 3
+                        isDeleted: 
+                          type: boolean
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó 
+                    
+  /promotion/get-all:
+    get:
+      tags:
+        - promotion
+      summary: Lấy danh sách khuyến mãi
+      description: "Danh sách khuyến mãi. Không có tham số gì hết"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: number
+                            example: 1
+                          name: 
+                            type: string
+                            example: Khuyến mãi ngày tết nè he he
+                          status: 
+                            type: boolean
+                          note: 
+                            type: string
+                            example: Ghi chú khuyến mãi
+                          form_promotion: 
+                            type: number
+                            example: 2
+                          condition_apply: 
+                            type: number
+                            example: 1
+                          promotion_value: 
+                            type: string
+                            example: 50
+                          auto_apply: 
+                            type: boolean
+                          start_at: 
+                            type: string
+                            format: nullable
+                          end_at: 
+                            type: string
+                            format: nullable
+                          created_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-18T06:35:08.000Z
+                          updated_at: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-18T15:21:37.000Z
+                          deleted_at: 
+                            type: string
+                            format: nullable
+                          isDeleted: 
+                            type: boolean
+                          form_promotion_name: 
+                            type: string
+                            example: Áp dụng cho món ăn cụ thể
+                      example: [
+                        {
+                          id: 1,
+                          name: Khuyến mãi ngày tết,
+                          status: false,
+                          note: Ghi chú khuyến mãi,
+                          form_promotion: 2,
+                          condition_apply: 1,
+                          promotion_value: 50,
+                          auto_apply: true,
+                          start_at: null,
+                          end_at: null,
+                          created_at: "2024-02-18T06:35:08.000Z",
+                          updated_at: "2024-02-18T15:21:37.000Z",
+                          deleted_at: null,
+                          isDeleted: false,
+                          form_promotion_name: Áp dụng cho món ăn cụ thể  
+                        }
+                      ]
+
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó                  
+                      
+  /promotion/update/{id}:
+    put:
+      tags:
+        - promotion
+      summary: Cập nhật khuyến mãi
+      description: "Cập nhật khuyến mãi"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody: 
+        description: Các thông tin của khuyến mãi cần cập nhật, tất cả đều là tùy chọn
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name: 
+                  type: string
+                  example: Khuyến mãi ngày tết 
+                status: 
+                  type: boolean
+                note: 
+                  type: string
+                  example: Ghi chú khuyến mãi
+                form_promotion: 
+                  type: number
+                  example: 2
+                condition_apply: 
+                  type: number
+                  example: 1
+                promotion_value: 
+                  type: string
+                  example: 50%
+
+        required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật khuyến mãi thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                        
+            
+  /promotion/get-form-promotion:
+    get:
+      tags:
+        - promotion
+      summary: Lấy hình thức khuyến mãi 
+      description: "Lấy hình thức khuyến mãi (form-promotion)"
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Thành công
+                      data: 
+                        type: object
+                        properties: 
+                          1: 
+                            type: string
+                            example: Áp dụng cho tổng hóa đơn
+                          2: 
+                            type: string
+                            example: Áp dụng cho món ăn cụ thể
+
+        '400':
+            description: "Lỗi"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status:
+                      type: string
+                      example: error
+                    message:
+                      type: string
+                      example: Lỗi nào đó           
+                      
+  /promotion/delete/{id}:
+    delete:
+      tags:
+        - promotion
+      summary: Xóa khuyến mãi
+      description: Xóa khuyến mãi
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đã xóa khuyến mãi thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                              

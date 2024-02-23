@@ -7,33 +7,182 @@
 	},
 	"item": [
 		{
-			"name": "Refresh access token",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "refresh_token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODUwNjU3MiwiZXhwIjoxNzExMDk4NTcyfQ.wJggqJaO6z3liT5siOj6xy0NCG0lS_wI33Gqv-KE8vg",
-							"type": "text"
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "031238123",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "3123213123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/auth/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"auth",
+								"signin"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{url}}/api/auth/refresh-token",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"refresh-token"
-					]
+				{
+					"name": "Update user information",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "full_name",
+									"value": "Hải",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "2002-08-15",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "nam",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "0123213123",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "admin@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/user/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create employee account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "0312381234",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "3123213123",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "cashier",
+									"description": "cashier, waitstaff, other",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Nhân viên phục vụ",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "full_name",
+									"value": "Đức Hải",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "1 năm",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grants",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/create-employee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"create-employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get resource to create role employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/get-resource-rbac",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"get-resource-rbac"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "Login",
@@ -103,6 +252,35 @@
 						"api",
 						"auth",
 						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh access token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refresh_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDgyZGQwMDEyZGIwYjljYzM0ZTM4NyIsImlhdCI6MTcwODY3MDU3OSwiZXhwIjoxNzExMjYyNTc5fQ.Oi9KMd94mHfEqLK_NeoP15fTGHWvDBTCwQTcVcIfQyU",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/refresh-token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"refresh-token"
 					]
 				}
 			},
@@ -217,6 +395,60 @@
 						"api",
 						"auth",
 						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user information",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "full_name",
+							"value": "as",
+							"type": "text"
+						},
+						{
+							"key": "birthday",
+							"value": "2002-08-15",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "nam",
+							"type": "text"
+						},
+						{
+							"key": "phone_number",
+							"value": "0123213123",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Quận 7",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "admin@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/user/update",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"update"
 					]
 				}
 			},

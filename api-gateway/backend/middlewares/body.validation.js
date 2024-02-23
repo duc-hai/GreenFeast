@@ -58,6 +58,31 @@ const validatorRegisterEmployee = () => [
         .optional()
 ]
 
+const validatorUpdateUserInfor = () => [
+    check('full_name')
+        .optional()
+        .isLength({ min: 3 }).withMessage('Tên người dùng quá ngắn'),
+    
+    check('birthday')
+        .optional()
+        .isISO8601().toDate().withMessage('Ngày sinh không hợp lệ'),
+        
+    check('gender')
+        .optional()
+        .isIn('nam,nữ,khác').withMessage('Giới tính không hợp lệ'),
+
+    check('phone_number')
+        .optional()
+        .isMobilePhone().withMessage('Số điện thoại không hợp lệ'),
+
+    check('address')
+        .optional(),
+    
+    check('email')
+        .optional()
+        .isEmail().withMessage('Email không hợp lệ') 
+]
+
 module.exports = {
-    validatorLogin, validatorRegister, validatorRegisterEmployee
+    validatorLogin, validatorRegister, validatorRegisterEmployee, validatorUpdateUserInfor
 }

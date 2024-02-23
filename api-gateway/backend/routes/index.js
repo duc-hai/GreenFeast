@@ -12,7 +12,7 @@ const accountType = require('../middlewares/account.type')
 const router = express.Router()
 
 router.use('/auth/google', googleRouter)
-router.use('/console', adminRouter) //Route restaurant side (admin restaurant, employees, ...)  
+router.use('/admin', adminRouter) //Route restaurant side (admin restaurant, employees, ...)  
 
 /*
     Handle routes in customer
@@ -23,6 +23,7 @@ router.get('/auth/logout', accountService.logOut)
 
 router.post('/auth/refresh-token', accountService.refreshToken)
 router.get('/test-access-control', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('readAny', 'menu'))
+router.patch('/user/update', jwtTokenGuard.jwtTokenValidatorCustomer, accountType.assignAccountType(2), validation.validatorUpdateUserInfor(), accountService.updateUser)
 //router.get('/test-jwt', jwtTokenGuard.jwtTokenValidatorCustomer, accountService.testJWT)
 
 /*

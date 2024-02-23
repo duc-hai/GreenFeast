@@ -50,7 +50,7 @@ router.get('/', passport.authenticate('google', { scope: ['profile'] }))
 
 //  /auth/google/callback
 router.get('/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: '/signin' }),
     function(req, res) {
         // Successful authentication
         res.redirect('/')
