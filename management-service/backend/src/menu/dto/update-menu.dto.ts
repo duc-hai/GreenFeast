@@ -14,15 +14,15 @@ export class UpdateMenuDto {
     description: string;
 
     @IsOptional()
-    @IsInt({
-        message: 'Giá phải là một số hợp lệ'
-    })
+    // @IsInt({
+    //     message: 'Giá phải là một số hợp lệ'
+    // })
     price: number;
 
     @IsOptional()
-    @IsInt({
-        message: 'Mã danh mục không hợp lệ'
-    })
+    // @IsInt({
+    //     message: 'Mã danh mục không hợp lệ'
+    // })
     category_id: number;
 
     @IsOptional()

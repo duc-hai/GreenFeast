@@ -1,0 +1,17 @@
+[
+    { "resource": "menu", "actions": [
+            "read:any",
+            "update:any",
+            "delete:any",
+            "create:any"
+        ]
+    },
+
+    { "resource": "promotion", "actions": [
+            "read:any",
+            "update:any",
+            "delete:any",
+            "create:any"
+        ]
+    }
+]

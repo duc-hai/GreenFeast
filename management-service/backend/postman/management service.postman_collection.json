@@ -43,30 +43,6 @@
 					"response": []
 				},
 				{
-					"name": "Get table by area id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/table/get-tables?area_id=2",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"table",
-								"get-tables"
-							],
-							"query": [
-								{
-									"key": "area_id",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Create tables auto",
 					"request": {
 						"method": "POST",
@@ -110,24 +86,42 @@
 					"response": []
 				},
 				{
+					"name": "Get table by area id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/table/get-tables?area_id=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"table",
+								"get-tables"
+							],
+							"query": [
+								{
+									"key": "area_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update table",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "MMV01",
-									"type": "text"
-								},
-								{
-									"key": "area_id",
-									"value": "2",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"MMV01\",\r\n    \"area_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{url}}/table/update/2",
@@ -150,7 +144,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [\r\n        13\r\n    ]\r\n}",
+							"raw": "{\r\n    \"ids\": [\r\n        13, 12, 11\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -213,25 +207,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Tầng 1",
-									"description": "Required",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "mô tả",
-									"type": "text"
-								},
-								{
-									"key": "price_percentage",
-									"value": "0",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tầng 1\",\r\n    \"description\": \"Mô tả\",\r\n    \"price_percentage\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{url}}/area/create",
@@ -435,7 +417,7 @@
 								},
 								{
 									"key": "category_id",
-									"value": "1",
+									"value": "2",
 									"type": "text"
 								},
 								{
@@ -453,6 +435,34 @@
 							"path": [
 								"menu",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/menu/get-all?page=2&perPage=5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -544,34 +554,6 @@
 							"path": [
 								"cats",
 								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get all",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/menu/get-all?page=2&perPage=5",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"menu",
-								"get-all"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "2"
-								},
-								{
-									"key": "perPage",
-									"value": "5"
-								}
 							]
 						}
 					},
@@ -751,6 +733,24 @@
 					"response": []
 				},
 				{
+					"name": "Get form promotion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/promotion/get-form-promotion",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"get-form-promotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
@@ -768,24 +768,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Get form promotion",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/promotion/get-form-promotion",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"promotion",
-								"get-form-promotion"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -799,7 +781,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Máy in trệt\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 1\r\n\r\n}",
+							"raw": "{\r\n    \"name\": \"Máy in trệt\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -814,34 +796,6 @@
 							"path": [
 								"printer",
 								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Máy in tầng 1\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 2\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/printer/update/1",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"printer",
-								"update",
-								"1"
 							]
 						}
 					},
@@ -878,6 +832,34 @@
 							"path": [
 								"printer",
 								"get-printer-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Máy in tầng 1\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/printer/update/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"update",
+								"1"
 							]
 						}
 					},
