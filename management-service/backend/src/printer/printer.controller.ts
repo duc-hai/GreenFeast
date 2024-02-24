@@ -14,7 +14,7 @@ export class PrinterController {
         try {
             const result = await this.printerService.getAllPrinter()
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -26,7 +26,7 @@ export class PrinterController {
         try {
             const result = await this.printerService.createPrinterConnection(createPrinterDto)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thêm máy in thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Thêm máy in thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -38,7 +38,7 @@ export class PrinterController {
         try {
             const result = await this.printerService.getPrinterType()
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -50,7 +50,7 @@ export class PrinterController {
         try {
             const result = await this.printerService.updatePrinter(updatePrinterDto, param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật máy in thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật máy in thành công', data: result})
 
         }
         catch (err) {
@@ -63,7 +63,7 @@ export class PrinterController {
         try {
             await this.printerService.removePrinter(param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa máy in thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa máy in thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})

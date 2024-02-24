@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, Post, UploadedFile, UseInterceptors, Res, Body, Get, Query, Param, Put, Delete } from '@nestjs/common';
+import { Controller, HttpStatus, Post, UploadedFile, UseInterceptors, Res, Body, Get, Query, Param, Put, Delete, Req } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOption } from 'src/config/multer.config';
@@ -12,11 +12,13 @@ export class MenuController {
 
     //Path: GET: /menu/get-all
     @Get('/get-all')
-    async findAll(@Res() res: Response, @Query('page') page, @Query('perPage') perPage): Promise<any> {
+    async findAll(@Res() res: Response, @Query('page') page, @Query('perPage') perPage, @Req() req): Promise<any> {
         try {
-            const {result, paginationResult} = await this.menuService.getAllMenu(page, perPage);
+            // console.log(JSON.parse(decodeURIComponent(req.headers['user-infor-header']))) // -> Working
+           
+            const {result, paginationResult} = await this.menuService.getAllMenu(page, perPage)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', paginationResult, data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', paginationResult, data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -28,7 +30,7 @@ export class MenuController {
         try {
             const result = await this.menuService.searchMenu(keyword)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -40,7 +42,7 @@ export class MenuController {
         try {
             const result = await this.menuService.getByCategory(param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`}) 
@@ -55,7 +57,7 @@ export class MenuController {
             //console.log(file)
             const result = await this.menuService.createMenu(file, createMenuDto)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thêm thực đơn thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Thêm thực đơn thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -68,7 +70,7 @@ export class MenuController {
         try {
             await this.menuService.updateMenu(file, updateMenuDto, param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật thực đơn thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật thực đơn thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -80,7 +82,7 @@ export class MenuController {
         try {
             await this.menuService.deleteMenu(param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa thực đơn thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa thực đơn thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})

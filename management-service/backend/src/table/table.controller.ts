@@ -16,7 +16,7 @@ export class TableController {
         try {
             const result = await this.tableService.getTablesByArea(id);
             
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -28,7 +28,7 @@ export class TableController {
         try {
             const result = await this.tableService.createTable(createTableDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã thêm bàn thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã thêm bàn thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -40,7 +40,7 @@ export class TableController {
         try {
             const result = await this.tableService.createTablesAuto(createTableAutoDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Tạo thành công bàn tự động', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Tạo thành công bàn tự động', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -52,7 +52,7 @@ export class TableController {
         try {
             const result = await this.tableService.updateTable(params.id, updateTableDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật bàn thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật bàn thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -64,7 +64,7 @@ export class TableController {
         try {
             const result = await this.tableService.deleteTables(deleteTableDto)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa các bàn thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa các bàn thành công', data: result})
         }
         catch (err){
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})

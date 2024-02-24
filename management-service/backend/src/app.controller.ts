@@ -11,7 +11,7 @@ export class AppController {
   // }
 
   // @All('/*')
-  // catchNotFound(@Res() res) {
-  //   return res.status(HttpStatus.NOT_FOUND).json({ status: 'error', message: 'Không tìm thấy đường dẫn'})
+  // catchNotOK(@Res() res) {
+  //   return res.status(HttpStatus.NOT_OK).json({ status: 'error', message: 'Không tìm thấy đường dẫn'})
   // }
 }

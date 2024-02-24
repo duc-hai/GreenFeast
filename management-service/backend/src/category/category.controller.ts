@@ -12,7 +12,7 @@ export class CategoryController {
         try {
             const result = await this.categoryService.findAllCategories();
             
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -24,7 +24,7 @@ export class CategoryController {
         try {
             const result = await this.categoryService.createCategory(createCategoryDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã thêm danh mục món thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã thêm danh mục món thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -36,7 +36,7 @@ export class CategoryController {
         try {
             await this.categoryService.updateCategory(params.id, updateCategoryDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật danh mục thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật danh mục thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -48,7 +48,7 @@ export class CategoryController {
         try {
             await this.categoryService.deleteCategory(params.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa danh mục thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa danh mục thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})

@@ -1645,7 +1645,7 @@ paths:
       tags:
         - menu
       summary: Lấy danh sách thực đơn
-      description: "Lấy danh sách thực đơn, có sử dụng kĩ thuật phân trang, do thực đơn có nhiều món, nếu load quá nhiều sẽ không hiển thị hết được. Tham số tại param: page và perPage. page là số thứ tự của trang muốn lấy, perPage là muốn phân ra mỗi trang bao nhiêu cột dữ liệu. page và perPage đều không bắt buộc. Mặc định page là 1 và perPage là 5, tức là ví dụ có 30 bản ghi thì chia perPage là 5 tức là có 6 trang, page là vị trí của số trang muốn lấy. Sau khi call api, server sẽ trả về kết quả của việc phân trang như trong response bên dưới, hãy dùng kết quả đó để hiện thị dấu phân trang cho phù hợp"
+      description: "Lấy danh sách thực đơn, có sử dụng kĩ thuật phân trang, do thực đơn có nhiều món, nếu load quá nhiều sẽ không hiển thị hết được. Tham số tại param: page và perPage. page là số thứ tự của trang muốn lấy, perPage là muốn phân ra mỗi trang bao nhiêu cột dữ liệu. page và perPage đều không bắt buộc. Mặc định page là 1 và perPage là 10, tức là ví dụ có 30 bản ghi thì chia perPage là 10 tức là có 3 trang, page là vị trí của số trang muốn lấy. Sau khi call api, server sẽ trả về kết quả của việc phân trang như trong response bên dưới, hãy dùng kết quả đó để hiện thị dấu phân trang cho phù hợp"
       parameters:
         - in: query
           name: page
