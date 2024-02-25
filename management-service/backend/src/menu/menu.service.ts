@@ -5,7 +5,6 @@ import { Like, Repository } from 'typeorm';
 import { v2 as cloudinary } from 'cloudinary';
 import * as fs from 'fs';
 import { CreateMenuDto } from './dto/create-menu.dto';
-import { create } from 'domain';
 import { Category } from 'src/entities/category.entity';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 
@@ -104,8 +103,8 @@ export class MenuService {
 
     async createMenu(file: Express.Multer.File, createMenuDto: CreateMenuDto): Promise<any> {
         try {
-            //console.log(file)
-            //console.log(createMenuDto)
+            // console.log(file)
+            // console.log(createMenuDto)
 
             if (!file) 
                 throw new HttpException({
@@ -177,7 +176,7 @@ export class MenuService {
 
     async updateMenu (file: Express.Multer.File, updateMenuDto: UpdateMenuDto, id: number): Promise<any> {
         try {
-            //console.log(file)
+            // console.log(file)
 
             if (!id) 
                 throw new HttpException({
@@ -236,9 +235,9 @@ export class MenuService {
             if (resultUpdate.affected === 0) 
                 throw new HttpException({
                     status: 'error',
-                    message: `Đã xảy ra lỗi`,
+                    message: `Không tìm thấy món ăn hoặc có lỗi xảy ra`,
                 }, HttpStatus.FORBIDDEN, {
-                    cause: 'Đã xảy ra lỗi'
+                    cause: 'Không tìm thấy món ăn hoặc có lỗi xảy ra'
                 })
         }
         catch (err) {

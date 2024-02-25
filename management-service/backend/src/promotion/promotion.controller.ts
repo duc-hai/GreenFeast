@@ -13,7 +13,7 @@ export class PromotionController {
         try {
             const result = await this.promotionService.findAllPromotion()
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -25,7 +25,7 @@ export class PromotionController {
         try {
             const result = await this.promotionService.createPromotion(createPromotionDto)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thêm khuyến mãi thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Thêm khuyến mãi thành công', data: result})
 
         }
         catch (err) {
@@ -38,7 +38,7 @@ export class PromotionController {
         try {
             const result = await this.promotionService.updatePromotion(updatePromotionDto, param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật khuyến mãi thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật khuyến mãi thành công', data: result})
 
         }
         catch (err) {
@@ -51,7 +51,7 @@ export class PromotionController {
         try {
             await this.promotionService.removePromotion(param.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa khuyến mãi thành công'})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa khuyến mãi thành công'})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -63,7 +63,7 @@ export class PromotionController {
         try {
             const result = await this.promotionService.getFormPromotion()
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})

@@ -86,15 +86,6 @@
   "description": "Nhân viên thu ngân",
   "grants": [
     {
-      "resource": "menu",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
       "resource": "table",
       "actions": [
         "update:any",
@@ -148,15 +139,6 @@
   "name": "waitstaff",
   "description": "Nhân viên phục vụ",
   "grants": [
-    {
-      "resource": "menu",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
     {
       "resource": "table",
       "actions": [

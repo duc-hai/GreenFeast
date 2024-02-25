@@ -13,7 +13,7 @@ export class AreaController {
         try {
             const result = await this.areaService.getAllAreas();
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Lấy danh sách thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -26,7 +26,7 @@ export class AreaController {
             //console.log(createAreaDto)
             const result = await this.areaService.createArea(createAreaDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã thêm khu vực thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã thêm khu vực thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -43,7 +43,7 @@ export class AreaController {
         try {
             const result = await this.areaService.updateArea(params.id, updateTableDto);
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Cập nhật khu vực thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật khu vực thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
@@ -55,7 +55,7 @@ export class AreaController {
         try {
             const result = await this.areaService.deleteArea(params.id)
 
-            return res.status(HttpStatus.FOUND).json({status: 'success', message: 'Đã xóa khu vực thành công', data: result})
+            return res.status(HttpStatus.OK).json({status: 'success', message: 'Đã xóa khu vực thành công', data: result})
         }
         catch (err) {
             return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
