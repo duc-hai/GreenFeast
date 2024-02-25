@@ -220,9 +220,9 @@ export class PrinterService {
             if (resultUpdate.affected === 0)
                 throw new HttpException({
                     status: 'error',
-                    message: `Đã xảy ra lỗi`,
+                    message: `Không tìm thấy máy in hoặc đã xảy ra lỗi`,
                 }, HttpStatus.FORBIDDEN, {
-                    cause: 'Đã xảy ra lỗi'
+                    cause: 'Không tìm thấy máy in hoặc đã xảy ra lỗi'
                 })
         }
         catch (err) {
@@ -257,9 +257,9 @@ export class PrinterService {
             if (result.affected === 0) 
                 throw new HttpException({
                     status: 'error',
-                    message: `Đã xảy ra lỗi khi xóa`,
+                    message: `Không tìm thấy máy in hoặc đã xảy ra lỗi khi xóa`,
                 }, HttpStatus.FORBIDDEN, {
-                    cause: 'Đã xảy ra lỗi khi xóa' 
+                    cause: 'Không tìm thấy máy in hoặc đã xảy ra lỗi khi xóa' 
                 })
         }
         catch (err) {
