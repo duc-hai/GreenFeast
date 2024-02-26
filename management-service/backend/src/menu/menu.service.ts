@@ -7,13 +7,16 @@ import * as fs from 'fs';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { Category } from 'src/entities/category.entity';
 import { UpdateMenuDto } from './dto/update-menu.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class MenuService {
     constructor(
         @InjectRepository(Menu) private menuRepository: Repository<Menu>,
 
-        @InjectRepository(Category) private categoryRepository: Repository<Category>
+        @InjectRepository(Category) private categoryRepository: Repository<Category>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getAllMenu(pageQuery: number, perPageQuery: number): Promise<any> {
@@ -158,6 +161,11 @@ export class MenuService {
             await this.menuRepository.save(menu)
 
             this.removeImageAfterUploadCloud(file.path)
+
+            this.rabbitMQService.sendMessage('management-order', {
+                data: 'Hải',
+                name: 'Xin chào'
+            })
 
             return menu
         }
