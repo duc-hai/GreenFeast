@@ -7,6 +7,7 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { Menu } from 'src/entities/menu.entity';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class PromotionService {
@@ -14,6 +15,8 @@ export class PromotionService {
         @InjectRepository(Promotion) private promotionRepository: Repository<Promotion>,
         
         @InjectRepository(Menu) private menuRepository: Repository<Menu>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getFormPromotion(): Promise<any> {
@@ -110,18 +113,7 @@ export class PromotionService {
 
             //Check value of 'promotion value'
             if (createPromotionDto.promotion_value.includes('%')) {
-                createPromotionDto.promotion_value = createPromotionDto.promotion_value.replace('%', '')
-
-                if (!this.isNumeric(createPromotionDto.promotion_value)) {
-                    throw new HttpException({
-                        status: 'error',
-                        message: `Phần trăm giảm giá không hợp lệ`,
-                    }, HttpStatus.FORBIDDEN, {
-                        cause: 'Phần trăm giảm giá không hợp lệ' 
-                    })
-                }
-
-                const valueIntegerPercentage = parseInt(createPromotionDto.promotion_value)
+                const valueIntegerPercentage = parseInt(createPromotionDto.promotion_value.replace('%', ''))
 
                 if (valueIntegerPercentage < -100 || valueIntegerPercentage > 100) 
                     throw new HttpException({
@@ -130,6 +122,15 @@ export class PromotionService {
                     }, HttpStatus.FORBIDDEN, {
                         cause: 'Phần trăm giảm giá phải nằm trong khoảng -100% đến 100%' 
                     })
+
+                if (!this.isNumeric(createPromotionDto.promotion_value.replace('%', ''))) {
+                    throw new HttpException({
+                        status: 'error',
+                        message: `Phần trăm giảm giá không hợp lệ`,
+                    }, HttpStatus.FORBIDDEN, {
+                        cause: 'Phần trăm giảm giá không hợp lệ' 
+                    })
+                }
             }
             else {
                 if (!this.isNumeric(createPromotionDto.promotion_value))
@@ -151,6 +152,12 @@ export class PromotionService {
             const promotion = await this.promotionRepository.create(createData)
 
             await this.promotionRepository.save(promotion)
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'promotion',
+                action: 'create',
+                data: promotion
+            })
 
             return promotion
         }
@@ -229,18 +236,7 @@ export class PromotionService {
             //Check valid promotion value
             if (updatePromotionDto.promotion_value) {
                 if (updatePromotionDto.promotion_value.includes('%')) {
-                    updatePromotionDto.promotion_value = updatePromotionDto.promotion_value.replace('%', '')
-    
-                    if (!this.isNumeric(updatePromotionDto.promotion_value)) {
-                        throw new HttpException({
-                            status: 'error',
-                            message: `Phần trăm giảm giá không hợp lệ`,
-                        }, HttpStatus.FORBIDDEN, {
-                            cause: 'Phần trăm giảm giá không hợp lệ' 
-                        })
-                    }
-    
-                    const valueIntegerPercentage = parseInt(updatePromotionDto.promotion_value)
+                    const valueIntegerPercentage = parseInt(updatePromotionDto.promotion_value.replace('%', ''))
     
                     if (valueIntegerPercentage < -100 || valueIntegerPercentage > 100) 
                         throw new HttpException({
@@ -249,6 +245,15 @@ export class PromotionService {
                         }, HttpStatus.FORBIDDEN, {
                             cause: 'Phần trăm giảm giá phải nằm trong khoảng -100% đến 100%' 
                         })
+    
+                    if (!this.isNumeric(updatePromotionDto.promotion_value.replace('%', ''))) {
+                        throw new HttpException({
+                            status: 'error',
+                            message: `Phần trăm giảm giá không hợp lệ`,
+                        }, HttpStatus.FORBIDDEN, {
+                            cause: 'Phần trăm giảm giá không hợp lệ' 
+                        })
+                    }
                 }
                 else {
                     if (!this.isNumeric(updatePromotionDto.promotion_value))
@@ -280,6 +285,13 @@ export class PromotionService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Đã xảy ra lỗi'
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'promotion',
+                action: 'update',
+                data: updatePromotionDto,
+                id
+            })
         }
         catch (err) {
             throw new HttpException({
@@ -301,6 +313,9 @@ export class PromotionService {
                     cause: 'Thiếu mã khuyến mãi' 
                 })
             
+            const promotionDelete = await this.promotionRepository.findOneBy({ id: id,
+                isDeleted: false })
+            
             //Soft delete
             const result = await this.promotionRepository.update({
                 id: id,
@@ -317,6 +332,12 @@ export class PromotionService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy khuyến mãi, đã xảy ra lỗi khi xóa' 
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'promotion',
+                action: 'delete',
+                data: promotionDelete
+            })    
         }
         catch (err) {
             throw new HttpException({

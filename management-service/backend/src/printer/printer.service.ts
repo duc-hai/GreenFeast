@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Printer } from 'src/entities/printer.entity';
 import { Area } from 'src/entities/area.entity';
 import { UpdatePrinterDto } from './dto/update-printer.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class PrinterService {
@@ -14,6 +15,8 @@ export class PrinterService {
         @InjectRepository(Printer) private printerRepository: Repository<Printer>,
 
         @InjectRepository(Area) private areaRepository: Repository<Area>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getAllPrinter(): Promise<any> {
@@ -129,6 +132,12 @@ export class PrinterService {
 
             await this.printerRepository.save(printer)
 
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'printer',
+                action: 'create',
+                data: printer
+            })
+
             return printer
         }
         catch (err) {
@@ -224,6 +233,13 @@ export class PrinterService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy máy in hoặc đã xảy ra lỗi'
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'printer',
+                action: 'update',
+                data: updatePrinterDto,
+                id
+            })
         }
         catch (err) {
             throw new HttpException({
@@ -261,6 +277,12 @@ export class PrinterService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy máy in hoặc đã xảy ra lỗi khi xóa' 
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'printer',
+                action: 'delete',
+                id
+            })
         }
         catch (err) {
             throw new HttpException({

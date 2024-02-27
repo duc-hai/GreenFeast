@@ -7,6 +7,7 @@ import { Area } from 'src/entities/area.entity';
 import { CreateTableAutoDto } from './dto/create-tables-auto.dto';
 import { DeleteTablesDto } from './dto/delete-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class TableService {
@@ -16,6 +17,8 @@ export class TableService {
 
         @InjectRepository(Area)
         private areaRepository: Repository<Area>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getTablesByArea(area_id: number): Promise<any> {
@@ -78,6 +81,12 @@ export class TableService {
 
             await this.tableRepository.save(table)
 
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'create',
+                data: table
+            })
+
             return table
         }
         catch (err) {
@@ -127,7 +136,19 @@ export class TableService {
                 throw new ConflictException('Đã xảy ra lỗi')
             }
 
-            const tablesList = arrayInsert.map(value => value.name)
+            const tablesList = arrayInsert.map((value, index) => {
+                return {
+                    id: result?.identifiers[index]?.id,
+                    name: value.name
+                }
+            })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'createAuto',
+                data: tablesList,
+                area_id: createTableAutoDto.area_id
+            })
 
             return tablesList
         }
@@ -174,6 +195,13 @@ export class TableService {
                 }, HttpStatus.NOT_FOUND, {
                     cause: 'Không tìm thấy bàn phù hợp'
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'update',
+                data: data,
+                id
+            })
         }
         catch (err) {
             throw new HttpException({
@@ -203,6 +231,12 @@ export class TableService {
 
             //console.log(updateData)
             await this.tableRepository.save(updateDataArr) 
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'delete',
+                ids: deleteTableDto.ids
+            })
         }
         catch (err) {
             throw new HttpException({

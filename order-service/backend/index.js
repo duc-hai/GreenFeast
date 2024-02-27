@@ -3,12 +3,12 @@ const env = require('dotenv')
 const app = express()
 const database = require('./config/connect.mongo')
 const routes = require('./routes')
-const producer = require('./config/producer.rabbitmq')
-const consumer = require('./config/consumer.rabbitmq')
+const producer = require('./services/producer.rabbitmq')
+const consumer = require('./services/consumer.rabbitmq')
 
 env.config()
 database.connect()
-producer.sendQueue('Hé lô') //If app close or crash, connection will be closed automatic
+//producer.sendQueue('Hé lô') //If app close or crash, connection will be closed automatic
 consumer.receiveQueue()
 
 app.use(express.urlencoded({ limit: '50mb', extended: true}))

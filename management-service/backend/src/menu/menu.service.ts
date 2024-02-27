@@ -163,8 +163,9 @@ export class MenuService {
             this.removeImageAfterUploadCloud(file.path)
 
             this.rabbitMQService.sendMessage('management-order', {
-                data: 'Hải',
-                name: 'Xin chào'
+                title: 'menu',
+                action: 'create',
+                data: menu
             })
 
             return menu
@@ -247,6 +248,13 @@ export class MenuService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy món ăn hoặc có lỗi xảy ra'
                 })
+            
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'menu',
+                action: 'update',
+                data: updateMenuDto,
+                id
+            })
         }
         catch (err) {
             throw new HttpException({
@@ -293,6 +301,12 @@ export class MenuService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy thực đơn' 
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'menu',
+                action: 'delete',
+                id
+            })        
         }
         catch (err) {
             throw new HttpException({

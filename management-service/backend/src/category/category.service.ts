@@ -3,11 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/entities/category.entity';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class CategoryService {
     constructor(
         @InjectRepository(Category) private categoryRepository: Repository<Category>,
+
+        private readonly rabbitMQService: RabbitmqService
     ){}
 
     async findAllCategories(): Promise<any> {
@@ -55,6 +58,12 @@ export class CategoryService {
 
             await this.categoryRepository.save(category)
 
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'category',
+                action: 'create',
+                data: category,
+            })
+
             return category
         }
         catch (err) {
@@ -94,6 +103,14 @@ export class CategoryService {
                 }, HttpStatus.NOT_FOUND, {
                     cause: 'Đã xảy ra lỗi'
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'category',
+                action: 'update',
+                data: updateCategoryDto,
+                id
+            })
+    
         }
         catch (err) {
             throw new HttpException({
@@ -134,6 +151,12 @@ export class CategoryService {
                     cause: 'Không tìm thấy danh mục phù hợp'
                 })
             }
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'category',
+                action: 'delete',
+                id
+            })
         }
         catch (err) {
             throw new HttpException({

@@ -63,11 +63,14 @@ class CallMicroservices {
             const file = req.file
 
             const formData = new FormData()
-            //Add file to form data, we need to add blob format
-            formData.append('image', (new Blob([file.buffer], { type: file.mimetype })), {
-                filename: file.originalname,
-                contentType: file.mimetype,
-            })
+            
+            if (req.file) {
+                //Add file to form data, we need to add blob format
+                formData.append('image', (new Blob([file.buffer], { type: file.mimetype })), {
+                    filename: file.originalname,
+                    contentType: file.mimetype,
+                })
+            }
 
             Object.keys(req.body).forEach(key => {
                 formData.append(key, req.body[key])
