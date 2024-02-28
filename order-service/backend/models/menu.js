@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
  
 const menu = new Schema (
     {
-        _id: { type: Number } , //ID means username (login with username or google or facebook)
+        _id: { type: Number } , 
         name: { type: String },
         description: { type: String },
         image: { type: String },

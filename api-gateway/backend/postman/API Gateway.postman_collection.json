@@ -273,7 +273,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/admin/menu/delete/2",
+									"raw": "{{url}}/api/admin/menu/delete/40",
 									"host": [
 										"{{url}}"
 									],
@@ -282,7 +282,7 @@
 										"admin",
 										"menu",
 										"delete",
-										"2"
+										"40"
 									]
 								}
 							},
@@ -372,7 +372,8 @@
 											"key": "image",
 											"contentType": "",
 											"type": "file",
-											"src": "/C:/Users/Luu Duc Hai/Downloads/52000657.png"
+											"src": "/C:/Users/Luu Duc Hai/Downloads/52000657.png",
+											"disabled": true
 										},
 										{
 											"key": "name",
@@ -387,7 +388,7 @@
 										},
 										{
 											"key": "category_id",
-											"value": "1",
+											"value": "2",
 											"type": "text"
 										},
 										{
@@ -398,7 +399,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/menu/update/5",
+									"raw": "{{url}}/api/admin/menu/update/39",
 									"host": [
 										"{{url}}"
 									],
@@ -407,7 +408,7 @@
 										"admin",
 										"menu",
 										"update",
-										"5"
+										"39"
 									]
 								}
 							},
@@ -489,13 +490,13 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "name",
-											"value": "A01",
+											"key": "id",
+											"value": "A02",
 											"type": "text"
 										},
 										{
 											"key": "area_id",
-											"value": "20",
+											"value": "25",
 											"type": "text"
 										}
 									]
@@ -540,7 +541,7 @@
 										},
 										{
 											"key": "area_id",
-											"value": "2",
+											"value": "25",
 											"type": "text"
 										}
 									]
@@ -566,7 +567,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/admin/table/get-tables?area_id=2",
+									"raw": "{{url}}/api/admin/table/get-tables?area_id=25",
 									"host": [
 										"{{url}}"
 									],
@@ -579,38 +580,8 @@
 									"query": [
 										{
 											"key": "area_id",
-											"value": "2"
+											"value": "25"
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update table",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"MMV01\",\r\n    \"area_id\": 2\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/admin/table/update/11",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"admin",
-										"table",
-										"update",
-										"11"
 									]
 								}
 							},
@@ -623,7 +594,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"ids\": [\r\n        13, 12, 11\r\n    ]\r\n}",
+									"raw": "{\r\n    \"ids\": [\r\n        \"A5\", \"A6\", \"A7\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -729,7 +700,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/area/update/4",
+									"raw": "{{url}}/api/admin/area/update/24",
 									"host": [
 										"{{url}}"
 									],
@@ -738,7 +709,7 @@
 										"admin",
 										"area",
 										"update",
-										"4"
+										"24"
 									]
 								}
 							},
@@ -750,7 +721,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/admin/area/delete/4",
+									"raw": "{{url}}/api/admin/area/delete/24",
 									"host": [
 										"{{url}}"
 									],
@@ -759,7 +730,7 @@
 										"admin",
 										"area",
 										"delete",
-										"4"
+										"24"
 									]
 								}
 							},
@@ -836,7 +807,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/category/update/1",
+									"raw": "{{url}}/api/admin/category/update/4",
 									"host": [
 										"{{url}}"
 									],
@@ -845,7 +816,7 @@
 										"admin",
 										"category",
 										"update",
-										"1"
+										"4"
 									]
 								}
 							},
@@ -857,7 +828,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/admin/category/delete/1",
+									"raw": "{{url}}/api/admin/category/delete/4",
 									"host": [
 										"{{url}}"
 									],
@@ -866,7 +837,7 @@
 										"admin",
 										"category",
 										"delete",
-										"1"
+										"4"
 									]
 								}
 							},
@@ -884,7 +855,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 1,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 41,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -933,7 +904,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết nè he he\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 1,\r\n    \"promotion_value\": \"50%\"\r\n    //\"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết nè he he\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 41,\r\n    \"promotion_value\": \"-50000\"\r\n    //\"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -981,8 +952,12 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
 								"url": {
-									"raw": "{{url}}/api/admin/promotion/delete/2",
+									"raw": "{{url}}/api/admin/promotion/delete/20",
 									"host": [
 										"{{url}}"
 									],
@@ -991,7 +966,7 @@
 										"admin",
 										"promotion",
 										"delete",
-										"2"
+										"20"
 									]
 								}
 							},

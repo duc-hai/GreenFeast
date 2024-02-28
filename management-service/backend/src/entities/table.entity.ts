@@ -1,14 +1,11 @@
 //TypeORM supports the repository design pattern, so each entity has its own repository. These repositories can be obtained from database data sources
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('table')
 export class Table {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn()
+    id: string;
     
-    @Column()
-    name: string;
-
     @Column()
     area_id: number;
 

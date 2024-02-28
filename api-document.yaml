@@ -792,13 +792,13 @@ paths:
       summary: Tạo mới bàn
       description: Tạo mới bàn
       requestBody: 
-        description: Tên bàn và mã của khu vực
+        description: Mã bàn và mã của khu vực
         content: 
           application/json:
             schema:
               type: object
               properties: 
-                name:
+                id:
                   type: string
                   example: "A01"
                 area_id:
@@ -822,7 +822,7 @@ paths:
                   data: 
                     type: object
                     properties: 
-                      name: 
+                      id: 
                         type: string
                         example: A01
                       area_id: 
@@ -832,9 +832,6 @@ paths:
                         type: string
                         format: date-time
                         example: 2024-02-23T12:46:11.994Z
-                      id: 
-                        type: number
-                        example: 24
                       isDeleted: 
                         type: boolean
         '400':
@@ -885,27 +882,24 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status: 
-                    type: string
-                    example: success
-                  message: 
-                    type: string
-                    example: Tạo thành công bàn tự động
-                  data: 
-                    type: array
-                    items: 
-                      type: object
-                      properties: 
-                        0: 
-                          type: string
-                          example: A
-                        1: 
-                          type: string
-                          example: 1
-                        2: 
-                          type: string
-                          example: 1
-                    example: [ "A11", "A12", "A13" ]
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Tạo thành công bàn tự động
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          id: 
+                            type: string
+                            example: A11
+                      example: [
+                          id: A11
+                      ]
+
 
         '400':
           description: "Lỗi"
@@ -941,49 +935,46 @@ paths:
                 schema:
                   type: object
                   properties: 
-                    status: 
-                      type: string
-                      example: success
-                    message: 
-                      type: string
-                      example: Lấy danh sách thành công
-                    data: 
-                      type: array
-                      items: 
-                        type: object
-                        properties: 
-                          id: 
-                            type: number
-                            example: 11
-                          name: 
-                            type: string
-                            example: A07
-                          area_id: 
-                            type: number
-                            example: 2
-                          created_at: 
-                            type: string
-                            format: date-time
-                            example: 2024-02-05T10:25:16.000Z
-                          updated_at: 
-                            type: string
-                            format: nullable
-                          deleted_at: 
-                            type: string
-                            format: nullable
-                          isDeleted: 
-                            type: boolean
-                      example: [
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            id: 
+                              type: string
+                              example: A11
+                            area_id: 
+                              type: number
+                              example: 25
+                            created_at: 
+                              type: string
+                              format: date-time
+                              example: 2024-02-28T14:40:43.000Z
+                            updated_at: 
+                              type: string
+                              format: nullable
+                            deleted_at: 
+                              type: string
+                              format: nullable
+                            isDeleted: 
+                              type: boolean
+                        example: [
                           {
-                            id: 11,
-                            name: A07,
-                            area_id: 2,
-                            created_at: "2024-02-05T10:25:16.000Z",
+                            id: A11,
+                            area_id: 25,
+                            created_at: 2024-02-28T14:40:43.000Z,
                             updated_at: null,
                             deleted_at: null,
                             isDeleted: false
                           }
-                      ]
+                        ]
+
         '400':
             description: "Lỗi"
             content:
@@ -998,49 +989,6 @@ paths:
                       type: string
                       example: Lỗi nào đó   
                       
-  /table/update/{id}:
-    put:
-      tags:
-        - table
-      summary: Cập nhật bàn
-      description: "Cập nhật bàn"
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-      requestBody: 
-        description: Tên bàn và mã khu vực, đều là tùy chọn
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties: 
-                name:
-                  type: string
-                  example: "MMV01"
-                area_id:
-                  type: number
-                  example: 2
-        required: true
-      responses:
-        '200':
-            description: Thành công
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties: 
-                    status: 
-                      type: string
-                      example: success
-                    message: 
-                      type: string
-                      example: Cập nhật bàn thành công
-        '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"  
-  
   /table/delete/:
     patch:
       tags:
@@ -1058,7 +1006,7 @@ paths:
                   type: array
                   items: 
                     type: number
-                  example: [13, 12, 11]
+                  example: [A13, A12, A11]
       responses:
         '200':
             description: Thành công

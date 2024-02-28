@@ -34,7 +34,7 @@ router.put('/menu/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, ac
 router.post('/table/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('createAny', 'table'), callMicroservice.forwardRequest)
 router.post('/table/create-auto', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('createAny', 'table'), callMicroservice.forwardRequest)
 router.get('/table/get-tables', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('readAny', 'table'), callMicroservice.forwardRequest)
-router.put('/table/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('updateAny', 'table'), callMicroservice.forwardRequest)
+// router.put('/table/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('updateAny', 'table'), callMicroservice.forwardRequest)
 router.delete('/table/delete', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAcess('deleteAny', 'table'), callMicroservice.forwardRequest)
 
 //Area

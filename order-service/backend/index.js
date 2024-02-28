@@ -8,7 +8,7 @@ const consumer = require('./services/consumer.rabbitmq')
 
 env.config()
 database.connect()
-//producer.sendQueue('Hé lô') //If app close or crash, connection will be closed automatic
+//producer.sendQueue('') //If app close or crash, connection will be closed automatic
 consumer.receiveQueue()
 
 app.use(express.urlencoded({ limit: '50mb', extended: true}))

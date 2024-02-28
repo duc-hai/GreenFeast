@@ -31,55 +31,72 @@ const receiveQueue = async () => {
     }
 }
 
+const createTable = async (message) => {
+    try {
+        //With collection table, we need to add directly to the area collection
+        const area = await require(`../models/area`).findOne({ _id: message?.data?.area_id })
+
+        if (!area) return
+
+        const table_list = area?.table_list
+
+        table_list.push({
+            _id: message?.data?.id,
+            status: 0
+        })
+
+        await require(`../models/area`).findOneAndUpdate({ _id: message?.data?.area_id }, {
+            table_list
+        })
+    }
+    catch (err) {
+        console.error(`Error occured: ${err.message}`)
+    }
+}
+
+const createTableAuto = async (message) => {
+    try {
+        const area = await require(`../models/area`).findOne({ _id: message?.area_id })
+
+        if (!area) return
+
+        const table_list = area?.table_list
+
+        message?.data.forEach(value => {
+            table_list.push({
+                _id: value.id,
+                status: 0
+            })
+        })
+            
+        await require(`../models/area`).findOneAndUpdate({ _id: message?.area_id }, {
+            table_list
+        })
+    }
+    catch (err) {
+        console.error(`Error occured: ${err.message}`)
+    }
+}
+
 const handleData = async (message) => {
     try {
         if (typeof (message) === 'string')
             message = JSON.parse(message)
         
         if (message.title === 'table' && message.action === 'create') {
-            //With collection table, we need to add directly to the area collection
-            const area = await require(`../models/area`).findOne({ _id: message?.data?.area_id })
-
-            if (!area) return
-
-            const table_list = area?.table_list
-
-            table_list.push({
-                _id: message?.data?.id,
-                name: message?.data?.name
-            })
-
-            await require(`../models/area`).findOneAndUpdate({ _id: message?.data?.area_id }, {
-                table_list
-            })
-
+            await createTable(message)
             return
         }   
         else if (message.title === 'table' && message.action === 'createAuto') {
-            const area = await require(`../models/area`).findOne({ _id: message?.area_id })
-
-            if (!area) return
-
-            const table_list = area?.table_list
-
-            message?.data.forEach(value => {
-                table_list.push({
-                    _id: value.id,
-                    name: value.name,
-                })
-            })
-            
-            await require(`../models/area`).findOneAndUpdate({ _id: message?.area_id }, {
-                table_list
-            })
+            await createTableAuto(message)
 
             return
         }   
-        else if (message.title === 'table' && message.action === 'update') {
-            //If you change to another area id, there will be an error
-            await require(`../models/area`).findOneAndUpdate({ 'table_list._id': message?.id }, { $set: { 'table_list.$.name': message?.data?.name } })
-            return
-        }     
+        // else if (message.title === 'table' && message.action === 'update') {
+        //     //If you change to another area id, there will be an error
+        //     await require(`../models/area`).findOneAndUpdate({ 'table_list._id': message?.id }, { $set: { 'table_list.$.name': message?.data?.name } })
+        //     return
+        // }     
         else if (message.title === 'table' && message.action === 'delete') {
             message?.ids.forEach(async value => {
                 await require(`../models/area`).updateOne({
@@ -150,7 +167,7 @@ const handleData = async (message) => {
             }
         }
         else if (message.action === 'create') {
-            console.log(message)
+            //console.log(message)
             const _id = message?.data?.id //ID in MySQL is 'id', while Mongo is '_id'
 
             delete message?.data?.id

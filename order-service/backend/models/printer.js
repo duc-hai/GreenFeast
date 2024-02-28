@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
  
 const printer = new Schema (
     {
-        _id: { type: Number } , //ID means username (login with username or google or facebook)
+        _id: { type: Number } , 
         name: { type: String },
         ip_address: { type: String },
         printer_type: { type: Number },
