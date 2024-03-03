@@ -5,7 +5,6 @@ const Schema = mongoose.Schema
 const order = new Schema (
     {
         // _id: { type: Schema.Types.ObjectId } , 
-        name: { type: String },
         order_detail: [
             {
                 menu: [

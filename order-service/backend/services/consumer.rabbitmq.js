@@ -1,5 +1,6 @@
 const amqplib = require('amqplib')
 const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
+const { v4: uuidv4 } = require('uuid')
 
 const receiveQueue = async () => {
     try {
@@ -42,7 +43,8 @@ const createTable = async (message) => {
 
         table_list.push({
             _id: message?.data?.id,
-            status: 0
+            status: 0,
+            slug: uuidv4()
         })
 
         await require(`../models/area`).findOneAndUpdate({ _id: message?.data?.area_id }, {

@@ -1,7 +1,7 @@
 const AccessControl = require('accesscontrol')
 const Role = require('../models/role')
 
-function grantAcess (action, resource) {
+function grantAccess (action, resource) {
     return async (req, res, next) => {
         try {
             if (!req.user || !req.user?.role || req.user?.user_type != 1)
@@ -82,5 +82,5 @@ async function getRoleAndformatGrantList (roleName) {
 }
 
 module.exports = {
-    grantAcess
+    grantAccess
 }

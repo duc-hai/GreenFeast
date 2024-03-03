@@ -181,6 +181,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/get-employees",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"get-employees"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -314,7 +333,7 @@
 										},
 										{
 											"key": "name",
-											"value": "Món chay thanh tịnh",
+											"value": "Món chay thanh tịnh Hải",
 											"type": "text"
 										},
 										{
@@ -491,7 +510,7 @@
 									"urlencoded": [
 										{
 											"key": "id",
-											"value": "A02",
+											"value": "A21",
 											"type": "text"
 										},
 										{
@@ -1098,6 +1117,127 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Order Service",
+			"item": [
+				{
+					"name": "Get menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/menu/get-list?page=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"menu",
+								"get-list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get menu by category ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/menu/get-by-category/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"menu",
+								"get-by-category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"_id\": \"48\",\r\n        \"quantity\": 2,\r\n        \"price\": 300000,\r\n        \"note\": \"Không có ghi chú\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/e326fc31-1531-4587-853f-588404860af9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"e326fc31-1531-4587-853f-588404860af9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tables by area ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/tables/25",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"tables",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/view-order/e326fc31-1531-4587-853f-588404860af9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"view-order",
+								"e326fc31-1531-4587-853f-588404860af9"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

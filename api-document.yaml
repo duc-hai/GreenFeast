@@ -596,6 +596,97 @@ paths:
                     type: string
                     example: Lỗi gì đó  
                     
+  /admin/get-employees:
+    get:
+      tags:
+        - auth 
+      summary: Lấy danh sách nhân viên 
+      description: Gồm thông tin cá nhân của nhân viên, không bao gồm thông tin tài khoản và thông tin phân quyền, nếu cần thì thêm API
+      responses:
+        '200':
+          description: Lấy danh sách thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách nhân viên thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          _id: 
+                            type: string
+                            example: 65d752f0b5f9a4ed01060239
+                          full_name: 
+                            type: string
+                            example: Hải
+                          gender: 
+                            type: string
+                            example: nam
+                          phone_number: 
+                            type: string
+                            example: 0123213123
+                          address: 
+                            type: string
+                            example: 
+                          role: 
+                            type: string
+                            example: admin
+                          user_type: 
+                            type: number
+                            example: 1
+                          createdAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-22T13:58:08.714Z
+                          updatedAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-02-23T09:36:56.070Z
+                          birthday: 
+                            type: string
+                            format: date-time
+                            example: 2002-08-15T00:00:00.000Z
+                          email: 
+                            type: string
+                            example: admin@gmail.com
+                      example: [
+                        {
+                          _id: 65d752f0b5f9a4ed01060239,
+                          full_name: Hải,
+                          gender: nam,
+                          phone_number: '0123213123',
+                          address: ,
+                          role: admin,
+                          user_type: 1,
+                          createdAt: "2024-02-22T13:58:08.714Z",
+                          updatedAt: "2024-02-23T09:36:56.070Z",
+                          birthday: "2002-08-15T00:00:00.000Z",
+                          email: admin@gmail.com
+                        }
+                      ]
+
+                 
+        '400':
+          description: Có nhiều trường hợp lỗi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi gì đó  
   
   /area/create:
     post:
@@ -968,7 +1059,7 @@ paths:
                           {
                             id: A11,
                             area_id: 25,
-                            created_at: 2024-02-28T14:40:43.000Z,
+                            created_at: "2024-02-28T14:40:43.000Z",
                             updated_at: null,
                             deleted_at: null,
                             isDeleted: false
@@ -1676,7 +1767,7 @@ paths:
                           id: 5,
                           name: "Món chay 0",
                           description: "Mô tả của món ăn",
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708099688/pcvljie2n1fcjjoqusog.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708099688/pcvljie2n1fcjjoqusog.png",
                           price: 0,
                           status: true,
                           category_id: 0,
@@ -1822,11 +1913,11 @@ paths:
                           id: 15,
                           name: Món chay 0,
                           description: Mô tả của món ăn,
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708162236/ybn9l7vcpnvahtjfnbr2.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708162236/ybn9l7vcpnvahtjfnbr2.png",
                           price: 123,
                           status: true,
                           category_id: 1,
-                          created_at: 2024-02-17T09:30:38.000Z,
+                          created_at: "2024-02-17T09:30:38.000Z",
                           updated_at: null,
                           deleted_at: null,
                           isDeleted: false
@@ -1945,11 +2036,11 @@ paths:
                           id: 11,
                           name: Món chay 1,
                           description: "Mô tả",
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708150773/jy2ydeshn1g5kqj2odxx.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1708150773/jy2ydeshn1g5kqj2odxx.png",
                           price: 123,
                           status: true,
                           category_id: 2,
-                          created_at: 2024-02-17T06:19:34.000Z,
+                          created_at: "2024-02-17T06:19:34.000Z",
                           updated_at: null,
                           deleted_at: null,
                           isDeleted: false
