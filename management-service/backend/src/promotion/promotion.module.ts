@@ -4,10 +4,11 @@ import { PromotionController } from './promotion.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Promotion } from 'src/entities/promotion.entity';
 import { Menu } from 'src/entities/menu.entity';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Promotion, Menu])],
-  providers: [PromotionService],
+  providers: [PromotionService, RabbitmqService],
   controllers: [PromotionController],
   exports: [PromotionModule, TypeOrmModule]
 })

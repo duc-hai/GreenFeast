@@ -7,13 +7,17 @@ import * as fs from 'fs';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { Category } from 'src/entities/category.entity';
 import { UpdateMenuDto } from './dto/update-menu.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class MenuService {
     constructor(
         @InjectRepository(Menu) private menuRepository: Repository<Menu>,
 
-        @InjectRepository(Category) private categoryRepository: Repository<Category>
+        @InjectRepository(Category) private categoryRepository: Repository<Category>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getAllMenu(pageQuery: number, perPageQuery: number): Promise<any> {
@@ -142,7 +146,20 @@ export class MenuService {
                 api_secret: process.env.CLOUDINARY_API_SECRET
             })
 
-            const result = await cloudinary.uploader.upload(file.path, { unique_filename: true }) //If error occur, 'catch exception' below will handle it
+            //Resize image
+            //console.log(file.path) //inputPath
+            const outputPath = 'upload/image.jpg'
+            const newWidth = 800
+            const inputBuffer = fs.readFileSync(file.path)
+
+            const resizedImage = await sharp(inputBuffer)
+                .resize({ width: newWidth })
+                .toBuffer()
+
+            // Save image after resize
+            fs.writeFileSync(outputPath, resizedImage)
+
+            const result = await cloudinary.uploader.upload(outputPath, { unique_filename: true }) //If error occur, 'catch exception' below will handle it
 
             //Add data into database
             const menuData = {
@@ -158,6 +175,13 @@ export class MenuService {
             await this.menuRepository.save(menu)
 
             this.removeImageAfterUploadCloud(file.path)
+            this.removeImageAfterUploadCloud(outputPath)
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'menu',
+                action: 'create',
+                data: menu
+            })
 
             return menu
         }
@@ -239,6 +263,13 @@ export class MenuService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy món ăn hoặc có lỗi xảy ra'
                 })
+            
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'menu',
+                action: 'update',
+                data: updateMenuDto,
+                id
+            })
         }
         catch (err) {
             throw new HttpException({
@@ -285,6 +316,12 @@ export class MenuService {
                 }, HttpStatus.FORBIDDEN, {
                     cause: 'Không tìm thấy thực đơn' 
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'menu',
+                action: 'delete',
+                id
+            })        
         }
         catch (err) {
             throw new HttpException({

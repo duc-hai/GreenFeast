@@ -3,9 +3,9 @@ import { IsInt, IsOptional, IsString } from "class-validator";
 export class UpdateTableDto {
     @IsOptional()
     @IsString({
-        message: 'Tên bàn không hợp lệ'
+        message: 'Mã bàn không hợp lệ'
     })
-    name: string;
+    id: string;
 
     @IsOptional()
     @IsInt({

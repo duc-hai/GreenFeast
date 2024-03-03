@@ -4,12 +4,15 @@ import { Area } from '../entities/area.entity';
 import { Repository } from 'typeorm';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class AreaService {
     constructor(
         @InjectRepository(Area)
         private areaRepository: Repository<Area>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getAllAreas (): Promise<any> {
@@ -63,7 +66,15 @@ export class AreaService {
             const area = await this.areaRepository.create(areaData)
 
             await this.areaRepository.save(area)
+
             //console.log(area)
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'area',
+                action: 'create',
+                data: area,
+            })
+
             return area
         }
         catch (err) {
@@ -90,6 +101,13 @@ export class AreaService {
                 }, HttpStatus.NOT_FOUND, {
                     cause: 'Không tìm thấy khu vực phù hợp'
                 })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'area',
+                action: 'update',
+                data: updateData,
+                id           
+            })        
         }
         catch (err) {
             throw new HttpException({
@@ -117,6 +135,12 @@ export class AreaService {
                 }, HttpStatus.NOT_FOUND, {
                     cause: 'Không tìm thấy khu vực phù hợp'
                 })
+            
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'area',
+                action: 'delete',
+                id           
+            })    
         }
         catch (err) {
             throw new HttpException({
