@@ -12,6 +12,7 @@ import { CategoryModule } from './category/category.module';
 import { PromotionModule } from './promotion/promotion.module';
 import { APP_FILTER } from '@nestjs/core';
 import { NotFoundFilter } from 'src/filter/notfound.filter';
+import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [MenuModule, TableModule, AreaModule, ConfigModule.forRoot({
@@ -32,7 +33,7 @@ import { NotFoundFilter } from 'src/filter/notfound.filter';
     synchronize: true, //If in production mode, set it to false, otherwise data will be lost. Use this in development mode
     retryAttempts: 5, //Number of attempts to connect to the database, default is 10
     retryDelay: 3000, //Delay between reconnection attempts (ms), default is 3000
-  }), PrinterModule, CategoryModule, PromotionModule],
+  }), PrinterModule, CategoryModule, PromotionModule, RabbitmqModule],
   controllers: [AppController], 
   providers: [AppService, {
     provide: APP_FILTER,

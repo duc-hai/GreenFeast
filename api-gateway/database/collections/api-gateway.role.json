@@ -75,6 +75,15 @@
         "create:any",
         "read:any"
       ]
+    },
+    {
+      "resource": "order",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
     }
   ]
 },

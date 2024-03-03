@@ -47,17 +47,17 @@ export class TableController {
         }
     }
 
-    @Put('/update/:id')
-    async updateTable (@Res() res: Response, @Param() params: any, @Body() updateTableDto: UpdateTableDto): Promise<any> {
-        try {
-            const result = await this.tableService.updateTable(params.id, updateTableDto);
+    // @Put('/update/:id')
+    // async updateTable (@Res() res: Response, @Param() params: any, @Body() updateTableDto: UpdateTableDto): Promise<any> {
+    //     try {
+    //         const result = await this.tableService.updateTable(params.id, updateTableDto);
 
-            return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật bàn thành công', data: result})
-        }
-        catch (err) {
-            return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
-        } 
-    }
+    //         return res.status(HttpStatus.OK).json({status: 'success', message: 'Cập nhật bàn thành công', data: result})
+    //     }
+    //     catch (err) {
+    //         return res.status(HttpStatus.FORBIDDEN).json({status: 'error', message: `${err.message}`})
+    //     } 
+    // }
 
     @Delete('/delete')
     async deleteTables (@Res() res: Response, @Body() deleteTableDto: DeleteTablesDto): Promise<any>{

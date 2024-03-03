@@ -302,6 +302,21 @@ class AccountService {
             return next([400, 'error', err.message])
         }
     }
+
+    async getEmployeees (req, res, next) {
+        try {
+            const users = await User.find({ user_type: 1 }).select({ __v: 0, customer: 0 })
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách nhân viên thành công',
+                data: users
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
 }
 
 module.exports = new AccountService()

@@ -7,6 +7,7 @@ import { Area } from 'src/entities/area.entity';
 import { CreateTableAutoDto } from './dto/create-tables-auto.dto';
 import { DeleteTablesDto } from './dto/delete-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
+import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
 
 @Injectable()
 export class TableService {
@@ -16,6 +17,8 @@ export class TableService {
 
         @InjectRepository(Area)
         private areaRepository: Repository<Area>,
+
+        private readonly rabbitMQService: RabbitmqService
     ) {}
 
     async getTablesByArea(area_id: number): Promise<any> {
@@ -26,7 +29,7 @@ export class TableService {
                     isDeleted: false
                 },
                 order: {
-                    name: "ASC"
+                    id: "ASC"
                 }
             })
 
@@ -56,8 +59,8 @@ export class TableService {
         try {
             if (typeof createTableDto.area_id === 'string')
                 createTableDto.area_id = parseInt(createTableDto.area_id)
-            //Check foreign key
-            const checkForeignKey = await this.areaRepository.findOneBy({id: createTableDto.area_id, isDeleted: false})
+            
+            const checkForeignKey = await this.areaRepository.findOneBy({id: createTableDto.area_id, isDeleted: false })
 
             //console.log(checkForeignKey)
 
@@ -69,6 +72,14 @@ export class TableService {
                     cause: 'Không tìm thấy id khu vực'
                 })
 
+            if (await this.tableRepository.findOneBy({ id: createTableDto.id, isDeleted: false }))
+                throw new HttpException({
+                    status: 'error',
+                    message: `Mã bàn đã tồn tại`,
+                }, HttpStatus.NOT_FOUND, {
+                    cause: 'Mã bàn đã tồn tại'
+                })
+
             const tableData = {
                 ...createTableDto,
                 ...{created_at: new Date()}
@@ -77,6 +88,12 @@ export class TableService {
             const table = await this.tableRepository.create(tableData)
 
             await this.tableRepository.save(table)
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'create',
+                data: table
+            })
 
             return table
         }
@@ -114,12 +131,12 @@ export class TableService {
             for (let i = 0; i < length; ++i) {
                 arrayInsert.push({
                     created_at: new Date(),
-                    name: createTableAutoDto.shortname + this.autoNumber(from + length - 1, from),
+                    id: createTableAutoDto.shortname + this.autoNumber(from + length - 1, from),
                     area_id: createTableAutoDto.area_id
                 })
                 from++
             }
-            //console.log(arrayInsert)
+            // console.log(arrayInsert)
 
             const result = await this.tableRepository.insert(arrayInsert)
 
@@ -127,7 +144,19 @@ export class TableService {
                 throw new ConflictException('Đã xảy ra lỗi')
             }
 
-            const tablesList = arrayInsert.map(value => value.name)
+            const tablesList = arrayInsert.map((value, index) => {
+                return {
+                    id: result?.identifiers[index]?.id,
+                    name: value.name
+                }
+            })
+
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'createAuto',
+                data: tablesList,
+                area_id: createTableAutoDto.area_id
+            })
 
             return tablesList
         }
@@ -153,37 +182,44 @@ export class TableService {
         return num    
     }
 
-    async updateTable (id: number, data: UpdateTableDto) {
-        try {
-            id = parseInt(id.toString())
+    // async updateTable (id: number, data: UpdateTableDto) {
+    //     try {
+    //         id = parseInt(id.toString())
             
-            const updateData = {
-                ...data, 
-                ...{updated_at: new Date()}
-            } // JS Spread
+    //         const updateData = {
+    //             ...data, 
+    //             ...{updated_at: new Date()}
+    //         } // JS Spread
             
-            const result = await this.tableRepository.update({
-                id: id,
-                isDeleted: false
-            }, updateData)
+    //         const result = await this.tableRepository.update({
+    //             id: id,
+    //             isDeleted: false
+    //         }, updateData)
 
-            if (result.affected === 0)
-                throw new HttpException({
-                    status: 'error',
-                    message: `Không tìm thấy bàn phù hợp`,
-                }, HttpStatus.NOT_FOUND, {
-                    cause: 'Không tìm thấy bàn phù hợp'
-                })
-        }
-        catch (err) {
-            throw new HttpException({
-                status: 'error',
-                message: `${err.message}`,
-            }, HttpStatus.FORBIDDEN, {
-                cause: err 
-            })
-        }
-    }
+    //         if (result.affected === 0)
+    //             throw new HttpException({
+    //                 status: 'error',
+    //                 message: `Không tìm thấy bàn phù hợp`,
+    //             }, HttpStatus.NOT_FOUND, {
+    //                 cause: 'Không tìm thấy bàn phù hợp'
+    //             })
+
+    //         this.rabbitMQService.sendMessage('management-order', {
+    //             title: 'table',
+    //             action: 'update',
+    //             data: data,
+    //             id
+    //         })
+    //     }
+    //     catch (err) {
+    //         throw new HttpException({
+    //             status: 'error',
+    //             message: `${err.message}`,
+    //         }, HttpStatus.FORBIDDEN, {
+    //             cause: err 
+    //         })
+    //     }
+    // }
 
     async deleteTables (deleteTableDto: DeleteTablesDto): Promise<any | null>{
         try {
@@ -191,18 +227,20 @@ export class TableService {
                 ...deleteTableDto.ids,
                 ...[]
             ]
-
+            //console.log(ids)
             //Soft delete
             // or not use soft delete here
-            const updateDataArr = ids.map(value => {
-                return {
-                    id: value,
-                    isDeleted: true //update to deleted
-                }
+            ids.forEach(async value => {
+                await this.tableRepository.update({ id: value }, {
+                    isDeleted: true
+                })
             })
 
-            //console.log(updateData)
-            await this.tableRepository.save(updateDataArr) 
+            this.rabbitMQService.sendMessage('management-order', {
+                title: 'table',
+                action: 'delete',
+                ids: deleteTableDto.ids
+            })
         }
         catch (err) {
             throw new HttpException({

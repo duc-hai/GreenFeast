@@ -81,3 +81,41 @@ exports.jwtTokenValidatorCustomer = async (req, res, next) => {
         return next([400, 'error', err.message])
     }
 }
+
+exports.jwtTokenValidatorBoth = async (req, res, next) => {
+    try {
+        let accessToken
+
+        if (req.headers.authorization)
+            accessToken = req.headers.authorization.split(" ")[1]
+        else if (req.cookies || req.signedCookies) {
+            accessToken = req.cookies?.access_token || req.signedCookies?.access_token
+            //accessToken = req.headers.cookie.split("=")[1]
+        }
+        else 
+            return next()
+    
+        if (!accessToken)
+            return next()
+
+        const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
+
+        if (!verified) {
+            return next()
+        }
+        
+        const user = await User.findOne({
+            _id: verified.username,
+        })
+        
+        if (!user)
+            return next()
+        
+        req.user = user
+
+        return next()
+    }   
+    catch (err) {
+        return next([400, 'error', err.message])
+    }
+}

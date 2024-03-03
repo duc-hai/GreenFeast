@@ -2,12 +2,12 @@ import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateTableDto {
     @IsNotEmpty({
-        message: 'Tên bàn không được để trống'
+        message: 'Mã bàn không được để trống'
     })
     @IsString({
-        message: 'Tên bàn không hợp lệ'
+        message: 'Mã bàn không hợp lệ'
     })
-    name: string;
+    id: string;
 
     @IsNotEmpty({
         message: 'Khu vực không được để trống'
