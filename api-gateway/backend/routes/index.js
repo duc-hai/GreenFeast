@@ -34,6 +34,10 @@ router.get('/order/menu/get-list', jwtTokenGuard.jwtTokenValidatorCustomer, call
 router.get('/order/menu/get-by-category/:id', jwtTokenGuard.jwtTokenValidatorCustomer, callMicroservice.forwardRequestOrderService)
 router.post('/order/:tableSlug', jwtTokenGuard.jwtTokenValidatorBoth, callMicroservice.forwardRequestOrderService)
 router.get('/order/view-order/:tableSlug', callMicroservice.forwardRequestOrderService)
+router.get('/order/promotion', callMicroservice.forwardRequestOrderService)
+router.post('/order/close/:tableSlug', callMicroservice.forwardRequestOrderService)
+router.get('/order/print-bill/:tableSlug', callMicroservice.forwardRequestOrderService)
+
 //router.get('/test-jwt', jwtTokenGuard.jwtTokenValidatorCustomer, accountService.testJWT)
 
 /*

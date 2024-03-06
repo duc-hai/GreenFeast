@@ -125,6 +125,9 @@ export class MenuService {
             if (typeof(createMenuDto.category_id) === 'string')
                 createMenuDto.category_id = parseInt(createMenuDto.category_id)
 
+            if (typeof(createMenuDto.menu_type) === 'string')
+                createMenuDto.menu_type = parseInt(createMenuDto.menu_type)
+
             //Check foreign key of category table
             const checkForeignKeyCategory = await this.categoryRepository.findOneBy({
                 id: createMenuDto.category_id,

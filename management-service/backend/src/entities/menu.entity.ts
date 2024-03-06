@@ -17,6 +17,9 @@ export class Menu {
     @Column()
     price: number;
 
+    @Column()
+    menu_type: number; //0 is none, 1 is food, 2 is baverage
+
     @Column({ default: true })
     status: boolean;
 
