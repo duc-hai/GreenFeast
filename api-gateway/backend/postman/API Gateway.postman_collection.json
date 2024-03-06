@@ -329,11 +329,11 @@
 											"key": "image",
 											"contentType": "",
 											"type": "file",
-											"src": "/C:/Users/Luu Duc Hai/Downloads/52000657.png"
+											"src": "/C:/Users/Luu Duc Hai/Downloads/BRD-APG-service.drawio (1).png"
 										},
 										{
 											"key": "name",
-											"value": "Món chay thanh tịnh Hải",
+											"value": "Nước uống",
 											"type": "text"
 										},
 										{
@@ -350,6 +350,11 @@
 										{
 											"key": "description",
 											"value": "Mô tả của món ăn",
+											"type": "text"
+										},
+										{
+											"key": "menu_type",
+											"value": "2",
 											"type": "text"
 										}
 									]
@@ -414,11 +419,16 @@
 											"key": "description",
 											"value": "Mô tả của món ăn",
 											"type": "text"
+										},
+										{
+											"key": "menu_type",
+											"value": "2",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/menu/update/39",
+									"raw": "{{url}}/api/admin/menu/update/55",
 									"host": [
 										"{{url}}"
 									],
@@ -427,7 +437,7 @@
 										"admin",
 										"menu",
 										"update",
-										"39"
+										"55"
 									]
 								}
 							},
@@ -1003,7 +1013,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Máy in trệt\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 1\r\n}",
+									"raw": "{\r\n    \"name\": \"Máy in tầng A\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 25\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1177,7 +1187,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\": \"48\",\r\n        \"quantity\": 2,\r\n        \"price\": 300000,\r\n        \"note\": \"Không có ghi chú\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\": \"55\",\r\n        \"quantity\": 2,\r\n        \"price\": 300000,\r\n        \"note\": \"Ghi chú món ăn\"\r\n    },\r\n    {\r\n        \"_id\": \"56\",\r\n        \"quantity\": 2,\r\n        \"price\": 50000,\r\n        \"note\": \"Ghi chú nước uống\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1233,6 +1243,74 @@
 								"api",
 								"order",
 								"view-order",
+								"e326fc31-1531-4587-853f-588404860af9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get promotion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/promotion",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"promotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close table",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"note\": \"Ghi chú\",\r\n    \"payment_method\": \"Tiền mặt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/close/e326fc31-1531-4587-853f-588404860af9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"close",
+								"e326fc31-1531-4587-853f-588404860af9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Print bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/print-bill/e326fc31-1531-4587-853f-588404860af9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"print-bill",
 								"e326fc31-1531-4587-853f-588404860af9"
 							]
 						}
