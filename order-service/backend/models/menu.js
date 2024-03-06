@@ -12,6 +12,7 @@ const menu = new Schema (
         status: { type: Boolean },
         category_id: { type: Number },
         discount_price: { type: Number },
+        menu_type: { type: Number }
     }, {
         collection: 'menus'
     }

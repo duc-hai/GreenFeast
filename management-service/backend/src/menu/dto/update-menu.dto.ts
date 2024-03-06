@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsIn, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpdateMenuDto {
     @IsOptional()
@@ -30,4 +30,10 @@ export class UpdateMenuDto {
         message: 'Trạng thái không hợp lệ (boolean)'
     })
     status: boolean;
+
+    @IsOptional()
+    @IsIn([0, 1, 2, '0', '1', '2'], {
+        message: 'Loại món không hợp lệ'
+    })
+    menu_type: number;
 }
