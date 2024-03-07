@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  order: #name of service
+    container_name: order
+    build:
+      context: ../backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27018 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=orderDB # orderDB is service's name
+      - AMQP_SERVER_URL_HOST=rabbitmq #rabbitmq is service's name of rabbit mq
+      - AMQP_SERVER_URL_PORT=5672
+
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5000:5000 #The first 5000 is your port local, the second 5000 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5000
+    networks:
+      - order-network
+      - greenfeast
+
+  orderDB:
+    container_name: orderDB
+    image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+    restart: always
+    environment: 
+      MONGO_INITDB_DATABASE: order
+      #MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27018:27018
+    command: mongod --port 27018 # !Important. This will change default port in mongo
+    expose: 
+      - 27018 #This service will open port 27018 so that other containers can communicate
+    volumes: # save data after container is deleted
+      - dbdata7:/data/db2
+    networks:
+      - order-network
+      - greenfeast
+
+volumes:
+  dbdata7:
+
+networks:
+  order-network:
+    driver: bridge
+  greenfeast:
+    driver: bridge
+    name: greenfeast
+#docker compose -p order-mongodb up -d 
+
+#up is build file (run container), d is detach, after install with be auto exit
+#then open "Log" in container backend to see work log
