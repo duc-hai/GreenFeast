@@ -11,15 +11,22 @@
 
 ## Docker Run
 1. We need to run the docker compose in `api-gateway/docker/production` first with the following command: 
+   
     ```
     docker compose -p apigateway-mongodb-nginx up -d 
     ```
 2. Run Rabbit MQ Container in `docker-rabbitmq` with command:
+   
    ```
    docker compose -p rabbitmq up -d 
    ```
 3. Then, we run docker compose in order service (path `order/docker`):
+   
    ```
    docker compose -p order-mongodb up -d 
    ```
-   
+4. Finally, run docker compose at `management-service/docker` with:
+
+    ```
+    docker compose -p management-mysql up -d
+    ```

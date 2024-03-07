@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  management: #name of service
+    container_name: management
+    build:
+      context: ../backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=3306 #3306 is port of service in Docker (not localhost)
+      - DB_HOST=managementDB # managementDB is service's name
+      - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
+
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 4000:4000 #The first 4000 is your port local, the second 4000 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 4000
+    networks:
+      - greenfeast
+
+  managementDB:
+    container_name: managementDB
+    image: mysql:8.0 #image means pull image from Docker hub, while build is source in local
+    restart: always
+    environment: 
+      MYSQL_DATABASE: management_service
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+    ports:
+      - 3306:3306
+    expose: 
+      - 3306 #This service will open port 3306 so that other containers can communicate
+    volumes: # save data after container is deleted
+      - dbdata8:/data/mysql/db
+    networks:
+      - greenfeast
+
+volumes:
+  dbdata8:
+
+networks:
+  greenfeast:
+    driver: bridge
+    name: greenfeast
+#docker compose -p management-mysql up -d 
+
+#up is build file (run container), d is detach, after install with be auto exit
+#then open "Log" in container backend to see work log
