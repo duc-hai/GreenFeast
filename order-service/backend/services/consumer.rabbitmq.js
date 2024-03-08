@@ -1,8 +1,9 @@
 const amqplib = require('amqplib')
-const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
 const { v4: uuidv4 } = require('uuid')
 
 const receiveQueue = async () => {
+    // const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
+    const amqpUrl = `amqp://${process.env.AMQP_SERVER_URL_HOST}:${process.env.AMQP_SERVER_URL_PORT}`
     try {
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
         const connect = await amqplib.connect(amqpUrl)
@@ -28,6 +29,7 @@ const receiveQueue = async () => {
         })
     }
     catch (err) {
+        console.error(`Connection string: ${amqpUrl}`)
         console.error(`Rabbit MQ is error with message: ${err.message}`)
     }
 }

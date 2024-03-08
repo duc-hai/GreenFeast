@@ -1,7 +1,7 @@
 FROM node:20-alpine 
 # node is image name, version 20, alpine is the version of node, reduces the library -> helps reduce capacity
 
-WORKDIR /greenfeast/backend
+WORKDIR /greenfeast/apigateway
 # where to store source code, if it does not exist, it will be created automatically
 
 COPY package*.json ./
@@ -9,8 +9,6 @@ COPY package*.json ./
 # only when the package.json file changes, then run npm install below (taking advantage of the data caching mechanism)
 
 RUN npm install
-
-RUN npm install -g @babel/cli @babel/core @babel/node @babel/preset-env
 
 COPY . .
 # the first dot is the path of the current directory where the Dockerfile is located

@@ -8,3 +8,25 @@
 ## API Document
 **API Document Official Directly**: You can see the api document directly at [here](https://app.swaggerhub.com/apis/HaiLuu/GreenFeast/1.0.0)
 > You can also use `api-document.yaml` file to read. To view api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open `api-document.yaml` file and click the OpenAPI button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste content from this file to sites [Swagger Editor](https://editor.swagger.io/)
+
+## Docker Run
+1. We need to run the docker compose in `api-gateway/docker/production` first with the following command: 
+   
+    ```
+    docker compose -p apigateway-mongodb-nginx up -d 
+    ```
+2. Run Rabbit MQ Container in `docker-rabbitmq` with command:
+   
+   ```
+   docker compose -p rabbitmq up -d 
+   ```
+3. Then, we run docker compose in order service (path `order/docker`):
+   
+   ```
+   docker compose -p order-mongodb up -d 
+   ```
+4. Finally, run docker compose at `management-service/docker` with:
+
+    ```
+    docker compose -p management-mysql up -d
+    ```

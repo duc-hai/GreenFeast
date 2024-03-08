@@ -433,6 +433,9 @@ class OrderService {
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
+            if (table.status != 1)
+                return next([400, 'error', 'Bàn chưa có khách'])
+
             const order = await Order.findOne({ table: table._id, status: false })
 
             const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'

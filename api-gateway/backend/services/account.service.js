@@ -10,7 +10,7 @@ const { join } = require('path')
 const fs = require('fs')
 
 class AccountService {
-    //For customer
+    //
     async loginAccount (req, res, next) {
         try {
             const { username, password, ...rest } = req.body || null
@@ -45,6 +45,8 @@ class AccountService {
                 return next([400, 'error', 'Số điện thoại hoặc mật khẩu không đúng'])
             }
 
+            const user = await User.findOne({ _id: account.user_id, user_type: account.account_type })
+
             //Account is correct: create access token and refresh token
             const accessToken = jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
             const refreshToken = jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
@@ -62,6 +64,8 @@ class AccountService {
                 data: {
                     access_token: accessToken,
                     refresh_token: refreshToken,
+                    full_name: user?.full_name,
+                    data: user
                 }
             })
         }
