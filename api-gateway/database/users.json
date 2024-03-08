@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "65eb127aee92b3c06a3eb28a"
+  },
+  "full_name": "Đức Hải",
+  "gender": "không",
+  "phone_number": "",
+  "address": "",
+  "role": "admin",
+  "user_type": 1,
+  "customer": {
+    "order_list": []
+  },
+  "createdAt": {
+    "$date": "2024-03-08T13:28:26.273Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-08T13:28:26.273Z"
+  },
+  "__v": 0
+}]
