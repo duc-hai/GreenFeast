@@ -127,6 +127,9 @@ paths:
                       refresh_token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzExMjU4MzI0fQ.LuTjk9EhkW4T51BALoyDnuuBdp_PgwDVw_xZstm5z6Y
+                      full_name: 
+                        type: string
+                        example: Lưu Đức Hải
                
             
         '400':
@@ -393,6 +396,9 @@ paths:
                       refresh_token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzExMjcyNDYxfQ.r-pmDcrQ4DFZspQYUlGoqdPeNl71Ilr_uTY5NJbd50Q"
+                      full_name:
+                        type: string
+                        example: Lưu Đức Hải
                  
         '400':
           description: Có nhiều trường hợp lỗi
