@@ -1,41 +1,47 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input, notification, Spin } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { requestLoginService } from "../../Services/loginService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.css";
+import { loginUser } from "../../Services/AuthAPI";
+import { setCookie } from "../../utils/Cookie";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const onFinish = async (values) => {
     setIsLoading(true);
-    const response = await requestLoginService(values);
-    if (response.status === 200) {
-      localStorage.setItem("username", values.username);
-      notification.success({ message: "Đăng nhập thành công" });
-      localStorage.setItem("token", response.data.data.access_token);
-      localStorage.setItem("refresh_token", response.data.data.refresh_token);
-      navigate("/order");
-    } else {
-      openNotification("Sai tên đăng nhập hoặc mật khẩu");
+    try {
+      const response = await loginUser(values);
+      console.log(response);
+
+      setCookie(
+        "refreshToken",
+        response?.data?.refresh_token,
+        values.remember ? 30 : 1
+      );
+      sessionStorage.setItem("user", JSON.stringify(response?.data?.data));
+      notification.open({
+        message: "Đăng nhập thành công",
+        description: "Đăng nhập thành công",
+        icon: <CloseOutlined style={{ color: "green" }} />,
+      });
+    } catch (error) {
+      notification.open({
+        message: "Đăng nhập thất bại",
+        description: "Đăng nhập thất bại",
+        icon: <CloseOutlined style={{ color: "red" }} />,
+      });
     }
     setIsLoading(false);
   };
 
-  const openNotification = (title) => {
-    notification.open({
-      message: "ĐĂNG NHẬP",
-      description: title,
-      icon: (
-        <CloseOutlined
-          style={{
-            color: "red",
-          }}
-        />
-      ),
-    });
-  };
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      navigate("/order");
+    }
+  }, []);
   return (
     <>
       <Spin tip="Loading..." spinning={isLoading}>

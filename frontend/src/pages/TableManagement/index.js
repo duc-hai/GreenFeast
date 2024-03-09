@@ -9,74 +9,96 @@ import {
   Input,
   Select,
   Col,
-  Radio,
   Row,
-  InputNumber,
-  DatePicker,
-  Card,
   Popconfirm,
+  message,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
-const { Option } = Select;
+import {
+  createTable,
+  deleteTable,
+  getAllArea,
+  getTable,
+} from "../../Services/ManagementServiceAPI";
 const MenuManagement = () => {
-  const dispatch = useDispatch();
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
+  const [listData, setListData] = useState([]);
+  const [valueArea, setValueArea] = useState({});
+  const [dataDelete, setDataDelete] = useState([]);
+  useEffect(() => {
+    const fetchArea = async () => {
+      try {
+        const res = await getAllArea();
+        setValueArea(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArea();
+  }, []);
+  const fetchData = async (id) => {
+    try {
+      const res = await getTable(id);
+      setListData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (valueArea.length > 0) {
+      fetchData(valueArea[0].id);
+    }
+  }, [valueArea]);
 
-  useEffect(() => {}, [pagination]);
-  const editMenu = (record) => {};
-  const deleteMenu = (record) => {};
   const columns = [
     {
       title: "Mã bàn",
-      dataIndex: "tableId",
-      key: "tableId",
+      dataIndex: "id",
+      key: "id",
     },
-    {
-      title: "Tên bàn",
-      dataIndex: "code",
-      key: "code ",
-    },
+    // {
+    //   title: "Tên bàn",
+    //   dataIndex: "code",
+    //   key: "code ",
+    // },
     {
       title: "Khu vực (tầng)",
-      dataIndex: "saleStaff",
-      key: "saleStaff ",
+      dataIndex: "area_id",
+      key: "area_id",
     },
 
     {
       title: "Thao tác",
       render: (_, record) => (
-        <Space size="middle">
-          <button onClick={() => editMenu(record)}>
-            <EditOutlined className="text-[#263a29] text-2xl" />
-          </button>
-        </Space>
+        <Popconfirm
+          title="Delete the task"
+          description="Are you sure to delete this task?"
+          onConfirm={async () => {
+            try {
+              await deleteTable({
+                ids: [record.id],
+              });
+              fetchData(valueArea[0].id);
+              message.success("Xóa thành công");
+            } catch (error) {
+              console.log(error);
+              message.error("Xóa thất bại");
+            }
+          }}
+          onCancel={() => {}}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DeleteOutlined style={{ fontSize: "20px" }} />
+        </Popconfirm>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: 1,
-      tableId: "1",
-      code: "A01",
-      saleStaff: "Tàng 1",
-    },
-    {
-      key: 2,
-      tableId: "2",
-      code: "A02",
-      saleStaff: "Tầng 1",
-    },
-  ];
-
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+    onChange: (_, selectedRows) => {
+      console.log("selectedRows: ", selectedRows);
+      setDataDelete(selectedRows?.map((item) => item.id));
     },
     onSelect: (record, selected, selectedRows) => {
       console.log(record, selected, selectedRows);
@@ -86,41 +108,34 @@ const MenuManagement = () => {
     },
   };
 
-  const EditProduct = (record) => {
-    console.log(record);
-  };
-
-  const onTableChange = async (paginations) => {
-    const { current, pageSize } = paginations;
-    const paging = { ...pagination, pageIndex: current, pageSize };
-    setPagination(paging);
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    onFinish();
+    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
+    form.resetFields();
     setIsModalOpen(false);
   };
-
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async () => {
+    const values = form.getFieldsValue();
+    try {
+      await createTable(values);
+      message.success("Tạo mới danh mục món thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Tạo mới danh mục món thất bại");
+    }
+    fetchData(valueArea[0].id);
+    handleCancel();
   };
   const [form] = Form.useForm();
-  const [dataTblProduct, setDataTblProduct] = useState([]);
-  const deleteProduct = (record) => {
-    const newListDataProduct = dataTblProduct.filter(
-      (item) => item.id !== record.id
-    );
-    setDataTblProduct(newListDataProduct);
-  };
-  const [checkStrictly, setCheckStrictly] = useState(false);
+  console.log(dataDelete);
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -129,18 +144,49 @@ const MenuManagement = () => {
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
             Tạo mới bàn ăn
           </Button>
-          <button className="bg-red-600 mx-4 border-none outline-none text-white hover:bg-red-400 py-1 px-3 rounded-md">
-            Xóa
-          </button>
+
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            onConfirm={async () => {
+              try {
+                if (dataDelete.length > 0) {
+                  await deleteTable({
+                    ids: dataDelete,
+                  });
+                  fetchData(valueArea[0].id);
+                  message.success("Xóa thành công");
+                } else {
+                  message.error("Vui lòng chọn bàn cần xóa");
+                }
+              } catch (error) {
+                console.log(error);
+                message.error("Xóa thất bại");
+              }
+            }}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button className="bg-red-600 mx-4 border-none outline-none text-white hover:!bg-red-900 py-1 px-3 rounded-md">
+              Xóa
+            </Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="mt-4">
         <span className="text-lg px-4 font-medium">Chọn khu vực hiển thị</span>
-        <select className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md">
-          <option>Tầng 01</option>
-          <option>Tầng 02</option>
-          <option>Tầng 03</option>
-          <option>Tầng 03</option>
+        <select
+          className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
+          defaultValue={valueArea?.length > 0 && valueArea[0]?.id}
+          onChange={(e) => {
+            fetchData(e.target.value);
+          }}
+        >
+          {valueArea?.length > 0 &&
+            valueArea?.map((item) => (
+              <option value={item.id}>{item.name}</option>
+            ))}
         </select>
       </div>
       <br />
@@ -149,16 +195,13 @@ const MenuManagement = () => {
         columns={columns}
         rowSelection={{
           ...rowSelection,
-          checkStrictly,
         }}
-        dataSource={data}
-        pageIndex={pagination.pageIndex}
-        pagination={{
-          current: pagination.pageIndex,
-          // total: listData?.result?.total,
-          pageSize: pagination.pageSize,
-        }}
-        onChange={onTableChange}
+        dataSource={
+          listData?.length > 0 &&
+          listData?.map((item, index) => {
+            return { ...item, key: index };
+          })
+        }
         scroll={{ x: "max-content" }}
       />
 
@@ -195,10 +238,10 @@ const MenuManagement = () => {
                 </Col>
                 <Col span={24}>
                   <Form.Item
-                    label="Tên bàn"
-                    name="name"
+                    label="Mã bàn"
+                    name="id"
                     rules={[
-                      { required: true, message: "Vui lòng nhập tên bàn" },
+                      { required: true, message: "Vui lòng nhập khu vực" },
                     ]}
                   >
                     <Input />
@@ -206,24 +249,21 @@ const MenuManagement = () => {
                 </Col>
                 <Col span={24}>
                   <Form.Item
-                    label="Vị trí (tầng)"
-                    name="image"
+                    label="Khu vực"
+                    name="area_id"
                     rules={[
-                      { required: true, message: "Vui lòng nhập vị trí" },
+                      { required: true, message: "Vui lòng nhập khu vực" },
                     ]}
                   >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={24}>
-                  <Form.Item
-                    label="Chi tiết bàn"
-                    name="additionalAmount"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập chi tiết bàn" },
-                    ]}
-                  >
-                    <Input />
+                    <Select
+                      // style={{ width: 120 }}
+                      options={
+                        valueArea?.length > 0 &&
+                        valueArea?.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })
+                      }
+                    />
                   </Form.Item>
                 </Col>
               </Row>

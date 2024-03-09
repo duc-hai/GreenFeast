@@ -1,67 +1,94 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Button, Space, Table, Modal, Form, Input, Col, Row } from "antd";
+import {
+  Button,
+  Space,
+  Table,
+  Modal,
+  Form,
+  Input,
+  Col,
+  Row,
+  message,
+  Popconfirm,
+} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  createCategory,
+  deleteCategory,
+  getCategory,
+  updateCategory,
+} from "../../Services/ManagementServiceAPI";
 
 const TableManagement = () => {
-  const dispatch = useDispatch();
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
+  const [listData, setListData] = useState([]);
+  const [valueCate, setValueCate] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const deleteMenu = async (record) => {
+    try {
+      await deleteCategory(record.id);
+      message.success("Xóa danh mục món thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Xóa danh mục món thất bại");
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const res = await getCategory();
+      setListData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  useEffect(() => {}, [pagination]);
-  const editMenu = (record) => {};
-  const deleteMenu = (record) => {};
   const columns = [
     {
       title: "Mã danh mục",
-      dataIndex: "createdId",
-      key: "createdId",
+      dataIndex: "id",
+      key: "id",
       render: (createdId) => <span className="font-semibold">{createdId}</span>,
     },
     {
       title: "Tên Danh mục",
-      dataIndex: "code",
-      key: "code ",
-      render: (code) => <span className="font-semibold">{code}</span>,
+      dataIndex: "name",
+      key: "name ",
+      render: (name) => <span className="font-semibold">{name}</span>,
     },
 
     {
       title: "Thao tác",
       render: (_, record) => (
         <Space size="middle">
-          <button onClick={() => editMenu(record)}>
+          <button
+            onClick={() => {
+              setValueCate(record);
+              form.setFieldsValue(record);
+              showModal();
+            }}
+          >
             <EditOutlined className="text-[#263a29] text-2xl" />
           </button>
-          <button onClick={() => deleteMenu(record)}>
-            {" "}
-            <DeleteOutlined className="text-red-500 text-2xl" />
-          </button>
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            onConfirm={() => {
+              deleteMenu(record);
+            }}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+          >
+            <DeleteOutlined style={{ fontSize: "20px" }} />
+          </Popconfirm>
         </Space>
       ),
     },
   ];
-
-  const dataSource = [
-    {
-      key: 1,
-      createdId: "1",
-      code: "Sashimi",
-    },
-    {
-      key: 2,
-      createdId: "2",
-      code: "Cơm tấm Sài Gòn",
-    },
-  ];
-
-  const EditProduct = (record) => {
-    console.log(record);
-  };
-
-  const onTableChange = async (paginations) => {
-    const { current, pageSize } = paginations;
-    const paging = { ...pagination, pageIndex: current, pageSize };
-    setPagination(paging);
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -69,24 +96,36 @@ const TableManagement = () => {
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    onFinish();
+    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
+    form.resetFields();
+    setValueCate({});
     setIsModalOpen(false);
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async () => {
+    const values = form.getFieldsValue();
+    try {
+      setLoading(true);
+      if (valueCate.id) {
+        await updateCategory(valueCate.id, values);
+        message.success("Cập nhật danh mục món thành công");
+      } else {
+        await createCategory(values);
+        message.success("Tạo mới danh mục món thành công");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Tạo mới danh mục món thất bại");
+    }
+    fetchData();
+    setLoading(false);
+    handleCancel();
   };
-  const [form] = Form.useForm();
-  const [dataTblProduct, setDataTblProduct] = useState([]);
-  const deleteProduct = (record) => {
-    const newListDataProduct = dataTblProduct.filter(
-      (item) => item.id !== record.id
-    );
-    setDataTblProduct(newListDataProduct);
-  };
+
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -104,14 +143,10 @@ const TableManagement = () => {
       <br />
       <Table
         columns={columns}
-        dataSource={dataSource}
-        pageIndex={pagination.pageIndex}
-        pagination={{
-          current: pagination.pageIndex,
-          // total: listData?.result?.total,
-          pageSize: pagination.pageSize,
-        }}
-        onChange={onTableChange}
+        dataSource={listData?.map((item, index) => {
+          return { ...item, key: index };
+        })}
+        pagination={false}
         scroll={{ x: "max-content" }}
       />
 
@@ -120,13 +155,17 @@ const TableManagement = () => {
           className="headerModal"
           title="Tạo mới đơn"
           open={isModalOpen}
-          onOk={handleOk}
           onCancel={handleCancel}
           footer={[
             <Button onClick={handleCancel} className="border text-[#5c9f67]">
               ĐÓNG
             </Button>,
-            <Button type="primary" className="bg-[#5c9f67]">
+            <Button
+              type="primary"
+              className="bg-[#5c9f67]"
+              onClick={handleOk}
+              loading={loading}
+            >
               Tạo mới
             </Button>,
           ]}
@@ -135,11 +174,6 @@ const TableManagement = () => {
             <Form layout="vertical" form={form} name="form" onFinish={onFinish}>
               <Row>
                 <Col span={24}>
-                  <Form.Item name="id" hidden>
-                    <Input hidden />
-                  </Form.Item>
-                </Col>
-                <Col span={24}>
                   <Form.Item
                     label="Tên danh mục"
                     name="name"
@@ -147,11 +181,6 @@ const TableManagement = () => {
                       { required: true, message: "Vui lòng nhập tên danh mục" },
                     ]}
                   >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={24}>
-                  <Form.Item label="Thông tin chi tiết" name="additionalAmount">
                     <Input />
                   </Form.Item>
                 </Col>

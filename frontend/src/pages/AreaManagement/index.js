@@ -7,81 +7,98 @@ import {
   Modal,
   Form,
   Input,
-  Select,
   Col,
-  Radio,
   Row,
-  InputNumber,
-  DatePicker,
-  Card,
   Popconfirm,
+  message,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
-const { Option } = Select;
+import {
+  createArea,
+  deleteArea,
+  getAllArea,
+  updateArea,
+} from "../../Services/ManagementServiceAPI";
 const AreaManagement = () => {
-  const dispatch = useDispatch();
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
+  const [form] = Form.useForm();
+  const [listData, setListData] = useState([]);
+  const [valueCate, setValueCate] = useState({});
+  const [loading, setLoading] = useState(false);
+  const deleteA = async (record) => {
+    try {
+      await deleteArea(record.id);
+      message.success("Xóa danh mục món thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Xóa danh mục món thất bại");
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const res = await getAllArea();
+      setListData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  useEffect(() => {}, [pagination]);
-  const editMenu = (record) => {};
-  const deleteMenu = (record) => {};
   const columns = [
     {
       title: "Mã khu vực",
-      dataIndex: "areaId",
-      key: "areaId",
+      dataIndex: "id",
+      key: "id",
     },
     {
       title: "Tên khu vực",
-      dataIndex: "code",
-      key: "code ",
+      dataIndex: "name",
+      key: "name ",
     },
     {
       title: "Mô tả",
-      dataIndex: "describe",
-      key: "describe ",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Giảm giá",
+      dataIndex: "price_percentage",
+      key: "price_percentage",
     },
 
     {
       title: "Thao tác",
       render: (_, record) => (
         <Space size="middle">
-          <button onClick={() => editMenu(record)}>
+          <button
+            onClick={() => {
+              setValueCate(record);
+              form.setFieldsValue(record);
+              showModal();
+            }}
+          >
             <EditOutlined className="text-[#263a29] text-2xl" />
           </button>
-          <button onClick={() => deleteMenu(record)}>
-            <DeleteOutlined className="text-red-500 text-2xl" />
+          <button onClick={() => {}}>
+            <Popconfirm
+              title="Delete the task"
+              description="Are you sure to delete this task?"
+              onConfirm={() => {
+                deleteA(record);
+              }}
+              onCancel={() => {}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined style={{ fontSize: "20px" }} />
+            </Popconfirm>
           </button>
         </Space>
       ),
     },
   ];
-
-  const data = [
-    {
-      key: 1,
-      areaId: "1",
-      code: "Tầng 1",
-      describe: "Dành 5 vé miễn phí  cho các bạn",
-    },
-    {
-      key: 2,
-      areaId: "2",
-      code: "Tầng 2",
-      describe: "Dành 5 vé miễn phí  cho các bạn 1",
-    },
-  ];
-
-  const EditProduct = (record) => {
-    console.log(record);
-  };
-
-  const onTableChange = async (paginations) => {
-    const { current, pageSize } = paginations;
-    const paging = { ...pagination, pageIndex: current, pageSize };
-    setPagination(paging);
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -89,25 +106,45 @@ const AreaManagement = () => {
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    onFinish();
+    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
+    form.resetFields();
+    setValueCate({});
     setIsModalOpen(false);
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async () => {
+    const values = form.getFieldsValue();
+    try {
+      setLoading(true);
+      if (valueCate.id) {
+        await updateArea(valueCate.id, {
+          name: values.name,
+          description: values.description,
+          price_percentage: parseInt(values.price_percentage),
+        });
+        message.success("Cập nhật khu vực thành công");
+      } else {
+        await createArea({
+          name: values.name,
+          description: values.description,
+          price_percentage: parseInt(values.price_percentage),
+        });
+        message.success("Tạo mới khu vực thành công");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Tạo mới khu vực thất bại");
+    }
+    fetchData();
+    setLoading(false);
+    handleCancel();
   };
-  const [form] = Form.useForm();
-  const [dataTblProduct, setDataTblProduct] = useState([]);
-  const deleteProduct = (record) => {
-    const newListDataProduct = dataTblProduct.filter(
-      (item) => item.id !== record.id
-    );
-    setDataTblProduct(newListDataProduct);
-  };
-  const [checkStrictly, setCheckStrictly] = useState(false);
+
+  console.log(listData);
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -118,9 +155,6 @@ const AreaManagement = () => {
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
             Tạo mới khu vực
           </Button>
-          <button className="bg-red-600 mx-4 border-none outline-none text-white hover:bg-red-400 py-1 px-3 rounded-md">
-            Xóa
-          </button>
         </div>
       </div>
       {/* <div className="mt-4">
@@ -136,14 +170,8 @@ const AreaManagement = () => {
       <br />
       <Table
         columns={columns}
-        dataSource={data}
-        pageIndex={pagination.pageIndex}
-        pagination={{
-          current: pagination.pageIndex,
-          // total: listData?.result?.total,
-          pageSize: pagination.pageSize,
-        }}
-        onChange={onTableChange}
+        dataSource={listData}
+        pagination={false}
         scroll={{ x: "max-content" }}
       />
 
@@ -161,7 +189,7 @@ const AreaManagement = () => {
             <Button
               htmlType="submit"
               type="primary"
-              // loading={loading}
+              loading={loading}
               form="form"
               name="form"
             >
@@ -174,16 +202,11 @@ const AreaManagement = () => {
             <Form layout="vertical" form={form} name="form" onFinish={onFinish}>
               <Row>
                 <Col span={24}>
-                  <Form.Item name="id" hidden>
-                    <Input hidden />
-                  </Form.Item>
-                </Col>
-                <Col span={24}>
                   <Form.Item
-                    label="Tên bàn"
+                    label="Tên khu vực"
                     name="name"
                     rules={[
-                      { required: true, message: "Vui lòng nhập tên bàn" },
+                      { required: true, message: "Vui lòng nhập khu vực" },
                     ]}
                   >
                     <Input />
@@ -191,21 +214,19 @@ const AreaManagement = () => {
                 </Col>
                 <Col span={24}>
                   <Form.Item
-                    label="Vị trí (tầng)"
-                    name="image"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập vị trí" },
-                    ]}
+                    label="Mô tả"
+                    name="description"
+                    rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
                   >
                     <Input />
                   </Form.Item>
                 </Col>
                 <Col span={24}>
                   <Form.Item
-                    label="Chi tiết bàn"
-                    name="additionalAmount"
+                    label="Giảm giá"
+                    name="price_percentage"
                     rules={[
-                      { required: true, message: "Vui lòng nhập chi tiết bàn" },
+                      { required: true, message: "Vui lòng nhập % giảm giá" },
                     ]}
                   >
                     <Input />
