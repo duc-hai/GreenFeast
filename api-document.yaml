@@ -112,24 +112,67 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status:
+                  status: 
                     type: string
                     example: success
-                  message:
+                  message: 
                     type: string
                     example: Đăng nhập thành công
                   data: 
                     type: object
-                    properties:
+                    properties: 
                       access_token: 
                         type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDgyZGQwMDEyZGIwYjljYzM0ZTM4NyIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzA4NzAyMzI0fQ.EvtzK--HQ7ohdtO8ERJDV8HVxa7_PXAIOKp3QhrCem0
-                      refresh_token:
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
+                      refresh_token: 
                         type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzExMjU4MzI0fQ.LuTjk9EhkW4T51BALoyDnuuBdp_PgwDVw_xZstm5z6Y
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
                       full_name: 
                         type: string
-                        example: Lưu Đức Hải
+                        example: Đức Hải
+                      data: 
+                        type: object
+                        properties: 
+                          customer: 
+                            type: object
+                            properties: 
+                              order_list: 
+                                type: array
+                                items: 
+                                  type: string
+                                example: []
+                          _id: 
+                            type: string
+                            example: 65eb127aee92b3c06a3eb28a
+                          full_name: 
+                            type: string
+                            example: Đức Hải
+                          gender: 
+                            type: string
+                            example: không
+                          phone_number: 
+                            type: string
+                            example: 
+                          address: 
+                            type: string
+                            example: 
+                          role: 
+                            type: string
+                            example: admin
+                          user_type: 
+                            type: number
+                            example: 1
+                          createdAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-03-08T13:28:26.273Z
+                          updatedAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-03-08T13:28:26.273Z
+                          __v: 
+                            type: number
+                            example: 0
                
             
         '400':
@@ -381,24 +424,68 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status:
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: Đăng nhập thành công
-                  data: 
-                    type: object
-                    properties:
-                      access_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzA4NzE2NDYxfQ.O6liDM204xOTkaUkbdkHIAn7TJ_2XgBas5JfMAWzxIg
-                      refresh_token:
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzExMjcyNDYxfQ.r-pmDcrQ4DFZspQYUlGoqdPeNl71Ilr_uTY5NJbd50Q"
-                      full_name:
-                        type: string
-                        example: Lưu Đức Hải
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đăng nhập thành công
+                    data: 
+                      type: object
+                      properties: 
+                        access_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
+                        refresh_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
+                        full_name: 
+                          type: string
+                          example: Đức Hải
+                        data: 
+                          type: object
+                          properties: 
+                            customer: 
+                              type: object
+                              properties: 
+                                order_list: 
+                                  type: array
+                                  items: 
+                                    type: string
+                                  example: []
+                            _id: 
+                              type: string
+                              example: 65eb127aee92b3c06a3eb28a
+                            full_name: 
+                              type: string
+                              example: Đức Hải
+                            gender: 
+                              type: string
+                              example: không
+                            phone_number: 
+                              type: string
+                              example: 
+                            address: 
+                              type: string
+                              example: 
+                            role: 
+                              type: string
+                              example: admin
+                            user_type: 
+                              type: number
+                              example: 1
+                            createdAt: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-08T13:28:26.273Z
+                            updatedAt: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-08T13:28:26.273Z
+                            __v: 
+                              type: number
+                              example: 0
+
                  
         '400':
           description: Có nhiều trường hợp lỗi

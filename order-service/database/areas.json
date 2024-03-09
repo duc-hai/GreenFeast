@@ -1,0 +1,354 @@
+[{
+  "_id": 1,
+  "name": "Tầng 1",
+  "price_percentage": 0,
+  "description": "Khu vực tầng trệt",
+  "table_list": [
+    {
+      "_id": "A01",
+      "status": 0
+    },
+    {
+      "_id": "A02",
+      "status": 0
+    },
+    {
+      "_id": "A03",
+      "status": 0
+    },
+    {
+      "_id": "A04",
+      "status": 0
+    },
+    {
+      "_id": "A05",
+      "status": 0
+    },
+    {
+      "_id": "A06",
+      "status": 0
+    },
+    {
+      "_id": "A07",
+      "status": 0
+    },
+    {
+      "_id": "A08",
+      "status": 0
+    },
+    {
+      "_id": "A09",
+      "status": 0
+    },
+    {
+      "_id": "A10",
+      "status": 0
+    },
+    {
+      "_id": "A11",
+      "status": 0
+    },
+    {
+      "_id": "A12",
+      "status": 0
+    },
+    {
+      "_id": "A13",
+      "status": 0
+    },
+    {
+      "_id": "A14",
+      "status": 0
+    },
+    {
+      "_id": "A15",
+      "status": 0
+    },
+    {
+      "_id": "A16",
+      "status": 0
+    },
+    {
+      "_id": "A17",
+      "status": 0
+    },
+    {
+      "_id": "A18",
+      "status": 0
+    },
+    {
+      "_id": "A19",
+      "status": 0
+    },
+    {
+      "_id": "A20",
+      "status": 0
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 2,
+  "name": "Tầng 2",
+  "price_percentage": 0,
+  "description": "Khu vực tầng 2",
+  "table_list": [
+    {
+      "_id": "B01",
+      "status": 0
+    },
+    {
+      "_id": "B02",
+      "status": 0
+    },
+    {
+      "_id": "B03",
+      "status": 0
+    },
+    {
+      "_id": "B04",
+      "status": 0
+    },
+    {
+      "_id": "B05",
+      "status": 0
+    },
+    {
+      "_id": "B06",
+      "status": 0
+    },
+    {
+      "_id": "B07",
+      "status": 0
+    },
+    {
+      "_id": "B08",
+      "status": 0
+    },
+    {
+      "_id": "B09",
+      "status": 0
+    },
+    {
+      "_id": "B10",
+      "status": 0
+    },
+    {
+      "_id": "B11",
+      "status": 0
+    },
+    {
+      "_id": "B12",
+      "status": 0
+    },
+    {
+      "_id": "B13",
+      "status": 0
+    },
+    {
+      "_id": "B14",
+      "status": 0
+    },
+    {
+      "_id": "B15",
+      "status": 0
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 3,
+  "name": "Mua mang về",
+  "price_percentage": 0,
+  "description": "Dành cho khách mua mang về",
+  "table_list": [
+    {
+      "_id": "MMV01",
+      "status": 0
+    },
+    {
+      "_id": "MMV02",
+      "status": 0
+    },
+    {
+      "_id": "MMV03",
+      "status": 0
+    },
+    {
+      "_id": "MMV04",
+      "status": 0
+    },
+    {
+      "_id": "MMV05",
+      "status": 0
+    },
+    {
+      "_id": "MMV06",
+      "status": 0
+    },
+    {
+      "_id": "MMV07",
+      "status": 0
+    },
+    {
+      "_id": "MMV08",
+      "status": 0
+    },
+    {
+      "_id": "MMV09",
+      "status": 0
+    },
+    {
+      "_id": "MMV10",
+      "status": 0
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 4,
+  "name": "Grab",
+  "price_percentage": 15,
+  "description": "Dành cho đơn Grab, giá cao hơn 15% so với mua tại quán",
+  "table_list": [
+    {
+      "_id": "GRAB01",
+      "status": 0
+    },
+    {
+      "_id": "GRAB02",
+      "status": 0
+    },
+    {
+      "_id": "GRAB03",
+      "status": 0
+    },
+    {
+      "_id": "GRAB04",
+      "status": 0
+    },
+    {
+      "_id": "GRAB05",
+      "status": 0
+    },
+    {
+      "_id": "GRAB06",
+      "status": 0
+    },
+    {
+      "_id": "GRAB07",
+      "status": 0
+    },
+    {
+      "_id": "GRAB08",
+      "status": 0
+    },
+    {
+      "_id": "GRAB09",
+      "status": 0
+    },
+    {
+      "_id": "GRAB10",
+      "status": 0
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 5,
+  "name": "Shopee",
+  "price_percentage": 15,
+  "description": "Dành cho đơn Shopee Food, giá cao hơn 15% so với mua tại quán",
+  "table_list": [
+    {
+      "_id": "SHOPEE01",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE02",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE03",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE04",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE05",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE06",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE07",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE08",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE09",
+      "status": 0
+    },
+    {
+      "_id": "SHOPEE10",
+      "status": 0
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 6,
+  "name": "Nhân viên",
+  "price_percentage": -10,
+  "description": "Đơn nhân viên, giảm 10%",
+  "table_list": [
+    {
+      "_id": "NV01",
+      "status": 0
+    },
+    {
+      "_id": "NV02",
+      "status": 0
+    },
+    {
+      "_id": "NV03",
+      "status": 0
+    },
+    {
+      "_id": "NV04",
+      "status": 0
+    },
+    {
+      "_id": "NV05",
+      "status": 0
+    },
+    {
+      "_id": "NV06",
+      "status": 0
+    },
+    {
+      "_id": "NV07",
+      "status": 0
+    },
+    {
+      "_id": "NV08",
+      "status": 0
+    },
+    {
+      "_id": "NV09",
+      "status": 0
+    },
+    {
+      "_id": "NV10",
+      "status": 0
+    }
+  ],
+  "__v": 0
+}]
