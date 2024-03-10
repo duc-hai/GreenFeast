@@ -1,0 +1,14 @@
+.bg-memu {
+    background-color: #5C9F67;
+    color: #fff;
+}
+
+.img {
+    height: 64px;
+}
+
+.center-ul {
+    display: flex;
+    margin: 0 auto;
+    font-size: 28px;
+}

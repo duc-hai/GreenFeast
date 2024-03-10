@@ -1,0 +1,18 @@
+.img-100 {
+    width: 100%;
+    height: 130px;
+}
+
+.bgr-food {
+    background-color: #E4E4D0;
+    padding: 16px ;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.btn-ps {
+    background-color: #263A29;
+    border: none;
+    color: #fff;
+    
+}

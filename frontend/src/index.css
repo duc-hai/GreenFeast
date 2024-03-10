@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-btn-round.button-add{
+  background: #fff7e6;
+  border: none;
+  color: #263a29;
+}
+
+.ant-btn-primary{
+ background: #263a29 !important;
+  border: none;
+  color: #fff;
+}
+.ant-table-row:hover {
+  cursor: pointer;
+}
+
+.ant-btn-text{
+  color: #263a29 !important;
+  border: 1px solid #263a29 !important;
+  
+}
+button {
+  cursor: pointer;
+  outline: none !important;
+  border: 0 !important;
+}
+body {
+  min-height: 100vh;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+}
