@@ -9,48 +9,90 @@ import {
   Input,
   Select,
   Col,
-  Radio,
   Row,
-  InputNumber,
-  DatePicker,
-  Card,
+  Checkbox,
+  message,
+  notification,
   Popconfirm,
 } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { RECEIVE_TYPE } from "../../utils/constants";
-import "./index.css";
-const { Option } = Select;
-const SaleManagement = () => {
-  const dispatch = useDispatch();
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
 
-  useEffect(() => {}, [pagination]);
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DatePicker } from "antd";
+import {
+  createPromotion,
+  deletePromotion,
+  fetchFormPromotion,
+  getPromotion,
+  updatePromotion,
+} from "../../Services/ManagementServiceAPI";
+
+const { RangePicker } = DatePicker;
+const SaleManagement = () => {
+  const [formPromotion, setFormPromotion] = useState("");
+  const [listData, setListData] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
+  const fechData = async () => {
+    try {
+      const res = await getPromotion();
+      setListData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fechData();
+  }, []);
+
+  useEffect(() => {
+    const fetchDataPromotion = async () => {
+      try {
+        const res = await fetchFormPromotion();
+        setFormPromotion(Object.entries(res?.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDataPromotion();
+  }, []);
   const editMenu = (record) => {};
-  const deleteMenu = (record) => {};
+  const deleteMenu = async (record) => {
+    try {
+      await deletePromotion(record.id);
+      message.success("Xóa danh mục món thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Xóa danh mục món thất bại");
+    }
+    fechData();
+  };
   const columns = [
     {
       title: "Mã Khuyến mãi",
-      dataIndex: "saleId",
-      key: "saleId",
+      dataIndex: "id",
+      key: "id",
       render: (saleId) => <span className="font-semibold">{saleId}</span>,
     },
     {
       title: "Tên khuyến mãi",
-      dataIndex: "code",
-      key: "code ",
+      dataIndex: "name",
+      key: "name ",
       render: (code) => <span className="font-semibold">{code}</span>,
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (status) => <span className="font-semibold">{status}</span>,
+      render: (status) => (
+        <span className="font-semibold">
+          {status ? "Đang hoạt động" : "Dừng hoạt động"}
+        </span>
+      ),
     },
 
     {
       title: "Giảm giá",
-      dataIndex: "sale",
-      key: "sale",
+      dataIndex: "promotion_value",
+      key: "promotion_value",
       render: (sale) => <span className="font-semibold">{sale}</span>,
     },
 
@@ -58,68 +100,131 @@ const SaleManagement = () => {
       title: "Hoạt động",
       render: (_, record) => (
         <Space size="middle">
-          <button onClick={() => editMenu(record)}>
-            <EditOutlined className="text-[#263a29] text-2xl" />
+          <button>
+            <EditOutlined
+              className="text-[#263a29] text-2xl"
+              onClick={() => {
+                setIsEdit(true);
+                showModal(record);
+              }}
+            />
           </button>
-          <button onClick={() => deleteMenu(record)}>
-            <DeleteOutlined className="text-red-500 text-2xl" />
-          </button>
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            onConfirm={() => {
+              deleteMenu(record);
+            }}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+          >
+            <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
-  const dataSource = [
-    {
-      key: 1,
-      saleId: "1",
-      code: "Khuyến mãi Khai trương",
-      status: "Đang diễn ra",
-      sale: "50%",
-    },
-    {
-      key: 2,
-      saleId: "2",
-      code: "Khuyến mãi 8/3",
-      status: "Sắp diễn ra",
-      sale: "30%",
-    },
-  ];
-
-  const EditProduct = (record) => {
-    console.log(record);
-  };
-
-  const onTableChange = async (paginations) => {
-    const { current, pageSize } = paginations;
-    const paging = { ...pagination, pageIndex: current, pageSize };
-    setPagination(paging);
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
+  const showModal = (value) => {
+    if (value) {
+      form.setFieldsValue({
+        id: value.id,
+        name: value.name,
+        status: value.status,
+        form_promotion: value.form_promotion,
+        condition_apply: value.condition_apply,
+        promotion_value: value.promotion_value,
+        note: value.note,
+        auto_apply: value.auto_apply,
+      });
+    }
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    if (
+      values.name === undefined ||
+      values.status === undefined ||
+      values.form_promotion === undefined ||
+      values.condition_apply === undefined ||
+      values.promotion_value === undefined ||
+      values.note === undefined
+    ) {
+      notification.error({
+        message: "Vui lòng nhập đầy đủ thông tin",
+      });
+      return;
+    }
+    console.log({
+      name: values.name,
+      status: values.status,
+      form_promotion: parseInt(values.form_promotion),
+      condition_apply: parseInt(values.condition_apply),
+      promotion_value: values.promotion_value,
+      note: values.note,
+      auto_apply: values.auto_apply,
+      end_at: values?.time_apply
+        ? values.time_apply[1].format("YYYY-MM-DD")
+        : "",
+      start_at: values?.time_apply
+        ? values.time_apply[0].format("YYYY-MM-DD")
+        : "",
+    });
+    try {
+      if (isEdit) {
+        updatePromotion(values.id, {
+          name: values.name,
+          status: values.status,
+          form_promotion: parseInt(values.form_promotion),
+          condition_apply: parseInt(values.condition_apply),
+          promotion_value: values.promotion_value,
+          note: values.note,
+          auto_apply: values.auto_apply,
+          end_at: values?.time_apply
+            ? values.time_apply[1].format("YYYY-MM-DD")
+            : "",
+          start_at: values?.time_apply
+            ? values.time_apply[0].format("YYYY-MM-DD")
+            : "",
+        });
+        notification.success({
+          message: "Cập nhật thành công",
+        });
+        setIsModalOpen(false);
+      } else {
+        await createPromotion({
+          name: values.name,
+          status: values.status,
+          form_promotion: parseInt(values.form_promotion),
+          condition_apply: parseInt(values.condition_apply),
+          promotion_value: values.promotion_value,
+          note: values.note,
+          auto_apply: values.auto_apply,
+          end_at: values?.time_apply
+            ? values.time_apply[1].format("YYYY-MM-DD")
+            : "",
+          start_at: values?.time_apply
+            ? values.time_apply[0].format("YYYY-MM-DD")
+            : "",
+        });
+        notification.success({
+          message: "Tạo mới thành công",
+        });
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    fechData();
   };
   const [form] = Form.useForm();
-  const [dataTblProduct, setDataTblProduct] = useState([]);
-  const deleteProduct = (record) => {
-    const newListDataProduct = dataTblProduct.filter(
-      (item) => item.id !== record.id
-    );
-    setDataTblProduct(newListDataProduct);
-  };
+  console.log(formPromotion);
   return (
     <>
       <div className="content-component">
@@ -128,35 +233,33 @@ const SaleManagement = () => {
             Quản lý khuyến mãi
           </div>
           <div className="pr-2">
-            <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
+            <Button
+              type="primary"
+              className="bg-[#263a29]"
+              onClick={() => {
+                setIsEdit(false);
+                showModal();
+              }}
+            >
               Thêm mới khuyến mãi
             </Button>
-            <button className="bg-red-600 mx-4 border-none outline-none text-white hover:bg-red-400 py-1 px-3 rounded-md">
-              Xóa
-            </button>
           </div>
         </div>
         <br />
         <br />
         <Table
           columns={columns}
-          dataSource={dataSource}
-          pageIndex={pagination.pageIndex}
-          pagination={{
-            current: pagination.pageIndex,
-            // total: listData?.result?.total,
-            pageSize: pagination.pageSize,
-          }}
-          onChange={onTableChange}
+          dataSource={listData}
+          pagination={false}
           scroll={{ x: "max-content" }}
         />
 
         <div className="modal">
           <Modal
             className="headerModal"
-            title="Tạo mới đơn"
+            title="Tạo mới mã khuyến mãi"
             open={isModalOpen}
-            onOk={handleOk}
+            onOk={onFinish}
             onCancel={handleCancel}
             footer={[
               <Button key="back" onClick={handleCancel}>
@@ -188,73 +291,69 @@ const SaleManagement = () => {
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item
-                      label="Tên món"
-                      name="name"
-                      rules={[
-                        { required: true, message: "Vui lòng nhập tên món" },
-                      ]}
-                    >
+                    <Form.Item label="Tên mã khuyến mãi" name="name">
                       <Input />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item
-                      label="Hình ảnh"
-                      name="image"
-                      rules={[
-                        { required: true, message: "Vui lòng chọn hình ảnh" },
-                      ]}
-                    >
-                      <Input type={"file"} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={24}>
-                    <Form.Item
-                      label="Giá"
-                      name="additionalAmount"
-                      rules={[{ required: true, message: "Vui lòng nhập giá" }]}
-                    >
-                      <InputNumber style={{ width: "100%" }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={24}>
-                    <Form.Item
-                      label="Thông tin chi tiết"
-                      name="shipperPhone"
-                      rules={[{ required: true }]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={24}>
-                    <Form.Item
-                      label="Danh mục món ăn"
-                      name="receiveType"
-                      rules={[
-                        {
-                          required: true,
-                          message: " Vui lòng chọn danh múc món ăn",
-                        },
-                      ]}
-                    >
+                    <Form.Item label="Trạng thái mã khuyến mãi" name="status">
                       <Select
-                        name="sendType"
-                        placeholder="chọn hình thức nhận hàng"
+                        name="status"
+                        placeholder="Chọn trạng thái mã khuyến mãi"
+                        allowClear
+                      >
+                        <Select.Option value={true}>Hoạt động</Select.Option>
+                        <Select.Option value={false}>
+                          Không hoạt động
+                        </Select.Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Hình thức áp dụng" name="form_promotion">
+                      <Select
+                        name="form_promotion"
+                        placeholder="Chọn Hình thức áp dụng"
                         // onChange={onGenderChange}
                         allowClear
                       >
-                        {RECEIVE_TYPE.map((receiveType, index) => {
-                          return (
-                            <Select.Option
-                              key={index}
-                              value={receiveType.value}
-                            >
-                              {receiveType.title}
-                            </Select.Option>
-                          );
-                        })}
+                        {formPromotion?.length > 0 &&
+                          formPromotion?.map((value, index) => {
+                            return (
+                              <Select.Option key={index} value={value[0]}>
+                                {value[1]}
+                              </Select.Option>
+                            );
+                          })}
                       </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Điều kiện áp dụng" name="condition_apply">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Giá trị khuyến mãi"
+                      name="promotion_value"
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Ghi chú" name="note">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Thời gian áp dụng" name="time_apply">
+                      <RangePicker size={"middle"} format={"DD/MM/YYYY"} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item name="auto_apply" valuePropName="checked">
+                      <Checkbox>Tự động áp dụng </Checkbox>
                     </Form.Item>
                   </Col>
                 </Row>

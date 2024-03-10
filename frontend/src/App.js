@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Homepage from "./pages/Homepage";
 import Header from "./components/Header";
 import Register from "./pages/Register";
+import Order from "./pages/Order";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/order" element={<Order />} />
           <Route path="/*" element={<DefaultLayout />} />
         </Routes>
 

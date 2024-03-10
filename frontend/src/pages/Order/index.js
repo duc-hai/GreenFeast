@@ -1,4 +1,4 @@
-import { Button, Space } from "antd";
+import { Button, Input, Modal, Space, Spin, Table, message } from "antd";
 import FoodComponent from "../../components/FoodCompoent";
 import {
   AppstoreOutlined,
@@ -12,92 +12,10 @@ import {
 import { Menu } from "antd";
 import "./index.css";
 import { Link } from "react-router-dom";
-const dataTemp = [
-  {
-    id: 5,
-    name: "Món chay 0",
-    description: "Mô tả của món ăn",
-    image:
-      "https://photo.znews.vn/w860/Uploaded/ofh_cgkztmzt/2024_02_26/Tempeh.jpg",
-    price: 95000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-  {
-    id: 6,
-    name: "Gỏi ngó sen",
-    description: "Gỏi và bánh phồng tôm",
-    image:
-      "https://photo.znews.vn/w1000/Uploaded/vpcvodbp/2024_02_22/1200x800.jpg",
-    price: 100000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-  {
-    id: 7,
-    name: "Món chay 0",
-    description: "Mô tả của món ăn",
-    image:
-      "https://photo.znews.vn/w860/Uploaded/ofh_cgkztmzt/2024_02_26/Tempeh.jpg",
-    price: 95000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-  {
-    id: 8,
-    name: "Gỏi ngó sen",
-    description: "Gỏi và bánh phồng tôm",
-    image:
-      "https://photo.znews.vn/w860/Uploaded/ofh_cgkztmzt/2024_02_26/Tempeh.jpg",
-    price: 100000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-  {
-    id: 9,
-    name: "Món chay 0",
-    description: "Mô tả của món ăn",
-    image:
-      "https://photo.znews.vn/w860/Uploaded/ofh_cgkztmzt/2024_02_26/Tempeh.jpg",
-    price: 95000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-  {
-    id: 10,
-    name: "Gỏi ngó sen",
-    description: "Gỏi và bánh phồng tôm",
-    image:
-      "https://photo.znews.vn/w860/Uploaded/ofh_cgkztmzt/2024_02_26/Tempeh.jpg",
-    price: 100000,
-    status: true,
-    category_id: 0,
-    created_at: "2024-02-16T16:08:08.000Z",
-    updated_at: null,
-    deleted_at: null,
-    isDeleted: false,
-  },
-];
+import { useEffect, useState } from "react";
+import { fetchMenuOrder, getMenuByCategory } from "./../../Services/OrderAPI";
+import { getCategory } from "../../Services/ManagementServiceAPI";
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -108,134 +26,284 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const Order = () => {
-  const items = [
-    getItem("Món khai vị", "1", <MailOutlined />),
-    getItem("Món đậu hũ", "2", <AppstoreOutlined />),
-    getItem("Món lẩu", "3", <SettingOutlined />),
-    getItem("Món gỏi", "4", <CalculatorFilled />),
-    getItem("Món nấm", "5", <HddOutlined />),
-    getItem("Món cơm", "6", <GatewayOutlined />),
-    getItem("Món canh", "7", <LaptopOutlined />),
-  ];
+  const [us, setUs] = useState({});
+  const user = sessionStorage.getItem("user");
+  const [listDataCate, setListDataCate] = useState([]);
+  const [getListMenu, setListMenu] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const fetchMenu = async () => {
+    try {
+      const res = await fetchMenuOrder();
+      setListMenu(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataByCate = async (id) => {
+    setLoading(true);
+    try {
+      const res = await getMenuByCategory(id);
+      setListMenu(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await getCategory();
+      setListDataCate(
+        res.data?.length > 0 &&
+          res.data?.map((item) => getItem(item?.name, item?.id))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  useEffect(() => {
+    fetchMenu();
+  }, []);
+
+  useEffect(() => {
+    setUs(JSON.parse(user));
+  }, [user]);
+
   const onClick = (e) => {
     console.log("click ", e);
+    fetchDataByCate(e.key);
   };
+
+  const columnsOrder = [
+    {
+      title: "Tên món",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Giá",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+    },
+    {
+      title: "Ghi chú (Nếu có)",
+      dataIndex: "note",
+      key: "note",
+      render: (_, record) => (
+        <Input
+          placeholder="Ghi chú"
+          onChange={(e) => {
+            setOrder((preOrder) => {
+              const index = preOrder.findIndex((i) => i.id === record._id);
+              if (index === -1) {
+                return [...preOrder];
+              }
+              preOrder[index].note = e.target.value;
+              return [...preOrder];
+            });
+          }}
+        />
+      ),
+    },
+  ];
   return (
     <>
-      <Menu
-        onClick={onClick}
-        className="ant-menu-custom display-menu-1"
-        style={{
-          width: 256,
-        }}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        items={items}
-      />
-      <div className="ant-menu-custom-2" style={{ display: "flex" }}>
-        <nav class="navbar navbar-expand-lg navbar-light display-menu ant-menu-custom-2">
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav1"
-            aria-controls="navbarNav1"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav1">
-            <ul class="navbar-nav">
-              <Link to="/order">
-                <li class="nav-item">Đặt món</li>
-              </Link>
-              <li class="nav-item">
-                <Link class="nav-link" to="/menu-management">
-                  Quản lý món ăn
-                </Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/categories-management">
-                  Quản lý danh mục món ăn
-                </Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/table-management">
-                  Quản lý bàn
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <nav
-          class="navbar navbar-expand-lg navbar-light display-menu ant-menu-custom-2"
-          style={{ marginLeft: "auto" }}
-        >
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav2"
-            aria-controls="navbarNav2"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav2">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <Link class="nav-link">Món khai vị</Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link">Món đậu hũ</Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link">Món lẩu</Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link">Món gỏi</Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link">Món nấm</Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link">Món cơm</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-
-      <div className="content">
-        <div className="row">
-          {dataTemp?.map((item) => (
-            <div
-              className="col-md-6 col-sm-12"
-              style={{ padding: 8 }}
-              key={item.id}
+      <Spin spinning={loading}>
+        <Modal
+          title="Xác nhận đặt món"
+          open={isModalOpen}
+          onCancel={() => {
+            setIsModalOpen(false);
+          }}
+          width={900}
+          footer={[
+            <Button
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+              type="text"
             >
-              <FoodComponent
-                description={item.description}
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                image={item.image}
-              />
+              Hủy
+            </Button>,
+            <Button type="primary">Đặt món</Button>,
+          ]}
+        >
+          <div className="py-3">
+            <Table
+              columns={columnsOrder}
+              dataSource={order}
+              pagination={false}
+            />
+          </div>
+        </Modal>
+        <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/">
+              <img className="img-hd" alt="logo" src={"../logo.png"} />
+            </Link>
+            <div className="flex gap-6 ml-5">
+              <Link to="/" style={{ fontSize: 18 }}>
+                Trang chủ
+              </Link>
+              <Link to="/" style={{ fontSize: 18 }}>
+                Giới thiệu
+              </Link>
+              <Link to="/order" style={{ fontSize: 18 }}>
+                Đặt món
+              </Link>
+              <Link to="/login" style={{ fontSize: 18 }}>
+                Đặt bàn
+              </Link>
             </div>
-          ))}
+          </div>
+          <div>Xin chào, {us?.full_name || "Khách"}</div>
+        </nav>
+        <div className="flex">
+          <Menu
+            onClick={onClick}
+            className="ant-menu-custom display-menu-1"
+            style={{
+              width: 256,
+            }}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            mode="inline"
+            items={listDataCate}
+          />
+
+          <div className="content bg-[#d4e3d3]">
+            <div className="row">
+              {getListMenu?.length > 0 &&
+                getListMenu?.map((item) => (
+                  <div
+                    className="col-md-4 col-sm-12"
+                    style={{ padding: 8 }}
+                    key={item._id}
+                  >
+                    <div className="row bgr-food ">
+                      <div className="col-md-6 col-sm-12">
+                        <img
+                          className="h-[130px] aspect-video object-cover"
+                          alt="logo"
+                          src={item.image}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        <p>{item?.name}</p>
+                        <p>
+                          Giá: <strong>{item?.price} Đ</strong>
+                        </p>
+                        <p className="flex items-center gap-3">
+                          <button
+                            className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                            onClick={() => {
+                              setOrder((preOrder) => {
+                                const index = preOrder.findIndex(
+                                  (i) => i.id === item._id
+                                );
+                                if (index === -1) {
+                                  return [
+                                    ...preOrder,
+                                    {
+                                      key: item._id,
+                                      id: item._id,
+                                      quantity: 1,
+                                      price: item.price,
+                                      name: item.name,
+                                    },
+                                  ];
+                                }
+                                if (preOrder[index].quantity === 0) {
+                                  message.error("Số lượng không hợp lệ");
+                                  preOrder[index].quantity = 0;
+                                } else {
+                                  preOrder[index].quantity -= 1;
+                                }
+                                return [...preOrder];
+                              });
+                            }}
+                          >
+                            -
+                          </button>
+                          <span style={{ padding: "0px 8px" }}>
+                            {order?.find((i) => i.id === item._id)?.quantity ||
+                              0}
+                          </span>
+                          <button
+                            className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                            onClick={() => {
+                              setOrder((preOrder) => {
+                                const index = preOrder.findIndex(
+                                  (i) => i.id === item._id
+                                );
+                                if (index === -1) {
+                                  return [
+                                    ...preOrder,
+                                    {
+                                      key: item._id,
+                                      id: item._id,
+                                      quantity: 1,
+                                      price: item.price,
+                                      name: item.name,
+                                    },
+                                  ];
+                                }
+                                preOrder[index].quantity += 1;
+                                return [...preOrder];
+                              });
+                            }}
+                          >
+                            +
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
+              <span className="font-medium text-xl">
+                Tổng tiền:{" "}
+                {order?.length > 0
+                  ? order
+                      ?.reduce((a, b) => a + b.price * b.quantity, 0)
+                      .toLocaleString()
+                  : 0}
+                đ
+              </span>
+              <Button
+                type="primary"
+                className="h-[40px] w-[140px]"
+                onClick={() => {
+                  setOrder(order?.filter((item) => item.quantity > 0));
+                  if (order?.length === 0 || !order) {
+                    message.error("Vui lòng chọn món");
+                    return;
+                  } else {
+                    setIsModalOpen(true);
+                  }
+                }}
+              >
+                Đặt món
+              </Button>
+            </div>
+          </div>
         </div>
-        <div className="buton">
-          <Space>
-            <Button type="primary">Tổng tiền</Button>
-            <Button type="button" className="">
-              Đặt món
-            </Button>
-          </Space>
-        </div>
-      </div>
+      </Spin>
     </>
   );
 };

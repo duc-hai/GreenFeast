@@ -4,7 +4,7 @@ import routers from "../../routers";
 import Header from "../Header";
 import {
   AppstoreOutlined,
-  MailOutlined,
+  PrinterOutlined,
   SettingOutlined,
   CalculatorFilled,
   PercentageOutlined,
@@ -24,7 +24,6 @@ function getItem(label, key, icon, children, type) {
 }
 const DefaultLayout = () => {
   const items = [
-    getItem("Đặt món", "/order", <MailOutlined />),
     getItem("Quản lý thực đơn", "/menu-management", <AppstoreOutlined />),
     getItem(
       "Quản lý danh mục món",
@@ -39,6 +38,7 @@ const DefaultLayout = () => {
       "/staff-management",
       <UsergroupDeleteOutlined />
     ),
+    getItem("Quản lý máy in", "/printf-management", <PrinterOutlined />),
   ];
   const navigate = useNavigate();
   useEffect(() => {

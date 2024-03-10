@@ -6,12 +6,9 @@ import Order from "./pages/Order";
 import SaleManagement from "./pages/SaleManagement";
 import AreaManagement from "./pages/AreaManagement";
 import StaffManagement from "./pages/StaffManagement";
+import PrintManagement from "./pages/PrintManagement";
 
 const routers = [
-  {
-    path: "/order",
-    Conponent: () => <Order />,
-  },
   {
     path: "/menu-management",
     Conponent: () => <MenuManagement />,
@@ -35,6 +32,10 @@ const routers = [
   {
     path: "/staff-management",
     Conponent: () => <StaffManagement />,
+  },
+  {
+    path: "/printf-management",
+    Conponent: () => <PrintManagement />,
   },
   // {
   //     path: '/sanpham/:userID',

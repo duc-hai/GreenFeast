@@ -26,6 +26,7 @@ const Login = () => {
         description: "Đăng nhập thành công",
         icon: <CloseOutlined style={{ color: "green" }} />,
       });
+      navigate("/order");
     } catch (error) {
       notification.open({
         message: "Đăng nhập thất bại",

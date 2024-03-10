@@ -1,17 +1,13 @@
 import { Link, NavLink } from "react-router-dom";
 import "./index.css";
-import { UserOutlined } from "@ant-design/icons";
-import { Menu, Space } from "antd";
-import { Header } from "antd/es/layout/layout";
+
+import { useEffect, useState } from "react";
 const Homepage = () => {
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-  };
-  const items = new Array(15).fill(null).map((_, index) => ({
-    key: index + 1,
-    label: `nav ${index + 1}`,
-  }));
+  const [us, setUs] = useState({});
+  const user = sessionStorage.getItem("user");
+  useEffect(() => {
+    setUs(JSON.parse(user));
+  }, [user]);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
@@ -20,21 +16,21 @@ const Homepage = () => {
             <img className="img-hd" alt="logo" src={"../logo.png"} />
           </Link>
           <div className="flex gap-6 ml-5">
-            <Link to="/" style={{ fontSize: 18 }} onClick={logout}>
+            <Link to="/" style={{ fontSize: 18 }}>
               Trang chủ
             </Link>
-            <Link to="/" style={{ fontSize: 18 }} onClick={logout}>
+            <Link to="/" style={{ fontSize: 18 }}>
               Giới thiệu
             </Link>
-            <Link to="/order" style={{ fontSize: 18 }} onClick={logout}>
+            <Link to="/order" style={{ fontSize: 18 }}>
               Đặt món
             </Link>
-            <Link to="/login" style={{ fontSize: 18 }} onClick={logout}>
+            <Link to="/login" style={{ fontSize: 18 }}>
               Đặt bàn
             </Link>
           </div>
         </div>
-        <div>name</div>
+        <div>Xin chào, {us?.full_name || "Khách"}</div>
       </nav>
       <div className="container pt-2">
         <div

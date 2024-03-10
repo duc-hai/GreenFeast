@@ -2,32 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+.ant-btn-round.button-add{
+  background: #fff7e6;
+  border: none;
+  color: #263a29;
 }
-* {
-  margin: 0;
-  padding: 0;
-  font: inherit;
+
+.ant-btn-primary{
+ background: #263a29 !important;
+  border: none;
+  color: #fff;
 }
-img,
-picture,
-svg,
-video {
-  display: block;
-  max-width: 100%;
+.ant-table-row:hover {
+  cursor: pointer;
 }
-input,
-select,
-textarea {
-  background-color: transparent;
-  outline: none;
+
+.ant-btn-text{
+  color: #263a29 !important;
+  border: 1px solid #263a29 !important;
+  
 }
 button {
   cursor: pointer;
-  /* background-color: unset !important; */
   outline: none !important;
   border: 0 !important;
 }

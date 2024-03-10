@@ -18,11 +18,25 @@ import {
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
+import { getResource } from "../../Services/AuthAPI";
 const { Option } = Select;
 const AreaManagement = () => {
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
+  const [resource, setResource] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getResource();
+        setResource(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(resource);
   useEffect(() => {}, [pagination]);
   const editMenu = (record) => {};
   const deleteMenu = (record) => {};
