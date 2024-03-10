@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 09, 2024 lúc 08:09 AM
+-- Thời gian đã tạo: Th3 10, 2024 lúc 09:34 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -31,7 +31,7 @@ CREATE TABLE `area` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price_percentage` int(11) NOT NULL DEFAULT 0,
-  `description` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -92,8 +92,8 @@ INSERT INTO `category` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`, 
 CREATE TABLE `menu` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `price` int(11) NOT NULL,
   `menu_type` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
@@ -161,12 +161,26 @@ CREATE TABLE `printer` (
   `name` varchar(255) NOT NULL,
   `ip_address` varchar(255) NOT NULL,
   `printer_type` int(11) NOT NULL,
-  `area_id` int(11) NOT NULL,
+  `area_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `printer`
+--
+
+INSERT INTO `printer` (`id`, `name`, `ip_address`, `printer_type`, `area_id`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
+(1, 'Máy in tầng 1', '192.168.0.1', 1, 1, '2024-03-10 15:28:27', NULL, NULL, 0),
+(2, 'Máy in tầng 1', '192.168.0.1', 1, 3, '2024-03-10 15:28:34', NULL, NULL, 0),
+(3, 'Máy in tầng 1', '192.168.0.1', 1, 4, '2024-03-10 15:28:39', NULL, NULL, 0),
+(4, 'Máy in tầng 1', '192.168.0.1', 1, 5, '2024-03-10 15:28:42', NULL, NULL, 0),
+(5, 'Máy in tầng 1', '192.168.0.1', 1, 6, '2024-03-10 15:28:46', NULL, NULL, 0),
+(6, 'Máy in tầng 2', '192.168.0.1', 1, 2, '2024-03-10 15:29:21', NULL, NULL, 0),
+(7, 'Máy in bếp', '192.168.0.2', 2, 0, '2024-03-10 15:29:46', '2024-03-10 15:32:40', NULL, 0),
+(8, 'Máy in quầy nước', '192.168.0.3', 3, 0, '2024-03-10 15:30:14', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -178,13 +192,13 @@ CREATE TABLE `promotion` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
-  `note` varchar(255) NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
   `form_promotion` int(11) NOT NULL,
-  `condition_apply` int(11) NOT NULL,
+  `condition_apply` int(11) DEFAULT NULL,
   `promotion_value` varchar(255) NOT NULL,
   `auto_apply` tinyint(4) NOT NULL DEFAULT 1,
-  `start_at` datetime NOT NULL,
-  `end_at` datetime NOT NULL,
+  `start_at` datetime DEFAULT NULL,
+  `end_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -353,7 +367,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT cho bảng `printer`
 --
 ALTER TABLE `printer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`

@@ -14,7 +14,7 @@ export class Printer {
     @Column()
     printer_type: number;
 
-    @Column()
+    @Column({ nullable: true })
     area_id: number;
 
     @Column()
