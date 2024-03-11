@@ -4,17 +4,24 @@ import { CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.css";
-import { loginUser } from "../../Services/AuthAPI";
+import { loginAdmin, loginUser } from "../../Services/AuthAPI";
 import { setCookie } from "../../utils/Cookie";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const navigate = useNavigate();
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
-      const response = await loginUser(values);
-      console.log(response);
-
+      let response;
+      if (isAdmin) {
+        response = await loginAdmin(values);
+        navigate("/menu-management");
+      } else {
+        response = await loginUser(values);
+        navigate("/order");
+      }
       setCookie(
         "refreshToken",
         response?.data?.refresh_token,
@@ -26,7 +33,6 @@ const Login = () => {
         description: "Đăng nhập thành công",
         icon: <CloseOutlined style={{ color: "green" }} />,
       });
-      navigate("/order");
     } catch (error) {
       notification.open({
         message: "Đăng nhập thất bại",
@@ -87,8 +93,14 @@ const Login = () => {
                 placeholder="Mật khẩu"
               />
             </Form.Item>
-            <div className="mt-3">
-              <Checkbox>Nhớ tài khoản</Checkbox>
+            <div className="my-3">
+              <Checkbox
+                onChange={(e) => {
+                  setIsAdmin(e.target.checked);
+                }}
+              >
+                Đăng nhập admin
+              </Checkbox>
               <a className="float-right text-white" href="">
                 Quên mật khẩu
               </a>
