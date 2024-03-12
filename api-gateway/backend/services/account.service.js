@@ -55,7 +55,8 @@ class AccountService {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                sameSite: 'none',
+                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })
             
             return res.status(200).json({
@@ -152,7 +153,8 @@ class AccountService {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                sameSite: 'none',
+                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })    
                 
             return res.status(200).json({

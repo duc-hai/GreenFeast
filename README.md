@@ -11,7 +11,7 @@
 
 ## Docker Run & Add Sample Data
 1. We set up project front end in `cd frontend` with command `npm install` and `npm run build`
-1. We need to run the docker compose in `cd api-gateway/docker/production` first with the following command: 
+2. We need to run the docker compose in `cd api-gateway/docker/production` first with the following command: 
    
    ```
    docker compose -p apigateway-mongodb-nginx up -d 
@@ -34,12 +34,12 @@
    ```
    docker exec apiGatewayDB mongoimport --host apiGatewayDB --db api-gateway --collection users --type json --file /data/database/users.json --jsonArray
    ```
-2. Run Rabbit MQ Container in `cd docker-rabbitmq` with command:
+3. Run Rabbit MQ Container in `cd docker-rabbitmq` with command:
    
    ```
    docker compose -p rabbitmq up -d 
    ```
-3. Then, we run docker compose in order service (path `cd order-service/docker`):
+4. Then, we run docker compose in order service (path `cd order-service/docker`):
    
    ```
    docker compose -p order-mongodb up -d 
@@ -67,7 +67,7 @@
    ```
    docker exec orderDB mongoimport --host orderDB --db order --collection printers --type json --file /data/database/printers.json --jsonArray --port 27018
    ```
-4. Finally, run docker compose at `cd management-service/docker` with:
+5. Finally, run docker compose at `cd management-service/docker` with:
 
     ```
     docker compose -p management-mysql up -d
