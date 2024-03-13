@@ -228,12 +228,12 @@ export class TableService {
                 ...[]
             ]
             //console.log(ids)
-            //Soft delete
-            // or not use soft delete here
+            // We should not use soft delete here
             ids.forEach(async value => {
-                await this.tableRepository.update({ id: value }, {
-                    isDeleted: true
-                })
+                // await this.tableRepository.update({ id: value }, {
+                //     isDeleted: true
+                // }) // Soft delete
+                await this.tableRepository.delete({ id: value, isDeleted: false })
             })
 
             this.rabbitMQService.sendMessage('management-order', {

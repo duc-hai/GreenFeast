@@ -6,11 +6,15 @@
 - README syntax: [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 
 ## API Document
-**API Document Official Directly**: You can see the api document directly at [here](https://app.swaggerhub.com/apis/HaiLuu/GreenFeast/1.0.0)
+**API Document Official Directly**: You can see the api document directly at [here](https://app.swaggerhub.com/apis-docs/HaiLuu/GreenFeast/1.0.0)
 > You can also use `api-document.yaml` file to read. To view api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open `api-document.yaml` file and click the OpenAPI button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste content from this file to sites [Swagger Editor](https://editor.swagger.io/)
 
 ## Docker Run & Add Sample Data
-1. We set up project front end in `cd frontend` with command `npm install` and `npm run build`
+1. We set up project front end in `cd frontend` with command `npm install` and `npm run build`. Notes: If you want to increase the memory usage of the node globally - not only single script, you can export environment variable, like this: 
+   
+   ```
+   export NODE_OPTIONS=--max_old_space_size=4096
+   ```
 2. We need to run the docker compose in `cd api-gateway/docker/production` first with the following command: 
    
    ```

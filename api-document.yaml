@@ -30,9 +30,7 @@ externalDocs:
   url: http://swagger.io
 servers:
   - url: http://localhost:3000/api
-    description: Development mode (Gateway)
-  - url: http://localhost:4000
-    description: Management service
+    description: Development mode (API Gateway)
   - url: https://greenfeast.space/api
     description: Production mode  
 tags:
@@ -787,7 +785,7 @@ paths:
                     type: string
                     example: Lỗi gì đó  
   
-  /area/create:
+  /admin/area/create:
     post:
       tags:
         - area
@@ -840,7 +838,7 @@ paths:
                     type: string
                     example: Lỗi nào đó
                     
-  /area/get-all:
+  /admin/area/get-all:
     get:
       tags:
         - area
@@ -906,7 +904,7 @@ paths:
                       type: string
                       example: Lỗi nào đó 
                       
-  /area/update/{id}:
+  /admin/area/update/{id}:
     put:
       tags:
         - area
@@ -946,7 +944,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"
   
-  /area/delete/{id}:
+  /admin/area/delete/{id}:
     delete:
       tags:
         - area
@@ -975,7 +973,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
   
-  /table/create:
+  /admin/table/create:
     post:
       tags:
         - table
@@ -1038,7 +1036,7 @@ paths:
                     type: string
                     example: Lỗi nào đó
                     
-  /table/create-auto:
+  /admin/table/create-auto:
     post:
       tags:
         - table
@@ -1105,7 +1103,7 @@ paths:
                     type: string
                     example: Lỗi nào đó   
                     
-  /table/get-tables:
+  /admin/table/get-tables:
     get:
       tags:
         - table
@@ -1179,7 +1177,7 @@ paths:
                       type: string
                       example: Lỗi nào đó   
                       
-  /table/delete/:
+  /admin/table/delete/:
     patch:
       tags:
         - table
@@ -1214,7 +1212,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
 
-  /printer/create:
+  /admin/printer/create:
     post:
       tags:
         - printer
@@ -1292,7 +1290,7 @@ paths:
                     type: string
                     example: Lỗi nào đó          
   
-  /printer/get-all:
+  /admin/printer/get-all:
     get:
       tags:
         - printer
@@ -1365,7 +1363,7 @@ paths:
                       type: string
                       example: Lỗi nào đó
                       
-  /printer/get-printer-type:
+  /admin/printer/get-printer-type:
     get:
       tags:
         - printer
@@ -1412,7 +1410,7 @@ paths:
                       type: string
                       example: Lỗi nào đó          
                       
-  /printer/update/{id}:
+  /admin/printer/update/{id}:
     put:
       tags:
         - printer
@@ -1462,7 +1460,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
             
-  /printer/delete/{id}:
+  /admin/printer/delete/{id}:
     delete:
       tags:
         - printer
@@ -1492,7 +1490,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
           
-  /category/create:
+  /admin/category/create:
     post:
       tags:
         - category
@@ -1553,7 +1551,7 @@ paths:
                     type: string
                     example: Lỗi nào đó        
                     
-  /category/get-all:
+  /admin/category/get-all:
     get:
       tags:
         - category
@@ -1622,7 +1620,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                
                       
-  /category/update/{id}:
+  /admin/category/update/{id}:
     put:
       tags:
         - category
@@ -1663,7 +1661,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
             
-  /category/delete/{id}:
+  /admin/category/delete/{id}:
     delete:
       tags:
         - category
@@ -1693,7 +1691,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
             
-  /menu/create:
+  /admin/menu/create:
     post:
       tags:
         - menu
@@ -1778,7 +1776,7 @@ paths:
                     type: string
                     example: Lỗi nào đó           
                     
-  /menu/get-all:
+  /admin/menu/get-all:
     get:
       tags:
         - menu
@@ -1891,7 +1889,7 @@ paths:
                       type: string
                       example: Lỗi nào đó              
                       
-  /menu/update/{id}:
+  /admin/menu/update/{id}:
     put:
       tags:
         - menu
@@ -1943,7 +1941,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
             
-  /menu/get-by-category/{id}:
+  /admin/menu/get-by-category/{id}:
     get:
       tags:
         - menu
@@ -2037,7 +2035,7 @@ paths:
                       type: string
                       example: Lỗi nào đó            
                       
-  /menu/delete/{id}:
+  /admin/menu/delete/{id}:
     delete:
       tags:
         - menu
@@ -2067,7 +2065,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
             
-  /menu/search:
+  /admin/menu/search:
     get:
       tags:
         - menu
@@ -2160,7 +2158,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                
             
-  /promotion/create:
+  /admin/promotion/create:
     post:
       tags:
         - promotion
@@ -2252,7 +2250,7 @@ paths:
                     type: string
                     example: Lỗi nào đó 
                     
-  /promotion/get-all:
+  /admin/promotion/get-all:
     get:
       tags:
         - promotion
@@ -2355,7 +2353,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                  
                       
-  /promotion/update/{id}:
+  /admin/promotion/update/{id}:
     put:
       tags:
         - promotion
@@ -2411,7 +2409,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                        
             
-  /promotion/get-form-promotion:
+  /admin/promotion/get-form-promotion:
     get:
       tags:
         - promotion
@@ -2455,7 +2453,7 @@ paths:
                       type: string
                       example: Lỗi nào đó           
                       
-  /promotion/delete/{id}:
+  /admin/promotion/delete/{id}:
     delete:
       tags:
         - promotion
