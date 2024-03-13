@@ -144,16 +144,16 @@ const TableManagement = () => {
             <EditOutlined className="text-[#263a29] text-2xl" />
           </button>
           <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
+            title="Xóa"
+            description="Bạn có chắc chắn muốn xóa?"
             onConfirm={() => {
               deleteMenu(record);
             }}
             onCancel={() => {}}
-            okText="Yes"
-            cancelText="No"
+            okText="Đồng ý"
+            cancelText="Hủy bỏ"
           >
-            <DeleteOutlined style={{ fontSize: "20px" }} />
+            <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
           </Popconfirm>
         </Space>
       ),

@@ -1,20 +1,32 @@
-import { Button, Input, Modal, Space, Spin, Table, message } from "antd";
-import FoodComponent from "../../components/FoodCompoent";
 import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-  CalculatorFilled,
-  HddOutlined,
-  GatewayOutlined,
-  LaptopOutlined,
-} from "@ant-design/icons";
+  Button,
+  Dropdown,
+  Input,
+  Modal,
+  Select,
+  Space,
+  Spin,
+  Table,
+  message,
+} from "antd";
+import FoodComponent from "../../components/FoodCompoent";
+import { UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchMenuOrder, getMenuByCategory } from "./../../Services/OrderAPI";
-import { getCategory } from "../../Services/ManagementServiceAPI";
+import {
+  createOrder,
+  fetchMenuOrder,
+  fetchTableCategory,
+  getMenuByCategory,
+} from "./../../Services/OrderAPI";
+import {
+  getAllArea,
+  getCategory,
+  getTable,
+} from "../../Services/ManagementServiceAPI";
+import Header from "../../components/Header";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -28,11 +40,55 @@ function getItem(label, key, icon, children, type) {
 const Order = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
+  const [getArea, setGetArea] = useState([]);
+  const [area, setArea] = useState();
+  const [tableList, setTableList] = useState([]);
+  const [tableSlug, setTableSlug] = useState();
   const [listDataCate, setListDataCate] = useState([]);
   const [getListMenu, setListMenu] = useState([]);
   const [order, setOrder] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const fetchTable = async (id) => {
+    try {
+      const res = await fetchTableCategory(id);
+      setTableList(
+        res.data?.map((item) => {
+          return {
+            key: item.slug,
+            label: item._id,
+          };
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (area) {
+      fetchTable(area);
+    }
+  }, [area]);
+  useEffect(() => {
+    const fetchArea = async () => {
+      try {
+        const res = await getAllArea();
+        setGetArea(
+          res.data?.map((item) => {
+            return {
+              key: item.id,
+              label: item.name,
+            };
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArea();
+  }, []);
   const fetchMenu = async () => {
     try {
       const res = await fetchMenuOrder();
@@ -108,7 +164,8 @@ const Order = () => {
           placeholder="Ghi chú"
           onChange={(e) => {
             setOrder((preOrder) => {
-              const index = preOrder.findIndex((i) => i.id === record._id);
+              console.log(record);
+              const index = preOrder.findIndex((i) => i.id === record.id);
               if (index === -1) {
                 return [...preOrder];
               }
@@ -120,8 +177,36 @@ const Order = () => {
       ),
     },
   ];
+
+  console.log(order);
+  const handleOrder = async () => {
+    if (order?.length === 0 || !order) {
+      message.error("Vui lòng chọn món");
+      return;
+    }
+    if (!tableSlug) {
+      message.error("Vui lòng chọn bàn");
+      return;
+    }
+
+    try {
+      await createOrder(
+        tableSlug,
+        order?.map((item) => ({
+          _id: item.id,
+          quantity: item.quantity,
+          note: item.note,
+        }))
+      );
+      message.success("Đặt món thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Đặt món thất bại");
+    }
+  };
   return (
     <>
+      <Header />
       <Spin spinning={loading}>
         <Modal
           title="Xác nhận đặt món"
@@ -139,7 +224,9 @@ const Order = () => {
             >
               Hủy
             </Button>,
-            <Button type="primary">Đặt món</Button>,
+            <Button type="primary" onClick={handleOrder}>
+              Đặt món
+            </Button>,
           ]}
         >
           <div className="py-3">
@@ -150,28 +237,7 @@ const Order = () => {
             />
           </div>
         </Modal>
-        <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
-          <div className="flex items-center">
-            <Link to="/">
-              <img className="img-hd" alt="logo" src={"../logo.png"} />
-            </Link>
-            <div className="flex gap-6 ml-5">
-              <Link to="/" style={{ fontSize: 18 }}>
-                Trang chủ
-              </Link>
-              <Link to="/" style={{ fontSize: 18 }}>
-                Giới thiệu
-              </Link>
-              <Link to="/order" style={{ fontSize: 18 }}>
-                Đặt món
-              </Link>
-              <Link to="/login" style={{ fontSize: 18 }}>
-                Đặt bàn
-              </Link>
-            </div>
-          </div>
-          <div>Xin chào, {us?.full_name || "Khách"}</div>
-        </nav>
+
         <div className="flex">
           <Menu
             onClick={onClick}
@@ -186,6 +252,43 @@ const Order = () => {
           />
 
           <div className="content bg-[#d4e3d3]">
+            <div className="flex w-full justify-between py-3">
+              <div className="flex flex-col w-[48%] gap-2">
+                <span className="font">Chọn tầng</span>
+                <Select
+                  name="gender"
+                  placeholder="Chọn tầng"
+                  allowClear
+                  onChange={(value) => {
+                    setArea(value);
+                  }}
+                >
+                  {getArea?.map((item) => (
+                    <Select.Option key={item.key} value={item.key}>
+                      {item.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </div>
+              <div className="flex flex-col w-[48%] gap-2">
+                <span className="font">Chọn bàn</span>
+                <Select
+                  disabled={tableList?.length === 0}
+                  name="gender"
+                  placeholder="Chọn bàn"
+                  allowClear
+                  onChange={(value) => {
+                    setTableSlug(value);
+                  }}
+                >
+                  {tableList?.map((item) => (
+                    <Select.Option key={item.key} value={item.key}>
+                      {item.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </div>
+            </div>
             <div className="row">
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (

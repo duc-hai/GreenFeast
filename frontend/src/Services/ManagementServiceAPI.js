@@ -7,6 +7,10 @@ export const createCategory = (body) => {
 export const getCategory = () => {
   return ApiManagementService.get("/category/get-all");
 };
+
+export const getMenuByKey = (key) => {
+  return ApiManagementService.get(`/menu/search?keyword=${key}`);
+};
 export const updateCategory = (id, body) => {
   return ApiManagementService.put(`/category/update/${id}`, body);
 };

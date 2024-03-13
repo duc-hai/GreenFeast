@@ -83,16 +83,16 @@ const AreaManagement = () => {
           </button>
           <button onClick={() => {}}>
             <Popconfirm
-              title="Delete the task"
-              description="Are you sure to delete this task?"
+              title="Xóa"
+              description="Bạn có chắc chắn muốn xóa?"
               onConfirm={() => {
                 deleteA(record);
               }}
               onCancel={() => {}}
-              okText="Yes"
-              cancelText="No"
+              okText="Đồng ý"
+              cancelText="Hủy bỏ"
             >
-              <DeleteOutlined style={{ fontSize: "20px" }} />
+              <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
             </Popconfirm>
           </button>
         </Space>
@@ -144,7 +144,6 @@ const AreaManagement = () => {
     handleCancel();
   };
 
-  console.log(listData);
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">

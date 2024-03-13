@@ -1,38 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import "./index.css";
-
+import { UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { Button, Dropdown, Space } from "antd";
+import Header from "../../components/Header";
 const Homepage = () => {
-  const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
-  useEffect(() => {
-    setUs(JSON.parse(user));
-  }, [user]);
+  useEffect(() => {}, [user]);
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
-        <div className="flex items-center">
-          <Link to="/">
-            <img className="img-hd" alt="logo" src={"../logo.png"} />
-          </Link>
-          <div className="flex gap-6 ml-5">
-            <Link to="/" style={{ fontSize: 18 }}>
-              Trang chủ
-            </Link>
-            <Link to="/" style={{ fontSize: 18 }}>
-              Giới thiệu
-            </Link>
-            <Link to="/order" style={{ fontSize: 18 }}>
-              Đặt món
-            </Link>
-            <Link to="/login" style={{ fontSize: 18 }}>
-              Đặt bàn
-            </Link>
-          </div>
-        </div>
-        <div>Xin chào, {us?.full_name || "Khách"}</div>
-      </nav>
-      <div className="container pt-2">
+      <Header />
+      <div className="container pt-2 px-[60px]">
         <div
           id="carouselExampleControls"
           class="carousel slide"
@@ -95,7 +74,7 @@ const Homepage = () => {
               alt="First slide"
             />
           </div>
-          <div className="col-md-8 col-sm-12">
+          <div className="col-md-8 col-sm-12 text-[18px] leading-7 text-justify">
             Nhân tố cơ bản của thực đơn ở Green Feast là san sẻ mối quan tâm về
             nhu cầu sinh hoạt và sức khỏe của mỗi thực khách nhằm tạo nên không
             gian ẩm thực nuôi dưỡng một tâm hồn và cơ thể khỏe mạnh. Ẩm thực
@@ -111,7 +90,7 @@ const Homepage = () => {
           </div>
         </div>
         <div className="row pt-3" style={{ alignItems: "center" }}>
-          <div className="col-md-8 col-sm-12">
+          <div className="col-md-8 col-sm-12 text-[18px] leading-7 text-justify">
             Sự kết hợp giữa hạt hồ đào đa dinh dưỡng với cà chua chín mọng, củ
             cải đỏ tươi giòn, những lát đào thanh ngọt và những cọng xà lách mơn
             mởn cùng sốt chanh dây chua nhẹ, món ăn như một bản phối đầy sắc màu
@@ -137,7 +116,7 @@ const Homepage = () => {
               alt="First slide"
             />
           </div>
-          <div className="col-md-8 col-sm-12">
+          <div className="col-md-8 col-sm-12 text-[18px] leading-7 justify-evenly text-justify">
             Nhân tố cơ bản của thực đơn ở Green Feast là san sẻ mối quan tâm về
             nhu cầu sinh hoạt và sức khỏe của mỗi thực khách nhằm tạo nên không
             gian ẩm thực nuôi dưỡng một tâm hồn và cơ thể khỏe mạnh. Ẩm thực
@@ -156,18 +135,17 @@ const Homepage = () => {
       <br />
       <div class="card">
         <div class="card-body" style={{ backgroundColor: "#ABC4AA" }}>
-          <div className="row">
-            <div className="col-6"></div>
-            <div className="col-6">
-              <p>
-                <strong>Địa chỉ:</strong> 3C Tôn Đức Thắng, Phường Bến Nghé,
-                quận 1
-              </p>
+          <div className="w-[100%]">
+            <div className="flex flex-col gap-4 justify-center items-center">
               <p>
                 <strong>Số điện thoại:</strong> 0123456789
               </p>
               <p>
-                <strong>email:</strong> chaygreen@gmail.com
+                <strong>Email:</strong> greenfeast@gmail.com
+              </p>
+              <p>
+                <strong>Địa chỉ:</strong> 19 Nguyễn Hữu Thọ, Tân Phong, Quận 7,
+                Hồ Chí Minh, Việt Nam
               </p>
             </div>
           </div>

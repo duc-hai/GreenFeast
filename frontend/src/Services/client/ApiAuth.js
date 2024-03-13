@@ -1,6 +1,6 @@
 import getInstanceAxios from "./AxiosClient";
 
-const baseDomain = "http://localhost:3000/api";
+const baseDomain = `${process.env.REACT_APP_API}/api`;
 const baseURL = `${baseDomain}`;
 
 export default getInstanceAxios(baseURL);

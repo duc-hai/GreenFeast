@@ -23,13 +23,19 @@ import {
   deleteMn,
   getCategory,
   getMenu,
+  getMenuByKey,
 } from "../../Services/ManagementServiceAPI";
 import axios from "axios";
+import Search from "antd/es/transfer/search";
 const TableManagement = () => {
   const [listCate, setListCate] = useState([]);
   const [image, setImage] = useState(null);
   const [getListMenu, setListMenu] = useState([]);
   const [isEdit, setIsEdit] = useState(0);
+  const [textSearch, setTextSearch] = useState("");
+  const onSearch = (e) => {
+    setTextSearch(e.target.value);
+  };
   const fetchMenu = async () => {
     try {
       const res = await getMenu();
@@ -38,9 +44,25 @@ const TableManagement = () => {
       console.log(error);
     }
   };
+  const fetchDataByKeywork = async (key) => {
+    try {
+      const res = await getMenuByKey(key);
+      setListMenu(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    fetchMenu();
+    fetchDataByKeywork(textSearch);
+  }, [textSearch]);
+
+  useEffect(() => {
+    if (textSearch === "") {
+      fetchMenu();
+    }
+  }, [textSearch]);
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getCategory();
@@ -103,17 +125,18 @@ const TableManagement = () => {
           <button onClick={() => editMenu(record)}>
             <EditOutlined className="text-[#263a29] text-2xl" />
           </button>
+
           <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
+            title="Xóa"
+            description="Bạn có chắc chắn muốn xóa?"
             onConfirm={() => {
               deleteMenu(record);
             }}
             onCancel={() => {}}
-            okText="Yes"
-            cancelText="No"
+            okText="Đồng ý"
+            cancelText="Hủy bỏ"
           >
-            <DeleteOutlined style={{ fontSize: "20px" }} />
+            <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
           </Popconfirm>
         </Space>
       ),
@@ -204,8 +227,16 @@ const TableManagement = () => {
             </Button>
           </div>
         </div>
-        <br />
-        <br />
+        <div className="py-3 flex items-center justify-end">
+          <div className="w-[300px]">
+            <Search
+              placeholder="Tìm kiếm theo tên tài liệu"
+              allowClear
+              onChange={onSearch}
+              style={{ width: 250 }}
+            />
+          </div>
+        </div>
         <Table
           columns={columns}
           dataSource={getListMenu}
