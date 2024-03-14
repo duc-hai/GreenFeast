@@ -530,6 +530,58 @@ class OrderService {
         }
     }
 
+    moveTable = async (req, res, next) => {
+        try {
+            const tableFromId = req.query.from
+            const tableToId = req.query.to
+
+            if (!tableFromId || !tableToId)
+                return next([400, 'error', 'Thiếu dữ liệu bàn'])
+
+            const order = await Order.findOne({ table: tableFromId, status: false }).select({ __v: 0 })
+            
+            if (!order)
+                return next([400, 'error', 'Bàn này chưa thực hiện đặt món'])
+
+            const areaTo = await Area.findOne({ 'table_list._id': tableToId })
+
+            if (!areaTo)
+                return next([400, 'error', 'Không tìm thấy bàn'])
+
+            const tableTo = areaTo?.table_list.find(table => table._id === tableToId)
+
+            //Check table is whether available or not  
+            if (tableTo?.status != 0) {
+                return next([400, 'error', 'Bàn chuyển đến đã có người ngồi'])
+            }
+
+            //Move table
+            //Set 'table to' is served
+            await Area.findOneAndUpdate(
+                { 'table_list._id': tableToId },
+                { $set: { 'table_list.$.status': 1 } }
+            )    
+
+            //Set 'table from' is available
+            await Area.findOneAndUpdate(
+                { 'table_list._id': tableFromId },
+                { $set: { 'table_list.$.status': 0 } }
+            )  
+
+            //Update table
+            order.table = tableToId
+            await order.save()
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Chuyển bàn thành công'
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
     async closeTable(req, res, next) {
         try {
             const tableSlug = req.params.tableSlug
@@ -543,15 +595,18 @@ class OrderService {
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
-            const order = await Order.findOneAndUpdate({ table: table._id, status: false }, {
-                note,
-                payment_method,
-                status: true,
-                checkout: new Date()
-            })
+            const order = await Order.findOne({ table: table._id, status: false })
             
             if (!order)
                 return next([400, 'error', 'Đã xảy ra lỗi với thực đơn'])
+
+            await Order.updateOne({ table: table._id, status: false }, {
+                note,
+                payment_method,
+                status: true,
+                checkout: new Date(),
+                total: order.subtotal
+            })
 
             //Set table is available
             await Area.findOneAndUpdate(

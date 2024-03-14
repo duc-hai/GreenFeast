@@ -3026,7 +3026,7 @@ paths:
       description: Lấy danh sách danh mục
       responses:
         '200':
-            description: Thành công. Hóa đơn sẽ tự động download về theo res.download. Response chỉ gửi mỗi thông báo
+            description: Thành công
             content:
               application/json:
                 schema:
@@ -3055,7 +3055,116 @@ paths:
                               name: Khai vị,
                             }
                           ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"    
+            
+  /order/menu/search:
+    get:
+      tags:
+        - order
+      summary: Tìm kiếm món ăn để đặt món
+      description: Tương tự như tìm kiếm menu ở management service, tìm theo từ khóa chính xác hoặc từ khóa viết tắt
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            example: gỏi
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Tìm kiếm thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: number
+                                example: 1
+                              name: 
+                                type: string
+                                example: Gỏi cuốn sốt đậu phộng
+                              description: 
+                                type: string
+                                example: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!
+                              image: 
+                                type: string
+                                example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg
+                              price: 
+                                type: number
+                                example: 90000
+                              status: 
+                                type: boolean
+                              category_id: 
+                                type: number
+                                example: 1
+                              menu_type: 
+                                type: number
+                                example: 1
+                          example: [
+                            {
+                              _id: 1,
+                              name: Gỏi cuốn sốt đậu phộng,
+                              description: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!,
+                              image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg,
+                              price: 90000,
+                              status: true,
+                              category_id: 1,
+                              menu_type: 1
+                            }
+                          ]
 
     
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"  
+            
+  /admin/order/move-table:
+    get:
+      tags:
+        - order
+      summary: Chuyển bàn (dành cho nhân viên)
+      description: Khi khách có nhu cầu chuyển bàn, nhân viên sẽ thực hiện chuyển món của bàn đó sang 1 bàn khác cho khách. Lưu ý là chỉ được chuyển đến 1 bàn đang trống. Thao tác của chức năng này là nhân viên sẽ vào bàn hiện tại, bấm chuyển bàn, danh sách các bàn đang trống sẽ hiện ra, nhân viên bấm vào bàn mong muốn thì bàn sẽ chuyển. Lưu ý chuyển bàn ở đây nghĩa là chuyển toàn bộ món đang có trong 1 bàn sang 1 bàn khác
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            example: A01
+          required: true
+        
+        - in: query
+          name: to
+          schema:
+            type: string
+            example: A02
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Chuyển bàn thành công
+    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
+            

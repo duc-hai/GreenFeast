@@ -1166,6 +1166,62 @@
 					"response": []
 				},
 				{
+					"name": "Move table",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/move-table?from=A01&to=A02",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"move-table"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "A01"
+								},
+								{
+									"key": "to",
+									"value": "A02"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get menu Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/menu/search?keyword=gỏi",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"menu",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "gỏi"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get menu by category ID",
 					"request": {
 						"method": "GET",
@@ -1214,7 +1270,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\": \"55\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ghi chú món ăn\"\r\n    },\r\n    {\r\n        \"_id\": \"56\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ghi chú nước uống\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\": \"1\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Không hành\"\r\n    },\r\n    {\r\n        \"_id\": \"36\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ít ngọt\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1222,14 +1278,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/order/e326fc31-1531-4587-853f-588404860af9",
+							"raw": "{{url}}/api/order/9c48d924-a481-493e-8bbe-6d866e89eb70",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"order",
-								"e326fc31-1531-4587-853f-588404860af9"
+								"9c48d924-a481-493e-8bbe-6d866e89eb70"
 							]
 						}
 					},
@@ -1289,7 +1345,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/order/close/e326fc31-1531-4587-853f-588404860af9",
+							"raw": "{{url}}/api/order/close/9c48d924-a481-493e-8bbe-6d866e89eb70",
 							"host": [
 								"{{url}}"
 							],
@@ -1297,7 +1353,7 @@
 								"api",
 								"order",
 								"close",
-								"e326fc31-1531-4587-853f-588404860af9"
+								"9c48d924-a481-493e-8bbe-6d866e89eb70"
 							]
 						}
 					},

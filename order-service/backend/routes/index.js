@@ -15,6 +15,8 @@ router.get('/order/promotion', orderService.getPromotions)
 router.post('/order/close/:tableSlug', orderService.closeTable)
 router.get('/order/print-bill/:tableSlug', orderService.printerBill)
 router.get('/order/category/get-all', orderService.getCategory)
+router.get('/order/menu/search', menuService.searchMenu)
+router.get('/order/move-table', orderService.moveTable)
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

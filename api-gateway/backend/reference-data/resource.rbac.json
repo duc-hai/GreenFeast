@@ -72,7 +72,7 @@
         "actions": [
             { "name": "Xem danh sách", "slug": "read:any" },
             { "name": "Tạo đơn hàng", "slug": "create:any" },
-            { "name": "Cập nhật đơn hàng", "slug": "update:any" },
+            { "name": "Cập nhật đơn hàng (chuyển bàn)", "slug": "update:any" },
             { "name": "Xóa đơn hàng", "slug": "delete:any" }
         ]
     }
