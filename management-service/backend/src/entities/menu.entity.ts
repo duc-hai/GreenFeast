@@ -8,10 +8,10 @@ export class Menu {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ nullable: true })
     description: string;
 
-    @Column()
+    @Column({ nullable: true })
     image: string;
 
     @Column()
@@ -29,10 +29,10 @@ export class Menu {
     @Column()
     created_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     updated_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     deleted_at: Date;
 
     @Column({ default: false })

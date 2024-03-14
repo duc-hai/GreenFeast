@@ -3,6 +3,7 @@ import axios from "axios";
 export default function getInstanceAxios(baseAPI) {
   const instance = axios.create({
     baseURL: baseAPI,
+    withCredentials: true, // Override by Hai Luu 
   });
   instance.interceptors.request.use(
     function (config) {

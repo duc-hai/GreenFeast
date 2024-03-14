@@ -11,10 +11,10 @@ export class Category {
     @Column()
     created_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     updated_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     deleted_at: Date;
 
     @Column({ default: false })

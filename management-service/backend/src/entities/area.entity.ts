@@ -12,16 +12,16 @@ export class Area {
     @Column({ default: 0 })
     price_percentage: number;
 
-    @Column()
+    @Column({ default: 0 })
     description: string;
 
     @Column()
     created_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     updated_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     deleted_at: Date;
 
     @Column({ default: false })

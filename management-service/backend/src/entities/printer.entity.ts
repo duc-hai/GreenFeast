@@ -14,16 +14,16 @@ export class Printer {
     @Column()
     printer_type: number;
 
-    @Column()
+    @Column({ nullable: true })
     area_id: number;
 
     @Column()
     created_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     updated_at: Date;
 
-    @Column()
+    @Column({ nullable: true })
     deleted_at: Date;
 
     @Column({ default: false })

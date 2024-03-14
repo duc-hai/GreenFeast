@@ -31,7 +31,7 @@ import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
     //entities: [Table, Area],
     autoLoadEntities: true, //If true, entities will be automatically loaded, default is false, Any entities registered via the forFeature() method will automatically be added to the entities array of the configuration object.
     synchronize: true, //If in production mode, set it to false, otherwise data will be lost. Use this in development mode
-    retryAttempts: 5, //Number of attempts to connect to the database, default is 10
+    retryAttempts: 15, //Number of attempts to connect to the database, default is 10
     retryDelay: 3000, //Delay between reconnection attempts (ms), default is 3000
   }), PrinterModule, CategoryModule, PromotionModule, RabbitmqModule],
   controllers: [AppController], 

@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # Default port to communicate with RabbitMQ
+      - "15672:15672"  # Interface management of RabbitMQ
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # Folder storage data of RabbitMQ
+    networks:
+      - greenfeast
+
+volumes:
+  rabbitmq_data:
+
+networks:
+  greenfeast:
+    driver: bridge
+    name: greenfeast
+
+#docker compose -p rabbitmq up -d 

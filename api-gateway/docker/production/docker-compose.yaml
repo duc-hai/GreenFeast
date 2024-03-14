@@ -2,15 +2,18 @@
 # The reason is 2 container seperate doesn't have any communication. That's why we need a network 
 version: '3.8'
 services:
-  backend: #name of service
-    container_name: backend
+  apigateway: #name of service
+    container_name: apigateway
     build:
       context: ../../backend #path to source backend (local)
       dockerfile: Dockerfile
     restart: unless-stopped
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
-      - DB_HOST=database # database is service's name
+      - DB_HOST=apiGatewayDB # database is service's name
+      - FRONT_END_URL=http://localhost
+      - ORDER_SERVICE_URL=http://order:5000
+      - MANAGEMENT_SERVICE_URL=http://management:4000
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -20,9 +23,10 @@ services:
       - 3000
     networks:
       - apigateway-network
+      - greenfeast
 
-  database:
-    container_name: database
+  apiGatewayDB:
+    container_name: apiGatewayDB
     image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
     restart: always
     environment: 
@@ -37,19 +41,28 @@ services:
       - dbdata6:/data/db
     networks:
       - apigateway-network
+      - greenfeast
 
-  nginx: 
+  nginxReact: 
     image: nginx:latest
-    container_name: nginx
+    container_name: nginxReact
+    build: 
+      context: ../../../frontend
+      dockerfile: Dockerfile
+    environment:
+      - REACT_APP_API=http://apigateway:3000
     ports:
       - 80:80
     volumes: #override interface nginx default #copy file, folder from local computer to docker
       #../../frontend/build is path to front end source code (folder build)
       #/usr/share/nginx/html is path to interface nginx default 
-      - ../../frontend/build:/usr/share/nginx/html
+      - ../../../frontend/build:/usr/share/nginx/html
       - ./default.conf:/etc/nginx/conf.d/default.conf #config default nginx
     networks:
       - apigateway-network
+      - greenfeast
+    expose:
+      - 80
 
 volumes:
   dbdata6:
@@ -57,8 +70,11 @@ volumes:
 networks:
   apigateway-network:
     driver: bridge
+  greenfeast:
+    driver: bridge
+    name: greenfeast
 
-#docker compose -p nodejs-mongodb-nginx up -d 
+#docker compose -p apigateway-mongodb-nginx up -d 
 
 #up is build file (run container), d is detach, after install with be auto exit
 #then open "Log" in container backend to see work log

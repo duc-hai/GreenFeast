@@ -1,0 +1,15 @@
+[{
+  "_id": "0123456789",
+  "password": "$2b$10$a6RsM1JRMJlV62XUjnAbPOiCKeyVQFu.tp5Z.z2UoPK7Z40gJwaM2",
+  "account_type": 1,
+  "user_id": {
+    "$oid": "65eb127aee92b3c06a3eb28a"
+  },
+  "createdAt": {
+    "$date": "2024-03-08T13:28:26.301Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-08T13:28:26.301Z"
+  },
+  "__v": 0
+}]
