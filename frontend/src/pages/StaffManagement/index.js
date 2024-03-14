@@ -9,22 +9,32 @@ import {
   Input,
   Select,
   Col,
-  Radio,
   Row,
-  InputNumber,
-  DatePicker,
-  Card,
-  Popconfirm,
+  message,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
-import { getResource } from "../../Services/AuthAPI";
-const { Option } = Select;
+import { createStaff, getEmployee, getResource } from "../../Services/AuthAPI";
 const AreaManagement = () => {
-  const dispatch = useDispatch();
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 10 });
   const [resource, setResource] = useState([]);
+  const [grants, setGrants] = useState([]);
+  const [role, setRole] = useState("");
+  const [valueCate, setValueCate] = useState({});
+  const [listDataEmployee, setListDataEmployee] = useState([]);
 
+  const fetchDataEmployee = async () => {
+    try {
+      const res = await getEmployee();
+      setListDataEmployee(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchDataEmployee();
+  }, []);
+
+  console.log(listDataEmployee);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,66 +46,53 @@ const AreaManagement = () => {
     };
     fetchData();
   }, []);
-  console.log(resource);
-  useEffect(() => {}, [pagination]);
-  const editMenu = (record) => {};
-  const deleteMenu = (record) => {};
+
   const columns = [
     {
-      title: "Mã nhân viên",
-      dataIndex: "staffId",
-      key: "staffId",
+      title: "Họ tên",
+      dataIndex: "full_name",
+      key: "full_name",
     },
     {
-      title: "Tên nhân viên",
-      dataIndex: "code",
-      key: "code ",
+      title: "Số điện thoại",
+      dataIndex: "role",
+      key: "role",
     },
     {
-      title: "Vị trí",
-      dataIndex: "position",
-      key: "position ",
+      title: "Giới tính",
+      dataIndex: "gender",
+      key: "gender ",
     },
-
     {
-      title: "Thao tác",
-      render: (_, record) => (
-        <Space size="middle">
-          <button onClick={() => editMenu(record)}>
-            <EditOutlined className="text-[#263a29] text-2xl" />
-          </button>
-          <button onClick={() => deleteMenu(record)}>
-            <DeleteOutlined className="text-red-500 text-2xl" />
-          </button>
-        </Space>
-      ),
+      title: "Địa chỉ",
+      dataIndex: "address",
+      key: "address",
     },
+    {
+      title: "Kinh nghiệm",
+      dataIndex: "experience",
+      key: "experience",
+    },
+    // {
+    //   title: "Thao tác",
+    //   render: (_, record) => (
+    //     <Space size="middle">
+    //       <button
+    //         onClick={() => {
+    //           setValueCate(record);
+    //           form.setFieldsValue(record);
+    //           showModal();
+    //         }}
+    //       >
+    //         <EditOutlined className="text-[#263a29] text-2xl" />
+    //       </button>
+    //       {/* <button onClick={() => deleteMenu(record)}>
+    //         <DeleteOutlined className="text-red-500 text-2xl" />
+    //       </button> */}
+    //     </Space>
+    //   ),
+    // },
   ];
-
-  const data = [
-    {
-      key: 1,
-      staffId: "12345",
-      code: "Trần Văn A",
-      position: "Nhân viên bán hàng",
-    },
-    {
-      key: 2,
-      staffId: "54664",
-      code: "Nguyen Van B",
-      position: "Quản lý",
-    },
-  ];
-
-  const EditProduct = (record) => {
-    console.log(record);
-  };
-
-  const onTableChange = async (paginations) => {
-    const { current, pageSize } = paginations;
-    const paging = { ...pagination, pageIndex: current, pageSize };
-    setPagination(paging);
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -110,18 +107,51 @@ const AreaManagement = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    if (role === "other" && !grants) {
+      message.error("Chọn tài trợ");
+      return;
+    }
+    if (
+      values.username === "" ||
+      values.password === "" ||
+      values.full_name === "" ||
+      values.role === "" ||
+      values.position === "" ||
+      values.experience === ""
+    ) {
+      message.error("Nhập đầy đủ thông tin");
+      return;
+    }
+    try {
+      const res = await createStaff({
+        username: values.username,
+        password: values.password,
+        full_name: values.full_name,
+        role: values.role,
+        position: values.position,
+        experience: values.experience,
+        grants: [
+          {
+            ...grants,
+            actions:
+              grants?.actions?.length > 0 &&
+              grants?.actions?.map((item) => item.slug),
+          },
+        ],
+      });
+      if (res.status === "success") {
+        message.success("Tạo nhân viên thành công");
+        setIsModalOpen(false);
+        form.resetFields();
+      }
+    } catch (error) {
+      message.error("Tạo nhân viên thất bại");
+      console.log(error);
+    }
   };
   const [form] = Form.useForm();
-  const [dataTblProduct, setDataTblProduct] = useState([]);
-  const deleteProduct = (record) => {
-    const newListDataProduct = dataTblProduct.filter(
-      (item) => item.id !== record.id
-    );
-    setDataTblProduct(newListDataProduct);
-  };
-  const [checkStrictly, setCheckStrictly] = useState(false);
+
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -132,44 +162,27 @@ const AreaManagement = () => {
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
             Thêm mới
           </Button>
-          <button className="bg-red-600 mx-4 border-none outline-none text-white hover:bg-red-400 py-1 px-3 rounded-md">
-            Xóa
-          </button>
         </div>
       </div>
-      {/* <div className="mt-4">
-        <span className="text-lg px-4 font-medium">Chọn khu vực hiển thị</span>
-        <select className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md">
-          <option>Tầng 01</option>
-          <option>Tầng 02</option>
-          <option>Tầng 03</option>
-          <option>Tầng 03</option>
-        </select>
-      </div> */}
+
       <br />
       <br />
       <Table
         columns={columns}
-        dataSource={data}
-        pageIndex={pagination.pageIndex}
-        pagination={{
-          current: pagination.pageIndex,
-          // total: listData?.result?.total,
-          pageSize: pagination.pageSize,
-        }}
-        onChange={onTableChange}
+        dataSource={listDataEmployee}
+        pagination={false}
         scroll={{ x: "max-content" }}
       />
 
       <div className="modal">
         <Modal
           className="headerModal"
-          title="Tạo mới đơn"
+          title="Tạo tài khoản nhân viên"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[
-            <Button key="back" danger onClick={handleCancel}>
+            <Button danger onClick={handleCancel}>
               ĐÓNG
             </Button>,
             <Button
@@ -179,7 +192,7 @@ const AreaManagement = () => {
               form="form"
               name="form"
             >
-              Tạo bàn
+              Tạo nhân viên
             </Button>,
           ]}
           bodyStyle={{ height: "1280" }}
@@ -193,38 +206,74 @@ const AreaManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item
-                    label="Tên bàn"
-                    name="name"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập tên bàn" },
-                    ]}
-                  >
+                  <Form.Item label="Username" name="username">
                     <Input />
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item
-                    label="Vị trí (tầng)"
-                    name="image"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập vị trí" },
-                    ]}
-                  >
+                  <Form.Item label="Mật khẩu" name="password">
                     <Input />
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item
-                    label="Chi tiết bàn"
-                    name="additionalAmount"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập chi tiết bàn" },
-                    ]}
-                  >
+                  <Form.Item label="Họ và tên" name="full_name">
                     <Input />
                   </Form.Item>
                 </Col>
+                <Col span={24}>
+                  <Form.Item label="Vai trò" name="role">
+                    <Select
+                      name="role"
+                      onChange={(e) => {
+                        if (e !== "other") setGrants([]);
+                        setRole(e);
+                      }}
+                      allowClear
+                    >
+                      <Select.Option value={"cashier"}>Cashier</Select.Option>
+                      <Select.Option value={"waitstaff"}>
+                        Waitstaff{" "}
+                      </Select.Option>
+                      <Select.Option value={"other"}>Other</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item label="Vị trí" name="position">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item label="Kinh nghiệm" name="experience">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                {role === "other" && (
+                  <Col span={24}>
+                    <Form.Item label="Tài trợ">
+                      <Select
+                        name="category_id"
+                        onChange={(_, select) => {
+                          setGrants(select.data);
+                        }}
+                        allowClear
+                      >
+                        {resource?.length > 0 &&
+                          resource.map((item, index) => {
+                            return (
+                              <Select.Option
+                                key={index}
+                                value={item.id}
+                                data={item}
+                              >
+                                {item.name}
+                              </Select.Option>
+                            );
+                          })}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
               </Row>
             </Form>
           </div>

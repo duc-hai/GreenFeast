@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import routers from "../../routers";
 import Header from "../Header";
@@ -23,6 +23,8 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const DefaultLayout = () => {
+  const user = sessionStorage.getItem("user");
+  const [us, setUs] = useState();
   const items = [
     getItem("Quản lý thực đơn", "/menu-management", <AppstoreOutlined />),
     getItem(
@@ -42,12 +44,20 @@ const DefaultLayout = () => {
   ];
   const navigate = useNavigate();
   useEffect(() => {
-    const user = sessionStorage.getItem("user");
-    console.log(JSON.parse(user));
+    setUs(JSON.parse(user));
     if (!user) {
       navigate("/");
     }
-  }, []);
+  }, [user]);
+
+  useEffect(() => {
+    if (us) {
+      if (us.role === "customer") {
+        navigate("/order");
+      }
+    }
+  }, [us]);
+
   const showContentMenu = (routes) => {
     let result = null;
     if (routes) {

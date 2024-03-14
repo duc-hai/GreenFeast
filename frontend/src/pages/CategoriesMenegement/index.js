@@ -17,8 +17,10 @@ import {
   createCategory,
   deleteCategory,
   getCategory,
+  getMenuByKey,
   updateCategory,
 } from "../../Services/ManagementServiceAPI";
+import Search from "antd/es/transfer/search";
 
 const TableManagement = () => {
   const [listData, setListData] = useState([]);
@@ -34,6 +36,7 @@ const TableManagement = () => {
       message.error("Xóa danh mục món thất bại");
     }
   };
+
   const fetchData = async () => {
     try {
       const res = await getCategory();
@@ -73,17 +76,18 @@ const TableManagement = () => {
           >
             <EditOutlined className="text-[#263a29] text-2xl" />
           </button>
+
           <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
+            title="Xóa"
+            description="Bạn có chắc chắn muốn xóa?"
             onConfirm={() => {
               deleteMenu(record);
             }}
             onCancel={() => {}}
-            okText="Yes"
-            cancelText="No"
+            okText="Đồng ý"
+            cancelText="Hủy bỏ"
           >
-            <DeleteOutlined style={{ fontSize: "20px" }} />
+            <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
           </Popconfirm>
         </Space>
       ),
@@ -139,8 +143,6 @@ const TableManagement = () => {
         </div>
       </div>
 
-      <br />
-      <br />
       <Table
         columns={columns}
         dataSource={listData?.map((item, index) => {

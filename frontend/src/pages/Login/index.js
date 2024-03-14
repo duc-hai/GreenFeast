@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.css";
 import { loginAdmin, loginUser } from "../../Services/AuthAPI";
 import { setCookie } from "../../utils/Cookie";
+import { GoogleOutlined } from "@ant-design/icons";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -114,6 +115,14 @@ const Login = () => {
                 Đăng nhập
               </Button>
             </Form.Item>
+
+            <div className="pb-2">
+              Đăng ký bằng google:{" "}
+              <a href="http://localhost:3000/api/auth/google">
+                <GoogleOutlined style={{ fontSize: "24px" }} />
+              </a>
+            </div>
+
             <span>
               Bạn chưa có tài khoản?{" "}
               <a
