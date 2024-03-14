@@ -19,12 +19,12 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "031238123",
+									"value": "0123456789",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "3123213123",
+									"value": "123456",
 									"type": "text"
 								}
 							]
@@ -110,12 +110,12 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "0312381234",
+									"value": "0123456789",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "3123213123",
+									"value": "123456",
 									"type": "text"
 								},
 								{
@@ -215,7 +215,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/admin/menu/get-all?page=1&perPage=2",
+									"raw": "{{url}}/api/admin/menu/get-all?page=1",
 									"host": [
 										"{{url}}"
 									],
@@ -232,7 +232,8 @@
 										},
 										{
 											"key": "perPage",
-											"value": "2"
+											"value": "2",
+											"disabled": true
 										}
 									]
 								}
@@ -329,27 +330,27 @@
 											"key": "image",
 											"contentType": "",
 											"type": "file",
-											"src": "/C:/Users/Luu Duc Hai/Downloads/BRD-APG-service.drawio (1).png"
+											"src": "/C:/Users/Luu Duc Hai/Downloads/travaicamsa.png"
 										},
 										{
 											"key": "name",
-											"value": "Nước uống",
+											"value": "Trà vải cam sả",
 											"type": "text"
 										},
 										{
 											"key": "price",
-											"value": "123",
+											"value": "40000",
 											"contentType": "",
 											"type": "text"
 										},
 										{
 											"key": "category_id",
-											"value": "2",
+											"value": "12",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "Mô tả của món ăn",
+											"value": "Trà vải cam sả là một loại đồ uống truyền thống của nhiều vùng miền, nổi tiếng với hương vị tươi mát và sự kết hợp độc đáo giữa vải, cam và sả",
 											"type": "text"
 										},
 										{
@@ -402,33 +403,38 @@
 										{
 											"key": "name",
 											"value": "Món chay nè he",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "price",
 											"value": "123",
 											"contentType": "",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "category_id",
 											"value": "2",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "description",
-											"value": "Mô tả của món ăn",
-											"type": "text"
+											"value": "Rau thêm",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "menu_type",
 											"value": "2",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/menu/update/55",
+									"raw": "{{url}}/api/admin/menu/update/28",
 									"host": [
 										"{{url}}"
 									],
@@ -437,7 +443,7 @@
 										"admin",
 										"menu",
 										"update",
-										"55"
+										"28"
 									]
 								}
 							},
@@ -555,22 +561,22 @@
 									"urlencoded": [
 										{
 											"key": "shortname",
-											"value": "A",
+											"value": "NV",
 											"type": "text"
 										},
 										{
 											"key": "quantity",
-											"value": "3",
+											"value": "10",
 											"type": "text"
 										},
 										{
 											"key": "from",
-											"value": "11",
+											"value": "1",
 											"type": "text"
 										},
 										{
 											"key": "area_id",
-											"value": "25",
+											"value": "6",
 											"type": "text"
 										}
 									]
@@ -623,7 +629,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"ids\": [\r\n        \"A5\", \"A6\", \"A7\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"ids\": [\r\n        \"NV01\", \"NV02\", \"NV03\", \"NV04\", \"NV05\", \"NV06\", \"NV07\", \"NV08\", \"NV09\", \"NV10\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -691,7 +697,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Tầng 1\",\r\n    \"description\": \"Mô tả\",\r\n    \"price_percentage\": 0\r\n}",
+									"raw": "{\r\n    \"name\": \"Nhân viên\",\r\n    \"description\": \"Đơn nhân viên, giảm 10%\",\r\n    \"price_percentage\": -10 \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -780,7 +786,7 @@
 									"urlencoded": [
 										{
 											"key": "name",
-											"value": "Chay mặn",
+											"value": "Trà",
 											"type": "text"
 										}
 									]
@@ -884,7 +890,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 41,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": true,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 1,\r\n    \"condition_apply\": 41,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1013,7 +1019,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Máy in tầng A\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 25\r\n}",
+									"raw": "{\r\n    \"name\": \"Máy in quầy nước\",\r\n    \"ip_address\": \"192.168.0.3\",\r\n    \"printer_type\": 3\r\n    //\"area_id\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1082,7 +1088,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Máy in tầng 1\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 2\r\n}",
+									"raw": "{\r\n    //\"name\": \"Máy in tầng 1\",\r\n    \"ip_address\": \"192.168.0.2\"\r\n    //\"printer_type\": 1,\r\n    //\"area_id\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1090,7 +1096,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/printer/update/1",
+									"raw": "{{url}}/api/admin/printer/update/7",
 									"host": [
 										"{{url}}"
 									],
@@ -1099,7 +1105,7 @@
 										"admin",
 										"printer",
 										"update",
-										"1"
+										"7"
 									]
 								}
 							},
@@ -1181,13 +1187,34 @@
 					"response": []
 				},
 				{
+					"name": "Get tables by area ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/tables/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"tables",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Order",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\": \"55\",\r\n        \"quantity\": 2,\r\n        \"price\": 300000,\r\n        \"note\": \"Ghi chú món ăn\"\r\n    },\r\n    {\r\n        \"_id\": \"56\",\r\n        \"quantity\": 2,\r\n        \"price\": 50000,\r\n        \"note\": \"Ghi chú nước uống\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\": \"55\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ghi chú món ăn\"\r\n    },\r\n    {\r\n        \"_id\": \"56\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ghi chú nước uống\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1203,27 +1230,6 @@
 								"api",
 								"order",
 								"e326fc31-1531-4587-853f-588404860af9"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get tables by area ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/api/admin/order/tables/25",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"order",
-								"tables",
-								"25"
 							]
 						}
 					},
@@ -1312,6 +1318,26 @@
 								"order",
 								"print-bill",
 								"e326fc31-1531-4587-853f-588404860af9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Caterogry",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/category/get-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"category",
+								"get-all"
 							]
 						}
 					},

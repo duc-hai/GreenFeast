@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy
 const Account = require('../models/account')
 const User = require('../models/user')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
 
 const router = express.Router()
 
@@ -51,9 +52,29 @@ router.get('/', passport.authenticate('google', { scope: ['profile'] }))
 //  /auth/google/callback
 router.get('/callback', 
     passport.authenticate('google', { failureRedirect: '/signin' }),
-    function(req, res) {
-        // Successful authentication
-        res.redirect('/')
+    async function(req, res) {
+        try {
+            const accessToken = await jwt.sign({ username: req?.user?.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
+
+            res.cookie('access_token', accessToken, {
+                httpOnly: true, //Config cookie just accessed by server
+                signed: true, //Cookie secure, prevents client-side modifications
+                maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
+                sameSite: 'none',
+                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+            })
+
+            const userInfor = await User.findOne({ _id: req?.user?.user_id })
+
+            if (userInfor)
+                res.cookie('full_name', userInfor.full_name)
+
+            // Successful authentication
+            res.redirect(`${process.env.FRONT_END_URL}/`)
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
     }
 )
 

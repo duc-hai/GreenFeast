@@ -48,8 +48,8 @@ class AccountService {
             const user = await User.findOne({ _id: account.user_id, user_type: account.account_type })
 
             //Account is correct: create access token and refresh token
-            const accessToken = jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
-            const refreshToken = jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+            const accessToken = await jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
+            const refreshToken = await jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
 
             res.cookie('access_token', accessToken, {
                 httpOnly: true, //Config cookie just accessed by server

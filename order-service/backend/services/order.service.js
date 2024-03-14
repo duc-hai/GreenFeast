@@ -2,6 +2,7 @@ const Area = require('../models/area')
 const Order = require('../models/order')
 const Menu = require('../models/menu')
 const Printer = require('../models/printer')
+const Category = require('../models/category')
 const PDFDocument = require("pdfkit-table")
 const fs = require('fs')
 const cloudinary = require('cloudinary').v2
@@ -562,6 +563,23 @@ class OrderService {
                 status: 'success',
                 message: 'Đóng bàn thành công'
             })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    getCategory = async (req, res, next) => {
+        try {
+            const categories = await Category.find({}).sort({ _id: 1 }).select({ __v: 0 })
+            if (!categories)
+                return next([400, 'error', 'Đã xảy ra lỗi khi lấy dữ liệu danh mục'])
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách thành công',
+                data: categories
+            })    
         }
         catch (err) {
             return next([400, 'error', err.message])

@@ -23,7 +23,7 @@ app.use(session({
 
 const cors = require('cors') 
 app.use(cors({
-    origin: ['http://localhost', 'http://greenfeast.space', 'https://greenfeast.space'],
+    origin: ['http://localhost', 'http://greenfeast.space', 'https://greenfeast.space', 'http://localhost:3000', 'http://localhost:3001'],
     preflightContinue: true,
     credentials: true,
     optionsSuccessStatus: 200
