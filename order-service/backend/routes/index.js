@@ -18,6 +18,7 @@ router.get('/order/category/get-all', orderService.getCategory)
 router.get('/order/menu/search', menuService.searchMenu)
 router.get('/order/move-table', orderService.moveTable)
 router.get('/order/get-revenue', orderService.getRevenueByDay)
+router.get('/create-qr', menuService.createQRCode)
 
 
 router.use('/', errorHandler.catchNotFoundError)

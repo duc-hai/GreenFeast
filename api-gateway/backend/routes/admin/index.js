@@ -73,5 +73,6 @@ router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, a
 router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), callMicroservice.forwardRequestOrderService)
 
 router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), callMicroservice.forwardRequestOrderService)
+router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
 
 module.exports = router

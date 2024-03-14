@@ -70,9 +70,9 @@
         "resource": "order",
         "name": "Quản lý đặt món",
         "actions": [
-            { "name": "Xem danh sách bàn, món", "slug": "read:any" },
+            { "name": "Xem danh sách bàn, món, tạo QR", "slug": "read:any" },
             { "name": "Đóng bàn", "slug": "create:any" },
-            { "name": "Cập nhật đơn hàng (chuyển bàn)", "slug": "update:any" },
+            { "name": "Chuyển bàn", "slug": "update:any" },
             { "name": "Xóa đơn hàng", "slug": "delete:any" }
         ]
     },

@@ -890,7 +890,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": true,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 1,\r\n    \"condition_apply\": 41,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1166,6 +1166,61 @@
 					"response": []
 				},
 				{
+					"name": "Create QR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/create-qr?table=A01",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"create-qr"
+							],
+							"query": [
+								{
+									"key": "table",
+									"value": "A01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/get-revenue?from=2024-03-13&to=2024-03-15",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"get-revenue"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-03-13"
+								},
+								{
+									"key": "to",
+									"value": "2024-03-15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Move table",
 					"request": {
 						"method": "GET",
@@ -1345,15 +1400,16 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/order/close/9c48d924-a481-493e-8bbe-6d866e89eb70",
+							"raw": "{{url}}/api/admin/order/close/506d9ecb-4467-49ff-84ab-48eff5ee1c14",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
+								"admin",
 								"order",
 								"close",
-								"9c48d924-a481-493e-8bbe-6d866e89eb70"
+								"506d9ecb-4467-49ff-84ab-48eff5ee1c14"
 							]
 						}
 					},

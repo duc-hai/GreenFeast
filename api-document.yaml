@@ -3172,7 +3172,7 @@ paths:
     get:
       tags:
         - order
-      summary: Doanht thu
+      summary: Xem doanh thu
       description: Dùng để lấy doanh thu. Chỉ có những vai trò được cấp phép mới được truy cập. Theo mặc định, nếu không truyền tham số thì nó sẽ lấy doanh thu theo ngày. Nếu truyền query là from và to thì sẽ lấy theo từ ngày - đến ngày, định dạng ngày gửi lên phải là 'yyyy/mm/dd'. Với chức năng này, front end có thể tạo 4 mục, 1 là thống kê theo ngày hiện tại, 2 là thống kê theo tháng, 3 là theo năm, 4 là cho người dùng chọn ngày cụ thể, nói chung thiết kế sao cho hợp lý là được, tất cả đều gửi chung lên api này (chỉ khác ngày bắt đầu và kết thúc)
       parameters:
         - in: query
@@ -3190,7 +3190,7 @@ paths:
           required: false
       responses:
         '200':
-            description: Thành công. Revenue là doanh thu khoảng thời gian đó, num_clients là Lượt khách, discount là tổng giá đã giảm, surcharge là tổng giá đã phụ thu, sum_menu là tổng số món khách đã đặt trong khoảng thời gian đó.
+            description: Thành công. Revenue là doanh thu khoảng thời gian đó, num_clients là Lượt khách, discount là tổng giá đã giảm, surcharge là tổng giá đã phụ thu, sum_menu là tổng số món khách đã đặt trong khoảng thời gian đó. Hiển thị biểu đồ hay gì đó cũng được
             content:
               application/json:
                 schema:
@@ -3224,4 +3224,37 @@ paths:
     
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
+            
+  /admin/create-qr:
+    get:
+      tags:
+        - order
+      summary: Tạo mã QR để đặt món (Nhân viên, quản lý nhà hàng)
+      description: "Dùng để tạo mã QR đặt món, truyền vào 1 tham số là table tương ứng với mã bàn, backend sẽ trả về dữ liệu qr để người dùng có thể quét và đặt món. Sau khi tạo thành công sẽ nhận được data là 1 chuỗi base 64. Bởi vì phía backend không cần phải lưu trữ dữ liệu này làm gì nên nó sẽ không được upload lên cloud hay lưu trong local storage trên server hay database. Vì thế, trả thẳng base 64 về cho front end xử lý. Cách xử lý cho front end như sau: Tạo 1 thẻ a như sau: **< a id=\"downloadQR\" download=\"qrcode.png\" style=\"display: none;\" href=\"\">Download QR Code</ a>**. Sau đó, nhận được data thì đưa data base 64 đó vào href của thẻ a, tạo 1 sự kiện click cho thẻ a đó là qr code sẽ tự động tải về. Ngoài ra, để tiện cho việc demo, trên thanh header phía client có thể hiện thêm 1 mục là QR Đặt món, bấm vô chuyển hướng đến trang nào đó có sẵn danh sách qr để quét, có thể hiển thị luôn danh sách các đường link đặt món sẵn để thao tác"
+      parameters:
+        - in: query
+          name: table
+          schema:
+            type: string
+            example: A01
+          required: true
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Tạo QR bàn thành công
+                        data: 
+                          type: string
+                          example: "data:image/png;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"
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
             
