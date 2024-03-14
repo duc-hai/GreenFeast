@@ -2505,7 +2505,7 @@ paths:
           required: false
       responses:
         '200':
-            description: Thành công
+            description: Thành công. Lưu ý, nếu data trả về có trường discount_price thì đó là giá khuyến mãi. Hiển thị giá gốc -> gạch ngang, để giá mới lên
             content:
               application/json:
                 schema:
@@ -2940,7 +2940,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
             
-  /order/close/{tableSlug}:
+  /admin/order/close/{tableSlug}:
     post:
       tags:
         - order
@@ -3166,5 +3166,62 @@ paths:
                       example: Chuyển bàn thành công
     
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /admin/order/get-revenue:
+    get:
+      tags:
+        - order
+      summary: Doanht thu
+      description: Dùng để lấy doanh thu. Chỉ có những vai trò được cấp phép mới được truy cập. Theo mặc định, nếu không truyền tham số thì nó sẽ lấy doanh thu theo ngày. Nếu truyền query là from và to thì sẽ lấy theo từ ngày - đến ngày, định dạng ngày gửi lên phải là 'yyyy/mm/dd'. Với chức năng này, front end có thể tạo 4 mục, 1 là thống kê theo ngày hiện tại, 2 là thống kê theo tháng, 3 là theo năm, 4 là cho người dùng chọn ngày cụ thể, nói chung thiết kế sao cho hợp lý là được, tất cả đều gửi chung lên api này (chỉ khác ngày bắt đầu và kết thúc)
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            example: 2024-03-13
+          required: false
+        
+        - in: query
+          name: to
+          schema:
+            type: string
+            example: 2024-03-15
+          required: false
+      responses:
+        '200':
+            description: Thành công. Revenue là doanh thu khoảng thời gian đó, num_clients là Lượt khách, discount là tổng giá đã giảm, surcharge là tổng giá đã phụ thu, sum_menu là tổng số món khách đã đặt trong khoảng thời gian đó.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh thu thành công
+                      data: 
+                        type: object
+                        properties: 
+                          revenue: 
+                            type: number
+                            example: 500000
+                          num_clients: 
+                            type: number
+                            example: 2
+                          discount: 
+                            type: number
+                            example: 0
+                          surcharge: 
+                            type: number
+                            example: 0
+                          sum_menu: 
+                            type: number
+                            example: 8
+
+    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
             

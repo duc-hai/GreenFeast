@@ -1,0 +1,867 @@
+{
+	"info": {
+		"_postman_id": "d55fc5cf-f664-4d0a-8c36-15e08deaa27a",
+		"name": "Management service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25971354"
+	},
+	"item": [
+		{
+			"name": "Table",
+			"item": [
+				{
+					"name": "Add table",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "A01",
+									"type": "text"
+								},
+								{
+									"key": "area_id",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/table/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"table",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create tables auto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "shortname",
+									"value": "A",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "from",
+									"value": "11",
+									"type": "text"
+								},
+								{
+									"key": "area_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/table/create-auto",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"table",
+								"create-auto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get table by area id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/table/get-tables?area_id=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"table",
+								"get-tables"
+							],
+							"query": [
+								{
+									"key": "area_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete tables",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        13, 12, 11\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/table/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"table",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Area",
+			"item": [
+				{
+					"name": "Get area",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/area/get-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"area",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create area",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tầng 1\",\r\n    \"description\": \"Mô tả\",\r\n    \"price_percentage\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/area/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"area",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Khu vực abc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/area/update/4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"area",
+								"update",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/area/delete/4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"area",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Add category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Món canh",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/category/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/category/get-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Bàn chay mặn đều được ha",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/category/update/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/category/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "Create menu",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"contentType": "",
+									"type": "file",
+									"src": "/C:/Users/Luu Duc Hai/Downloads/logo.png"
+								},
+								{
+									"key": "name",
+									"value": "Món chay thanh tịnh",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "123000",
+									"contentType": "",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Mô tả của món ăn",
+									"type": "text"
+								},
+								{
+									"key": "menu_type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/menu/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/menu/get-all?page=2&perPage=5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/menu/get-by-category/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"get-by-category",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/menu/search?keyword=mc",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "mc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete menu",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/menu/delete/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update menu",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"contentType": "",
+									"type": "file",
+									"src": "/C:/Users/Luu Duc Hai/Downloads/BRD-APG-service.drawio (1).png"
+								},
+								{
+									"key": "name",
+									"value": "Món chay nè he",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "123",
+									"contentType": "",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Mô tả của món ăn",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/menu/update/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"menu",
+								"update",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Luu Duc Hai/Downloads/52000657.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/cats/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"cats",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Not Found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sadjkhsad/eqwej/e12/3123h12kj?213123i=3123",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sadjkhsad",
+								"eqwej",
+								"e12",
+								"3123h12kj"
+							],
+							"query": [
+								{
+									"key": "213123i",
+									"value": "3123"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Promotion",
+			"item": [
+				{
+					"name": "Add promotion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 1,\r\n    \"promotion_value\": \"50%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/promotion/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/promotion/get-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Khuyến mãi ngày tết nè he he\",\r\n    \"status\": false,\r\n    \"note\": \"Ghi chú khuyến mãi\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 1,\r\n    \"promotion_value\": \"50%\"\r\n    //\"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/promotion/update/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get form promotion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/promotion/get-form-promotion",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"get-form-promotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/promotion/delete/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"promotion",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Printer",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Máy in trệt\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/printer/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/printer/get-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Printer Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/printer/get-printer-type",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"get-printer-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Máy in tầng 1\",\r\n    \"ip_address\": \"192.168.0.1\",\r\n    \"printer_type\": 1,\r\n    \"area_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/printer/update/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/printer/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"printer",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

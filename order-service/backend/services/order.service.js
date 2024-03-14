@@ -598,7 +598,7 @@ class OrderService {
             const order = await Order.findOne({ table: table._id, status: false })
             
             if (!order)
-                return next([400, 'error', 'Đã xảy ra lỗi với thực đơn'])
+                return next([400, 'error', 'Không tìm thấy món trong bàn'])
 
             await Order.updateOne({ table: table._id, status: false }, {
                 note,
@@ -635,6 +635,70 @@ class OrderService {
                 message: 'Lấy danh sách thành công',
                 data: categories
             })    
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    getRevenueByDay = async (req, res, next) => {
+        try {
+            let fromDate  = req.query.from
+            let toDate  = req.query.to
+            let result 
+            
+            if (fromDate && toDate) {
+                fromDate = new Date(fromDate) //'2024-01-31'
+                toDate = new Date(toDate)
+
+                result = await Order.find({
+                    checkout: {
+                        $gte: fromDate,
+                        $lte: toDate
+                    }
+                })
+            }
+            else {
+                const today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                result = await Order.find({
+                    checkout: {
+                        $gte: today,
+                        $lte: new Date(today.getTime() + 24 * 60 * 60 * 1000) //Add 1 day from 00:00:00 of current day
+                    }
+                })
+            }
+
+            if (result.length === 0)
+                return res.status(200).json({ status: 'success', message: 'Không có dữ liệu phù hợp' })
+
+            const revenue = result.reduce((sum, val) => sum + val.total, 0)
+            const discount = result.reduce((sum, val) => sum + val.discount, 0)
+            const surcharge = result.reduce((sum, val) => sum + val.surcharge, 0)
+
+            let sum = 0
+            //Because there are not too many lists in 1 order, there are usually only 2 or 3 orders, so the algorithm complexity is not high
+            //O is not high
+            for (let value of result) {
+                for (let element of value?.order_detail) {
+                    for (let val of element.menu) {
+                        sum += val.quantity
+                    }
+                }
+            }
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh thu thành công',
+                data: {
+                    revenue,
+                    num_clients: result.length,
+                    discount,
+                    surcharge,
+                    sum_menu: sum
+                },
+            })  
         }
         catch (err) {
             return next([400, 'error', err.message])

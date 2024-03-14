@@ -205,6 +205,13 @@ CREATE TABLE `promotion` (
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `promotion`
+--
+
+INSERT INTO `promotion` (`id`, `name`, `status`, `note`, `form_promotion`, `condition_apply`, `promotion_value`, `auto_apply`, `start_at`, `end_at`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
+(1, 'Khuyến mãi đầu xuân', 1, 'Giảm 10% cho món chả giò, đặc sản ngày tết', 2, 2, '-10%', 1, NULL, NULL, '2024-03-14 22:39:18', NULL, NULL, 0);
+
 -- --------------------------------------------------------
 
 --

@@ -17,6 +17,8 @@ router.get('/order/print-bill/:tableSlug', orderService.printerBill)
 router.get('/order/category/get-all', orderService.getCategory)
 router.get('/order/menu/search', menuService.searchMenu)
 router.get('/order/move-table', orderService.moveTable)
+router.get('/order/get-revenue', orderService.getRevenueByDay)
+
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

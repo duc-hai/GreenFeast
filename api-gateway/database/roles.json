@@ -84,6 +84,12 @@
         "delete:any",
         "create:any"
       ]
+    },
+    {
+      "resource": "revenue",
+      "actions": [
+        "read:any"
+      ]
     }
   ]
 },

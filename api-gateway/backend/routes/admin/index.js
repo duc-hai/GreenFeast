@@ -70,5 +70,8 @@ router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSi
 */
 router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
 router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), callMicroservice.forwardRequestOrderService)
+router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), callMicroservice.forwardRequestOrderService)
+
+router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), callMicroservice.forwardRequestOrderService)
 
 module.exports = router

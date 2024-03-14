@@ -70,10 +70,17 @@
         "resource": "order",
         "name": "Quản lý đặt món",
         "actions": [
-            { "name": "Xem danh sách", "slug": "read:any" },
-            { "name": "Tạo đơn hàng", "slug": "create:any" },
+            { "name": "Xem danh sách bàn, món", "slug": "read:any" },
+            { "name": "Đóng bàn", "slug": "create:any" },
             { "name": "Cập nhật đơn hàng (chuyển bàn)", "slug": "update:any" },
             { "name": "Xóa đơn hàng", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "revenue",
+        "name": "Quản lý doanh thu",
+        "actions": [
+            { "name": "Xem doanh thu", "slug": "read:any" }
         ]
     }
 ]
