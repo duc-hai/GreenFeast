@@ -7,6 +7,7 @@ const PDFDocument = require("pdfkit-table")
 const fs = require('fs')
 const cloudinary = require('cloudinary').v2
 const Promotion = require('../models/promotion')
+const path = require('path')
 
 class OrderService {
     orderMenu = async(req, res, next) => {
@@ -164,11 +165,11 @@ class OrderService {
             if (menuDetailRow.length == 0)
                 return 
                 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/kitchen/${orderDetail._id}-1.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-1.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -278,11 +279,11 @@ class OrderService {
             if (menuDetailRow.length == 0)
                 return    
 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/kitchen/${orderDetail._id}-2.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-2.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -439,11 +440,11 @@ class OrderService {
 
             const order = await Order.findOne({ table: table._id, status: false })
 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/bills/${order._id}.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -742,11 +743,11 @@ class OrderService {
             if (!order)
                 return next([400, 'error', 'Không tìm thấy đơn hàng'])
 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/bills/${order._id}.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
