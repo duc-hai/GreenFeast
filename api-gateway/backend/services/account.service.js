@@ -261,6 +261,7 @@ class AccountService {
 
     async getResourceRbac(req, res, next) {
         try {
+            //Get data from local file
             const resourceRbacData = JSON.parse(fs.readFileSync(join(process.cwd(), './reference-data/resource.rbac.json')).toString())
 
             //console.log(resourceRbacData)

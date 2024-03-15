@@ -1,10 +1,19 @@
 # Green Feast
-- I'm going to introduce this project soon...
+Web demo: deploy at
+
+## Introduction
+- I'm going to introduce this project soon... 
 - README syntax: [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+
+## Architecture
+image
+
+## Technologies 
 
 ## API Document
 **API Document Official Directly**: You can see the api document directly at [here](https://app.swaggerhub.com/apis-docs/HaiLuu/GreenFeast/1.0.0)
-> You can also use `api-document.yaml` file to read. To view api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open `api-document.yaml` file and click the OpenAPI button in the upper right corner (or use the `Shift + Alt + P` hotkey). Another way is copy, paste contents from this file to sites [Swagger Editor](https://editor.swagger.io/)
+> [!TIP]
+> Another way, you can also use `api-document.yaml` file to read. To view api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open `api-document.yaml` file and click the OpenAPI button in the upper right corner (or use the `Shift + Alt + P` hotkey). The last way is copy, paste contents from this file to sites [Swagger Editor](https://editor.swagger.io/)
 
 ## Installation
 - To run this project, we need to install Docker and Node.js (Database, Rabbit MQ will be installed automatic on Docker server with images pulled from Docker Hub)
@@ -71,6 +80,10 @@
    ```
    docker exec orderDB mongoimport --host orderDB --db order --collection printers --type json --file /data/database/printers.json --jsonArray --port 27018
    ```
+
+   ```
+   docker exec orderDB mongoimport --host orderDB --db order --collection orders --type json --file /data/database/orders.json --jsonArray --port 27018
+   ```
 5. Finally, run docker compose at `cd management-service/docker` with:
 
     ```
@@ -79,3 +92,8 @@
 
 ## Account
 - Employee account: 0123456789 / 123456 (admin role with full access)
+
+## Author & Role
+@github/support What do you think about these updates?
+
+## Thanks

@@ -1166,6 +1166,59 @@
 					"response": []
 				},
 				{
+					"name": "History order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/history?page=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"history"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History order print bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/history/print-bill?order=65f308e8a63520ebb2e9b27d",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"history",
+								"print-bill"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "65f308e8a63520ebb2e9b27d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create QR",
 					"request": {
 						"method": "GET",
@@ -1251,7 +1304,7 @@
 					"response": []
 				},
 				{
-					"name": "Get menu Copy",
+					"name": "Search menu",
 					"request": {
 						"method": "GET",
 						"header": [],

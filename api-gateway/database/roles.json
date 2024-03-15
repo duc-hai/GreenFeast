@@ -102,47 +102,24 @@
   "description": "Nhân viên thu ngân",
   "grants": [
     {
-      "resource": "table",
+      "resource": "menu",
+      "actions": [
+        "update:any",
+        "read:any"
+      ]
+    },
+    {
+      "resource": "order",
       "actions": [
         "update:any",
         "read:any",
-        "delete:any",
         "create:any"
       ]
     },
     {
-      "resource": "area",
+      "resource": "revenue",
       "actions": [
-        "update:any",
         "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "category",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "printer",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "promotion",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
         "create:any"
       ]
     }
@@ -156,48 +133,10 @@
   "description": "Nhân viên phục vụ",
   "grants": [
     {
-      "resource": "table",
+      "resource": "order",
       "actions": [
         "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "area",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "category",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "printer",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "promotion",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
+        "read:any"
       ]
     }
   ]

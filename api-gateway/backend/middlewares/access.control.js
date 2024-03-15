@@ -1,9 +1,11 @@
 const AccessControl = require('accesscontrol')
 const Role = require('../models/role')
 
+// use rbac architecture to control access 
 function grantAccess (action, resource) {
     return async (req, res, next) => {
         try {
+            //Get user infor from req. req will be passed through a middleware to assign the user's value from the cookie (access token jwt) to req.user
             if (!req.user || !req.user?.role || req.user?.user_type != 1)
                 return next([400, 'error', 'Vui lòng kiểm tra trạng thái đăng nhập'])
 
@@ -35,6 +37,7 @@ function grantAccess (action, resource) {
 
                 ac.setGrants(grantList) //Override to set new grant list
 
+                //Inherit role
                 if (roleArray.includes('admin')) 
                     ac.grant('admin').extend('waitstaff')
                 if (roleArray.includes('cashier'))
@@ -43,6 +46,7 @@ function grantAccess (action, resource) {
                 
             const permission = await ac.can(roleName)[action](resource) //it's mean ac.can('admin').readAny('menu')
 
+            //Check permission
             if (!permission.granted) 
                 return next([400, 'error', 'Bạn không có quyền truy cập chức năng này'])
 
