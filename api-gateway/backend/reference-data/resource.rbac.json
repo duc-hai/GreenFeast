@@ -72,15 +72,15 @@
         "actions": [
             { "name": "Xem danh sách bàn, món, tạo QR", "slug": "read:any" },
             { "name": "Đóng bàn", "slug": "create:any" },
-            { "name": "Chuyển bàn", "slug": "update:any" },
-            { "name": "Xóa đơn hàng", "slug": "delete:any" }
+            { "name": "Chuyển bàn", "slug": "update:any" }
         ]
     },
     {
         "resource": "revenue",
         "name": "Quản lý doanh thu",
         "actions": [
-            { "name": "Xem doanh thu", "slug": "read:any" }
+            { "name": "Xem doanh thu", "slug": "read:any" },
+            { "name": "Lịch sử đơn hàng, in lại hóa đơn", "slug": "create:any" }
         ]
     }
 ]

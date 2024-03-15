@@ -482,7 +482,7 @@ class OrderService {
                     const menu = await Menu.findOne({ _id: element._id })
                     const menuName = menu.name
 
-                    menuDetailRow.push([menuName, element.quantity, element.price, (element.price * element.quantity)])
+                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
                 }
             }
 
@@ -515,7 +515,7 @@ class OrderService {
                 }
             })()
 
-            doc.fontSize(12).text(`Tổng số tiền: ${order.subtotal}`, { align: 'right' })
+            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
             doc.moveDown()
 
             res.download(outputPath)
@@ -690,7 +690,7 @@ class OrderService {
 
             return res.status(200).json({
                 status: 'success',
-                message: 'Lấy danh thu thành công',
+                message: 'Lấy doanh thu thành công',
                 data: {
                     revenue,
                     num_clients: result.length,
@@ -699,6 +699,138 @@ class OrderService {
                     sum_menu: sum
                 },
             })  
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    historyOrder = async (req, res, next) => {
+        try {
+            let page = req.query?.page || 1
+
+            if (typeof(page) === 'string') {
+                page = parseInt(page)
+            }
+
+            //Each page has 10 items
+            const skip = (10 * page) - 10 //In first page, skip 0 index
+
+            //True means paid
+            const orders = await Order.find({ status: true }).sort({ checkout: -1 }).select({ __v: 0, order_detail: 0, discount: 0, surcharge: 0, subtotal: 0, checkin: 0, status: 0, payment_method: 0 }).skip(skip).limit(10) 
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách đơn hàng thành công',
+                data: orders
+            })  
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    printerBillAgain = async (req, res, next) => {
+        try {
+            const orderId = req.query.order
+
+            if (!orderId)
+                return next([400, 'error', 'Thiếu mã hóa đơn'])
+
+            const order = await Order.findOne({ _id: orderId, status: true })
+
+            if (!order)
+                return next([400, 'error', 'Không tìm thấy đơn hàng'])
+
+            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+
+            let doc = new PDFDocument({ margin: 30, size: 'A4' })
+
+            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/bills/${order._id}.pdf`
+
+            doc.pipe(fs.createWriteStream(outputPath))
+
+            doc
+                .font(font)
+                .fontSize(18)
+                .text('HÓA ĐƠN IN LẠI', { align: 'center' })
+                .moveDown()
+
+            doc
+                .fontSize(12)
+                .text(`Mã: ${order._id}`, { align: 'center' })
+                .moveDown()
+
+            doc.fontSize(10).text(`Bàn: ${order.table}`)
+            doc.moveDown() 
+
+            doc.fontSize(10).text(`${order?.order_detail[0]?.order_person?.name}`)
+            doc.moveDown() 
+
+            const area = await Area.findOne({ 'table_list._id': order.table })
+
+            if (area) {
+                const printer = await Printer.findOne({ printer_type: 1, area_id: area._id })
+                if (printer) {
+                    doc.fontSize(10).text(`Máy in: ${printer.name}`)
+                    doc.moveDown()
+                }
+            }
+
+            const dateTime = this.formatDateTime(order.checkin)
+
+            doc.fontSize(10).text(`Giờ vào: ${dateTime}`)
+            doc.moveDown()
+            
+            let menuDetailRow = []
+
+            for (let index = 0; index < order?.order_detail.length; index++) {
+                for (let element of order?.order_detail[index]?.menu) {
+                    const menu = await Menu.findOne({ _id: element._id })
+                    const menuName = menu.name
+
+                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
+                }
+            }
+
+            ;(async function createTable() {
+                try {
+                    const table = { 
+                        // title: "Title",
+                        // subtitle: "Subtitle",
+                        headers: [ "Món chế biến", "Số lượng", "Đơn giá", "Thành tiền" ],
+                        // rows: [
+                        //     [ "Australia", "12%", "+1.12%" ],
+                        //     [ "France", "67%", "-0.98%" ],
+                        //     [ "England", "33%", "+4.44%" ],
+                        // ],
+                        rows: menuDetailRow
+                    }
+
+                    await doc.table(table, { 
+                        prepareHeader: () => doc.font(font).fontSize(10),    
+                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
+                            doc.font(font).fontSize(10)
+                        },
+                        columnsSize: [ 200, 100, 100, 130 ],
+                    })
+
+                    doc.end()
+                }
+                catch (err) {
+                    console.error(`Error is occured: ${err.message}`)
+                }
+            })()
+
+            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
+            doc.moveDown()
+
+            res.download(outputPath)
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'In hóa đơn thành công'
+            })
         }
         catch (err) {
             return next([400, 'error', err.message])

@@ -3257,4 +3257,97 @@ paths:
                           example: "data:image/png;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"
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+  
+  /admin/order/history:
+    get:
+      tags:
+        - order
+      summary: Xem lịch sử đơn hàng
+      description: "Xem lại lịch sử đơn hàng của các bàn đã đóng. page là tham số truyền vào, đại diện cho trang, có hay không cũng được, mặc định là 1. Giao diện hiển thị 1 danh sách, gồm 10 ô, mỗi 1 ô chỉ chứa 5 thông tin được trả về bên dưới: mã hóa đơn, bàn, giờ ra, ghi chú, tổng hóa đơn. Hết danh sách sẽ có 1 nút next chuyển qua trang tiếp theo (làm sau cũng được vì hệ thống demo cũng không có quá nhiều hóa đơn), chuyển trang chỉ cần thêm tham số page=2 là được. Chỉ hiện 5 thông tin kia, nếu người dùng muốn xem chi tiết hóa đơn thì bấm vào cái nút in hóa đơn ở mỗi ô, chỉ cần gọi đến api in hóa đơn ở dưới (đơn giản, chỉ cần gắn url gọi đến api đó là được)"
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+            example: 1
+          required: false
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách đơn hàng thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 65f308e8a63520ebb2e9b27d
+                            table: 
+                              type: string
+                              example: A02
+                            checkout: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-14T15:20:51.819Z
+                            note: 
+                              type: string
+                              example: Ghi chú
+                            total: 
+                              type: number
+                              example: 250000
+                        example: [
+                          {
+                            _id: 65f308e8a63520ebb2e9b27d,
+                            table: A02,
+                            checkout: 2024-03-14T15:20:51.819Z,
+                            note: Ghi chú,
+                            total: 250000
+                          }
+                        ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /admin/order/history/print-bill:
+    get:
+      tags:
+        - order
+      summary: In lại hóa đơn từ lịch sử đơn hàng
+      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ tự động download hóa đơn về"
+      parameters:
+        - in: query
+          name: order
+          schema:
+            type: string
+            example: order=65f308e8a63520ebb2e9b27d
+          required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: In hóa đơn thành công    
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
             
