@@ -2762,7 +2762,7 @@ paths:
         required: true
       responses:
         '200':
-            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, res.download sẽ hoạt động để tự động gửi về 2 file là thông tin phiếu in bếp và phiếu in bar để chế biến.
+            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, data trả về là 2 đường dẫn của phiếu in bếp và phiếu in quầy bar, front end có thể mở 2 file này trong tab mới hoặc tải về (recommend nên mở 2 file trong tab mới để người dùng dễ thấy). Lưu ý data là 1 mảng, không phải lúc nào cũng có 2 giá trị, có thể có 1 hoặc 0 có giá trị nào.
             content:
               application/json:
                 schema:
@@ -2774,6 +2774,18 @@ paths:
                     message: 
                       type: string
                       example: Đặt món thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          0: 
+                            type: string
+                            example: j
+                      example: [
+                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570911/65f53d9bfa61a866a41f8ada-1.pdf",
+                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570912/65f53d9bfa61a866a41f8ada-1.pdf"
+                      ]
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             
@@ -3002,7 +3014,7 @@ paths:
           required: true
       responses:
         '200':
-            description: Thành công. Hóa đơn sẽ tự động download về theo res.download. Response chỉ gửi mỗi thông báo
+            description: Thành công. Hóa đơn sẽ được gửi về dưới dạng 1 url trên cloud.
             content:
               application/json:
                 schema:
@@ -3014,6 +3026,9 @@ paths:
                       message: 
                         type: string
                         example: In hóa đơn thành công
+                      data: 
+                        type: string
+                        example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571634/65f46c694680f6195976cc84-1.pdf
     
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
@@ -3324,7 +3339,7 @@ paths:
       tags:
         - order
       summary: In lại hóa đơn từ lịch sử đơn hàng
-      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ tự động download hóa đơn về"
+      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ nhận được url của hóa đơn"
       parameters:
         - in: query
           name: order
@@ -3347,6 +3362,9 @@ paths:
                     message: 
                       type: string
                       example: In hóa đơn thành công    
+                    data: 
+                      type: string
+                      example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571822/65f2fe49be6f3e6d8ce015e6-1.pdf
 
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           

@@ -119,14 +119,22 @@ class OrderService {
             const printerFood = await this.sendPrinterFood(orderMenu, getOrderLatest)
             const printerBaverage = await this.sendPrinterBaverage(orderMenu, getOrderLatest) 
            
+            let data = []
+
             if (printerFood)
-                res.download(printerFood)
+                data.push(printerFood)
             if (printerBaverage)
-                res.download(printerBaverage)
+                data.push(printerBaverage)
+
+            // if (printerFood)
+            //     res.download(printerFood)
+            // if (printerBaverage)
+            //     res.download(printerBaverage)
 
             return res.status(200).json({
                 status: 'success',
                 message: 'Đặt món thành công',
+                data
             })
         }
         catch (err) {
@@ -232,16 +240,16 @@ class OrderService {
             })()
 
             // //Upload to cloud
-            // cloudinary.config({
-            //     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            //     api_key: process.env.CLOUDINARY_API_KEY,
-            //     api_secret: process.env.CLOUDINARY_API_SECRET
-            // })
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
 
-            // const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
 
-            // return result.secure_url
-            return outputPath
+            return result.secure_url
+            // return outputPath
         }
         catch (err) {
             console.error(`Error is occured: ${err.message}`)
@@ -346,16 +354,16 @@ class OrderService {
             })()
 
             //Upload to cloud
-            // cloudinary.config({
-            //     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            //     api_key: process.env.CLOUDINARY_API_KEY,
-            //     api_secret: process.env.CLOUDINARY_API_SECRET
-            // })
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
 
-            // const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
 
-            // return result.secure_url
-            return outputPath
+            return result.secure_url
+            // return outputPath
         }
         catch (err) {
             console.error(`Error is occured: ${err.message}`)
@@ -519,11 +527,21 @@ class OrderService {
             doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
             doc.moveDown()
 
-            res.download(outputPath)
+            // res.download(outputPath)
+
+            // //Upload to cloud
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
+
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
 
             return res.status(200).json({
                 status: 'success',
-                message: 'In hóa đơn thành công'
+                message: 'In hóa đơn thành công',
+                data: result.secure_url
             })
         }
         catch (err) {
@@ -826,11 +844,19 @@ class OrderService {
             doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
             doc.moveDown()
 
-            res.download(outputPath)
+            // //Upload to cloud
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
+
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
 
             return res.status(200).json({
                 status: 'success',
-                message: 'In hóa đơn thành công'
+                message: 'In hóa đơn thành công',
+                data: result.secure_url
             })
         }
         catch (err) {
