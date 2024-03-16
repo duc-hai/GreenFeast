@@ -1,8 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
 import "./index.css";
-import { UserOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import { Button, Dropdown, Space } from "antd";
+import { useEffect } from "react";
 import Header from "../../components/Header";
 const Homepage = () => {
   const user = sessionStorage.getItem("user");

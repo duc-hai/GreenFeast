@@ -10,6 +10,8 @@ import {
   PercentageOutlined,
   ProductOutlined,
   UsergroupDeleteOutlined,
+  BorderOuterOutlined,
+  BorderTopOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import "./index.css";
@@ -41,6 +43,8 @@ const DefaultLayout = () => {
       <UsergroupDeleteOutlined />
     ),
     getItem("Quản lý máy in", "/printf-management", <PrinterOutlined />),
+    getItem("Quản lý order", "/order-management", <BorderOuterOutlined />),
+    getItem("Quản lý doanh thu", "/revenue-management", <BorderTopOutlined />),
   ];
   const navigate = useNavigate();
   useEffect(() => {

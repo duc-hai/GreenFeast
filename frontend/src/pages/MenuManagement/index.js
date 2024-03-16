@@ -230,7 +230,7 @@ const TableManagement = () => {
         <div className="py-3 flex items-center justify-end">
           <div className="w-[300px]">
             <Search
-              placeholder="Tìm kiếm theo tên tài liệu"
+              placeholder="Tìm kiếm ..."
               allowClear
               onChange={onSearch}
               style={{ width: 250 }}
@@ -240,7 +240,6 @@ const TableManagement = () => {
         <Table
           columns={columns}
           dataSource={getListMenu}
-          pagination={false}
           scroll={{ x: "max-content" }}
         />
 

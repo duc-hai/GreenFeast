@@ -20,6 +20,7 @@ import {
   fetchMenuOrder,
   fetchTableCategory,
   getMenuByCategory,
+  getMenuBySearch,
 } from "./../../Services/OrderAPI";
 import {
   getAllArea,
@@ -27,6 +28,7 @@ import {
   getTable,
 } from "../../Services/ManagementServiceAPI";
 import Header from "../../components/Header";
+import Search from "antd/es/transfer/search";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -49,7 +51,10 @@ const Order = () => {
   const [order, setOrder] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [textSearch, setTextSearch] = useState("");
+  const onSearch = (e) => {
+    setTextSearch(e.target.value);
+  };
   const fetchTable = async (id) => {
     try {
       const res = await fetchTableCategory(id);
@@ -58,6 +63,7 @@ const Order = () => {
           return {
             key: item.slug,
             label: item._id,
+            status: item.status,
           };
         })
       );
@@ -65,6 +71,25 @@ const Order = () => {
       console.log(error);
     }
   };
+
+  const fetchDataByKeywork = async (key) => {
+    try {
+      const res = await getMenuBySearch(key);
+      setListMenu(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataByKeywork(textSearch);
+  }, [textSearch]);
+
+  // useEffect(() => {
+  //   if (textSearch === "") {
+  //     fetchMenu();
+  //   }
+  // }, [textSearch]);
 
   useEffect(() => {
     if (area) {
@@ -122,12 +147,24 @@ const Order = () => {
     }
     setLoading(false);
   };
+
+  // useEffect(() => {
+  //   if (!us) {
+  //     message.error("Vui lòng đăng nhập");
+  //     navigate("/login");
+  //     return;
+  //   }
+  // }, [us]);
+
   useEffect(() => {
     fetchData();
   }, []);
+
   useEffect(() => {
-    fetchMenu();
-  }, []);
+    if (textSearch === "") {
+      fetchMenu();
+    }
+  }, [textSearch]);
 
   useEffect(() => {
     setUs(JSON.parse(user));
@@ -178,7 +215,6 @@ const Order = () => {
     },
   ];
 
-  console.log(order);
   const handleOrder = async () => {
     if (order?.length === 0 || !order) {
       message.error("Vui lòng chọn món");
@@ -199,6 +235,7 @@ const Order = () => {
         }))
       );
       message.success("Đặt món thành công");
+      setIsModalOpen(false);
     } catch (error) {
       console.log(error);
       message.error("Đặt món thất bại");
@@ -252,7 +289,7 @@ const Order = () => {
           />
 
           <div className="content bg-[#d4e3d3]">
-            <div className="flex w-full justify-between py-3">
+            <div className="flex w-full justify-between items-end gap-3 py-3">
               <div className="flex flex-col w-[48%] gap-2">
                 <span className="font">Chọn tầng</span>
                 <Select
@@ -281,12 +318,23 @@ const Order = () => {
                     setTableSlug(value);
                   }}
                 >
-                  {tableList?.map((item) => (
-                    <Select.Option key={item.key} value={item.key}>
-                      {item.label}
-                    </Select.Option>
-                  ))}
+                  {tableList?.map((item) => {
+                    if (item.status === 0)
+                      return (
+                        <Select.Option key={item.key} value={item.key}>
+                          {item.label}
+                        </Select.Option>
+                      );
+                  })}
                 </Select>
+              </div>
+              <div>
+                <Search
+                  placeholder="Tìm kiếm ..."
+                  allowClear
+                  onChange={onSearch}
+                  style={{ width: 250 }}
+                />
               </div>
             </div>
             <div className="row">

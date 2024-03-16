@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   Button,
-  Space,
   Table,
   Modal,
   Form,
@@ -13,7 +12,7 @@ import {
   Popconfirm,
   message,
 } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import "./index.css";
 import {
   createTable,

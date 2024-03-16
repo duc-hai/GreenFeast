@@ -18,11 +18,76 @@ import { useEffect, useState } from "react";
 import { deleteCookie } from "./../../utils/Cookie";
 import { editUserCustomer, updateStaff } from "../../Services/AuthAPI";
 import dayjs from "dayjs";
+import { getAllArea } from "../../Services/ManagementServiceAPI";
+import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
+
 const Header = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenQR, setIsModalOpenQR] = useState(false);
   const [form] = Form.useForm();
+  const [getArea, setGetArea] = useState([]);
+  const [area, setArea] = useState();
+  const [tableList, setTableList] = useState([]);
+  const [table, setTable] = useState();
+  const [qr, setQR] = useState();
+
+  const fetchQr = async (tableId) => {
+    try {
+      const res = await getQR(tableId);
+      setQR(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (table) {
+      fetchQr(table);
+    }
+  }, [table]);
+  const fetchTable = async (id) => {
+    try {
+      const res = await fetchTableCategory(id);
+      setTableList(
+        res.data?.map((item) => {
+          return {
+            key: item.slug,
+            label: item._id,
+            status: item.status,
+          };
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(qr);
+  useEffect(() => {
+    if (area) {
+      fetchTable(area);
+    }
+  }, [area]);
+
+  useEffect(() => {
+    const fetchArea = async () => {
+      try {
+        const res = await getAllArea();
+        setGetArea(
+          res.data?.map((item) => {
+            return {
+              key: item.id,
+              label: item.name,
+            };
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArea();
+  }, []);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -161,6 +226,76 @@ const Header = () => {
           </Form>
         </div>
       </Modal>
+      <Modal
+        className="headerModal"
+        title="Tạo QR"
+        open={isModalOpenQR}
+        onCancel={() => {
+          setIsModalOpenQR(false);
+        }}
+        footer={[
+          <Button
+            key="back"
+            danger
+            type="primary"
+            onClick={() => {
+              setIsModalOpenQR(false);
+            }}
+          >
+            ĐÓNG
+          </Button>,
+        ]}
+        bodyStyle={{ height: "1280" }}
+      >
+        <div className="ant_body">
+          <div className="flex w-full justify-between py-3">
+            <div className="flex flex-col w-[48%] gap-2">
+              <span className="font">Chọn tầng</span>
+              <Select
+                name="gender"
+                placeholder="Chọn tầng"
+                allowClear
+                onChange={(value) => {
+                  setArea(value);
+                }}
+              >
+                {getArea?.map((item) => (
+                  <Select.Option key={item.key} value={item.key}>
+                    {item.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex flex-col w-[48%] gap-2">
+              <span className="font">Chọn bàn</span>
+              <Select
+                disabled={tableList?.length === 0}
+                name="gender"
+                placeholder="Chọn bàn"
+                allowClear
+                onChange={(value) => {
+                  setTable(value);
+                }}
+              >
+                {tableList?.map((item) => {
+                  if (item.status === 0)
+                    return (
+                      <Select.Option key={item.key} value={item.label}>
+                        {item.label}
+                      </Select.Option>
+                    );
+                })}
+              </Select>
+            </div>
+          </div>
+
+          {qr && (
+            <div className="flex items-center justify-center mt-2">
+              <img src={qr} alt="" />
+            </div>
+          )}
+        </div>
+      </Modal>
       <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/">
@@ -177,9 +312,11 @@ const Header = () => {
               </Link>
             ) : (
               <div className="flex gap-6">
-                <Link to="/menu-management" style={{ fontSize: 18 }}>
-                  Quản lý
-                </Link>
+                {us && (
+                  <Link to="/menu-management" style={{ fontSize: 18 }}>
+                    Quản lý
+                  </Link>
+                )}
                 <Link to="/order" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
@@ -187,20 +324,30 @@ const Header = () => {
             )}
           </div>
         </div>
-        {us?.full_name ? (
-          <div className="flex items-center gap-4">
-            <div>Xin chào, {us?.full_name || "Khách"}</div>
-            <Dropdown menu={{ items }} trigger={["click"]}>
-              <p className="p-2 bg-white rounded-full">
-                <UserOutlined style={{ color: "black" }} />
-              </p>
-            </Dropdown>
-          </div>
-        ) : (
-          <NavLink to="/login" style={{ fontSize: 18 }}>
-            <Button type="primary">Đăng nhập</Button>
-          </NavLink>
-        )}
+        <div className="flex gap-6">
+          {us?.full_name ? (
+            <div className="flex items-center gap-4">
+              <div>Xin chào, {us?.full_name || "Khách"}</div>
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <p className="p-2 bg-white rounded-full">
+                  <UserOutlined style={{ color: "black" }} />
+                </p>
+              </Dropdown>
+            </div>
+          ) : (
+            <NavLink to="/login" style={{ fontSize: 18 }}>
+              <Button type="primary">Đăng nhập</Button>
+            </NavLink>
+          )}
+          <Button
+            type="primary"
+            onClick={() => {
+              setIsModalOpenQR(true);
+            }}
+          >
+            Tạo QR
+          </Button>
+        </div>
       </nav>
     </div>
   );

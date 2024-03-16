@@ -2,11 +2,12 @@ import CategoriesMenegement from "./pages/CategoriesMenegement";
 import ErrPage from "./pages/ErrorPage";
 import TableManagement from "./pages/TableManagement";
 import MenuManagement from "./pages/MenuManagement";
-import Order from "./pages/Order";
 import SaleManagement from "./pages/SaleManagement";
 import AreaManagement from "./pages/AreaManagement";
 import StaffManagement from "./pages/StaffManagement";
 import PrintManagement from "./pages/PrintManagement";
+import OrderManagement from "./pages/OrderManagement";
+import RevenusManagement from "./pages/RevenusManagement/index";
 
 const routers = [
   {
@@ -36,6 +37,14 @@ const routers = [
   {
     path: "/printf-management",
     Conponent: () => <PrintManagement />,
+  },
+  {
+    path: "/order-management",
+    Conponent: () => <OrderManagement />,
+  },
+  {
+    path: "/revenue-management",
+    Conponent: () => <RevenusManagement />,
   },
   // {
   //     path: '/sanpham/:userID',
