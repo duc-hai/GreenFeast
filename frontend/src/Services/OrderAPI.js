@@ -52,3 +52,11 @@ export const getRevenus = (start, to) => {
 export const getMenuBySearch = (search) => {
   return ApiOrderService.get(`/order/menu/search?keyword=${search}`);
 };
+
+export const getHistoryOrder = () => {
+  return ApiOrderService.get(`/admin/order/history`);
+};
+
+export const getBillHistory = (id) => {
+  return ApiOrderService.get(`/admin/order/history/print-bill?order=${id}`);
+};

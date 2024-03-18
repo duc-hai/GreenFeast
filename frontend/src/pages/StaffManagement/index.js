@@ -250,7 +250,7 @@ const AreaManagement = () => {
                 </Col>
                 {role === "other" && (
                   <Col span={24}>
-                    <Form.Item label="Tài trợ">
+                    <Form.Item label="Cấp quyền">
                       <Select
                         name="category_id"
                         onChange={(_, select) => {

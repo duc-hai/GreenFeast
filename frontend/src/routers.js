@@ -8,6 +8,7 @@ import StaffManagement from "./pages/StaffManagement";
 import PrintManagement from "./pages/PrintManagement";
 import OrderManagement from "./pages/OrderManagement";
 import RevenusManagement from "./pages/RevenusManagement/index";
+import HistoryOrder from "./pages/HistoryOrder";
 
 const routers = [
   {
@@ -45,6 +46,10 @@ const routers = [
   {
     path: "/revenue-management",
     Conponent: () => <RevenusManagement />,
+  },
+  {
+    path: "/history-order-management",
+    Conponent: () => <HistoryOrder />,
   },
   // {
   //     path: '/sanpham/:userID',

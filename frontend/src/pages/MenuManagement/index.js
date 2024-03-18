@@ -16,6 +16,7 @@ import {
   Radio,
   Image,
   Popconfirm,
+  Switch,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
@@ -24,6 +25,7 @@ import {
   getCategory,
   getMenu,
   getMenuByKey,
+  updateMenu,
 } from "../../Services/ManagementServiceAPI";
 import axios from "axios";
 import Search from "antd/es/transfer/search";
@@ -138,6 +140,19 @@ const TableManagement = () => {
           >
             <DeleteOutlined style={{ fontSize: "22px", color: "red" }} />
           </Popconfirm>
+          <Switch
+            defaultChecked={record?.status}
+            className="bg-slate-500"
+            onClick={async () => {
+              try {
+                await updateMenu(record.id, { status: !record?.status });
+                message.success("Cập nhật trạng thái thành công");
+              } catch (error) {
+                console.log(error);
+                message.error("Cập nhật trạng thái thất bại");
+              }
+            }}
+          />
         </Space>
       ),
     },
@@ -177,8 +192,13 @@ const TableManagement = () => {
           formData.append("image", isEdit.image);
         }
         formData.append("menu_type", values.menu_type);
-        await axios.post(
-          `http://localhost:4000/menu/update/${isEdit?.id}`,
+        // updateMenu(isEdit.id, formData);
+        // // await axios.post(
+        // //   `http://localhost:4000/menu/update/${isEdit?.id}`,
+        // //   formData
+        // // );
+        await axios.put(
+          `${process.env.REACT_APP_API}/api/admin/menu/update/${isEdit?.id}`,
           formData
         );
 
