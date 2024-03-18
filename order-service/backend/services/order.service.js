@@ -360,7 +360,7 @@ class OrderService {
                 api_secret: process.env.CLOUDINARY_API_SECRET
             })
 
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-2` })
 
             return result.secure_url
             // return outputPath
@@ -536,7 +536,7 @@ class OrderService {
                 api_secret: process.env.CLOUDINARY_API_SECRET
             })
 
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}` })
 
             return res.status(200).json({
                 status: 'success',
@@ -851,7 +851,7 @@ class OrderService {
                 api_secret: process.env.CLOUDINARY_API_SECRET
             })
 
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}` })
 
             return res.status(200).json({
                 status: 'success',
