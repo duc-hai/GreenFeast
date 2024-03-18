@@ -11,6 +11,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
       - DB_HOST=apiGatewayDB # database is service's name
+      - FRONT_END_URL=http://localhost
       - ORDER_SERVICE_URL=http://order:5000
       - MANAGEMENT_SERVICE_URL=http://management:4000
 
@@ -42,19 +43,26 @@ services:
       - apigateway-network
       - greenfeast
 
-  nginx: 
+  nginxReact: 
     image: nginx:latest
-    container_name: nginx
+    container_name: nginxReact
+    build: 
+      context: ../../../frontend
+      dockerfile: Dockerfile
+    environment:
+      - REACT_APP_API=http://apigateway:3000
     ports:
       - 80:80
     volumes: #override interface nginx default #copy file, folder from local computer to docker
       #../../frontend/build is path to front end source code (folder build)
       #/usr/share/nginx/html is path to interface nginx default 
-      - ../../../frontend:/usr/share/nginx/html
+      - ../../../frontend/build:/usr/share/nginx/html
       - ./default.conf:/etc/nginx/conf.d/default.conf #config default nginx
     networks:
       - apigateway-network
       - greenfeast
+    expose:
+      - 80
 
 volumes:
   dbdata6:

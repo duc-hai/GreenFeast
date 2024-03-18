@@ -48,14 +48,15 @@ class AccountService {
             const user = await User.findOne({ _id: account.user_id, user_type: account.account_type })
 
             //Account is correct: create access token and refresh token
-            const accessToken = jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
-            const refreshToken = jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+            const accessToken = await jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
+            const refreshToken = await jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
 
             res.cookie('access_token', accessToken, {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                sameSite: 'none',
+                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })
             
             return res.status(200).json({
@@ -152,7 +153,8 @@ class AccountService {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                sameSite: 'none',
+                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })    
                 
             return res.status(200).json({
@@ -259,6 +261,7 @@ class AccountService {
 
     async getResourceRbac(req, res, next) {
         try {
+            //Get data from local file
             const resourceRbacData = JSON.parse(fs.readFileSync(join(process.cwd(), './reference-data/resource.rbac.json')).toString())
 
             //console.log(resourceRbacData)

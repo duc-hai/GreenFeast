@@ -2,10 +2,12 @@ const Area = require('../models/area')
 const Order = require('../models/order')
 const Menu = require('../models/menu')
 const Printer = require('../models/printer')
+const Category = require('../models/category')
 const PDFDocument = require("pdfkit-table")
 const fs = require('fs')
 const cloudinary = require('cloudinary').v2
 const Promotion = require('../models/promotion')
+const path = require('path')
 
 class OrderService {
     orderMenu = async(req, res, next) => {
@@ -117,14 +119,22 @@ class OrderService {
             const printerFood = await this.sendPrinterFood(orderMenu, getOrderLatest)
             const printerBaverage = await this.sendPrinterBaverage(orderMenu, getOrderLatest) 
            
+            let data = []
+
             if (printerFood)
-                res.download(printerFood)
+                data.push(printerFood)
             if (printerBaverage)
-                res.download(printerBaverage)
+                data.push(printerBaverage)
+
+            // if (printerFood)
+            //     res.download(printerFood)
+            // if (printerBaverage)
+            //     res.download(printerBaverage)
 
             return res.status(200).json({
                 status: 'success',
                 message: 'Đặt món thành công',
+                data
             })
         }
         catch (err) {
@@ -163,11 +173,11 @@ class OrderService {
             if (menuDetailRow.length == 0)
                 return 
                 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/kitchen/${orderDetail._id}-1.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-1.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -230,16 +240,16 @@ class OrderService {
             })()
 
             // //Upload to cloud
-            // cloudinary.config({
-            //     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            //     api_key: process.env.CLOUDINARY_API_KEY,
-            //     api_secret: process.env.CLOUDINARY_API_SECRET
-            // })
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
 
-            // const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
 
-            // return result.secure_url
-            return outputPath
+            return result.secure_url
+            // return outputPath
         }
         catch (err) {
             console.error(`Error is occured: ${err.message}`)
@@ -277,11 +287,11 @@ class OrderService {
             if (menuDetailRow.length == 0)
                 return    
 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/kitchen/${orderDetail._id}-2.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-2.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -344,16 +354,16 @@ class OrderService {
             })()
 
             //Upload to cloud
-            // cloudinary.config({
-            //     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            //     api_key: process.env.CLOUDINARY_API_KEY,
-            //     api_secret: process.env.CLOUDINARY_API_SECRET
-            // })
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
 
-            // const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
 
-            // return result.secure_url
-            return outputPath
+            return result.secure_url
+            // return outputPath
         }
         catch (err) {
             console.error(`Error is occured: ${err.message}`)
@@ -438,11 +448,11 @@ class OrderService {
 
             const order = await Order.findOne({ table: table._id, status: false })
 
-            const font = __dirname.slice(0, __dirname.lastIndexOf('/')) + '/resources/ARIAL.TTF'
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
 
             let doc = new PDFDocument({ margin: 30, size: 'A4' })
 
-            const outputPath = __dirname.slice(0, __dirname.lastIndexOf('/')) + `/resources/bills/${order._id}.pdf`
+            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
 
             doc.pipe(fs.createWriteStream(outputPath))
 
@@ -481,7 +491,7 @@ class OrderService {
                     const menu = await Menu.findOne({ _id: element._id })
                     const menuName = menu.name
 
-                    menuDetailRow.push([menuName, element.quantity, element.price, (element.price * element.quantity)])
+                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
                 }
             }
 
@@ -514,14 +524,76 @@ class OrderService {
                 }
             })()
 
-            doc.fontSize(12).text(`Tổng số tiền: ${order.subtotal}`, { align: 'right' })
+            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
             doc.moveDown()
 
-            res.download(outputPath)
+            // res.download(outputPath)
+
+            // //Upload to cloud
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
+
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
 
             return res.status(200).json({
                 status: 'success',
-                message: 'In hóa đơn thành công'
+                message: 'In hóa đơn thành công',
+                data: result.secure_url
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    moveTable = async (req, res, next) => {
+        try {
+            const tableFromId = req.query.from
+            const tableToId = req.query.to
+
+            if (!tableFromId || !tableToId)
+                return next([400, 'error', 'Thiếu dữ liệu bàn'])
+
+            const order = await Order.findOne({ table: tableFromId, status: false }).select({ __v: 0 })
+            
+            if (!order)
+                return next([400, 'error', 'Bàn này chưa thực hiện đặt món'])
+
+            const areaTo = await Area.findOne({ 'table_list._id': tableToId })
+
+            if (!areaTo)
+                return next([400, 'error', 'Không tìm thấy bàn'])
+
+            const tableTo = areaTo?.table_list.find(table => table._id === tableToId)
+
+            //Check table is whether available or not  
+            if (tableTo?.status != 0) {
+                return next([400, 'error', 'Bàn chuyển đến đã có người ngồi'])
+            }
+
+            //Move table
+            //Set 'table to' is served
+            await Area.findOneAndUpdate(
+                { 'table_list._id': tableToId },
+                { $set: { 'table_list.$.status': 1 } }
+            )    
+
+            //Set 'table from' is available
+            await Area.findOneAndUpdate(
+                { 'table_list._id': tableFromId },
+                { $set: { 'table_list.$.status': 0 } }
+            )  
+
+            //Update table
+            order.table = tableToId
+            await order.save()
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Chuyển bàn thành công'
             })
         }
         catch (err) {
@@ -542,15 +614,18 @@ class OrderService {
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
-            const order = await Order.findOneAndUpdate({ table: table._id, status: false }, {
+            const order = await Order.findOne({ table: table._id, status: false })
+            
+            if (!order)
+                return next([400, 'error', 'Không tìm thấy món trong bàn'])
+
+            await Order.updateOne({ table: table._id, status: false }, {
                 note,
                 payment_method,
                 status: true,
-                checkout: new Date()
+                checkout: new Date(),
+                total: order.subtotal
             })
-            
-            if (!order)
-                return next([400, 'error', 'Đã xảy ra lỗi với thực đơn'])
 
             //Set table is available
             await Area.findOneAndUpdate(
@@ -561,6 +636,227 @@ class OrderService {
             return res.status(200).json({
                 status: 'success',
                 message: 'Đóng bàn thành công'
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    getCategory = async (req, res, next) => {
+        try {
+            const categories = await Category.find({}).sort({ _id: 1 }).select({ __v: 0 })
+            if (!categories)
+                return next([400, 'error', 'Đã xảy ra lỗi khi lấy dữ liệu danh mục'])
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách thành công',
+                data: categories
+            })    
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    getRevenueByDay = async (req, res, next) => {
+        try {
+            let fromDate  = req.query.from
+            let toDate  = req.query.to
+            let result 
+            
+            if (fromDate && toDate) {
+                fromDate = new Date(fromDate) //'2024-01-31'
+                toDate = new Date(toDate)
+
+                result = await Order.find({
+                    checkout: {
+                        $gte: fromDate,
+                        $lte: toDate
+                    }
+                })
+            }
+            else {
+                const today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                result = await Order.find({
+                    checkout: {
+                        $gte: today,
+                        $lte: new Date(today.getTime() + 24 * 60 * 60 * 1000) //Add 1 day from 00:00:00 of current day
+                    }
+                })
+            }
+
+            if (result.length === 0)
+                return res.status(200).json({ status: 'success', message: 'Không có dữ liệu phù hợp' })
+
+            const revenue = result.reduce((sum, val) => sum + val.total, 0)
+            const discount = result.reduce((sum, val) => sum + val.discount, 0)
+            const surcharge = result.reduce((sum, val) => sum + val.surcharge, 0)
+
+            let sum = 0
+            //Because there are not too many lists in 1 order, there are usually only 2 or 3 orders, so the algorithm complexity is not high
+            //O is not high
+            for (let value of result) {
+                for (let element of value?.order_detail) {
+                    for (let val of element.menu) {
+                        sum += val.quantity
+                    }
+                }
+            }
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy doanh thu thành công',
+                data: {
+                    revenue,
+                    num_clients: result.length,
+                    discount,
+                    surcharge,
+                    sum_menu: sum
+                },
+            })  
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    historyOrder = async (req, res, next) => {
+        try {
+            let page = req.query?.page || 1
+
+            if (typeof(page) === 'string') {
+                page = parseInt(page)
+            }
+
+            //Each page has 10 items
+            const skip = (10 * page) - 10 //In first page, skip 0 index
+
+            //True means paid
+            const orders = await Order.find({ status: true }).sort({ checkout: -1 }).select({ __v: 0, order_detail: 0, discount: 0, surcharge: 0, subtotal: 0, checkin: 0, status: 0, payment_method: 0 }).skip(skip).limit(10) 
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy danh sách đơn hàng thành công',
+                data: orders
+            })  
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
+
+    printerBillAgain = async (req, res, next) => {
+        try {
+            const orderId = req.query.order
+
+            if (!orderId)
+                return next([400, 'error', 'Thiếu mã hóa đơn'])
+
+            const order = await Order.findOne({ _id: orderId, status: true })
+
+            if (!order)
+                return next([400, 'error', 'Không tìm thấy đơn hàng'])
+
+            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
+
+            let doc = new PDFDocument({ margin: 30, size: 'A4' })
+
+            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
+
+            doc.pipe(fs.createWriteStream(outputPath))
+
+            doc
+                .font(font)
+                .fontSize(18)
+                .text('HÓA ĐƠN IN LẠI', { align: 'center' })
+                .moveDown()
+
+            doc
+                .fontSize(12)
+                .text(`Mã: ${order._id}`, { align: 'center' })
+                .moveDown()
+
+            doc.fontSize(10).text(`Bàn: ${order.table}`)
+            doc.moveDown() 
+
+            doc.fontSize(10).text(`${order?.order_detail[0]?.order_person?.name}`)
+            doc.moveDown() 
+
+            const area = await Area.findOne({ 'table_list._id': order.table })
+
+            if (area) {
+                const printer = await Printer.findOne({ printer_type: 1, area_id: area._id })
+                if (printer) {
+                    doc.fontSize(10).text(`Máy in: ${printer.name}`)
+                    doc.moveDown()
+                }
+            }
+
+            const dateTime = this.formatDateTime(order.checkin)
+
+            doc.fontSize(10).text(`Giờ vào: ${dateTime}`)
+            doc.moveDown()
+            
+            let menuDetailRow = []
+
+            for (let index = 0; index < order?.order_detail.length; index++) {
+                for (let element of order?.order_detail[index]?.menu) {
+                    const menu = await Menu.findOne({ _id: element._id })
+                    const menuName = menu.name
+
+                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
+                }
+            }
+
+            ;(async function createTable() {
+                try {
+                    const table = { 
+                        // title: "Title",
+                        // subtitle: "Subtitle",
+                        headers: [ "Món chế biến", "Số lượng", "Đơn giá", "Thành tiền" ],
+                        // rows: [
+                        //     [ "Australia", "12%", "+1.12%" ],
+                        //     [ "France", "67%", "-0.98%" ],
+                        //     [ "England", "33%", "+4.44%" ],
+                        // ],
+                        rows: menuDetailRow
+                    }
+
+                    await doc.table(table, { 
+                        prepareHeader: () => doc.font(font).fontSize(10),    
+                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
+                            doc.font(font).fontSize(10)
+                        },
+                        columnsSize: [ 200, 100, 100, 130 ],
+                    })
+
+                    doc.end()
+                }
+                catch (err) {
+                    console.error(`Error is occured: ${err.message}`)
+                }
+            })()
+
+            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
+            doc.moveDown()
+
+            // //Upload to cloud
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            })
+
+            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}-1` })
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'In hóa đơn thành công',
+                data: result.secure_url
             })
         }
         catch (err) {

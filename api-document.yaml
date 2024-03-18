@@ -30,9 +30,7 @@ externalDocs:
   url: http://swagger.io
 servers:
   - url: http://localhost:3000/api
-    description: Development mode (Gateway)
-  - url: http://localhost:4000
-    description: Management service
+    description: Development mode (API Gateway)
   - url: https://greenfeast.space/api
     description: Production mode  
 tags:
@@ -112,24 +110,67 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status:
+                  status: 
                     type: string
                     example: success
-                  message:
+                  message: 
                     type: string
                     example: Đăng nhập thành công
                   data: 
                     type: object
-                    properties:
+                    properties: 
                       access_token: 
                         type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDgyZGQwMDEyZGIwYjljYzM0ZTM4NyIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzA4NzAyMzI0fQ.EvtzK--HQ7ohdtO8ERJDV8HVxa7_PXAIOKp3QhrCem0
-                      refresh_token:
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
+                      refresh_token: 
                         type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcwODY2NjMyNCwiZXhwIjoxNzExMjU4MzI0fQ.LuTjk9EhkW4T51BALoyDnuuBdp_PgwDVw_xZstm5z6Y
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
                       full_name: 
                         type: string
-                        example: Lưu Đức Hải
+                        example: Đức Hải
+                      data: 
+                        type: object
+                        properties: 
+                          customer: 
+                            type: object
+                            properties: 
+                              order_list: 
+                                type: array
+                                items: 
+                                  type: string
+                                example: []
+                          _id: 
+                            type: string
+                            example: 65eb127aee92b3c06a3eb28a
+                          full_name: 
+                            type: string
+                            example: Đức Hải
+                          gender: 
+                            type: string
+                            example: không
+                          phone_number: 
+                            type: string
+                            example: 
+                          address: 
+                            type: string
+                            example: 
+                          role: 
+                            type: string
+                            example: admin
+                          user_type: 
+                            type: number
+                            example: 1
+                          createdAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-03-08T13:28:26.273Z
+                          updatedAt: 
+                            type: string
+                            format: date-time
+                            example: 2024-03-08T13:28:26.273Z
+                          __v: 
+                            type: number
+                            example: 0
                
             
         '400':
@@ -254,7 +295,7 @@ paths:
       tags:
         - auth
       summary: Đăng nhập với google (khách hàng)
-      description: "Đăng nhập với google, chỉ cần gắn đường link này cho nút đăng nhập với google là được. Còn lại thì server sẽ tự động xử lý. Không cần truyền param hay body gì hết. (Chức năng này hiện chỉ xác thực google và chuyển hướng, chứ chưa áp dụng JWT lên nó). Lưu ý: project GreenFeast đăng ký trên Google cloud hiện chưa xuất bản và xác thực nên chỉ có 1 số tài khoản google được thêm vào danh sách testing mới đăng nhập được. Hiện đang có 2 account có thể login là: duchai621859@gmail.com và tramngantruong.1007@gmail.com" 
+      description: "Đăng nhập với google, chỉ cần gắn đường link này cho nút đăng nhập với google là được. Còn lại thì server sẽ tự động xử lý. Không cần truyền param hay body gì hết. Chức năng này sẽ xác thực google và chuyển hướng về trang /, đồng thời đã áp dụng JWT, server sẽ tự động lưu access_token vào trình duyệt người dùng (không dùng refresh token cho loại đăng nhập này). Lưu ý: project GreenFeast đăng ký trên Google cloud hiện đã xuất bản và xác thực nên tài khoản google nào cũng có thể đăng nhập. Ngoài ra, để thuận tiện cho việc hiển thị tên người dùng lên giao diện, cookie sẽ lưu thêm 1 tham số nữa là full_name tương ứng tên người dùng. full_name này lưu ở chế độ client có thể truy cập cũng như không mã hóa nên front end có thể dễ dàng lấy ra giá trị để hiển thị" 
       responses:
         '200':
           description: Đăng nhập thành công, tự động chuyển hướng về trang / (hiện đang để tạm, tùy vào nghiệp vụ mà sau này sửa lại url chuyển hướng cho đúng)
@@ -381,24 +422,68 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status:
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: Đăng nhập thành công
-                  data: 
-                    type: object
-                    properties:
-                      access_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzA4NzE2NDYxfQ.O6liDM204xOTkaUkbdkHIAn7TJ_2XgBas5JfMAWzxIg
-                      refresh_token:
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZDc1MmYwYjVmOWE0ZWQwMTA2MDIzOSIsImlhdCI6MTcwODY4MDQ2MSwiZXhwIjoxNzExMjcyNDYxfQ.r-pmDcrQ4DFZspQYUlGoqdPeNl71Ilr_uTY5NJbd50Q"
-                      full_name:
-                        type: string
-                        example: Lưu Đức Hải
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đăng nhập thành công
+                    data: 
+                      type: object
+                      properties: 
+                        access_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
+                        refresh_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
+                        full_name: 
+                          type: string
+                          example: Đức Hải
+                        data: 
+                          type: object
+                          properties: 
+                            customer: 
+                              type: object
+                              properties: 
+                                order_list: 
+                                  type: array
+                                  items: 
+                                    type: string
+                                  example: []
+                            _id: 
+                              type: string
+                              example: 65eb127aee92b3c06a3eb28a
+                            full_name: 
+                              type: string
+                              example: Đức Hải
+                            gender: 
+                              type: string
+                              example: không
+                            phone_number: 
+                              type: string
+                              example: 
+                            address: 
+                              type: string
+                              example: 
+                            role: 
+                              type: string
+                              example: admin
+                            user_type: 
+                              type: number
+                              example: 1
+                            createdAt: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-08T13:28:26.273Z
+                            updatedAt: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-08T13:28:26.273Z
+                            __v: 
+                              type: number
+                              example: 0
+
                  
         '400':
           description: Có nhiều trường hợp lỗi
@@ -700,7 +785,7 @@ paths:
                     type: string
                     example: Lỗi gì đó  
   
-  /area/create:
+  /admin/area/create:
     post:
       tags:
         - area
@@ -753,7 +838,7 @@ paths:
                     type: string
                     example: Lỗi nào đó
                     
-  /area/get-all:
+  /admin/area/get-all:
     get:
       tags:
         - area
@@ -819,7 +904,7 @@ paths:
                       type: string
                       example: Lỗi nào đó 
                       
-  /area/update/{id}:
+  /admin/area/update/{id}:
     put:
       tags:
         - area
@@ -859,7 +944,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"
   
-  /area/delete/{id}:
+  /admin/area/delete/{id}:
     delete:
       tags:
         - area
@@ -888,7 +973,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
   
-  /table/create:
+  /admin/table/create:
     post:
       tags:
         - table
@@ -951,7 +1036,7 @@ paths:
                     type: string
                     example: Lỗi nào đó
                     
-  /table/create-auto:
+  /admin/table/create-auto:
     post:
       tags:
         - table
@@ -1018,7 +1103,7 @@ paths:
                     type: string
                     example: Lỗi nào đó   
                     
-  /table/get-tables:
+  /admin/table/get-tables:
     get:
       tags:
         - table
@@ -1092,7 +1177,7 @@ paths:
                       type: string
                       example: Lỗi nào đó   
                       
-  /table/delete/:
+  /admin/table/delete/:
     patch:
       tags:
         - table
@@ -1127,7 +1212,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
 
-  /printer/create:
+  /admin/printer/create:
     post:
       tags:
         - printer
@@ -1205,7 +1290,7 @@ paths:
                     type: string
                     example: Lỗi nào đó          
   
-  /printer/get-all:
+  /admin/printer/get-all:
     get:
       tags:
         - printer
@@ -1278,7 +1363,7 @@ paths:
                       type: string
                       example: Lỗi nào đó
                       
-  /printer/get-printer-type:
+  /admin/printer/get-printer-type:
     get:
       tags:
         - printer
@@ -1325,7 +1410,7 @@ paths:
                       type: string
                       example: Lỗi nào đó          
                       
-  /printer/update/{id}:
+  /admin/printer/update/{id}:
     put:
       tags:
         - printer
@@ -1375,7 +1460,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
             
-  /printer/delete/{id}:
+  /admin/printer/delete/{id}:
     delete:
       tags:
         - printer
@@ -1405,7 +1490,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
           
-  /category/create:
+  /admin/category/create:
     post:
       tags:
         - category
@@ -1466,7 +1551,7 @@ paths:
                     type: string
                     example: Lỗi nào đó        
                     
-  /category/get-all:
+  /admin/category/get-all:
     get:
       tags:
         - category
@@ -1535,7 +1620,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                
                       
-  /category/update/{id}:
+  /admin/category/update/{id}:
     put:
       tags:
         - category
@@ -1576,7 +1661,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                      
             
-  /category/delete/{id}:
+  /admin/category/delete/{id}:
     delete:
       tags:
         - category
@@ -1606,7 +1691,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
             
-  /menu/create:
+  /admin/menu/create:
     post:
       tags:
         - menu
@@ -1691,7 +1776,7 @@ paths:
                     type: string
                     example: Lỗi nào đó           
                     
-  /menu/get-all:
+  /admin/menu/get-all:
     get:
       tags:
         - menu
@@ -1804,7 +1889,7 @@ paths:
                       type: string
                       example: Lỗi nào đó              
                       
-  /menu/update/{id}:
+  /admin/menu/update/{id}:
     put:
       tags:
         - menu
@@ -1856,7 +1941,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
             
-  /menu/get-by-category/{id}:
+  /admin/menu/get-by-category/{id}:
     get:
       tags:
         - menu
@@ -1950,7 +2035,7 @@ paths:
                       type: string
                       example: Lỗi nào đó            
                       
-  /menu/delete/{id}:
+  /admin/menu/delete/{id}:
     delete:
       tags:
         - menu
@@ -1980,7 +2065,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                       
             
-  /menu/search:
+  /admin/menu/search:
     get:
       tags:
         - menu
@@ -2073,7 +2158,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                
             
-  /promotion/create:
+  /admin/promotion/create:
     post:
       tags:
         - promotion
@@ -2165,7 +2250,7 @@ paths:
                     type: string
                     example: Lỗi nào đó 
                     
-  /promotion/get-all:
+  /admin/promotion/get-all:
     get:
       tags:
         - promotion
@@ -2268,7 +2353,7 @@ paths:
                       type: string
                       example: Lỗi nào đó                  
                       
-  /promotion/update/{id}:
+  /admin/promotion/update/{id}:
     put:
       tags:
         - promotion
@@ -2324,7 +2409,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"                        
             
-  /promotion/get-form-promotion:
+  /admin/promotion/get-form-promotion:
     get:
       tags:
         - promotion
@@ -2368,7 +2453,7 @@ paths:
                       type: string
                       example: Lỗi nào đó           
                       
-  /promotion/delete/{id}:
+  /admin/promotion/delete/{id}:
     delete:
       tags:
         - promotion
@@ -2420,7 +2505,7 @@ paths:
           required: false
       responses:
         '200':
-            description: Thành công
+            description: Thành công. Lưu ý, nếu data trả về có trường discount_price thì đó là giá khuyến mãi. Hiển thị giá gốc -> gạch ngang, để giá mới lên
             content:
               application/json:
                 schema:
@@ -2646,7 +2731,7 @@ paths:
       tags:
         - order
       summary: Đặt món (dùng cho cả nhân viên và khách hàng)
-      description: Dùng cho trường hợp nhân viên muốn vào xem danh sách các bàn hiện có. Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này.
+      description: Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này.
       parameters:
         - in: path
           name: tableSlug
@@ -2677,7 +2762,7 @@ paths:
         required: true
       responses:
         '200':
-            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, res.download sẽ hoạt động để tự động gửi về 2 file là thông tin phiếu in bếp và phiếu in bar để chế biến.
+            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, data trả về là 2 đường dẫn của phiếu in bếp và phiếu in quầy bar, front end có thể mở 2 file này trong tab mới hoặc tải về (recommend nên mở 2 file trong tab mới để người dùng dễ thấy). Lưu ý data là 1 mảng, không phải lúc nào cũng có 2 giá trị, có thể có 1 hoặc 0 có giá trị nào.
             content:
               application/json:
                 schema:
@@ -2689,6 +2774,18 @@ paths:
                     message: 
                       type: string
                       example: Đặt món thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          0: 
+                            type: string
+                            example: j
+                      example: [
+                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570911/65f53d9bfa61a866a41f8ada-1.pdf",
+                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570912/65f53d9bfa61a866a41f8ada-1.pdf"
+                      ]
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             
@@ -2855,7 +2952,7 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
             
-  /order/close/{tableSlug}:
+  /admin/order/close/{tableSlug}:
     post:
       tags:
         - order
@@ -2917,7 +3014,7 @@ paths:
           required: true
       responses:
         '200':
-            description: Thành công. Hóa đơn sẽ tự động download về theo res.download. Response chỉ gửi mỗi thông báo
+            description: Thành công. Hóa đơn sẽ được gửi về dưới dạng 1 url trên cloud.
             content:
               application/json:
                 schema:
@@ -2929,6 +3026,346 @@ paths:
                       message: 
                         type: string
                         example: In hóa đơn thành công
+                      data: 
+                        type: string
+                        example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571634/65f46c694680f6195976cc84-1.pdf
     
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"             
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /order/category/get-all:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách danh mục
+      description: Lấy danh sách danh mục
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy danh sách thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: number
+                                example: 1
+                              name: 
+                                type: string
+                                example: Khai vị
+                          example: [
+                            {
+                              _id: 1,
+                              name: Khai vị,
+                            }
+                          ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"    
+            
+  /order/menu/search:
+    get:
+      tags:
+        - order
+      summary: Tìm kiếm món ăn để đặt món
+      description: Tương tự như tìm kiếm menu ở management service, tìm theo từ khóa chính xác hoặc từ khóa viết tắt
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            example: gỏi
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Tìm kiếm thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: number
+                                example: 1
+                              name: 
+                                type: string
+                                example: Gỏi cuốn sốt đậu phộng
+                              description: 
+                                type: string
+                                example: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!
+                              image: 
+                                type: string
+                                example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg
+                              price: 
+                                type: number
+                                example: 90000
+                              status: 
+                                type: boolean
+                              category_id: 
+                                type: number
+                                example: 1
+                              menu_type: 
+                                type: number
+                                example: 1
+                          example: [
+                            {
+                              _id: 1,
+                              name: Gỏi cuốn sốt đậu phộng,
+                              description: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!,
+                              image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg,
+                              price: 90000,
+                              status: true,
+                              category_id: 1,
+                              menu_type: 1
+                            }
+                          ]
+
+    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"  
+            
+  /admin/order/move-table:
+    get:
+      tags:
+        - order
+      summary: Chuyển bàn (dành cho nhân viên)
+      description: Khi khách có nhu cầu chuyển bàn, nhân viên sẽ thực hiện chuyển món của bàn đó sang 1 bàn khác cho khách. Lưu ý là chỉ được chuyển đến 1 bàn đang trống. Thao tác của chức năng này là nhân viên sẽ vào bàn hiện tại, bấm chuyển bàn, danh sách các bàn đang trống sẽ hiện ra, nhân viên bấm vào bàn mong muốn thì bàn sẽ chuyển. Lưu ý chuyển bàn ở đây nghĩa là chuyển toàn bộ món đang có trong 1 bàn sang 1 bàn khác
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            example: A01
+          required: true
+        
+        - in: query
+          name: to
+          schema:
+            type: string
+            example: A02
+          required: true
+      responses:
+        '200':
+            description: Thành công
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Chuyển bàn thành công
+    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /admin/order/get-revenue:
+    get:
+      tags:
+        - order
+      summary: Xem doanh thu
+      description: Dùng để lấy doanh thu. Chỉ có những vai trò được cấp phép mới được truy cập. Theo mặc định, nếu không truyền tham số thì nó sẽ lấy doanh thu theo ngày. Nếu truyền query là from và to thì sẽ lấy theo từ ngày - đến ngày, định dạng ngày gửi lên phải là 'yyyy/mm/dd'. Với chức năng này, front end có thể tạo 4 mục, 1 là thống kê theo ngày hiện tại, 2 là thống kê theo tháng, 3 là theo năm, 4 là cho người dùng chọn ngày cụ thể, nói chung thiết kế sao cho hợp lý là được, tất cả đều gửi chung lên api này (chỉ khác ngày bắt đầu và kết thúc)
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            example: 2024-03-13
+          required: false
+        
+        - in: query
+          name: to
+          schema:
+            type: string
+            example: 2024-03-15
+          required: false
+      responses:
+        '200':
+            description: Thành công. Revenue là doanh thu khoảng thời gian đó, num_clients là Lượt khách, discount là tổng giá đã giảm, surcharge là tổng giá đã phụ thu, sum_menu là tổng số món khách đã đặt trong khoảng thời gian đó. Hiển thị biểu đồ hay gì đó cũng được
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh thu thành công
+                      data: 
+                        type: object
+                        properties: 
+                          revenue: 
+                            type: number
+                            example: 500000
+                          num_clients: 
+                            type: number
+                            example: 2
+                          discount: 
+                            type: number
+                            example: 0
+                          surcharge: 
+                            type: number
+                            example: 0
+                          sum_menu: 
+                            type: number
+                            example: 8
+
+    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
+            
+  /admin/create-qr:
+    get:
+      tags:
+        - order
+      summary: Tạo mã QR để đặt món (Nhân viên, quản lý nhà hàng)
+      description: "Dùng để tạo mã QR đặt món, truyền vào 1 tham số là table tương ứng với mã bàn, backend sẽ trả về dữ liệu qr để người dùng có thể quét và đặt món. Sau khi tạo thành công sẽ nhận được data là 1 chuỗi base 64. Bởi vì phía backend không cần phải lưu trữ dữ liệu này làm gì nên nó sẽ không được upload lên cloud hay lưu trong local storage trên server hay database. Vì thế, trả thẳng base 64 về cho front end xử lý. Cách xử lý cho front end như sau: Tạo 1 thẻ a như sau: **< a id=\"downloadQR\" download=\"qrcode.png\" style=\"display: none;\" href=\"\">Download QR Code</ a>**. Sau đó, nhận được data thì đưa data base 64 đó vào href của thẻ a, tạo 1 sự kiện click cho thẻ a đó là qr code sẽ tự động tải về. Ngoài ra, để tiện cho việc demo, trên thanh header phía client có thể hiện thêm 1 mục là QR Đặt món, bấm vô chuyển hướng đến trang nào đó có sẵn danh sách qr để quét, có thể hiển thị luôn danh sách các đường link đặt món sẵn để thao tác"
+      parameters:
+        - in: query
+          name: table
+          schema:
+            type: string
+            example: A01
+          required: true
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Tạo QR bàn thành công
+                        data: 
+                          type: string
+                          example: "data:image/png;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"
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+  
+  /admin/order/history:
+    get:
+      tags:
+        - order
+      summary: Xem lịch sử đơn hàng
+      description: "Xem lại lịch sử đơn hàng của các bàn đã đóng. page là tham số truyền vào, đại diện cho trang, có hay không cũng được, mặc định là 1. Giao diện hiển thị 1 danh sách, gồm 10 ô, mỗi 1 ô chỉ chứa 5 thông tin được trả về bên dưới: mã hóa đơn, bàn, giờ ra, ghi chú, tổng hóa đơn. Hết danh sách sẽ có 1 nút next chuyển qua trang tiếp theo (làm sau cũng được vì hệ thống demo cũng không có quá nhiều hóa đơn), chuyển trang chỉ cần thêm tham số page=2 là được. Chỉ hiện 5 thông tin kia, nếu người dùng muốn xem chi tiết hóa đơn thì bấm vào cái nút in hóa đơn ở mỗi ô, chỉ cần gọi đến api in hóa đơn ở dưới (đơn giản, chỉ cần gắn url gọi đến api đó là được)"
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+            example: 1
+          required: false
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách đơn hàng thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 65f308e8a63520ebb2e9b27d
+                            table: 
+                              type: string
+                              example: A02
+                            checkout: 
+                              type: string
+                              format: date-time
+                              example: 2024-03-14T15:20:51.819Z
+                            note: 
+                              type: string
+                              example: Ghi chú
+                            total: 
+                              type: number
+                              example: 250000
+                        example: [
+                          {
+                            _id: 65f308e8a63520ebb2e9b27d,
+                            table: A02,
+                            checkout: 2024-03-14T15:20:51.819Z,
+                            note: Ghi chú,
+                            total: 250000
+                          }
+                        ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /admin/order/history/print-bill:
+    get:
+      tags:
+        - order
+      summary: In lại hóa đơn từ lịch sử đơn hàng
+      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ nhận được url của hóa đơn"
+      parameters:
+        - in: query
+          name: order
+          schema:
+            type: string
+            example: order=65f308e8a63520ebb2e9b27d
+          required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: In hóa đơn thành công    
+                    data: 
+                      type: string
+                      example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571822/65f2fe49be6f3e6d8ce015e6-1.pdf
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+            

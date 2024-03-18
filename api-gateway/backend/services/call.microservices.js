@@ -1,4 +1,6 @@
 const axios = require('axios')
+const { PassThrough } = require('stream')
+const logger = require('../middlewares/logger.log')
 // const http = require('http')
 // const URL = require('url')
 
@@ -41,9 +43,31 @@ class CallMicroservices {
                 headers: headers
             })
             
+            const passThroughStream = new PassThrough() //Storage data
+
+            axiosResponse.data.pipe(passThroughStream) //Put data from axios res to passthrough
+            
+            let responseData = ''
+
+            // Read data from res (IncomingMessage)
+            axiosResponse.data.on('data', (chunk) => {
+                responseData += chunk
+            })
+
+            // Res end, hanle data
+            axiosResponse.data.on('end', () => {
+                responseData = JSON.parse(responseData)
+
+                if (responseData.status === 'error')
+                    logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]`)
+            })
+
+            // return axiosResponse.data.pipe(res)
+            return passThroughStream.pipe(res)
+            
             // console.log(axiosResponse)
 
-            return axiosResponse.data.pipe(res)
+            // return axiosResponse.data.pipe(res)
 
             //Another way is use http built in module in NodeJS
             // const opts = Object.assign({}, URL.parse('http://localhost:4000'), {
@@ -107,7 +131,27 @@ class CallMicroservices {
                 headers: headers
             })
 
-            return axiosResponse.data.pipe(res)
+            const passThroughStream = new PassThrough() //Storage data
+
+            axiosResponse.data.pipe(passThroughStream) //Put data from axios res to passthrough
+            
+            let responseData = ''
+
+            // Read data from res (IncomingMessage)
+            axiosResponse.data.on('data', (chunk) => {
+                responseData += chunk
+            })
+
+            // Res end, hanle data
+            axiosResponse.data.on('end', () => {
+                responseData = JSON.parse(responseData)
+
+                if (responseData.status === 'error')
+                    logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]`)
+            })
+
+            // return axiosResponse.data.pipe(res)
+            return passThroughStream.pipe(res)
         }
         catch (err) {
             return next([400, 'error', err.message])
@@ -151,18 +195,28 @@ class CallMicroservices {
                 data: req.body,
                 headers: headers
             })
+
+            const passThroughStream = new PassThrough() //Storage data
+
+            axiosResponse.data.pipe(passThroughStream) //Put data from axios res to passthrough
             
-            // console.log(axiosResponse)
+            let responseData = ''
 
-            return axiosResponse.data.pipe(res)
+            // Read data from res (IncomingMessage)
+            axiosResponse.data.on('data', (chunk) => {
+                responseData += chunk
+            })
 
-            //Another way is use http built in module in NodeJS
-            // const opts = Object.assign({}, URL.parse('http://localhost:4000'), {
-            //     path: `/menu/get-all`,
-            //     method: req.method
-            // })
+            // Res end, hanle data
+            axiosResponse.data.on('end', () => {
+                responseData = JSON.parse(responseData)
 
-            // http.request(opts, (x) => { x.pipe(res); }).end()
+                if (responseData.status === 'error')
+                    logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]`)
+            })
+
+            // return axiosResponse.data.pipe(res)
+            return passThroughStream.pipe(res)
         }
         catch (err) {
             return next([400, 'error', err.message])

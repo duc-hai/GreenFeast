@@ -1,0 +1,19 @@
+/* .login-form {
+    min-width: 400px;
+    background-color: #5C9F67;
+    padding: 12px;
+} */
+
+.login-form-forgot {
+    float: right;
+    color: #fff !important;
+}
+
+.login-form-button {
+    width: 100%;
+}
+
+.center-image {
+    display: flex;
+    margin: 0 auto;
+}

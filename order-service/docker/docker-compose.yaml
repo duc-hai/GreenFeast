@@ -11,6 +11,7 @@ services:
       - DB_HOST=orderDB # orderDB is service's name
       - AMQP_SERVER_URL_HOST=rabbitmq #rabbitmq is service's name of rabbit mq
       - AMQP_SERVER_URL_PORT=5672
+      - API_GATEWAY_URL=http://apigateway:3000
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 

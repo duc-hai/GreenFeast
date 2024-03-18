@@ -1,5 +1,5 @@
 [
-    { "resource": "menu", "actions": [
+    { "resource": "employee", "actions": [
             "read:any",
             "update:any",
             "delete:any",
@@ -7,7 +7,7 @@
         ]
     },
 
-    { "resource": "promotion", "actions": [
+    { "resource": "menu", "actions": [
             "read:any",
             "update:any",
             "delete:any",

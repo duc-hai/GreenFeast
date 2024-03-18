@@ -26,7 +26,7 @@ const order = new Schema (
         discount: { type: Number, default: 0 },
         surcharge: { type: Number, default: 0 },
         note: { type: String },
-        total_bill: { type: Number },
+        total: { type: Number },
         table: { type: String },
         checkin: { type: Date },
         checkout: { type: Date },

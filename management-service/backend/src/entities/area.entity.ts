@@ -12,7 +12,7 @@ export class Area {
     @Column({ default: 0 })
     price_percentage: number;
 
-    @Column()
+    @Column({ default: 0 })
     description: string;
 
     @Column()

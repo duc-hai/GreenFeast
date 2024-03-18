@@ -2,7 +2,6 @@ const express = require('express')
 const validation = require('../middlewares/body.validation')
 const errorHandler = require('../middlewares/error.handler')
 const accountService = require('../services/account.service')
-const rbacService = require('../services/rbac.service')
 const adminRouter = require('./admin')
 const googleRouter = require('./google')
 const accessControl = require('../middlewares/access.control')
@@ -35,8 +34,9 @@ router.get('/order/menu/get-by-category/:id', jwtTokenGuard.jwtTokenValidatorCus
 router.post('/order/:tableSlug', jwtTokenGuard.jwtTokenValidatorBoth, callMicroservice.forwardRequestOrderService)
 router.get('/order/view-order/:tableSlug', callMicroservice.forwardRequestOrderService)
 router.get('/order/promotion', callMicroservice.forwardRequestOrderService)
-router.post('/order/close/:tableSlug', callMicroservice.forwardRequestOrderService)
 router.get('/order/print-bill/:tableSlug', callMicroservice.forwardRequestOrderService)
+router.get('/order/category/get-all', callMicroservice.forwardRequestOrderService)
+router.get('/order/menu/search', callMicroservice.forwardRequestOrderService)
 
 //router.get('/test-jwt', jwtTokenGuard.jwtTokenValidatorCustomer, accountService.testJWT)
 

@@ -1,4 +1,4 @@
-//Tài nguyên phân quyền, cho phép role nào được vào resource nào
+//Authorization resources, allowing which role have access which resource
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema

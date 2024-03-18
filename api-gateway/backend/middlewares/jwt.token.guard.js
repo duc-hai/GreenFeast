@@ -6,6 +6,7 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
     try {
         let accessToken
 
+        //The access token will be stored in a cookie or sent to the server with the Bearer header, so you need to check both
         if (req.headers.authorization)
             accessToken = req.headers.authorization.split(" ")[1]
         else if (req.cookies || req.signedCookies) {
@@ -19,6 +20,7 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
             return next([401, 'error', 'Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập'])
         }
 
+        //verify with secret key
         const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
 
         if (!verified) {

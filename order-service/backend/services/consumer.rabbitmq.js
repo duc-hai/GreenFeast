@@ -69,7 +69,8 @@ const createTableAuto = async (message) => {
         message?.data.forEach(value => {
             table_list.push({
                 _id: value.id,
-                status: 0
+                status: 0,
+                slug: uuidv4()
             })
         })
             

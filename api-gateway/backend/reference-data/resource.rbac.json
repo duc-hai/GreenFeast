@@ -1,17 +1,86 @@
 [
     {
+        "resource": "menu",
+        "name": "Thực đơn",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Cập nhật thực đơn", "slug": "update:any" },
+            { "name": "Tạo thực đơn", "slug": "create:any" },
+            { "name": "Xóa thực đơn", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "table",
+        "name": "Bàn",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Tạo bàn", "slug": "create:any" },
+            { "name": "Xóa bàn", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "area",
+        "name": "Khu vực",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Tạo khu vực", "slug": "create:any" },
+            { "name": "Cập nhật khu vực", "slug": "update:any" },
+            { "name": "Xóa khu vực", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "category",
+        "name": "Danh mục món",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Tạo danh mục món", "slug": "create:any" },
+            { "name": "Cập nhật danh mục món", "slug": "update:any" },
+            { "name": "Xóa danh mục món", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "printer",
+        "name": "Máy in",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Tạo máy in", "slug": "create:any" },
+            { "name": "Cập nhật máy in", "slug": "update:any" },
+            { "name": "Xóa máy in", "slug": "delete:any" }
+        ]
+    },
+    {
+        "resource": "promotion",
+        "name": "Khuyến mãi",
+        "actions": [
+            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Tạo khuyến mãi", "slug": "create:any" },
+            { "name": "Cập nhật khuyến mãi", "slug": "update:any" },
+            { "name": "Xóa khuyến mãi", "slug": "delete:any" }
+        ]
+    },
+    {
         "resource": "employee",
         "name": "Nhân viên",
         "actions": [
             { "name": "Tạo tài khoản nhân viên", "slug": "create:any" },
-            { "name": "Xem danh sách các quyền", "slug": "read:any" }
+            { "name": "Xem danh sách nhân viên, quyền nhân viên", "slug": "read:any" }
         ]
     },
     {
-        "resource": "menu",
-        "name": "Thực đơn",
+        "resource": "order",
+        "name": "Quản lý đặt món",
         "actions": [
-            { "name": "Xem danh sách", "slug": "read:any" }
+            { "name": "Xem danh sách bàn, món, tạo QR", "slug": "read:any" },
+            { "name": "Đóng bàn", "slug": "create:any" },
+            { "name": "Chuyển bàn", "slug": "update:any" }
+        ]
+    },
+    {
+        "resource": "revenue",
+        "name": "Quản lý doanh thu",
+        "actions": [
+            { "name": "Xem doanh thu", "slug": "read:any" },
+            { "name": "Lịch sử đơn hàng, in lại hóa đơn", "slug": "create:any" }
         ]
     }
 ]

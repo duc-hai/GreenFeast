@@ -1,5 +1,6 @@
 const { check } = require('express-validator')
 
+//Check validation of request body
 const validatorLogin = () => [
     check('username')
         .exists().withMessage('Vui lòng nhập tên đăng nhập')
