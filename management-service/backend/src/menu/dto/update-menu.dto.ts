@@ -26,9 +26,9 @@ export class UpdateMenuDto {
     category_id: number;
 
     @IsOptional()
-    @IsBoolean({
-        message: 'Trạng thái không hợp lệ (boolean)'
-    })
+    // @IsBoolean({
+    //     message: 'Trạng thái không hợp lệ (boolean)'
+    // })
     status: boolean;
 
     @IsOptional()
