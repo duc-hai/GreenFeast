@@ -40,7 +40,8 @@ router.get('/table/get-tables', jwtTokenGuard.jwtTokenValidatorRestaurantSide, a
 router.delete('/table/delete', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'table'), callMicroservice.forwardRequest)
 
 //Area
-router.get('/area/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'area'), callMicroservice.forwardRequest)
+// router.get('/area/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'area'), callMicroservice.forwardRequest)
+router.get('/area/get-all', callMicroservice.forwardRequest)
 router.post('/area/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'area'), callMicroservice.forwardRequest)
 router.put('/area/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'area'), callMicroservice.forwardRequest)
 router.delete('/area/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'area'), callMicroservice.forwardRequest)
@@ -68,7 +69,8 @@ router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSi
 /*
     Order service
 */
-router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
+// router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
+router.get('/order/tables/:id', callMicroservice.forwardRequestOrderService)
 router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), callMicroservice.forwardRequestOrderService)
 router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), callMicroservice.forwardRequestOrderService)
 
