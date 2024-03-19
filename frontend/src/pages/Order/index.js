@@ -19,6 +19,7 @@ import {
   createOrder,
   fetchMenuOrder,
   fetchTableCategory,
+  getCategoryOrder,
   getMenuByCategory,
   getMenuBySearch,
 } from "./../../Services/OrderAPI";
@@ -85,12 +86,6 @@ const Order = () => {
     fetchDataByKeywork(textSearch);
   }, [textSearch]);
 
-  // useEffect(() => {
-  //   if (textSearch === "") {
-  //     fetchMenu();
-  //   }
-  // }, [textSearch]);
-
   useEffect(() => {
     if (area) {
       fetchTable(area);
@@ -137,10 +132,11 @@ const Order = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await getCategory();
+      const res = await getCategoryOrder();
+      console.log(res);
       setListDataCate(
         res.data?.length > 0 &&
-          res.data?.map((item) => getItem(item?.name, item?.id))
+          res.data?.map((item) => getItem(item?.name, item?._id))
       );
     } catch (error) {
       console.log(error);
@@ -226,7 +222,7 @@ const Order = () => {
     }
 
     try {
-      await createOrder(
+      const res = await createOrder(
         tableSlug,
         order?.map((item) => ({
           _id: item.id,
@@ -234,6 +230,8 @@ const Order = () => {
           note: item.note,
         }))
       );
+
+      window.open(res.data[0], "_blank");
       message.success("Đặt món thành công");
       setIsModalOpen(false);
     } catch (error) {
@@ -341,11 +339,11 @@ const Order = () => {
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (
                   <div
-                    className="col-md-4 col-sm-12"
+                    className="col-md-4 col-sm-12 "
                     style={{ padding: 8 }}
                     key={item._id}
                   >
-                    <div className="row bgr-food ">
+                    <div className="flex bgr-food bg-white">
                       <div className="col-md-6 col-sm-12">
                         <img
                           className="h-[130px] aspect-video object-cover"
@@ -354,7 +352,7 @@ const Order = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-3">
-                        <p>{item?.name}</p>
+                        <span>{item?.name}</span>
                         <p>
                           Giá: <strong>{item?.price} Đ</strong>
                         </p>

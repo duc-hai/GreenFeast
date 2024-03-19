@@ -12,6 +12,7 @@ import {
   UsergroupDeleteOutlined,
   BorderOuterOutlined,
   BorderTopOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import "./index.css";
@@ -45,6 +46,7 @@ const DefaultLayout = () => {
     getItem("Quản lý máy in", "/printf-management", <PrinterOutlined />),
     getItem("Quản lý order", "/order-management", <BorderOuterOutlined />),
     getItem("Quản lý doanh thu", "/revenue-management", <BorderTopOutlined />),
+    getItem("Lịch sử order", "/history-order-management", <HistoryOutlined />),
   ];
   const navigate = useNavigate();
   useEffect(() => {

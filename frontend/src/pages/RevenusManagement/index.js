@@ -2,6 +2,7 @@ import { DatePicker } from "antd";
 import "./index.css";
 import { getRevenus } from "../../Services/OrderAPI";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 const { RangePicker } = DatePicker;
 const RevenusManagement = () => {
   const [value, setValue] = useState();
@@ -18,10 +19,12 @@ const RevenusManagement = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    handleFetchData();
+    // Nếu value là undefined, gọi handleFetchData để lấy dữ liệu cho ngày hiện tại
+    const today = dayjs().format("YYYY-MM-DD");
+    handleFetchData(today, today);
   }, []);
+
   return (
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -35,7 +38,10 @@ const RevenusManagement = () => {
         <div className="flex flex-col gap-3">
           <span>Chọn ngày:</span>
           <div className="w-[500px]">
-            <RangePicker onChange={onChange} />
+            <RangePicker
+              onChange={onChange}
+              defaultValue={[dayjs(), dayjs()]}
+            />
           </div>
         </div>
         {value?.status === "success" ? (

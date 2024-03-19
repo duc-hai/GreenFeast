@@ -339,14 +339,16 @@ const Header = () => {
               <Button type="primary">Đăng nhập</Button>
             </NavLink>
           )}
-          <Button
-            type="primary"
-            onClick={() => {
-              setIsModalOpenQR(true);
-            }}
-          >
-            Tạo QR
-          </Button>
+          {us && us?.role !== "customer" && (
+            <Button
+              type="primary"
+              onClick={() => {
+                setIsModalOpenQR(true);
+              }}
+            >
+              Tạo QR
+            </Button>
+          )}
         </div>
       </nav>
     </div>
