@@ -146,6 +146,7 @@ const TableManagement = () => {
             onClick={async () => {
               try {
                 await updateMenu(record.id, { status: !record?.status });
+                fetchMenu();
                 message.success("Cập nhật trạng thái thành công");
               } catch (error) {
                 console.log(error);
@@ -192,13 +193,8 @@ const TableManagement = () => {
           formData.append("image", isEdit.image);
         }
         formData.append("menu_type", values.menu_type);
-        // updateMenu(isEdit.id, formData);
-        // // await axios.post(
-        // //   `http://localhost:4000/menu/update/${isEdit?.id}`,
-        // //   formData
-        // // );
-        await axios.put(
-          `${process.env.REACT_APP_API}/api/admin/menu/update/${isEdit?.id}`,
+        await axios.post(
+          `http://localhost:4000/menu/update/${isEdit?.id}`,
           formData
         );
 

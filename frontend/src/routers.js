@@ -8,7 +8,7 @@ import StaffManagement from "./pages/StaffManagement";
 import PrintManagement from "./pages/PrintManagement";
 import OrderManagement from "./pages/OrderManagement";
 import RevenusManagement from "./pages/RevenusManagement/index";
-import HistoryOrder from "./pages/HistoryOrder";
+import HistoryOrder from "./pages/HistoryOrder/index";
 
 const routers = [
   {
