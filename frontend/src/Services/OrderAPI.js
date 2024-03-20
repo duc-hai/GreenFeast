@@ -53,6 +53,10 @@ export const getMenuBySearch = (search) => {
   return ApiOrderService.get(`/order/menu/search?keyword=${search}`);
 };
 
+export const getCategoryOrder = () => {
+  return ApiOrderService.get("/order/category/get-all");
+};
+
 export const getHistoryOrder = () => {
   return ApiOrderService.get(`/admin/order/history`);
 };

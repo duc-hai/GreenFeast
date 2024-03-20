@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { Button, Space, Table } from "antd";
-
 import { getBillHistory, getHistoryOrder } from "../../Services/OrderAPI";
+import dayjs from "dayjs";
 
 const HistoryOrder = () => {
   const [listData, setListData] = useState([]);
   const [idBill, setIdBill] = useState("");
+  const [loading, setLoading] = useState(false);
   const fetchData = async () => {
     try {
+      setLoading(true);
       const res = await getHistoryOrder();
       setListData(res.data);
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   useEffect(() => {
     fetchData();
@@ -20,6 +23,7 @@ const HistoryOrder = () => {
 
   const exportBillHistory = async (id) => {
     try {
+      setLoading(true);
       const res = await getBillHistory(id);
       if (res.status === "success") {
         window.open(res.data, "_blank");
@@ -29,6 +33,7 @@ const HistoryOrder = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   useEffect(() => {
     if (idBill) {
@@ -54,6 +59,16 @@ const HistoryOrder = () => {
       key: "note ",
       render: (total) => (
         <span className="font-semibold">{total ? total : "Không có"}</span>
+      ),
+    },
+    {
+      title: "Checkout",
+      dataIndex: "checkout",
+      key: "checkout ",
+      render: (checkout) => (
+        <span className="font-semibold">
+          {dayjs(checkout).format("DD/MM/YYYY")}
+        </span>
       ),
     },
     {
@@ -85,6 +100,7 @@ const HistoryOrder = () => {
       <br />
       <Table
         columns={columns}
+        loading={loading}
         dataSource={listData?.map((item, index) => {
           return { ...item, key: index };
         })}
