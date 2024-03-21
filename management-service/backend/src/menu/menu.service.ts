@@ -244,6 +244,10 @@ export class MenuService {
                 this.removeImageAfterUploadCloud(file.path)
             }
 
+            if (updateMenuDto.status && typeof(updateMenuDto.status) == 'string') {
+                updateMenuDto.status = updateMenuDto.status == 'true' ? true : false
+            }
+
             const updateData = {
                 ... updateMenuDto,
                 ... {
