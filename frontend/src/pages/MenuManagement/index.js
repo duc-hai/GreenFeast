@@ -33,15 +33,19 @@ const TableManagement = () => {
   const [listCate, setListCate] = useState([]);
   const [image, setImage] = useState(null);
   const [getListMenu, setListMenu] = useState([]);
+  const [pagination, setPagination] = useState();
   const [isEdit, setIsEdit] = useState(0);
   const [textSearch, setTextSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const onSearch = (e) => {
     setTextSearch(e.target.value);
   };
-  const fetchMenu = async () => {
+  const fetchMenu = async (currentPage, eachPage) => {
     try {
-      const res = await getMenu();
+      const res = await getMenu(currentPage, eachPage);
       setListMenu(res.data);
+      setPagination(res.paginationResult);
     } catch (error) {
       console.log(error);
     }
@@ -57,6 +61,10 @@ const TableManagement = () => {
 
   useEffect(() => {
     fetchDataByKeywork(textSearch);
+    setPagination({
+      currentPage: 1,
+      eachPage: 10,
+    });
   }, [textSearch]);
 
   useEffect(() => {
@@ -159,7 +167,7 @@ const TableManagement = () => {
     },
   ];
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(pagination);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -257,6 +265,19 @@ const TableManagement = () => {
           columns={columns}
           dataSource={getListMenu}
           scroll={{ x: "max-content" }}
+          pagination={{
+            total: pagination?.totalItems,
+            pageSize: pagination?.eachPage,
+            current: pagination?.currentPage,
+            onChange: async (page, pageSize) => {
+              setPagination({
+                ...pagination,
+                currentPage: page,
+              });
+              console.log(page);
+              await fetchMenu(page, pageSize);
+            },
+          }}
         />
 
         <div className="modal">

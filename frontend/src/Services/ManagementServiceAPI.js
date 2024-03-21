@@ -70,8 +70,10 @@ export const createMenu = (body) => {
   return ApiManagementService.post("/menu/create", body);
 };
 
-export const getMenu = () => {
-  return ApiManagementService.get("/menu/get-all");
+export const getMenu = (page = 1, perPage = 10) => {
+  return ApiManagementService.get(
+    `/menu/get-all?page=${page}&perPage=${perPage}`
+  );
 };
 
 export const updateMenu = (id, body) => {

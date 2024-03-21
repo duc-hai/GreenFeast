@@ -13,7 +13,6 @@ import FoodComponent from "../../components/FoodCompoent";
 import { UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import "./index.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   createOrder,
@@ -51,6 +50,7 @@ const Order = () => {
   const [getListMenu, setListMenu] = useState([]);
   const [order, setOrder] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenDetail, setIsModalOpenDetail] = useState(0);
   const [loading, setLoading] = useState(false);
   const [textSearch, setTextSearch] = useState("");
   const onSearch = (e) => {
@@ -220,7 +220,7 @@ const Order = () => {
       message.error("Vui lòng chọn bàn");
       return;
     }
-
+    setLoading(true);
     try {
       const res = await createOrder(
         tableSlug,
@@ -230,15 +230,19 @@ const Order = () => {
           note: item.note,
         }))
       );
-
-      window.open(res.data[0], "_blank");
+      if (res?.data?.length > 0) {
+        res.data?.map((item) => window.open(item, "_blank"));
+      }
+      window.location.reload();
       message.success("Đặt món thành công");
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);
       message.error("Đặt món thất bại");
     }
+    setLoading(false);
   };
+
   return (
     <>
       <Header />
@@ -259,7 +263,7 @@ const Order = () => {
             >
               Hủy
             </Button>,
-            <Button type="primary" onClick={handleOrder}>
+            <Button type="primary" onClick={handleOrder} loading={loading}>
               Đặt món
             </Button>,
           ]}
@@ -270,6 +274,46 @@ const Order = () => {
               dataSource={order}
               pagination={false}
             />
+          </div>
+        </Modal>
+
+        <Modal
+          title=<span className="text-2xl">{isModalOpenDetail?.name}</span>
+          open={isModalOpenDetail ? true : false}
+          onCancel={() => {
+            setIsModalOpenDetail(0);
+          }}
+          width={900}
+          footer={[
+            <Button
+              onClick={() => {
+                setIsModalOpenDetail(0);
+              }}
+              type="text"
+            >
+              Hủy
+            </Button>,
+          ]}
+        >
+          <div>
+            <div className="flex gap-3 items-center">
+              <img
+                className="h-[130px] aspect-video object-cover"
+                alt="logo"
+                src={isModalOpenDetail?.image}
+              />
+              <div className="flex flex-col gap-3">
+                <span className="text-lg">
+                  Mô tả: <strong>{isModalOpenDetail?.description}</strong>
+                </span>
+                <span className="text-lg">
+                  Giá:{" "}
+                  <strong>
+                    {isModalOpenDetail?.price?.toLocaleString("vi-en")} VNĐ
+                  </strong>
+                </span>
+              </div>
+            </div>
           </div>
         </Modal>
 
@@ -344,7 +388,12 @@ const Order = () => {
                     key={item._id}
                   >
                     <div className="flex bgr-food bg-white">
-                      <div className="col-md-6 col-sm-12">
+                      <div
+                        className="col-md-6 col-sm-12 cursor-pointer"
+                        onClick={() => {
+                          setIsModalOpenDetail(item);
+                        }}
+                      >
                         <img
                           className="h-[130px] aspect-video object-cover"
                           alt="logo"
