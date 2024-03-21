@@ -112,6 +112,14 @@ const AreaManagement = () => {
       message.error("Chọn tài trợ");
       return;
     }
+
+    console.log(grants);
+    console.log({
+      ...grants,
+      actions:
+        grants?.actions?.length > 0 &&
+        grants?.actions?.map((item) => item.slug),
+    });
     if (
       values.username === "" ||
       values.password === "" ||
@@ -123,6 +131,7 @@ const AreaManagement = () => {
       message.error("Nhập đầy đủ thông tin");
       return;
     }
+
     try {
       const res = await createStaff({
         username: values.username,
@@ -131,14 +140,14 @@ const AreaManagement = () => {
         role: values.role,
         position: values.position,
         experience: values.experience,
-        grants: [
-          {
-            ...grants,
+        grants: grants?.map((item) => {
+          return {
+            ...item,
             actions:
-              grants?.actions?.length > 0 &&
-              grants?.actions?.map((item) => item.slug),
-          },
-        ],
+              item?.actions?.length > 0 &&
+              item?.actions?.map((item) => item.slug),
+          };
+        }),
       });
       if (res.status === "success") {
         message.success("Tạo nhân viên thành công");
@@ -250,11 +259,16 @@ const AreaManagement = () => {
                 </Col>
                 {role === "other" && (
                   <Col span={24}>
-                    <Form.Item label="Tài trợ">
+                    <Form.Item label="Cấp quyền">
                       <Select
                         name="category_id"
+                        mode="multiple"
                         onChange={(_, select) => {
-                          setGrants(select.data);
+                          setGrants(
+                            select?.map((item) => {
+                              return item.data;
+                            })
+                          );
                         }}
                         allowClear
                       >

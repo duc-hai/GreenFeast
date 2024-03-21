@@ -20,6 +20,7 @@ export class CategoryService {
                     isDeleted: false,
                 },
                 order: {
+                    id: "ASC",
                     updated_at: "DESC",
                     created_at: "DESC"
                 }

@@ -23,6 +23,7 @@ export class AreaService {
                     isDeleted: false,
                 },
                 order: {
+                    id: "ASC",
                     name: "ASC",
                     updated_at: "DESC",
                     created_at: "DESC",

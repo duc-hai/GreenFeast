@@ -391,50 +391,16 @@
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "image",
-											"contentType": "",
-											"type": "file",
-											"src": "/C:/Users/Luu Duc Hai/Downloads/52000657.png",
-											"disabled": true
-										},
-										{
-											"key": "name",
-											"value": "Món chay nè he",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "price",
-											"value": "123",
-											"contentType": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "category_id",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "description",
-											"value": "Rau thêm",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "menu_type",
-											"value": "2",
-											"type": "text",
-											"disabled": true
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{url}}/api/admin/menu/update/28",
+									"raw": "{{url}}/api/admin/menu/update/1",
 									"host": [
 										"{{url}}"
 									],
@@ -443,7 +409,7 @@
 										"admin",
 										"menu",
 										"update",
-										"28"
+										"1"
 									]
 								}
 							},
@@ -1197,7 +1163,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/admin/order/history/print-bill?order=65f308e8a63520ebb2e9b27d",
+							"raw": "{{url}}/api/admin/order/history/print-bill?order=65f2fe49be6f3e6d8ce015e6",
 							"host": [
 								"{{url}}"
 							],
@@ -1211,7 +1177,7 @@
 							"query": [
 								{
 									"key": "order",
-									"value": "65f308e8a63520ebb2e9b27d"
+									"value": "65f2fe49be6f3e6d8ce015e6"
 								}
 							]
 						}
@@ -1378,7 +1344,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\": \"1\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Không hành\"\r\n    },\r\n    {\r\n        \"_id\": \"36\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Ít ngọt\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\": \"1\",\r\n        \"quantity\": 3,\r\n        \"note\": \"Không hành\"\r\n    },\r\n    {\r\n        \"_id\": \"19\",\r\n        \"quantity\": 2,\r\n        \"note\": \"Không hẹ\"\r\n    },\r\n    {\r\n        \"_id\": \"32\",\r\n        \"quantity\": 1,\r\n        \"note\": \"Ít ngọt\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1453,7 +1419,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/admin/order/close/506d9ecb-4467-49ff-84ab-48eff5ee1c14",
+							"raw": "{{url}}/api/admin/order/close/9c48d924-a481-493e-8bbe-6d866e89eb70",
 							"host": [
 								"{{url}}"
 							],
@@ -1462,7 +1428,7 @@
 								"admin",
 								"order",
 								"close",
-								"506d9ecb-4467-49ff-84ab-48eff5ee1c14"
+								"9c48d924-a481-493e-8bbe-6d866e89eb70"
 							]
 						}
 					},
@@ -1474,7 +1440,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/order/print-bill/e326fc31-1531-4587-853f-588404860af9",
+							"raw": "{{url}}/api/order/print-bill/9c48d924-a481-493e-8bbe-6d866e89eb70",
 							"host": [
 								"{{url}}"
 							],
@@ -1482,7 +1448,7 @@
 								"api",
 								"order",
 								"print-bill",
-								"e326fc31-1531-4587-853f-588404860af9"
+								"9c48d924-a481-493e-8bbe-6d866e89eb70"
 							]
 						}
 					},

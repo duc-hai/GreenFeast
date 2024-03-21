@@ -67,7 +67,7 @@ const HistoryOrder = () => {
       key: "checkout ",
       render: (checkout) => (
         <span className="font-semibold">
-          {dayjs(checkout).format("DD/MM/YYYY")}
+          {dayjs(checkout).format("DD/MM/YYYY - HH:mm:ss")}
         </span>
       ),
     },
