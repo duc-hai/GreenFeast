@@ -35,6 +35,8 @@ Use-case diagram: [here](https://res.cloudinary.com/dmjsmmt3h/image/upload/v1711
 
 UX/UI Design (Figma): [here](https://s.net.vn/ztMs)
 
+Report Link (**important**): [here](https://drive.google.com/file/d/1OpKQy8AnA73VwCTqTG8uhACv__ZLPBvf/view?usp=sharing)
+
 ## 📖 System Architecture
 <p align="center">
   <img src="https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710858461/ulffgbp5rp3a3ggciwus.png" />
