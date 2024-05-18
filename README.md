@@ -31,6 +31,12 @@
 ## 📋 Introduction
 This project analyzes the design of a system to support ordering and managing information for a vegetarian restaurant. The aim of the project is to enhance customer interaction with the system for easy ordering and enable the restaurant to efficiently manage information. Diners at the restaurant can scan a QR code to place orders directly on their personal mobile phones. The restaurant can manage order information, menu details, invoices, and revenue. This helps improve work efficiency and reduces tasks compared to traditional methods. The scope of the project is to implement it within a large-scale restaurant chain system, with high app access, especially during peak hours, and multiple functionalities. To meet these requirements, we deployed the system with a microservices architecture, dividing the application into small, independent services. These services utilize Node.js frameworks such as Express.js and NestJS. The frontend employs the React.js library. Services can communicate with each other through RabbitMQ message queues. During application deployment, RBAC model to access control, security rules, encryption, and error logging methods were applied to monitor system activities. The website is deployed on Amazon Web Service's EC2 platform and utilizes Docker to package services into containers for production environments. Domain name system services are managed by Cloudflare. 
 
+Use-case diagram: [here](https://res.cloudinary.com/dmjsmmt3h/image/upload/v1711949801/yiohyvczyhceauijyrun.png)
+
+UX/UI Design (Figma): [here](https://s.net.vn/ztMs)
+
+Report Link (**important**): [here](https://drive.google.com/file/d/1OpKQy8AnA73VwCTqTG8uhACv__ZLPBvf/view?usp=sharing)
+
 ## 📖 System Architecture
 <p align="center">
   <img src="https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710858461/ulffgbp5rp3a3ggciwus.png" />
