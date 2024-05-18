@@ -8,6 +8,8 @@ const receiveQueue = async () => {
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
         const connect = await amqplib.connect(amqpUrl)
 
+        console.log('Connect sucessfully with RabbitMQ')
+
         //Create channel
         const channel = await connect.createChannel()
 

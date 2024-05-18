@@ -50,13 +50,13 @@ class AccountService {
             //Account is correct: create access token and refresh token
             const accessToken = await jwt.sign({ username: account.user_id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
             const refreshToken = await jwt.sign({ username: account.user_id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
-
+            
             res.cookie('access_token', accessToken, {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                sameSite: 'none',
-                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                // sameSite: 'none',
+                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })
             
             return res.status(200).json({
@@ -153,8 +153,8 @@ class AccountService {
                 httpOnly: true, //Config cookie just accessed by server
                 signed: true, //Cookie secure, prevents client-side modifications
                 maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
-                sameSite: 'none',
-                secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                // sameSite: 'none',
+                // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })    
                 
             return res.status(200).json({
