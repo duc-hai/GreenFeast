@@ -9,7 +9,7 @@ const consumer = require('./services/consumer.rabbitmq')
 env.config()
 database.connect()
 //producer.sendQueue('') //If app close or crash, connection will be closed automatic
-consumer.receiveQueue()
+setTimeout(() => consumer.receiveQueue(), 50000)
 
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))

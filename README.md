@@ -43,7 +43,7 @@ Report Link (**important**): [here](https://drive.google.com/file/d/1OpKQy8AnA73
 </p>
 
 ## 📝 API Document 
-**API Document Official Directly**: You can see the api document directly at [here](https://app.swaggerhub.com/apis-docs/HaiLuu/GreenFeast/1.0.0)
+**API Document Official Directly:** You can see the api document directly at [here](https://app.swaggerhub.com/apis-docs/HaiLuu/GreenFeast/1.0.0)
 > [!TIP]
 > Another way, you can also use `api-document.yaml` file to read. To view api document as an interface, you can download the `OpenAPI (Swagger) Editor` extension in VSCode, then open `api-document.yaml` file and click the OpenAPI button in the upper right corner (or use the `Shift + Alt + P` hotkey). The last way is copy, paste contents from this file to sites [Swagger Editor](https://editor.swagger.io/)
 
@@ -51,6 +51,17 @@ Report Link (**important**): [here](https://drive.google.com/file/d/1OpKQy8AnA73
 To run this project on local, you need to install Docker and Node.js (Database, Rabbit MQ will be installed automatic on Docker server with images pulled from Docker Hub)
 
 ## 💾 Run Docker & Add Sample Data for Database 
+**Quick start:** you can run project with only one file docker-compose with the following command:
+
+```
+docker compose -p greenfeast build --no-cache 
+docker compose -p greenfeast up -d 
+```
+And then, you can use commands in `commands.sh` to add sample data for database:
+
+```
+bash ./commands.sh
+```
 1. We set up project front end in `cd frontend` with command `npm install` and `npm run build`. Notes: If you want to increase the memory usage of the node globally - not only single script (could be applied on Ubuntu EC2), you can export environment variable, like this: 
    
    ```
