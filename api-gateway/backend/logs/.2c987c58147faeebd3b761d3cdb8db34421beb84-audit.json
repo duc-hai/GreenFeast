@@ -3,12 +3,12 @@
         "days": true,
         "amount": 14
     },
-    "auditLog": "logs\\.2c987c58147faeebd3b761d3cdb8db34421beb84-audit.json",
+    "auditLog": "logs/.2c987c58147faeebd3b761d3cdb8db34421beb84-audit.json",
     "files": [
         {
-            "date": 1710925157812,
-            "name": "logs\\2024-03-20.log",
-            "hash": "585d675d555a4eef23d0dd7352edbfec610529a168edfd2ff3e3296341b774c6"
+            "date": 1716379863742,
+            "name": "logs/2024-05-22.log",
+            "hash": "e97626314a343998b560cbb925852fbb7a3510eb3b7dc81bf979fbb22b20a17a"
         }
     ],
     "hashType": "sha256"

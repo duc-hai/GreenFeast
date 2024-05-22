@@ -21,6 +21,7 @@ router.get('/order/get-revenue', orderService.getRevenueByDay)
 router.get('/create-qr', menuService.createQRCode)
 router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
+router.get('/order/verify-slug/:tableSlug', orderService.verifyTableSlug)
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

@@ -863,6 +863,31 @@ class OrderService {
             return next([400, 'error', err.message])
         }
     }
+
+    verifyTableSlug = async (req, res, next) => {
+        try {
+            const { tableSlug } = req.params
+
+            const area = await Area.findOne({ 'table_list.slug': tableSlug })
+
+            if (!area) 
+                return next([400, 'error', 'Mã đặt bàn không hợp lệ'])
+
+            const table = area?.table_list.find(table => table.slug === tableSlug)
+
+            if (!table)
+                return next([400, 'error', 'Mã đặt bàn không hợp lệ'])
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Đã tìm thấy bàn hợp lệ',
+                data: table
+            })
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
 }
 
 module.exports = new OrderService()

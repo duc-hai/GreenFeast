@@ -37,6 +37,7 @@ router.get('/order/promotion', callMicroservice.forwardRequestOrderService)
 router.get('/order/print-bill/:tableSlug', callMicroservice.forwardRequestOrderService)
 router.get('/order/category/get-all', callMicroservice.forwardRequestOrderService)
 router.get('/order/menu/search', callMicroservice.forwardRequestOrderService)
+router.get('/order/verify-slug/:tableSlug', callMicroservice.forwardRequestOrderService)
 
 //router.get('/test-jwt', jwtTokenGuard.jwtTokenValidatorCustomer, accountService.testJWT)
 
