@@ -222,6 +222,68 @@ class CallMicroservices {
             return next([400, 'error', err.message])
         }
     }
+
+    async forwardRequestPaymentService (req, res, next) {
+        try {
+            //Need to format right res
+            res.set({ 'content-type': 'application/json; charset=utf-8' })
+            
+            let headers = req.headers
+            
+            //Axios will automatically calculate and set the values for these fields, so to ensure accuracy, let Axios set it itself instead of getting the client's headers
+            //If not having delete these parameters could lead to unexpected errors, request will be timeout
+            delete headers?.host
+            delete headers['content-length']
+            delete headers['user-agent']
+            delete headers?.accept
+
+            if (req.user)
+                headers['user-infor-header'] = encodeURIComponent(JSON.stringify(req.user))
+            
+            //Example: /menu/get-all (Do not have query string)
+            const pathname = req?._parsedUrl?.pathname
+
+            if (!pathname)
+                return next([400, 'error', 'Đã xảy ra lỗi đường dẫn'])
+           
+            const axiosResponse = await axios({
+                method: req.method.toLowerCase(),
+                url: `${process.env.PAYMENT_SERVICE_URL}${pathname}`,
+                responseType: 'stream',
+                responseEncoding: 'utf8',
+                validateStatus: function (status) {
+                    return status >= 100 && status <= 600
+                },
+                params: req.query,
+                data: req.body,
+                headers: headers
+            })
+            
+            const passThroughStream = new PassThrough() //Storage data
+
+            axiosResponse.data.pipe(passThroughStream) //Put data from axios res to passthrough
+            
+            let responseData = ''
+
+            // Read data from res (IncomingMessage)
+            axiosResponse.data.on('data', (chunk) => {
+                responseData += chunk
+            })
+
+            // Res end, hanle data
+            axiosResponse.data.on('end', () => {
+                responseData = JSON.parse(responseData)
+
+                if (responseData.status === 'error')
+                    logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]`)
+            })
+
+            return passThroughStream.pipe(res)
+        }
+        catch (err) {
+            return next([400, 'error', err.message])
+        }
+    }
 }
 
 module.exports = new CallMicroservices()

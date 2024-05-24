@@ -12,6 +12,10 @@ const callMicroservice = require('../services/call.microservices')
 const router = express.Router()
 
 router.use('/auth/google', googleRouter)
+//Payment
+router.post('/payment/create-payment-url', callMicroservice.forwardRequestPaymentService)
+router.get('/payment/vnpay_return', callMicroservice.forwardRequestPaymentService)
+/////////////////
 router.use('/admin', adminRouter) //Route restaurant side (admin restaurant, employees, ...)  
 
 /*

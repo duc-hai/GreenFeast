@@ -81,6 +81,12 @@ tags:
     externalDocs:
       description: More details
       url: https://greenfeast.space/api    
+      
+  - name: payment 
+    description: Thanh toán (Order service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api    
 paths:
   /auth/signin:
     post:
@@ -3334,19 +3340,23 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
             
-  /admin/order/history/print-bill:
-    get:
+  /payment/create-payment-url:
+    post:
       tags:
-        - order
-      summary: In lại hóa đơn từ lịch sử đơn hàng
-      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ nhận được url của hóa đơn"
-      parameters:
-        - in: query
-          name: order
-          schema:
-            type: string
-            example: order=65f308e8a63520ebb2e9b27d
-          required: true
+        - payment
+      summary: Tạo url thanh toán đến trang của VNPay
+      description: "Tạo url thanh toán đến trang của VNPay. Backend sẽ trả về 1 VNPay URL, frontend sẽ chuyển hướng đến trang web đó -> chọn phương thức thanh toán là Thẻ nội địa và ngân hàng. Thông tin thẻ demo mẫu tại: https://sandbox.vnpayment.vn/apis/vnpay-demo/"
+      requestBody: 
+        description: Amount là số tiền cần thanh toán
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                amount: 
+                  type: number
+                  example: 50000
+        required: true
 
       responses:
         '200':
@@ -3355,17 +3365,66 @@ paths:
               application/json:
                 schema:
                   type: object
-                  properties: 
+                  properties:
                     status: 
                       type: string
                       example: success
-                    message: 
-                      type: string
-                      example: In hóa đơn thành công    
                     data: 
-                      type: string
-                      example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571822/65f2fe49be6f3e6d8ce015e6-1.pdf
+                      type: object
+                      properties: 
+                        vnpUrl: 
+                          type: string
+                          example: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=5000000&vnp_Command=pay&vnp_CreateDate=20240524195131&vnp_CurrCode=VND&vnp_IpAddr=%3A%3A1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A24195131&vnp_OrderType=other&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A5005%2Fvnpay_return&vnp_TmnCode=CVPSQQMS&vnp_TxnRef=24195131&vnp_Version=2.1.0&vnp_SecureHash=b71c6edca72cf37156a44063e82c050859d86c13980aaef841c871e8d826cffffd4bf5caa6e5d26b66c65ed18fd1af17b4da6fa3d889ee7afb9d4698e004927b"
+
 
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
             
+  /payment/vnpay_return:
+    get:
+      tags:
+        - payment
+      summary: Callback sau khi khách hàng thực hiện thanh toán
+      description: "Frontend sẽ tạo 1 trang để hứng kết quả trả về từ VNPay. Sau đó, vào payment-service, sửa lại vnp_ReturnUrl là url trang này của frontend. Tức là, sau khi khách hàng thanh toán ở api phía trên, VNPay sẽ trả về kết quả thanh toán của khách hàng vào returnUrl đó (thông tin kết quả sẽ được truyền dưới dạng query). Frontend sẽ chuyển tiếp tất cả các query đó lên server với api này: /payment/vnpay_return. Server sẽ trả về kết quả thanh toán và frontend sẽ hiển thị kết quả lên giao diện. Nếu thất bại sẽ báo cả lý do (thẻ hết tiền, thẻ bị khóa, ...). Vì backend còn phải lưu data giao dịch vào trong database nên mới cần frontend gửi lên backend rồi mới hiển thị kết quả."
+      parameters:
+        - in: query
+          name: .
+          description: "Lấy toàn bộ query được trả về từ VNPay để thêm vào query gửi lên server. Ví dụ đây: "
+          schema:
+            type: string
+            example: "?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b"
+          required: true
+
+      responses:
+        '200':
+            description: Thành công. Cái code là cái để xác định mã lỗi, không cần quan tâm lắm vì server sẽ convert từ mã lỗi ra message cụ thể
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        code: 
+                          type: string
+                          example: "00"
+                        message: 
+                          type: string
+                          example: Giao dịch thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    code: 
+                      type: string
+                      example: 24
+                    message: 
+                      type: string
+                      example: "Giao dịch không thành công do: Khách hàng hủy giao dịch"
