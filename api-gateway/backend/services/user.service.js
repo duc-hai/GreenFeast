@@ -13,8 +13,8 @@ const StatusCode = require('../enums/http.status.code')
 const createError = require('http-errors')
 const hiddenPropertiesOption = require('../config/hidden.properties')
 
-class AccountService {
-    //For both client and admin
+class UserService {
+    //For both client and admin (1 for admin, 2 for customer)
     async loginAccount (req, res, next) {
         try {
             let { username, password, ...rest } = req.body || null
@@ -23,7 +23,7 @@ class AccountService {
             if (checkValidation(req) !== null)      
                 return next(createError(StatusCode.BadRequest_400, checkValidation(req)))   
 
-            let user = await User.findOne({ _id: username, user_type: req.locals.userType || 2, status: true }).select(hiddenPropertiesOption.userInfor).lean() //lean will return JS Object instead of Mongoose document
+            let user = await User.findOne({ _id: username, user_type: req.locals?.userType || 2, status: true }).select(hiddenPropertiesOption.userInfor).lean() //lean will return JS Object instead of Mongoose document
 
             if (!user)
                 return next(createError(StatusCode.BadRequest_400, 'Số điện thoại hoặc mật khẩu không đúng')) //Should not return the detail message for client
@@ -49,7 +49,7 @@ class AccountService {
             delete user.password //Remove data unneccessary before send to client
             delete user.salt //Delete just working with JS Object (not Mongoose Document type)
             
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Đăng nhập thành công',
                 data: {
@@ -89,7 +89,7 @@ class AccountService {
             if (!newUser)
                 return next(createError(StatusCode.Forbidden_403, 'Đã xảy ra lỗi khi tạo người dùng'))  
 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: `Tài khoản ${username} được tạo thành công`
             })
@@ -126,7 +126,7 @@ class AccountService {
                 // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
             })    
                 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Lấy access token thành công',
                 data: {
@@ -153,95 +153,76 @@ class AccountService {
         }
     }
 
-    // async createEmployeeeAccount (req, res, next) {
-    //     try {
-    //         const { username, password, full_name, role, position, experience, grants, ... rest } = req.body || null
+    createEmployeeeAccount = async (req, res, next) => {
+        try {
+            const { username, password, full_name, role, position, experience, grants, ... rest } = req.body || null
 
-    //         //Check validation inputs
-    //         let resultValidation = validationResult(req)
-    //         if (resultValidation.errors.length != 0) {
-    //             resultValidation = resultValidation.mapped()
-    //             let message 
-    //             for (let i in resultValidation) {
-    //                 message = resultValidation[i].msg
-    //                 break //Just get first message error
-    //             }
-    //             return next([400, 'error', message])
-    //         }
+            if (checkValidation(req) !== null)      
+                return next(createError(StatusCode.BadRequest_400, checkValidation(req))) 
 
-    //         //Check whether username is exist or not
-    //         const checkDuplicateUsername = await Account.findOne({ _id: username, account_type : 1 })
+            //Check whether username is exist or not
+            const checkDuplicateUsername = await User.findOne({ _id: username, user_type : 1, status: true })
           
-    //         if (checkDuplicateUsername)
-    //             return next([403, 'error', 'Số điện thoại đã tồn tại'])
+            if (checkDuplicateUsername)
+                return next(createError(StatusCode.BadRequest_400, 'Số điện thoại đã tồn tại'))
 
-    //         //If role is other, we need to create new role with other power
-    //         if (role === 'other') {
+            //If role is other, we need to create new role with other power
+            if (role === 'other') 
+                await this.createNewRole(grants)
             
-    //             if (!grants)
-    //                 return next([400, 'error', 'Vui lòng nhập các quyền của nhân viên'])
+            const employee = { position, experience }
 
-    //             const uniqueString = uuidv4()
+            //Password will be hash in mongoose's middleware
+            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee })    
+            newUser = await newUser.save()
 
-    //             await new Role({
-    //                 name: uniqueString,
-    //                 grants: grants
-    //             }).save()
-    //         }
+            if (!newUser)
+                return next(createError(StatusCode.Forbidden_403, 'Đã xảy ra lỗi khi tạo người dùng'))  
 
-    //         //encrypt the new account's password
-    //         const hashPassword = await bcrypt.hashSync(password, 10) //10 is saltRound, this an important argument. Because an attacker can use brute force to hack an account even though the password hashed, it is necessary to randomly generate a string of characters which call "salt" to add to the password and save it in the database.
-    
-    //         //Create new user
-    //         let newUser = new User({
-    //             full_name,
-    //             user_type: 1,
-    //             role,
-    //             employee: {
-    //                 position,
-    //                 experience
-    //             }
-    //         })    
-    //         newUser = await newUser.save()
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: `Tài khoản ${username} được tạo thành công`
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 
-    //         if (!newUser)
-    //             return next([403, 'error', 'Đã xảy ra lỗi khi tạo người dùng'])
+    createNewRole = async (grants) => {
+        try {
+            if (!grants)
+                return next(createError(StatusCode.BadRequest_400, 'Vui lòng nhập các quyền của nhân viên'))
 
-    //         let newAccount = new Account({
-    //             _id: username,
-    //             password: hashPassword,
-    //             user_id: newUser._id,
-    //             account_type: 1
-    //         })
-    //         newAccount = await newAccount.save()
+            const uniqueString = uuidv4()
 
-    //         return res.status(200).json({
-    //             status: 'success',
-    //             message: `Tài khoản ${username} được tạo thành công`
-    //         })
-    //     }
-    //     catch (err) {
-    //         return next(createError(StatusCode.InternalServerError_500, err.message)) 
-    //     }
-    // }
+            await new Role({
+                name: uniqueString,
+                grants: grants
+            }).save()
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 
-    // async getResourceRbac(req, res, next) {
-    //     try {
-    //         //Get data from local file
-    //         const resourceRbacData = JSON.parse(fs.readFileSync(join(process.cwd(), './reference-data/resource.rbac.json')).toString())
+    async getResourceRbac(req, res, next) {
+        try {
+            //Read data from local file
+            const resourceRbacData = JSON.parse(fs.readFileSync(join(process.cwd(), './references/resource.rbac.json')).toString())
 
-    //         //console.log(resourceRbacData)
-    //         //console.log(resourceRbacData[0].actions)
-    //         return res.status(200).json({
-    //             status: 'success',
-    //             message: 'Lấy danh sách các quyền thành công',
-    //             data: resourceRbacData
-    //         })
-    //     }
-    //     catch (err) {
-    //         return next(createError(StatusCode.InternalServerError_500, err.message)) 
-    //     }
-    // }
+            //console.log(resourceRbacData)
+            //console.log(resourceRbacData[0].actions)
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy danh sách các quyền thành công',
+                data: resourceRbacData
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 
     //Employee or customer
     async updateUser (req, res, next) {
@@ -258,7 +239,7 @@ class AccountService {
             if (!resultUpdate)
                 return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi khi cập nhật thông tin'))
         
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Cập nhật thông tin tài khoản thành công'
             })
@@ -268,20 +249,20 @@ class AccountService {
         }
     }
 
-    // async getEmployeees (req, res, next) {
-    //     try {
-    //         const users = await User.find({ user_type: 1 }).select({ __v: 0, customer: 0 })
+    async getEmployeees (req, res, next) {
+        try {
+            const users = await User.find({ user_type: 1, status: true }).select(hiddenPropertiesOption.employeesList)
 
-    //         return res.status(200).json({
-    //             status: 'success',
-    //             message: 'Lấy danh sách nhân viên thành công',
-    //             data: users
-    //         })
-    //     }
-    //     catch (err) {
-    //         return next(createError(StatusCode.InternalServerError_500, err.message)) 
-    //     }
-    // }
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy danh sách nhân viên thành công',
+                data: users
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 }
 
-module.exports = new AccountService()
+module.exports = new UserService()

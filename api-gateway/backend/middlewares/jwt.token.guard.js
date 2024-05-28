@@ -24,25 +24,25 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
     try {
         const accessToken = getAccessToken(req)
 
-        if (!accessToken) {
+        if (!accessToken) 
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập'))
-        }
 
         //verify with secret key
         const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
 
-        if (!verified) {
-            return next([401, 'error', 'Không thể xác thực, access token không hợp lệ'])
-        }
+        if (!verified) 
+            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, access token không hợp lệ'))
 
         const user = await User.findOne({
             _id: verified.username,
-            user_type: 1
+            user_type: 1,
+            status: true
         })
 
         if (!user)
             return next([401, 'error', 'Không thể xác thực tài khoản'])
         
+        //Success
         req.user = user
 
         return next()

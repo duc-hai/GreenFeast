@@ -21,7 +21,7 @@ const userSchema = new Schema (
 
         user_type: { type: Number, type: Number, enum: [1, 2]}, //1 is restaurarnt side, 2 is customer
 
-        status: { type: Boolean }, //true is active, false is inactive
+        status: { type: Boolean, default: true }, //true is active, false is inactive
        
         employee: {
             position: { type: String }, //default: 'Nhân viên phục vụ' 

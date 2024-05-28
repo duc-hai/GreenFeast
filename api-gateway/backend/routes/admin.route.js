@@ -1,28 +1,33 @@
 const express = require('express')
 const router = express.Router()
-const accountService = require('../services/user.service')
-const accountType = require('../middlewares/assign.user.type')
+const userService = require('../services/user.service')
+const userType = require('../middlewares/assign.user.type')
 const validation = require('../validations/body.validation')
 const jwtTokenGuard = require('../middlewares/jwt.token.guard')
 const accessControl = require('../middlewares/access.control')
 const callMicroservice = require('../services/call.microservices')
 const upload = require('../middlewares/multer.menu')
 
-//The login method of the customer and the admin is the same, only the account type parameter in the database is different, so there needs to be a middleware to store the account_type before passing it to the next middleware to process the login.
-// router.post('/auth/signin', validation.validatorLogin(), accountType.assignAccountType(1), accountService.loginAccount)
+/*
+    Unlike customer, employee pages must be authenticated, so I separated them into a separate admin route
+*/
 
-// //Remember login with restaurant's role
-// router.post('/create-employee', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'employee'), validation.validatorRegisterEmployee(), accountService.createEmployeeeAccount)
+//The login method of the customer and the admin is the same, only the user type parameter in the database is different, so there needs to be a middleware to store the user_type before passing it to the next middleware to process the login.
+router.post('/auth/signin', validation.validatorLogin(), userType.assignUserType(1), userService.loginAccount)
 
-// router.get('/get-employees', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'employee'), accountService.getEmployeees)
+router.post('/create-employee', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'employee'), validation.validatorRegisterEmployee(), userService.createEmployeeeAccount)
 
-// router.patch('/user/update', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accountType.assignAccountType(1), validation.validatorUpdateUserInfor(), accountService.updateUser)
+router.get('/get-employees', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'employee'), userService.getEmployeees)
 
-// router.get('/get-resource-rbac', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'employee'), accountService.getResourceRbac)
+router.patch('/user/update', jwtTokenGuard.jwtTokenValidatorRestaurantSide, userType.assignUserType(1), validation.validatorUpdateUserInfor(), userService.updateUser)
 
-// /*
-//     Management service
-// */
+router.get('/get-resource-rbac', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'employee'), userService.getResourceRbac)
+
+//________________________________________________________________________________________________________________________________________________________________________________________________
+
+/*
+    Management service
+*/
 
 // //Menu
 // router.get('/menu/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), callMicroservice.forwardRequest)
