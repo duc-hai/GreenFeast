@@ -2668,7 +2668,7 @@ paths:
                           _id: 55,
                           name: Món chay nè he,
                           description: Mô tả của món ăn,
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709623528/x4bci4dqrvntnmagehtu.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709623528/x4bci4dqrvntnmagehtu.png",
                           price: 123,
                           status: true,
                           category_id: 2,
@@ -3139,7 +3139,7 @@ paths:
                               _id: 1,
                               name: Gỏi cuốn sốt đậu phộng,
                               description: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!,
-                              image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg,
+                              image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg",
                               price: 90000,
                               status: true,
                               category_id: 1,
@@ -3332,13 +3332,68 @@ paths:
                           {
                             _id: 65f308e8a63520ebb2e9b27d,
                             table: A02,
-                            checkout: 2024-03-14T15:20:51.819Z,
+                            checkout: "2024-03-14T15:20:51.819Z",
                             note: Ghi chú,
                             total: 250000
                           }
                         ]
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /order/verify-slug/{tableSlug}:
+    get:
+      tags:
+        - order
+      summary: Xác thực xem slug (có được khi quét QR) có hợp lệ không để hiển thị trang đặt món tương ứng với bàn 
+      description: "Quét mã đặt món, trong mã có url gồm slug table để tránh lộn sang bàn khác (như cũ), đồng thời thêm chức năng thông báo để nhân viên xác nhận lại món (cái này có thể làm sau). Lưu ý: slug đó thay cho mã bàn (A01, A02, A03, ...) để tránh việc người đặt món có thể dễ dàng đổi url để order sang bàn khác, mặc dù có bước xác nhận lại của nhân viên nhưng hạn chế được phần nào hay phần đó. Thêm 1 trang front end chứa đường dẫn frontend ví dụ như /order/at-restaurant/validate?token=... để khi khách quét mã đặt món sẽ vào url này. Khi mở trang này ra, đầu tiên front end phải gửi 1 api lên server để xác minh là tableSlug này có hợp lệ không, nếu lỗi thì hiển thị message lỗi, nếu thành công thì chuyển hướng trang đặt món. Mục đích của chuyển hướng trang là xóa đi url cũ (vì có tableslug ở đó, người dùng có thể vào lại url này) và cũng là để hiển thị danh sách đặt món (như cũ) và tên của bàn đó (có trong response trả về). Lưu ý: khi chuyển hướng trang phải dùng: window.location.replace('/order/at-restaurant'), mục đích là để xóa lịch sử url web cũ có dính token. Ngoài ra, lưu tableSlug đó vào cookie, set thời gian hết hạn khoảng 30 phút. Mục đích là giúp người dùng không cần phải quét lại QR nữa. Xử lý ở server: Khi khách hàng vào quét QR và chuyển hướng sang trang đặt món như /order/at-restaurant, tableSlug sẽ được lưu vào bộ nhớ cache với thời gian hết hạn = khoảng 30 phút. Nếu khách vào đặt món lần 2: vào lại link cũ: /order/at-restaurant, server tự động lấy cookie ra để xác thực có hợp lệ không để không phải bắt quét lại QR. Trong trường hợp khách hàng chuyển bàn (hoặc thanh toán), mình sẽ xóa tableSlug lưu trong cache, nên là dù cookie vẫn còn thời gian nhưng cache ở server không còn thì vẫn phải quét lại QR ở bàn mới để đặt món."
+      parameters:
+        - in: path
+          name: tableSlug
+          description: Đã mô tả ở trên
+          schema:
+            type: string
+            example: 2a2a5d39-a834-4dd5-bdd9-32c91059315c
+          required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Đã tìm thấy bàn hợp lệ
+                        data: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: B01
+                            status: 
+                              type: number
+                              example: 0
+                            slug: 
+                              type: string
+                              example: 2a2a5d39-a834-4dd5-bdd9-32c91059315c
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Mã đặt bàn không hợp lệ  
             
   /payment/create-payment-url:
     post:
