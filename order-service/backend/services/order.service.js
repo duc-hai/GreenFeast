@@ -8,10 +8,19 @@ const fs = require('fs')
 const cloudinary = require('cloudinary').v2
 const Promotion = require('../models/promotion')
 const path = require('path')
+const { v4: uuidv4 } = require('uuid')
 const createError = require('http-errors')
 const StatusCode = require('../enums/http.status.code')
 
 class OrderService {
+    getFullnameOfUser = headerInfor => {
+        const user = JSON.parse(decodeURIComponent(headerInfor))
+        if (user.user_type == 1)
+            return `Nhân viên: ${user.full_name}`
+        else 
+            return `Khách hàng: ${user.full_name}`
+    }
+
     orderMenu = async(req, res, next) => {
         try {
             const tableSlug = req.params.tableSlug
@@ -30,34 +39,27 @@ class OrderService {
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area)
-                return next([400, 'error', 'Đường dẫn đặt món không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đặt món không hợp lệ'))
 
-            //Set price for menu
+            //Set price and name for menu
             for (let i = 0; i < menuData.length; i++) {
                 const menu = menuData[i]
                 const menuFromDB = await Menu.findOne({ _id: menu._id, status: true })
                 if (!menuFromDB) 
-                    throw new Error('Món không tồn tại, vui lòng kiểm tra lại')
+                    return next(createError(StatusCode.BadRequest_400, 'Món không tồn tại, vui lòng kiểm tra lại'))
                 if (menuFromDB?.discount_price)
                     menuData[i].price = menuFromDB?.discount_price
                 else
                     menuData[i].price = menuFromDB?.price
+                menuData[i].name = menuFromDB.name
             }
 
             const subtotalPrice = menuData.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
 
-            let user = {
-                _id: '65e48397489655124aae2fc1',
-                full_name: 'Khách'
-            }
+            let user = { _id: uuidv4(), full_name: 'Khách' }
 
-            if (req.headers['user-infor-header']) {
-                user = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
-                if (user.user_type == 1)
-                    user.full_name = `Nhân viên: ${user.full_name}`
-                else 
-                    user.full_name = `Khách hàng: ${user.full_name}`
-            }
+            if (req.headers['user-infor-header']) 
+                user.full_name = this.getFullnameOfUser(req.headers['user-infor-header'])
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 

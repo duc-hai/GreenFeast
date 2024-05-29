@@ -1,7 +1,5 @@
 const amqplib = require('amqplib')
 const { v4: uuidv4 } = require('uuid')
-const createError = require('http-errors')
-const StatusCode = require('../enums/http.status.code')
 
 const receiveQueue = async () => {
     const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD 

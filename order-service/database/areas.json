@@ -1,12 +1,11 @@
 [{
   "_id": 1,
   "name": "Tầng 1",
-  "price_percentage": 0,
   "description": "Khu vực tầng trệt",
   "table_list": [
     {
       "_id": "A01",
-      "status": 0,
+      "status": 1,
       "slug": "9c48d924-a481-493e-8bbe-6d866e89eb70"
     },
     {
@@ -110,7 +109,6 @@
 {
   "_id": 2,
   "name": "Tầng 2",
-  "price_percentage": 0,
   "description": "Khu vực tầng 2",
   "table_list": [
     {
@@ -130,7 +128,7 @@
     },
     {
       "_id": "B04",
-      "status": 0,
+      "status": 1,
       "slug": "4afc9137-d518-4c5b-b5ec-a5f14f5459c7"
     },
     {
@@ -194,7 +192,6 @@
 {
   "_id": 3,
   "name": "Mua mang về",
-  "price_percentage": 0,
   "description": "Dành cho khách mua mang về",
   "table_list": [
     {
@@ -253,7 +250,6 @@
 {
   "_id": 4,
   "name": "Grab",
-  "price_percentage": 15,
   "description": "Dành cho đơn Grab, giá cao hơn 15% so với mua tại quán",
   "table_list": [
     {
@@ -312,7 +308,6 @@
 {
   "_id": 5,
   "name": "Shopee",
-  "price_percentage": 15,
   "description": "Dành cho đơn Shopee Food, giá cao hơn 15% so với mua tại quán",
   "table_list": [
     {
@@ -371,7 +366,6 @@
 {
   "_id": 6,
   "name": "Nhân viên",
-  "price_percentage": -10,
   "description": "Đơn nhân viên, giảm 10%",
   "table_list": [
     {

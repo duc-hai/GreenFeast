@@ -14,7 +14,7 @@ const order = new Schema (
                         quantity: { type: Number },
                         price: { type: Number },
                         note: { type: String },
-                        processing_status: { type: Number }
+                        processing_status: { type: Number, default: 0 }
                     }
                 ],
                 time: { type: Date },
