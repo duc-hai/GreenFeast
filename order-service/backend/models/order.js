@@ -10,9 +10,11 @@ const order = new Schema (
                 menu: [
                     {
                         _id: { type: Number },
+                        name: { type: String },
                         quantity: { type: Number },
                         price: { type: Number },
-                        note: { type: String }
+                        note: { type: String },
+                        processing_status: { type: Number }
                     }
                 ],
                 time: { type: Date },

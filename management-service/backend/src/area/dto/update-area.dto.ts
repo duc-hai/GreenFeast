@@ -11,11 +11,11 @@ export class UpdateAreaDto {
     //@IsInt()
     //@Max(100)
     //@Min(-100)
-    @IsOptional()
-    @IsInt({
-        message: 'Phần trăm giá phải là số hợp lệ'
-    })
-    price_percentage: number;
+    // @IsOptional()
+    // @IsInt({
+    //     message: 'Phần trăm giá phải là số hợp lệ'
+    // })
+    // price_percentage: number;
 
     @IsOptional()
     @IsString({

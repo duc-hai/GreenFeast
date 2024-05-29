@@ -9,8 +9,8 @@ export class Area {
     @Column()
     name: string;
 
-    @Column({ default: 0 })
-    price_percentage: number;
+    // @Column({ default: 0 })
+    // price_percentage: number;
 
     @Column({ default: 0 })
     description: string;

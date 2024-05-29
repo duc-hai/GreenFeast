@@ -8,7 +8,7 @@ export class RabbitmqService {
             if (typeof (data) === 'object')
                 data = JSON.stringify(data)
 
-            const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
+            const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD   
 
             const connection = await amqp.connect(amqpUrl) //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
     

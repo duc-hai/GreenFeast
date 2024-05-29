@@ -21,6 +21,12 @@ export class CreatePromotionDto {
     })
     note: string;
 
+    @IsOptional()
+    @IsString({
+        message: 'Mô tả không hợp lệ'
+    })
+    description: string;
+
     @IsNotEmpty({
         message: 'Hình thức khuyến mãi không được để trống'
     })

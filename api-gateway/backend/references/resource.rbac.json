@@ -3,7 +3,7 @@
         "resource": "menu",
         "name": "Thực đơn",
         "actions": [
-            { "name": "Xem danh sách, lấy danh sách món theo danh mục, tìm kiếm món ăn", "slug": "read:any" },
+            { "name": "Xem danh sách, tìm kiếm món ăn", "slug": "read:any" },
             { "name": "Cập nhật thực đơn", "slug": "update:any" },
             { "name": "Tạo thực đơn", "slug": "create:any" },
             { "name": "Xóa thực đơn", "slug": "delete:any" }
@@ -70,9 +70,10 @@
         "resource": "order",
         "name": "Quản lý đặt món",
         "actions": [
-            { "name": "Xem danh sách bàn, món, tạo QR", "slug": "read:any" },
-            { "name": "Đóng bàn", "slug": "create:any" },
-            { "name": "Chuyển bàn", "slug": "update:any" }
+            { "name": "Xem danh sách bàn, món", "slug": "read:any" },
+            { "name": "Đặt món, tạo QR", "slug": "create:any" },
+            { "name": "Chuyển bàn", "slug": "update:any" },
+            { "name": "Đóng bàn", "slug": "delete:any" }
         ]
     },
     {

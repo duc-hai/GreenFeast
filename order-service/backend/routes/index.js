@@ -2,8 +2,6 @@ const express = require('express')
 const errorHandler = require('../middlewares/error.handler')
 const menuService = require('../services/menu.service')
 const orderService = require('../services/order.service')
-
-
 const router = express.Router()
 
 router.get('/menu/get-list', menuService.getAllMenu)

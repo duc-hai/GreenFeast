@@ -59,14 +59,14 @@ router.delete('/category/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantS
 
 //Promotion
 router.get('/promotion/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
-router.get('/promotion/get-form-promotion', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
+router.get('/promotion/get-form-promotion', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
 router.post('/promotion/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
 router.put('/promotion/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
 router.delete('/promotion/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
 
 //Printer
 router.get('/printer/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
-router.get('/printer/get-printer-type', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
+router.get('/printer/get-printer-type', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('management'))
 router.post('/printer/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
 router.put('/printer/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
 router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
@@ -76,13 +76,13 @@ router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSi
 */
 // router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), forwardService.forwardRequestOrderService)
 router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), forwardService.forwardRequestWithAlias('order'))
-router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
-router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/history', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/history/print-bill', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 
-
+//Lấy danh sách bàn theo mã khu vực, phân quyền chỉ cho nhân viên xem
 router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('order'))
 
 module.exports = router

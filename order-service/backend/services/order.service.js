@@ -8,6 +8,8 @@ const fs = require('fs')
 const cloudinary = require('cloudinary').v2
 const Promotion = require('../models/promotion')
 const path = require('path')
+const createError = require('http-errors')
+const StatusCode = require('../enums/http.status.code')
 
 class OrderService {
     orderMenu = async(req, res, next) => {
@@ -138,7 +140,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -410,7 +412,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -425,7 +427,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -545,7 +547,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -597,7 +599,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -639,7 +641,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -656,7 +658,7 @@ class OrderService {
             })    
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -720,7 +722,7 @@ class OrderService {
             })  
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -745,7 +747,7 @@ class OrderService {
             })  
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -860,7 +862,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -885,7 +887,7 @@ class OrderService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 }
