@@ -82,16 +82,7 @@ exports.jwtTokenValidatorCustomer = async (req, res, next) => {
 
 exports.jwtTokenValidatorBoth = async (req, res, next) => {
     try {
-        let accessToken
-
-        if (req.headers.authorization)
-            accessToken = req.headers.authorization.split(" ")[1]
-        else if (req.cookies || req.signedCookies) {
-            accessToken = req.cookies?.access_token || req.signedCookies?.access_token
-            //accessToken = req.headers.cookie.split("=")[1]
-        }
-        else 
-            return next()
+        const accessToken = getAccessToken(req)
     
         if (!accessToken)
             return next()
@@ -104,6 +95,7 @@ exports.jwtTokenValidatorBoth = async (req, res, next) => {
         
         const user = await User.findOne({
             _id: verified.username,
+            status: true
         })
         
         if (!user)

@@ -2,7 +2,6 @@ const logger = require('./logger.log')
 
 const catchNotFoundError = (req, res) => {
     return res.status(404).json({status: 'error', message: 'Không tìm thấy đường dẫn'})
-
 }
 
 const errorHandle = (err, req, res, next) => {

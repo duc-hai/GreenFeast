@@ -3,7 +3,7 @@
         "resource": "menu",
         "name": "Thực đơn",
         "actions": [
-            { "name": "Xem danh sách", "slug": "read:any" },
+            { "name": "Xem danh sách, lấy danh sách món theo danh mục, tìm kiếm món ăn", "slug": "read:any" },
             { "name": "Cập nhật thực đơn", "slug": "update:any" },
             { "name": "Tạo thực đơn", "slug": "create:any" },
             { "name": "Xóa thực đơn", "slug": "delete:any" }
@@ -14,7 +14,7 @@
         "name": "Bàn",
         "actions": [
             { "name": "Xem danh sách", "slug": "read:any" },
-            { "name": "Tạo bàn", "slug": "create:any" },
+            { "name": "Tạo bàn, tạo tự động", "slug": "create:any" },
             { "name": "Xóa bàn", "slug": "delete:any" }
         ]
     },

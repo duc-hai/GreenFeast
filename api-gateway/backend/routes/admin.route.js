@@ -5,7 +5,7 @@ const userType = require('../middlewares/assign.user.type')
 const validation = require('../validations/body.validation')
 const jwtTokenGuard = require('../middlewares/jwt.token.guard')
 const accessControl = require('../middlewares/access.control')
-const callMicroservice = require('../services/call.microservices')
+const forwardService = require('../services/forward.microservices')
 const upload = require('../middlewares/multer.menu')
 
 /*
@@ -23,65 +23,66 @@ router.patch('/user/update', jwtTokenGuard.jwtTokenValidatorRestaurantSide, user
 
 router.get('/get-resource-rbac', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'employee'), userService.getResourceRbac)
 
-//________________________________________________________________________________________________________________________________________________________________________________________________
+//___________________________________________________________________________________________________
 
 /*
-    Management service
+    Management service. Because each url has owner authorization, then we need to list all path to check access control before forwarding request
 */
 
-// //Menu
-// router.get('/menu/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), callMicroservice.forwardRequest)
-// router.get('/menu/get-by-category/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), callMicroservice.forwardRequest)
-// router.get('/menu/search', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), callMicroservice.forwardRequest)
-// router.delete('/menu/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'menu'), callMicroservice.forwardRequest)
-// router.post('/menu/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'menu'), upload.single('image'), callMicroservice.forwardRequestUploadFile)
-// router.put('/menu/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'menu'), upload.single('image'), callMicroservice.forwardRequestUploadFile)
+//Menu
+router.get('/menu/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), forwardService.forwardRequestWithAlias('management'))
+router.get('/menu/get-by-category/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), forwardService.forwardRequestWithAlias('management'))
+router.get('/menu/search', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'menu'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/menu/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'menu'), forwardService.forwardRequestWithAlias('management'))
+router.post('/menu/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'menu'), upload.single('image'), forwardService.forwardRequestAliasUploadFile('management'))
+router.put('/menu/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'menu'), upload.single('image'), forwardService.forwardRequestAliasUploadFile('management'))
 
 // //Table
-// router.post('/table/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'table'), callMicroservice.forwardRequest)
-// router.post('/table/create-auto', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'table'), callMicroservice.forwardRequest)
-// router.get('/table/get-tables', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'table'), callMicroservice.forwardRequest)
-// // router.put('/table/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'table'), callMicroservice.forwardRequest)
-// router.delete('/table/delete', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'table'), callMicroservice.forwardRequest)
+router.post('/table/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'table'), forwardService.forwardRequestWithAlias('management'))
+router.post('/table/create-auto', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'table'), forwardService.forwardRequestWithAlias('management'))
+router.get('/table/get-tables', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'table'), forwardService.forwardRequestWithAlias('management'))
+// router.put('/table/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'table'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/table/delete', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'table'), forwardService.forwardRequestWithAlias('management'))
 
-// //Area
-// // router.get('/area/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'area'), callMicroservice.forwardRequest)
-// router.get('/area/get-all', callMicroservice.forwardRequest)
-// router.post('/area/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'area'), callMicroservice.forwardRequest)
-// router.put('/area/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'area'), callMicroservice.forwardRequest)
-// router.delete('/area/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'area'), callMicroservice.forwardRequest)
+//Area
+// router.get('/area/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'area'), forwardService.forwardRequestWithAlias('management'))
+router.get('/area/get-all', forwardService.forwardRequestWithAlias('management'))
+router.post('/area/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'area'), forwardService.forwardRequestWithAlias('management'))
+router.put('/area/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'area'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/area/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'area'), forwardService.forwardRequestWithAlias('management'))
 
-// //Category
-// router.get('/category/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'category'), callMicroservice.forwardRequest)
-// router.post('/category/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'category'), callMicroservice.forwardRequest)
-// router.put('/category/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'category'), callMicroservice.forwardRequest)
-// router.delete('/category/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'category'), callMicroservice.forwardRequest)
+//Category
+router.get('/category/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'category'), forwardService.forwardRequestWithAlias('management'))
+router.post('/category/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'category'), forwardService.forwardRequestWithAlias('management'))
+router.put('/category/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'category'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/category/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'category'), forwardService.forwardRequestWithAlias('management'))
 
-// //Promotion
-// router.get('/promotion/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), callMicroservice.forwardRequest)
-// router.get('/promotion/get-form-promotion', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), callMicroservice.forwardRequest)
-// router.post('/promotion/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'promotion'), callMicroservice.forwardRequest)
-// router.put('/promotion/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'promotion'), callMicroservice.forwardRequest)
-// router.delete('/promotion/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'promotion'), callMicroservice.forwardRequest)
+//Promotion
+router.get('/promotion/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
+router.get('/promotion/get-form-promotion', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
+router.post('/promotion/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
+router.put('/promotion/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/promotion/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'promotion'), forwardService.forwardRequestWithAlias('management'))
 
-// //Printer
-// router.get('/printer/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), callMicroservice.forwardRequest)
-// router.get('/printer/get-printer-type', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), callMicroservice.forwardRequest)
-// router.post('/printer/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'printer'), callMicroservice.forwardRequest)
-// router.put('/printer/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'printer'), callMicroservice.forwardRequest)
-// router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'printer'), callMicroservice.forwardRequest)
+//Printer
+router.get('/printer/get-all', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
+router.get('/printer/get-printer-type', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
+router.post('/printer/create', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
+router.put('/printer/update/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
+router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'printer'), forwardService.forwardRequestWithAlias('management'))
 
-// /*
-//     Order service
-// */
-// // router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
-// router.get('/order/tables/:id', callMicroservice.forwardRequestOrderService)
-// router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), callMicroservice.forwardRequestOrderService)
-// router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), callMicroservice.forwardRequestOrderService)
+/*
+    Order service
+*/
+// router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide,  accessControl.grantAccess('readAny', 'order'), forwardService.forwardRequestOrderService)
+router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
+router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.get('/order/history', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
+router.get('/order/history/print-bill', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 
-// router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), callMicroservice.forwardRequestOrderService)
-// router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order'), callMicroservice.forwardRequestOrderService)
-// router.get('/order/history', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), callMicroservice.forwardRequestOrderService)
-// router.get('/order/history/print-bill', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), callMicroservice.forwardRequestOrderService)
+
+router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('order'))
 
 module.exports = router
