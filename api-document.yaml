@@ -116,67 +116,54 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status: 
-                    type: string
-                    example: success
-                  message: 
-                    type: string
-                    example: Đăng nhập thành công
-                  data: 
-                    type: object
-                    properties: 
-                      access_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
-                      refresh_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
-                      full_name: 
-                        type: string
-                        example: Đức Hải
-                      data: 
-                        type: object
-                        properties: 
-                          customer: 
-                            type: object
-                            properties: 
-                              order_list: 
-                                type: array
-                                items: 
-                                  type: string
-                                example: []
-                          _id: 
-                            type: string
-                            example: 65eb127aee92b3c06a3eb28a
-                          full_name: 
-                            type: string
-                            example: Đức Hải
-                          gender: 
-                            type: string
-                            example: không
-                          phone_number: 
-                            type: string
-                            example: 
-                          address: 
-                            type: string
-                            example: 
-                          role: 
-                            type: string
-                            example: admin
-                          user_type: 
-                            type: number
-                            example: 1
-                          createdAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-03-08T13:28:26.273Z
-                          updatedAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-03-08T13:28:26.273Z
-                          __v: 
-                            type: number
-                            example: 0
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đăng nhập thành công
+                    data: 
+                      type: object
+                      properties: 
+                        access_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcxNjg4Mjk0MSwiZXhwIjoxNzE2OTE4OTQxfQ.ak2qYAs5dW928P-mezAp_WNc9fF5y1m95b6CJib4Htk
+                        refresh_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcxNjg4Mjk0MSwiZXhwIjoxNzE5NDc0OTQxfQ.EkE6DCqusgP-8Ko7NIUVTlBpJWv2w6QEZTbD2UzhwHk
+                        full_name: 
+                          type: string
+                          example: Lưu Đức Hải
+                        data: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 093213213212
+                            full_name: 
+                              type: string
+                              example: Lưu Đức Hải
+                            gender: 
+                              type: string
+                              example: không
+                            phone_number: 
+                              type: string
+                              example: 
+                            address: 
+                              type: string
+                              example: 
+                            role: 
+                              type: string
+                              example: customer
+                            customer: 
+                              type: object
+                              properties: 
+                                order_id_history: 
+                                  type: array
+                                  items: 
+                                    type: string
+                                    example: []
+
                
             
         '400':
@@ -713,68 +700,51 @@ paths:
               schema:
                 type: object
                 properties: 
-                    status: 
-                      type: string
-                      example: success
-                    message: 
-                      type: string
-                      example: Lấy danh sách nhân viên thành công
-                    data: 
-                      type: array
-                      items: 
-                        type: object
-                        properties: 
-                          _id: 
-                            type: string
-                            example: 65d752f0b5f9a4ed01060239
-                          full_name: 
-                            type: string
-                            example: Hải
-                          gender: 
-                            type: string
-                            example: nam
-                          phone_number: 
-                            type: string
-                            example: 0123213123
-                          address: 
-                            type: string
-                            example: 
-                          role: 
-                            type: string
-                            example: admin
-                          user_type: 
-                            type: number
-                            example: 1
-                          createdAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-02-22T13:58:08.714Z
-                          updatedAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-02-23T09:36:56.070Z
-                          birthday: 
-                            type: string
-                            format: date-time
-                            example: 2002-08-15T00:00:00.000Z
-                          email: 
-                            type: string
-                            example: admin@gmail.com
-                      example: [
-                        {
-                          _id: 65d752f0b5f9a4ed01060239,
-                          full_name: Hải,
-                          gender: nam,
-                          phone_number: '0123213123',
-                          address: ,
-                          role: admin,
-                          user_type: 1,
-                          createdAt: "2024-02-22T13:58:08.714Z",
-                          updatedAt: "2024-02-23T09:36:56.070Z",
-                          birthday: "2002-08-15T00:00:00.000Z",
-                          email: admin@gmail.com
-                        }
-                      ]
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách nhân viên thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 093213213212
+                            full_name: 
+                              type: string
+                              example: Đức hải
+                            gender: 
+                              type: string
+                              example: nam
+                            phone_number: 
+                              type: string
+                              example: 0123213123
+                            address: 
+                              type: string
+                              example: Quận 7
+                            birthday: 
+                              type: string
+                              format: date-time
+                              example: 2002-08-15T00:00:00.000Z
+                            email: 
+                              type: string
+                              example: admin@gmail.com
+                        example: [
+                          {
+                            _id: 093213213212,
+                            full_name: Đức hải,
+                            gender: nam,
+                            phone_number: 0123213123,
+                            address: Quận 7,
+                            birthday: "2002-08-15T00:00:00.000Z",
+                            email: admin@gmail.com
+                          }
+                        ]
+
 
                  
         '400':
@@ -2747,7 +2717,7 @@ paths:
           required: true
           
       requestBody: 
-        description: Gửi 1 mảng thông tin các món gồm mã món, số lượng của món đó và ghi chú (tùy chọn). Phía backend sẽ tự động load ra các thông tin gồm giá từng món, giá tổng, người đặt món, thời gian nên không cần gửi đính kèm các thông tin này.
+        description: Gửi 1 mảng thông tin các món gồm mã món, số lượng của món đó và ghi chú (tùy chọn). Phía backend sẽ tự động load ra các thông tin gồm giá, tên từng món, giá tổng, người đặt món, thời gian nên không cần gửi đính kèm các thông tin này.
         content: 
           application/json:
             schema:
@@ -2768,7 +2738,7 @@ paths:
         required: true
       responses:
         '200':
-            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, data trả về là 2 đường dẫn của phiếu in bếp và phiếu in quầy bar, front end có thể mở 2 file này trong tab mới hoặc tải về (recommend nên mở 2 file trong tab mới để người dùng dễ thấy). Lưu ý data là 1 mảng, không phải lúc nào cũng có 2 giá trị, có thể có 1 hoặc 0 có giá trị nào.
+            description: Thành công. Thông tin gồm message với thông báo 
             content:
               application/json:
                 schema:
@@ -2780,18 +2750,7 @@ paths:
                     message: 
                       type: string
                       example: Đặt món thành công
-                    data: 
-                      type: array
-                      items: 
-                        type: object
-                        properties: 
-                          0: 
-                            type: string
-                            example: j
-                      example: [
-                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570911/65f53d9bfa61a866a41f8ada-1.pdf",
-                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570912/65f53d9bfa61a866a41f8ada-1.pdf"
-                      ]
+                    
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             

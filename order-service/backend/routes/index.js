@@ -6,21 +6,27 @@ const router = express.Router()
 
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
-router.get('/tables/:id', menuService.getTablesByAreaId)
+
 router.get('/menu/search', menuService.searchMenu)
-router.get('/create-qr', menuService.createQRCode)
 
 router.post('/:tableSlug', orderService.orderMenu)
 router.get('/view-order/:tableSlug', orderService.getOrderInfor)
-router.get('/promotion', orderService.getPromotions)
-router.post('/close/:tableSlug', orderService.closeTable)
+// router.get('/promotion', orderService.getPromotions)
+
 router.get('/print-bill/:tableSlug', orderService.printerBill)
 router.get('/category/get-all', orderService.getCategory)
-router.get('/move-table', orderService.moveTable)
-router.get('/get-revenue', orderService.getRevenueByDay)
-router.get('/history', orderService.historyOrder)
-router.get('/history/print-bill', orderService.printerBillAgain)
+
+
 router.get('/verify-slug/:tableSlug', orderService.verifyTableSlug)
+
+// For admin & emoployee
+router.get('/order/tables/:id', menuService.getTablesByAreaId)
+router.get('/order/move-table', orderService.moveTable)
+router.post('/order/close/:tableSlug', orderService.closeTable)
+router.get('/order/create-qr', menuService.createQRCode)
+router.get('/order/get-revenue', orderService.getRevenueByDay)
+router.get('/order/history', orderService.historyOrder)
+router.get('/order/history/print-bill', orderService.printerBillAgain)
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

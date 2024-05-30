@@ -3,22 +3,43 @@ const Order = require('../models/order')
 const Menu = require('../models/menu')
 const Printer = require('../models/printer')
 const Category = require('../models/category')
-const PDFDocument = require("pdfkit-table")
-const fs = require('fs')
-const cloudinary = require('cloudinary').v2
 const Promotion = require('../models/promotion')
-const path = require('path')
-const { v4: uuidv4 } = require('uuid')
 const createError = require('http-errors')
 const StatusCode = require('../enums/http.status.code')
+const pdfService = require('./pdf.service')
+const ProcessingTicket = require('../models/processing_ticket')
+const clientRedis = require('../config/connect.redis')
 
 class OrderService {
-    getFullnameOfUser = headerInfor => {
+    getUserInfor = headerInfor => {
         const user = JSON.parse(decodeURIComponent(headerInfor))
         if (user.user_type == 1)
-            return `Nhân viên: ${user.full_name}`
+            return {
+                _id: user._id,
+                full_name: `Nhân viên: ${user.full_name}`
+            }
         else 
-            return `Khách hàng: ${user.full_name}`
+            return {
+                _id: user._id,
+                full_name: `Khách hàng: ${user.full_name}`
+            }
+    }
+
+    getMenuInforFromDB = async menuDataFromBody => {
+        let menuData = menuDataFromBody
+        //Set price and name for menu
+        for (let i = 0; i < menuData.length; i++) {
+            const menu = menuData[i]
+            const menuFromDB = await Menu.findOne({ _id: menu._id, status: true })
+            if (!menuFromDB) 
+                return next(createError(StatusCode.BadRequest_400, `Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`))
+            if (menuFromDB?.discount_price)
+                menuData[i].price = menuFromDB?.discount_price
+            else
+                menuData[i].price = menuFromDB?.price
+            menuData[i].name = menuFromDB.name
+        }
+        return menuData
     }
 
     orderMenu = async(req, res, next) => {
@@ -29,42 +50,32 @@ class OrderService {
                     {
                         "_id": "1",
                         "quantity": 2,
-                        //price is calculate by server
                         "note": "Ghi chú"
+                        //price and name is get by server
                     }
                 ]
             */
-            let menuData = req.body
-
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area)
                 return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đặt món không hợp lệ'))
 
-            //Set price and name for menu
-            for (let i = 0; i < menuData.length; i++) {
-                const menu = menuData[i]
-                const menuFromDB = await Menu.findOne({ _id: menu._id, status: true })
-                if (!menuFromDB) 
-                    return next(createError(StatusCode.BadRequest_400, 'Món không tồn tại, vui lòng kiểm tra lại'))
-                if (menuFromDB?.discount_price)
-                    menuData[i].price = menuFromDB?.discount_price
-                else
-                    menuData[i].price = menuFromDB?.price
-                menuData[i].name = menuFromDB.name
-            }
+            const menuData = await this.getMenuInforFromDB(req.body)
 
             const subtotalPrice = menuData.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
 
-            let user = { _id: uuidv4(), full_name: 'Khách' }
+            let user = { full_name: 'Khách' } //initial by default
 
-            if (req.headers['user-infor-header']) 
-                user.full_name = this.getFullnameOfUser(req.headers['user-infor-header'])
+            if (req.headers['user-infor-header']) {
+                const userInfor = this.getUserInfor(req.headers['user-infor-header'])
+                user.full_name = userInfor.full_name
+                user._id = userInfor._id
+            }
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
             let getOrderLatest
-            let orderMenu 
+            let order 
 
             //Table is available and don't have any menu
             if (table?.status == 0) {
@@ -73,7 +84,7 @@ class OrderService {
                     { 'table_list.slug': tableSlug },
                     { $set: { 'table_list.$.status': 1 } }
                 )
-                const order = await new Order ({
+                order = new Order ({
                     order_detail: [
                         {
                             menu: menuData,
@@ -90,15 +101,14 @@ class OrderService {
                     status: false //Unpaid
                 }).save()
 
-                getOrderLatest = order?.order_detail[order?.order_detail.length - 1]
-                orderMenu = order
+                getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
             }
             //Table is served, this's means we need to add menu the n time
             else if (table?.status == 1) {
-                const order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
+                order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
 
                 if (!order)
-                    return next([400, 'error', 'Không tìm thấy order trước đó'])
+                    return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
 
                 order?.order_detail.push({
                     menu: menuData,
@@ -112,34 +122,14 @@ class OrderService {
                 order.subtotal = order.subtotal + subtotalPrice
 
                 await order.save()
-                
-                orderMenu = order
-                getOrderLatest = order?.order_detail[order?.order_detail.length - 1]
+
+                getOrderLatest = order?.order_detail[order?.order_detail.length - 1] //Get latest times of order
             }
             
-            // this.sendPrinterFood(orderMenu, getOrderLatest)
-            // this.sendPrinterBaverage(orderMenu, getOrderLatest)
+            this.sendPrinterFood(order, getOrderLatest)
+            this.sendPrinterBaverage(order, getOrderLatest) 
 
-            const printerFood = await this.sendPrinterFood(orderMenu, getOrderLatest)
-            const printerBaverage = await this.sendPrinterBaverage(orderMenu, getOrderLatest) 
-           
-            let data = []
-
-            if (printerFood)
-                data.push(printerFood)
-            if (printerBaverage)
-                data.push(printerBaverage)
-
-            // if (printerFood)
-            //     res.download(printerFood)
-            // if (printerBaverage)
-            //     res.download(printerBaverage)
-
-            return res.status(200).json({
-                status: 'success',
-                message: 'Đặt món thành công',
-                data
-            })
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt món thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
@@ -151,7 +141,7 @@ class OrderService {
             /*
                 orderDetail:
                 {
-                    menu: [ { _id: 48, quantity: 2, price: 123, note: 'Không có ghi chú' } ],
+                    menu: [ { _id: 48, name: 'Đậu hũ', quantity: 2, price: 123, note: 'Không có ghi chú' } ],
                     time: 2024-03-05T07:55:58.709Z,
                     order_person: {
                         _id: new ObjectId('65d752f0b5f9a4ed01060239'),
@@ -162,233 +152,64 @@ class OrderService {
             */
 
             //Check if menu have or not
-            let menuDetailRow = await Promise.all(orderDetail?.menu.map(async value => {
-                const menu = await Menu.findOne({ _id: value._id })
-            
-                if (menu.menu_type != 1)
-                    return null
-                            
-                const menuName = menu.name
-                return [menuName, value.quantity, value.note]
-            }))
-        
-            menuDetailRow = menuDetailRow.filter(value => value !== null)
-
-            if (menuDetailRow.length == 0)
-                return 
+            const menuDetailRow = await this.getMenuDetailRow(1, orderDetail)
+            if (!menuDetailRow) return //Don't have food 
                 
-            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
+            const ticketFoodUrl = await pdfService.sendPrinterFoodAndBeverage(menuDetailRow, orderDetail, 'Phiếu in bếp', orderMenu.table, 1)
 
-            let doc = new PDFDocument({ margin: 30, size: 'A4' })
+            this.storageProcessingTicket(ticketFoodUrl, 1)
 
-            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-1.pdf`
-
-            doc.pipe(fs.createWriteStream(outputPath))
-
-            doc
-                .font(font)
-                .fontSize(18)
-                .text('Phiếu in bếp', { align: 'center' })
-                .moveDown()
-
-            doc
-            .fontSize(18)
-            .text(`Bàn: ${orderMenu.table}`, { align: 'center' })
-            .moveDown()
-
-            doc.fontSize(10).text(`Mã: ${orderDetail._id}`)
-            doc.moveDown() 
-
-            doc.fontSize(10).text(`${orderDetail?.order_person?.name}`)
-            doc.moveDown()
-
-            const dateTime = this.formatDateTime(orderDetail.time)
-
-            doc.fontSize(10).text(`Thời gian: ${dateTime}`)
-            doc.moveDown()
-            
-            const printer = await Printer.findOne({ printer_type: 2 })
-            if (printer) {
-                doc.fontSize(10).text(`Máy in: ${printer.name}`)
-                doc.moveDown()
-            }
-
-            ;(async function createTable() {
-                try {
-                    // table
-                    const table = { 
-                        // title: "Title",
-                        // subtitle: "Subtitle",
-                        headers: [ "Món chế biến", "Số lượng", "Ghi chú" ],
-                        // rows: [
-                        //     [ "Australia", "12%", "+1.12%" ],
-                        //     [ "France", "67%", "-0.98%" ],
-                        //     [ "England", "33%", "+4.44%" ],
-                        // ],
-                        rows: menuDetailRow
-                    }
-
-                    await doc.table(table, { 
-                        prepareHeader: () => doc.font(font).fontSize(10),    
-                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
-                            doc.font(font).fontSize(10)
-                        },
-                        columnsSize: [ 200, 100, 230 ],
-                    })
-
-                    doc.end()
-                }
-                catch (err) {
-                    console.error(`Error is occured: ${err.message}`)
-                }
-            })()
-
-            // //Upload to cloud
-            cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET
-            })
-
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-1` })
-
-            return result.secure_url
-            // return outputPath
+            return 
         }
         catch (err) {
-            console.error(`Error is occured: ${err.message}`)
+            console.error(`Error is occured at sendPrinterFood: ${err.message}`)
+        }
+    }
+
+    storageProcessingTicket = async (url, ticketType) => {
+        try {
+            await new ProcessingTicket({
+                url_ticket: url,
+                ticket_type: ticketType
+            }).save()
+        }   
+        catch (err) {
+            console.error(`Error is occured at storageProcessingTicket: ${err.message}`)
         }
     }
 
     sendPrinterBaverage = async (orderMenu, orderDetail) => {
         try {
-            /*
-                orderDetail:
-                {
-                    menu: [ { _id: 48, quantity: 2, price: 123, note: 'Không có ghi chú' } ],
-                    time: 2024-03-05T07:55:58.709Z,
-                    order_person: {
-                        _id: new ObjectId('65d752f0b5f9a4ed01060239'),
-                        name: 'Nhân viên: Hải'
-                    },
-                    _id: new ObjectId('65e6d00e36ac1836e4df79d4')
-                }
-            */
+            const menuDetailRow = await this.getMenuDetailRow(2, orderDetail)
+            if (!menuDetailRow) return //Don't have beverage
 
-            //Check if menu have or not
-            let menuDetailRow = await Promise.all(orderDetail?.menu.map(async value => {
-                const menu = await Menu.findOne({ _id: value._id })
-        
-                if (menu.menu_type != 2)
-                    return null
-                    
-                const menuName = menu.name
-                return [menuName, value.quantity, value.note]
-            }))
-    
-            menuDetailRow = menuDetailRow.filter(value => value !== null)
-    
-            if (menuDetailRow.length == 0)
-                return    
+            const ticketBeverageUrl = await pdfService.sendPrinterFoodAndBeverage(menuDetailRow, orderDetail, 'Phiếu in pha chế', orderMenu.table, 2)
 
-            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
+            this.storageProcessingTicket(ticketBeverageUrl, 2)
 
-            let doc = new PDFDocument({ margin: 30, size: 'A4' })
-
-            const outputPath = path.dirname(__dirname) + `/resources/kitchen/${orderDetail._id}-2.pdf`
-
-            doc.pipe(fs.createWriteStream(outputPath))
-
-            doc
-                .font(font)
-                .fontSize(18)
-                .text('Phiếu in pha chế', { align: 'center' })
-                .moveDown()
-
-            doc
-            .fontSize(18)
-            .text(`Bàn: ${orderMenu.table}`, { align: 'center' })
-            .moveDown()
-
-            doc.fontSize(10).text(`Mã: ${orderDetail._id}`)
-            doc.moveDown() 
-
-            doc.fontSize(10).text(`${orderDetail?.order_person?.name}`)
-            doc.moveDown()
-
-            const dateTime = this.formatDateTime(orderDetail.time)
-
-            doc.fontSize(10).text(`Thời gian: ${dateTime}`)
-            doc.moveDown()
-            
-            const printer = await Printer.findOne({ printer_type: 3 })
-            if (printer) {
-                doc.fontSize(10).text(`Máy in: ${printer.name}`)
-                doc.moveDown()
-            }
-
-            ;(async function createTable() {
-                try {
-                    // table
-                    const table = { 
-                        // title: "Title",
-                        // subtitle: "Subtitle",
-                        headers: [ "Món chế biến", "Số lượng", "Ghi chú" ],
-                        // rows: [
-                        //     [ "Australia", "12%", "+1.12%" ],
-                        //     [ "France", "67%", "-0.98%" ],
-                        //     [ "England", "33%", "+4.44%" ],
-                        // ],
-                        rows: menuDetailRow
-                    }
-
-                    await doc.table(table, { 
-                        prepareHeader: () => doc.font(font).fontSize(10),    
-                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
-                            doc.font(font).fontSize(10)
-                        },
-                        columnsSize: [ 200, 100, 230 ],
-                    })
-
-                    doc.end()
-                }
-                catch (err) {
-                    console.error(`Error is occured: ${err.message}`)
-                }
-            })()
-
-            //Upload to cloud
-            cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET
-            })
-
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${orderDetail._id}-2` })
-
-            return result.secure_url
-            // return outputPath
+            return 
         }
         catch (err) {
-            console.error(`Error is occured: ${err.message}`)
+            console.error(`Error is occured at sendPrinterBaverage: ${err.message}`)
         }
     }
 
-    formatDateTime = (dateTime) => {
-        try {
-            const day = dateTime.getDate()
-            const month = dateTime.getMonth() + 1
-            const year = dateTime.getFullYear()
+    getMenuDetailRow = async (menuType, orderDetail) => {
+        let menuDetailRow = await Promise.all(orderDetail?.menu.map(async value => {
+            const menu = await Menu.findOne({ _id: value._id })
+        
+            if (menu.menu_type != menuType)
+                return null
+                        
+            return [value.name, value.quantity, value.note]
+        }))
+    
+        menuDetailRow = menuDetailRow.filter(value => value !== null)
 
-            const hours = dateTime.getHours()
-            const minutes = dateTime.getMinutes()
-            const seconds = dateTime.getSeconds()
-
-            return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
-        }
-        catch (err) {
-            console.error(`Error occured: ${err.message}`)
-        }
+        if (menuDetailRow.length == 0)
+            return null    
+        
+        return menuDetailRow
     }
 
     async getOrderInfor (req, res, next) {
@@ -401,36 +222,45 @@ class OrderService {
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area)
-                return next([400, 'error', 'Đường dẫn đặt món không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đặt món không hợp lệ'))
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
             const order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Lấy danh sách order thành công',
-                data: order
-            })
+            return res.status(200).json({ status: 'success', message: 'Lấy danh sách order thành công', data: order })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
-    async getPromotions(req, res, next) {
-        try {   
-            const promotions = await Promotion.find({ status: true })
+    // async getPromotions(req, res, next) {
+    //     try {   
+    //         const promotions = await Promotion.find({ status: true })
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Lấy khuyến mãi thành công',
-                data: promotions
-            })
+    //         return res.status(200).json({
+    //             status: 'success',
+    //             message: 'Lấy khuyến mãi thành công',
+    //             data: promotions
+    //         })
+    //     }
+    //     catch (err) {
+    //         return next(createError(StatusCode.InternalServerError_500, err.message)) 
+    //     }
+    // }
+
+    getMenuDetailRowBill = async (order) => {
+        let menuDetailRow = []
+
+        for (let index = 0; index < order?.order_detail.length; index++) {
+            for (let element of order?.order_detail[index]?.menu) {
+                const menu = await Menu.findOne({ _id: element._id })
+                menuDetailRow.push([element.name, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
+            }
         }
-        catch (err) {
-            return next(createError(StatusCode.InternalServerError_500, err.message)) 
-        }
+
+        return menuDetailRow
     }
 
     printerBill = async (req, res, next) => {
@@ -438,115 +268,25 @@ class OrderService {
             const tableSlug = req.params.tableSlug
 
             if (!tableSlug)
-                return next([400, 'error', 'Thiếu mã bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu mã bàn'))
 
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area)
-                return next([400, 'error', 'Đường dẫn in hóa đơn không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Đường dẫn in hóa đơn không hợp lệ'))
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
             if (table.status != 1)
-                return next([400, 'error', 'Bàn chưa có khách'])
+                return next(createError(StatusCode.BadRequest_400, 'Bàn chưa có khách'))
 
             const order = await Order.findOne({ table: table._id, status: false })
-
-            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
-
-            let doc = new PDFDocument({ margin: 30, size: 'A4' })
-
-            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
-
-            doc.pipe(fs.createWriteStream(outputPath))
-
-            doc
-                .font(font)
-                .fontSize(18)
-                .text('HÓA ĐƠN TẠM TÍNH', { align: 'center' })
-                .moveDown()
-
-            doc
-                .fontSize(12)
-                .text(`Mã: ${order._id}`, { align: 'center' })
-                .moveDown()
-
-            doc.fontSize(10).text(`Bàn: ${order.table}`)
-            doc.moveDown() 
-
-            doc.fontSize(10).text(`${order?.order_detail[0]?.order_person?.name}`)
-            doc.moveDown() 
-
-            const printer = await Printer.findOne({ printer_type: 1, area_id: area._id })
-            if (printer) {
-                doc.fontSize(10).text(`Máy in: ${printer.name}`)
-                doc.moveDown()
-            }
-
-            const dateTime = this.formatDateTime(order.checkin)
-
-            doc.fontSize(10).text(`Giờ vào: ${dateTime}`)
-            doc.moveDown()
             
-            let menuDetailRow = []
+            const menuDetailRow = await this.getMenuDetailRowBill(order)
 
-            for (let index = 0; index < order?.order_detail.length; index++) {
-                for (let element of order?.order_detail[index]?.menu) {
-                    const menu = await Menu.findOne({ _id: element._id })
-                    const menuName = menu.name
+            const urlBill = await pdfService.sendPrinterBill(order, 'HÓA ĐƠN TẠM TÍNH', area._id, menuDetailRow)
 
-                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
-                }
-            }
-
-            ;(async function createTable() {
-                try {
-                    const table = { 
-                        // title: "Title",
-                        // subtitle: "Subtitle",
-                        headers: [ "Món chế biến", "Số lượng", "Đơn giá", "Thành tiền" ],
-                        // rows: [
-                        //     [ "Australia", "12%", "+1.12%" ],
-                        //     [ "France", "67%", "-0.98%" ],
-                        //     [ "England", "33%", "+4.44%" ],
-                        // ],
-                        rows: menuDetailRow
-                    }
-
-                    await doc.table(table, { 
-                        prepareHeader: () => doc.font(font).fontSize(10),    
-                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
-                            doc.font(font).fontSize(10)
-                        },
-                        columnsSize: [ 200, 100, 100, 130 ],
-                    })
-
-                    doc.end()
-                }
-                catch (err) {
-                    console.error(`Error is occured: ${err.message}`)
-                }
-            })()
-
-            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
-            doc.moveDown()
-
-            // res.download(outputPath)
-
-            // //Upload to cloud
-            cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET
-            })
-
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}` })
-
-            return res.status(200).json({
-                status: 'success',
-                message: 'In hóa đơn thành công',
-                data: result.secure_url
-            })
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'In hóa đơn thành công', data: urlBill })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
@@ -559,23 +299,23 @@ class OrderService {
             const tableToId = req.query.to
 
             if (!tableFromId || !tableToId)
-                return next([400, 'error', 'Thiếu dữ liệu bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu dữ liệu bàn')) 
 
             const order = await Order.findOne({ table: tableFromId, status: false }).select({ __v: 0 })
             
             if (!order)
-                return next([400, 'error', 'Bàn này chưa thực hiện đặt món'])
+                return next(createError(StatusCode.BadRequest_400, 'Bàn này chưa thực hiện đặt món')) 
 
             const areaTo = await Area.findOne({ 'table_list._id': tableToId })
 
             if (!areaTo)
-                return next([400, 'error', 'Không tìm thấy bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy bàn')) 
 
             const tableTo = areaTo?.table_list.find(table => table._id === tableToId)
 
             //Check table is whether available or not  
             if (tableTo?.status != 0) {
-                return next([400, 'error', 'Bàn chuyển đến đã có người ngồi'])
+                return next(createError(StatusCode.BadRequest_400, 'Bàn chuyển đến đã có người ngồi')) 
             }
 
             //Move table
@@ -595,10 +335,7 @@ class OrderService {
             order.table = tableToId
             await order.save()
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Chuyển bàn thành công'
-            })
+            return res.status(200).json({ status: 'success', message: 'Chuyển bàn thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
@@ -611,17 +348,19 @@ class OrderService {
 
             const { note, payment_method } = req.body
 
+            //tùy theo thanh toán tiền mặt hay chuyển khoản mà có cách xử lý phù hợp, chuyển khoản thì tự động đóng bàn, tiền mặt thì gọi đến api này
+
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area)
-                return next([400, 'error', 'Đường dẫn đóng bàn không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đóng bàn không hợp lệ'))
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
             const order = await Order.findOne({ table: table._id, status: false })
             
             if (!order)
-                return next([400, 'error', 'Không tìm thấy món trong bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món trong bàn'))
 
             await Order.updateOne({ table: table._id, status: false }, {
                 note,
@@ -637,10 +376,7 @@ class OrderService {
                 { $set: { 'table_list.$.status': 0 } }
             )        
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Đóng bàn thành công'
-            })
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đóng bàn thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
@@ -651,19 +387,16 @@ class OrderService {
         try {
             const categories = await Category.find({}).sort({ _id: 1 }).select({ __v: 0 })
             if (!categories)
-                return next([400, 'error', 'Đã xảy ra lỗi khi lấy dữ liệu danh mục'])
+                return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi khi lấy dữ liệu danh mục'))
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Lấy danh sách thành công',
-                data: categories
-            })    
+            return res.status(200).json({ status: 'success', message: 'Lấy danh sách thành công', data: categories })    
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
+    //chưa check
     getRevenueByDay = async (req, res, next) => {
         try {
             let fromDate  = req.query.from
@@ -728,6 +461,7 @@ class OrderService {
         }
     }
 
+    //Lịch sử các order //chưa check
     historyOrder = async (req, res, next) => {
         try {
             let page = req.query?.page || 1
@@ -758,109 +492,20 @@ class OrderService {
             const orderId = req.query.order
 
             if (!orderId)
-                return next([400, 'error', 'Thiếu mã hóa đơn'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu mã hóa đơn'))
 
             const order = await Order.findOne({ _id: orderId, status: true })
 
             if (!order)
-                return next([400, 'error', 'Không tìm thấy đơn hàng'])
-
-            const font = path.dirname(__dirname) + '/resources/ARIAL.TTF'
-
-            let doc = new PDFDocument({ margin: 30, size: 'A4' })
-
-            const outputPath = path.dirname(__dirname) + `/resources/bills/${order._id}.pdf`
-
-            doc.pipe(fs.createWriteStream(outputPath))
-
-            doc
-                .font(font)
-                .fontSize(18)
-                .text('HÓA ĐƠN IN LẠI', { align: 'center' })
-                .moveDown()
-
-            doc
-                .fontSize(12)
-                .text(`Mã: ${order._id}`, { align: 'center' })
-                .moveDown()
-
-            doc.fontSize(10).text(`Bàn: ${order.table}`)
-            doc.moveDown() 
-
-            doc.fontSize(10).text(`${order?.order_detail[0]?.order_person?.name}`)
-            doc.moveDown() 
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy đơn hàng'))
 
             const area = await Area.findOne({ 'table_list._id': order.table })
 
-            if (area) {
-                const printer = await Printer.findOne({ printer_type: 1, area_id: area._id })
-                if (printer) {
-                    doc.fontSize(10).text(`Máy in: ${printer.name}`)
-                    doc.moveDown()
-                }
-            }
+            const menuDetailRow = await this.getMenuDetailRowBill(order)
 
-            const dateTime = this.formatDateTime(order.checkin)
+            const urlReprinter = await pdfService.sendPrinterBill(order, 'HÓA ĐƠN IN LẠI', area._id, menuDetailRow)
 
-            doc.fontSize(10).text(`Giờ vào: ${dateTime}`)
-            doc.moveDown()
-            
-            let menuDetailRow = []
-
-            for (let index = 0; index < order?.order_detail.length; index++) {
-                for (let element of order?.order_detail[index]?.menu) {
-                    const menu = await Menu.findOne({ _id: element._id })
-                    const menuName = menu.name
-
-                    menuDetailRow.push([menuName, element.quantity, new Intl.NumberFormat('vi-VN').format(element.price), new Intl.NumberFormat('vi-VN').format(element.price * element.quantity)])
-                }
-            }
-
-            ;(async function createTable() {
-                try {
-                    const table = { 
-                        // title: "Title",
-                        // subtitle: "Subtitle",
-                        headers: [ "Món chế biến", "Số lượng", "Đơn giá", "Thành tiền" ],
-                        // rows: [
-                        //     [ "Australia", "12%", "+1.12%" ],
-                        //     [ "France", "67%", "-0.98%" ],
-                        //     [ "England", "33%", "+4.44%" ],
-                        // ],
-                        rows: menuDetailRow
-                    }
-
-                    await doc.table(table, { 
-                        prepareHeader: () => doc.font(font).fontSize(10),    
-                        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
-                            doc.font(font).fontSize(10)
-                        },
-                        columnsSize: [ 200, 100, 100, 130 ],
-                    })
-
-                    doc.end()
-                }
-                catch (err) {
-                    console.error(`Error is occured: ${err.message}`)
-                }
-            })()
-
-            doc.fontSize(12).text(`Tổng số tiền: ${new Intl.NumberFormat('vi-VN').format(order.subtotal)}`, { align: 'right' })
-            doc.moveDown()
-
-            // //Upload to cloud
-            cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET
-            })
-
-            const result = await cloudinary.uploader.upload(outputPath, { public_id: `${order._id}` })
-
-            return res.status(200).json({
-                status: 'success',
-                message: 'In hóa đơn thành công',
-                data: result.secure_url
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'In hóa đơn thành công', data: urlReprinter
             })
         }
         catch (err) {
@@ -870,23 +515,35 @@ class OrderService {
 
     verifyTableSlug = async (req, res, next) => {
         try {
-            const { tableSlug } = req.params
-
+            let { tableSlug } = req.params
+            const client = await clientRedis()
+            
+            if (req?.cookies?.tableSlug) {
+                tableSlug = req.cookies.tableSlug
+                const tableId = await client.get(tableSlug)
+                if (tableId) {
+                    return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đã tìm thấy bàn hợp lệ', data: {
+                        _id: tableId,
+                        slug: tableSlug
+                    }})
+                }
+            }
+                
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
             if (!area) 
-                return next([400, 'error', 'Mã đặt bàn không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Mã đặt bàn không hợp lệ, vui lòng quét lại QR')) 
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
 
             if (!table)
-                return next([400, 'error', 'Mã đặt bàn không hợp lệ'])
+                return next(createError(StatusCode.BadRequest_400, 'Mã đặt bàn không hợp lệ, vui lòng quét lại QR')) 
 
-            return res.status(200).json({
-                status: 'success',
-                message: 'Đã tìm thấy bàn hợp lệ',
-                data: table
-            })
+            //Set to cache
+            await client.set(tableSlug, table._id, { EX: 60 * 30 }) //Ex is second
+            await client.quit()
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đã tìm thấy bàn hợp lệ', data: table })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

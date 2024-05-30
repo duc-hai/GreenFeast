@@ -4,13 +4,13 @@ const Schema = mongoose.Schema
  
 const Processing_tickets = new Schema (
     {
-        _id: { type: Schema.Types.ObjectId } , //references
+        // _id: { type: Schema.Types.ObjectId } , //references
         url_ticket: { type: String },
-        print_times: { type: Number },
+        print_times: { type: Number, default: 1 },
         ticket_type: { type: Number }
     }, {
         timestamps: true,
-        collection: 'Processing_tickets'
+        collection: 'processing_tickets'
     }
 )
 

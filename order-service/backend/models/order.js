@@ -19,7 +19,7 @@ const order = new Schema (
                 ],
                 time: { type: Date },
                 order_person: { 
-                    _id: { type: Schema.Types.ObjectId },
+                    _id: { type: String },
                     name: { type: String }
                 } 
             }
