@@ -15,9 +15,10 @@ router.get('/view-order/:tableSlug', orderService.getOrderInfor)
 
 router.get('/print-bill/:tableSlug', orderService.printerBill)
 router.get('/category/get-all', orderService.getCategory)
-
-
 router.get('/verify-slug/:tableSlug', orderService.verifyTableSlug)
+router.get('/area/get-all', orderService.getAllArea)
+router.get('/processing-ticket/kitchen', orderService.getProcessingTicketKitchen)
+router.get('/processing-ticket/bar', orderService.getProcessingTicketBar)
 
 // For admin & emoployee
 router.get('/order/tables/:id', menuService.getTablesByAreaId)

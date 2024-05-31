@@ -3,11 +3,12 @@ const crypto = require('crypto')
 const moment = require('moment') ////moment is a widely used JavaScript library for handling and displaying dates and times, more customizable than Date
 const sortObject = require('../helpers/sortObject.helper')
 const ResponseCodeVNPay = require('../enums/response.code.vnpay')
+const Transfer = require('../models/transfer')
 
 class PaymentService {
     createPaymentUrl = (req, res, next) => {
         try {
-            const { amount } = req.body 
+            const { amount, orderId } = req.body 
 
             if (!amount)
                 return next([500, 'error', 'Thiếu số tiền cần thanh toán'])
@@ -45,8 +46,6 @@ class PaymentService {
                 Document of VNPay: https://sandbox.vnpayment.vn/apis/docs/thanh-toan-pay/pay.html
             */
 
-            const orderId = moment(date).format('DDHHmmss')
-            
             let currCode = 'VND'
             let vnp_Params = {}
             
@@ -96,8 +95,6 @@ class PaymentService {
             /*
                 URL format (redirect from VNPay server): 
                 https://{domain}/ReturnUrl?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b
-
-                //Lưu hết đống dữ liệu này vào database
             */
             let vnp_Params = req.query
 
@@ -121,7 +118,7 @@ class PaymentService {
                     message: 'Đã xảy ra lỗi với giao dịch'
                 })
 
-            //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+            this.saveToDatabase(vnp_Params)
 
             if (vnp_Params['vnp_TransactionStatus'] == '00' && vnp_Params['vnp_ResponseCode'] == '00')
                 return res.status(200).json({
@@ -138,6 +135,27 @@ class PaymentService {
         }
         catch (err) {
             return next([500, 'error', err.message])
+        }
+    }
+
+    saveToDatabase = async (query) => {
+        try {
+            //https://{domain}/ReturnUrl?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b
+
+            await new Transfer({
+                _id: query.vnp_TransactionNo,
+                amount: query.vnp_Amount,
+                bank_code: query.vnp_BankCode,
+                bank_transaction_number: query.vnp_BankTranNo,
+                card_type: query.vnp_CardType,
+                order_id: query.vnp_TxnRef,
+                order_infor: query.vnp_OrderInfo,
+                response_code: query.vnp_ResponseCode,
+                pay_time: query.vnp_PayDate
+            }).save()
+        }
+        catch (err) {
+            console.error(err.message)
         }
     }
 }

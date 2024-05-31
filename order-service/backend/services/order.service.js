@@ -1,7 +1,6 @@
 const Area = require('../models/area')
 const Order = require('../models/order')
 const Menu = require('../models/menu')
-const Printer = require('../models/printer')
 const Category = require('../models/category')
 const Promotion = require('../models/promotion')
 const createError = require('http-errors')
@@ -9,6 +8,7 @@ const StatusCode = require('../enums/http.status.code')
 const pdfService = require('./pdf.service')
 const ProcessingTicket = require('../models/processing_ticket')
 const clientRedis = require('../config/connect.redis')
+const hiddenProperties = require('../config/hidden.properties')
 
 class OrderService {
     getUserInfor = headerInfor => {
@@ -348,7 +348,7 @@ class OrderService {
 
             const { note, payment_method } = req.body
 
-            //tùy theo thanh toán tiền mặt hay chuyển khoản mà có cách xử lý phù hợp, chuyển khoản thì tự động đóng bàn, tiền mặt thì gọi đến api này
+            //tùy theo thanh toán tiền mặt hay chuyển khoản mà có cách xử lý phù hợp, chuyển khoản thì tự động đóng bàn, tiền mặt thì gọi đến api này   
 
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 
@@ -544,6 +544,63 @@ class OrderService {
             await client.quit()
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đã tìm thấy bàn hợp lệ', data: table })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    getAllArea = async (req, res, next) => {
+        try {
+            const areas = await Area.find().select({ table_list: 0, __v: 0 })
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách khu vực thành công', data: areas })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    getProccessingTicket = async (ticketType, page) => {
+        try {
+            const skip = (10 * page) - 10
+
+            const data = await ProcessingTicket.find({ ticket_type: ticketType }).skip(skip).sort({ updatedAt: -1, createdAt: -1 }).limit(10).select({ __v: 0, ticket_type: 0 }).lean()
+
+            const total = await ProcessingTicket.countDocuments({ ticket_type: ticketType })
+
+            const paginationResult = {
+                currentPage: page,
+                totalItems: total,
+                eachPage: 10,
+                totalPage: Math.ceil(total / 10)
+            }
+
+            return { data, paginationResult }
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, `Error is occured at getProccessingTicket: ${err.message}`)) 
+        }
+    }
+
+    getProcessingTicketKitchen = async (req, res, next) => {
+        try {
+            const page = req.query?.page || 1
+            const result = await this.getProccessingTicket(1, page)
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách phiếu chế biến bếp thành công', paginationResult: result.paginationResult, data: result.data })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    getProcessingTicketBar = async (req, res, next) => {
+        try {
+            const page = req.query || 1
+            const result = await this.getProccessingTicket(2, page)
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách phiếu chế biến quầy bar thành công', paginationResult: result.paginationResult, data: result.data })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
