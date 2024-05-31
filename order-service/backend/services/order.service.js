@@ -348,7 +348,7 @@ class OrderService {
 
             const { note, payment_method } = req.body
 
-            //tùy theo thanh toán tiền mặt hay chuyển khoản mà có cách xử lý phù hợp, chuyển khoản thì tự động đóng bàn, tiền mặt thì gọi đến api này   
+            //Depending on whether you pay by cash or transfer, there is an appropriate way to handle it. For transfers, the table is automatically closed, for cash, you call this API. 
 
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
 

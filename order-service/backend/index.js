@@ -10,7 +10,8 @@ const cookieParser = require('cookie-parser')
 env.config()
 database.connect()
 //producer.sendQueue('') //If app close or crash, connection will be closed automatic
-setTimeout(() => consumer.receiveQueue(), 10000)
+setTimeout(() => consumer.receiveQueue(), 0)
+setTimeout(() => consumer.receiveQueuePayment(), 0)
 
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))

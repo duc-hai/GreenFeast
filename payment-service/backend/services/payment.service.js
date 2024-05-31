@@ -4,14 +4,18 @@ const moment = require('moment') ////moment is a widely used JavaScript library 
 const sortObject = require('../helpers/sortObject.helper')
 const ResponseCodeVNPay = require('../enums/response.code.vnpay')
 const Transfer = require('../models/transfer')
+const mongoose = require('mongoose')
+const producer = require('../services/producer.service')
 
 class PaymentService {
     createPaymentUrl = (req, res, next) => {
         try {
-            const { amount, orderId } = req.body 
+            let { amount, orderId } = req.body 
 
-            if (!amount)
-                return next([500, 'error', 'Thiếu số tiền cần thanh toán'])
+            if (!amount || !orderId)
+                return next([500, 'error', 'Thiếu thông tin thanh toán'])
+
+            orderId = orderId + '-' + Date.now()
 
             // const bankCode = req.body || 'VNBANK' 
             //Payment method code, bank type code or payment e-wallet. If not sent to this parameter, redirect users to VNPAY to choose payment method.
@@ -86,11 +90,11 @@ class PaymentService {
             })
         }
         catch (err) {
-            return next([500, 'error', err.message])
+            return next([500, 'error', `Error is occured at createPaymentUrl: ${err.message}`])
         }
     }
 
-    vnpayReturn = (req, res, next) => {
+    vnpayReturn = async (req, res, next) => {
         try {
             /*
                 URL format (redirect from VNPay server): 
@@ -118,7 +122,10 @@ class PaymentService {
                     message: 'Đã xảy ra lỗi với giao dịch'
                 })
 
-            this.saveToDatabase(vnp_Params)
+            const resultSaveDatabase = await this.saveToDatabase(vnp_Params)
+
+            if (!resultSaveDatabase)
+                return res.status(500).json({ status: 'error', message: 'Đã xảy ra lỗi khi lưu giao dịch vào cơ sở dữ liệu' })
 
             if (vnp_Params['vnp_TransactionStatus'] == '00' && vnp_Params['vnp_ResponseCode'] == '00')
                 return res.status(200).json({
@@ -127,20 +134,24 @@ class PaymentService {
                     message: 'Giao dịch thành công'
                 })
             
-            return res.status(500).json({ 
+            return res.status(500).json({  
                 status: 'error',
                 code: vnp_Params['vnp_ResponseCode'],
                 message: ResponseCodeVNPay[vnp_Params['vnp_ResponseCode']]
             })
         }
         catch (err) {
-            return next([500, 'error', err.message])
+            return next([500, 'error', `Error is occured at vnpayReturn: ${err.message}`])
         }
     }
 
-    saveToDatabase = async (query) => {
+    saveToDatabase = async query => {
         try {
             //https://{domain}/ReturnUrl?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b
+            
+            const orderId = query.vnp_TxnRef.split('-')[0]
+
+            if (!mongoose.isValidObjectId(orderId)) return false
 
             await new Transfer({
                 _id: query.vnp_TransactionNo,
@@ -148,14 +159,26 @@ class PaymentService {
                 bank_code: query.vnp_BankCode,
                 bank_transaction_number: query.vnp_BankTranNo,
                 card_type: query.vnp_CardType,
-                order_id: query.vnp_TxnRef,
+                order_id: orderId,
                 order_infor: query.vnp_OrderInfo,
                 response_code: query.vnp_ResponseCode,
                 pay_time: query.vnp_PayDate
             }).save()
+
+            producer.sendQueue({
+                data: {
+                    orderId: orderId,
+                    amount: query.vnp_Amount,
+                    note: query.vnp_OrderInfo
+                },
+                title: 'payment'
+            })
+            
+            return true
         }
         catch (err) {
             console.error(err.message)
+            return false
         }
     }
 }
