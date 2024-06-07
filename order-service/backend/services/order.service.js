@@ -9,8 +9,71 @@ const pdfService = require('./pdf.service')
 const ProcessingTicket = require('../models/processing_ticket')
 const clientRedis = require('../config/connect.redis')
 const hiddenProperties = require('../config/hidden.properties')
+const checkValidation = require('../helpers/check.validation')
+const OrderOnline = require('../models/online_order')
 
 class OrderService {
+    validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
+        if (menus.length == undefined || menus.length == 0) return 'Thiếu thông tin thực đơn'
+        if (payment_method == '') return 'Thiếu thông tin thanh toán'
+        if (!delivery_information || !delivery_information.name || !delivery_information.phone_number || !delivery_information.address) return 'Thiếu thông tin giao hàng'
+        return true;
+    }
+
+    getMenuById = async id => {
+        const menu = await Menu.findOne({ _id: id, status: true }).lean()
+        if (!menu) throw new Error('Can not find food or beverage')
+        return menu
+    }
+
+    getInformationMenuList = async menus => {
+        const menuList = await Promise.all(menus.map(async value => {
+            const menu = await this.getMenuById(value._id)
+            return {
+                ...value, name: menu.name, price: menu.price
+            }
+        }))
+        return menuList
+    }
+
+    orderMenuOnline = async (req, res, next) => {
+        try {
+            const menus = req.body.menu
+            const note = req.body.note || ''
+            const payment_method = req.body.payment_method
+            const delivery_information = req.body.delivery
+
+            const checkValidator = this.validatorBodyMenuOnline(menus, payment_method, delivery_information)
+            if (checkValidator !== true) return next(createError(StatusCode.BadRequest_400, checkValidator))
+
+            const menuList = await this.getInformationMenuList(menus)
+
+            const subtotalPrice = menuList.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
+
+            let user = {} //initial by default
+
+            if (req.headers['user-infor-header']) {
+                const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
+                user.name = userInfor.full_name
+                user._id = userInfor._id
+            }
+            await new OrderOnline({
+                menu_detail: menuList,
+                note: note,
+                payment_method: payment_method,
+                delivery_information: delivery_information,
+                subtotal: subtotalPrice,
+                total: subtotalPrice,
+                order_person: user
+            }).save()
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công' })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
     getUserInfor = headerInfor => {
         const user = JSON.parse(decodeURIComponent(headerInfor))
         if (user.user_type == 1)
@@ -84,7 +147,7 @@ class OrderService {
                     { 'table_list.slug': tableSlug },
                     { $set: { 'table_list.$.status': 1 } }
                 )
-                order = new Order ({
+                order = await new Order ({
                     order_detail: [
                         {
                             menu: menuData,
@@ -601,6 +664,43 @@ class OrderService {
             const result = await this.getProccessingTicket(2, page)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách phiếu chế biến quầy bar thành công', paginationResult: result.paginationResult, data: result.data })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    updateProcessingStatus = async (req, res, next) => {
+        try {
+            if (checkValidation(req) !== null)      
+                return next(createError(StatusCode.BadRequest_400, checkValidation(req)))    
+
+            const { orderId, orderDetailId, menuId, status } = req.body
+
+            const order = await Order.findOne({ _id: orderId, status: false })
+
+            if (!order)
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ')) 
+
+            const orderDetail = order.order_detail.find(value => {
+                return value._id == orderDetailId
+            })
+
+            if (!orderDetail)
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã đặt món hợp lệ')) 
+
+            const menu = orderDetail.menu.find(value => {
+                return value._id == menuId
+            })
+
+            if (!menu)
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã món hợp lệ')) 
+
+            menu.processing_status = status
+
+            await order.save()
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật tình trạng lên món thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

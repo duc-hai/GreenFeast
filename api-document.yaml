@@ -2707,7 +2707,7 @@ paths:
       tags:
         - order
       summary: Đặt món (dùng cho cả nhân viên và khách hàng)
-      description: Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này.
+      description: "Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này. CẬP NHẬT MỚI: Khách hàng sẽ quét mã QR đến đường dẫn frontend như: /order/at-restaurant/validate?token=... Khi mở trang này ra, đầu tiên front end phải gửi 1 api lên server để xác minh là tableSlug này có hợp lệ không, nếu lỗi thì hiển thị message lỗi, nếu thành công thì chuyển hướng trang đặt món. API doc: /order/verify-slug/{tableSlug}. Mục đích của chuyển hướng trang là xóa đi url cũ (vì có tableslug ở đó, người dùng có thể vào lại url này) và cũng là để hiển thị danh sách món ăn để đặt và tên của bàn đó (có trong response trả về). Lưu ý: khi chuyển hướng trang phải dùng: window.location.replace('/order/at-restaurant'), mục đích là để xóa lịch sử url web cũ có dính token. Ngoài ra, lưu tableSlug đó vào cookie, set thời gian hết hạn khoảng 30 phút. Mục đích là giúp người dùng không cần phải quét lại QR nữa. Mục đích lưu trong cookie còn để giúp frontend lấy ra tableSlug nữa (Vì api đặt món là /order/{tableSlug}, nên frontend phải lấy slug trong cookie để đính kèm vào api này). Khi người dùng vào lại lần 2 tại trang đặt món: /order/at-restaurant. Frontend gửi request lên lại api lúc nãy /order/verify-slug/{tableSlug}, trong đó tableSlug để là số 1 (hoặc số nào cũng được), server sẽ check trong cookie của người dùng trước, nếu có tableSlug thì lấy ra để verify, không thì mới dùng tới tableSlug trên url. Nếu res thành công thì frontend hiển thị lại trang đặt món. Ngoài ra, ở góc màn hình có chỗ để xem danh sách các món đã đặt (/order/view-order/{tableSlug}) và nút thanh toán (lưu ý là gọi API thanh toán thì amount là toàn bộ số tiền của hóa đơn đó -> thanh toán làm sau cũng được). Khi hiển thị danh sách món đã đặt, có thể phân chia theo số lần đặt, lần 1 gồm các món ABC, trong database mới cập nhật thêm tên món để hiển thị cho dễ nhìn) Xử lý phía server (xem cho biết): Khi khách hàng vào quét QR và chuyển hướng sang trang đặt món như /order/at-restaurant, tableSlug sẽ được lưu vào bộ nhớ cache với thời gian hết hạn = khoảng 30 phút. Nếu khách vào đặt món lần 2: vào lại link cũ: /order/at-restaurant, frontend gửi api xác thực giống lúc nãy, server tự động lấy cookie ra để xác thực có hợp lệ không để không phải bắt quét lại QR. Trong trường hợp khách hàng chuyển bàn (hoặc thanh toán), mình sẽ xóa tableSlug lưu trong cache, nên là dù cookie vẫn còn thời gian nhưng cache ở server không còn thì vẫn phải quét lại QR ở bàn mới để đặt món."
       parameters:
         - in: path
           name: tableSlug
@@ -3593,6 +3593,138 @@ paths:
                     message: 
                       type: string
                       example: Đã xảy ra lỗi
+                      
+  /admin/order/update/processing-status:
+    patch:
+      tags:
+        - order
+      summary: Cập nhật tình trạng lên món
+      description: "Chức năng này sẽ giành cho bộ phận tiếp thực. Bộ phận này chịu trách nhiệm lên món cho khách hàng cũng như cập nhật để xác định bàn nào đã lên món, bàn nào chưa. "
+      requestBody: 
+        description: "Muốn cập nhật tình trạng, phải xem được danh sách món đã đặt của bàn đó để thao tác. Từ đó, có được các thông tin như mã hóa đơn (orderId), mã lần đặt món (order_detail[i]._id), mã của tên món muốn cập nhật và trạng thái của món đó (status). Status gồm 0: đang chế biến, 1: đã lên món, 2: đã hủy"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  orderId: 
+                    type: string
+                    example: 665b387197d50736338330d6
+                  orderDetailId: 
+                    type: string
+                    example: 665b387197d50736338330d7
+                  menuId: 
+                    type: number
+                    example: 4
+                  status: 
+                    type: number
+                    example: 1
+
+        required: true
+      responses:
+        '200':
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Cập nhật tình trạng lên món thành công
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+                    
+  /order/online:
+    post:
+      tags:
+        - order
+      summary: Đặt món trực tuyến
+      description: "Có thể tận dụng lại trang đặt món, chỉ khác là gọi api đặt món khác nhau. Muốn đặt món yêu cầu phải đăng nhập"
+     
+      requestBody: 
+        description: Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được
+        content: 
+          application/json:
+            schema:
+                type: object
+                properties: 
+                    menu: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          _id: 
+                            type: string
+                            example: 4
+                          quantity: 
+                            type: number
+                            example: 3
+                          note: 
+                            type: string
+                            example: Không hành
+                      example: [
+                          {
+                            _id: 4,
+                            quantity: 3,
+                            note: Không hành,
+                          }
+                      ]
+                    note: 
+                      type: string
+                      example: Giao nhanh giùm nha
+                    payment_method: 
+                      type: string
+                      example: bank
+                    delivery: 
+                      type: object
+                      properties: 
+                        name: 
+                          type: string
+                          example: Lưu Đức Hải
+                        phone_number: 
+                          type: string
+                          example: 0123456789
+                        address: 
+                          type: string
+                          example: District 7 Ho Chi Minh City
+                    time_receive: 
+                      type: string
+                      example: 
+   
+
+        required: true
+      responses:
+        '200':
+            description: Thành công. Thông tin gồm message với thông báo 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đặt món thành công
+                    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             
   /payment/create-payment-url:
     post:

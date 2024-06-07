@@ -1,0 +1,7 @@
+[2024-06-07 20:08:50] 	POST /api/order/online [status: 500 - message: Đường dẫn đặt món không hợp lệ]
+[2024-06-07 20:19:30] 	POST /api/order/online [status: 500 - message: connect ECONNREFUSED 127.0.0.1:5000]
+[2024-06-07 20:19:36] 	POST /api/order/online [status: 500 - message: Thiếu thông tin giao hàng]
+[2024-06-07 20:21:10] 	POST /api/order/online [status: 500 - message: Thiếu thông tin giao hàng]
+[2024-06-07 20:22:22] 	POST /api/order/online [status: 500 - message: Thiếu thông tin giao hàng]
+[2024-06-07 20:44:31] 	POST /api/order/online [status: 500 - message: headerInfor is not defined]
+[2024-06-07 20:47:15] 	POST /api/order/online [status: 500 - message: Online_orders validation failed: order_person._id: Cast to ObjectId failed for value "093213213212" (type string) at path "order_person._id" because of "BSONError"]

@@ -10,6 +10,8 @@ router.get('/menu/search', forwardService.forwardRequestWithAlias('order'))
 
 
 router.post('/:tableSlug', jwtTokenGuard.jwtTokenValidatorBoth, forwardService.forwardRequestWithAlias('order'))
+// Order at restaurant
+router.post('/online', jwtTokenGuard.jwtTokenValidatorCustomer, forwardService.forwardRequestWithAlias('order'))
 
 router.get('/view-order/:tableSlug', forwardService.forwardRequestWithAlias('order'))
 router.get('/promotion', forwardService.forwardRequestWithAlias('order'))

@@ -3,13 +3,14 @@ const errorHandler = require('../middlewares/error.handler')
 const menuService = require('../services/menu.service')
 const orderService = require('../services/order.service')
 const router = express.Router()
+const validation = require('../validations/body.validation')
 
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
 
 router.get('/menu/search', menuService.searchMenu)
 
-router.post('/:tableSlug', orderService.orderMenu)
+router.post('/online', orderService.orderMenuOnline)
 router.get('/view-order/:tableSlug', orderService.getOrderInfor)
 // router.get('/promotion', orderService.getPromotions)
 
@@ -28,6 +29,9 @@ router.get('/order/create-qr', menuService.createQRCode)
 router.get('/order/get-revenue', orderService.getRevenueByDay)
 router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
+router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
+
+router.post('/:tableSlug', orderService.orderMenu)
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)
