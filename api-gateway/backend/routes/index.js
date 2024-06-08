@@ -12,6 +12,7 @@ const router = express.Router()
 
 // router.use('/auth/google', googleRouter)
 router.use('/payment', forwardService.forwardRequestWithAlias('payment'))
+router.use('/tms', forwardService.forwardRequestWithAlias('tms'))
 router.use('/admin', adminRouter) //Route restaurant side (admin restaurant, employees, ...)  
 router.use('/auth', authRouter) //Handle routes in customer
 router.use('/user', userRouter)

@@ -1,6 +1,0 @@
-[2024-05-24 20:23:03] 	POST /api/payment/create-payment-url [status: 500 - message: Không tìm thấy đường dẫn]
-[2024-05-24 20:25:47] 	POST /api/payment/create-payment-url [status: 500 - message: Không tìm thấy đường dẫn]
-[2024-05-24 20:26:18] 	POST /api/payment/create-payment-url [status: 500 - message: Không tìm thấy đường dẫn]
-[2024-05-24 20:27:52] 	POST /api/payment/create-payment-url [status: 500 - message: Không tìm thấy đường dẫn]
-[2024-05-24 20:29:03] 	POST /api/payment/create-payment-url [status: 500 - message: Không tìm thấy đường dẫn]
-[2024-05-24 20:33:22] 	GET /api/payment/vnpay_return [status: 500 - message: Đã xảy ra lỗi với giao dịch]
