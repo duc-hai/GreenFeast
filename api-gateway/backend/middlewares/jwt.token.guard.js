@@ -40,7 +40,7 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
         })
 
         if (!user)
-            return next([401, 'error', 'Không thể xác thực tài khoản'])
+            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
         
         //Success
         req.user = user
@@ -100,6 +100,35 @@ exports.jwtTokenValidatorBoth = async (req, res, next) => {
         
         if (!user)
             return next()
+        
+        req.user = user
+
+        return next()
+    }   
+    catch (err) {
+        return next(createError(StatusCode.InternalServerError_500, err.message)) 
+    }
+}
+
+exports.jwtTokenValidatorUser = async (req, res, next) => {
+    try {
+        const accessToken = getAccessToken(req)
+    
+        if (!accessToken)
+            return next(createError(StatusCode.Unauthorized_401, 'Thiếu mã JWT'))
+
+        const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
+
+        if (!verified) 
+            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
+        
+        const user = await User.findOne({
+            _id: verified.username,
+            status: true
+        })
+        
+        if (!user)
+            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
         
         req.user = user
 

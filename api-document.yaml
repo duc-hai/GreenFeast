@@ -87,6 +87,12 @@ tags:
     externalDocs:
       description: More details
       url: https://greenfeast.space/api    
+      
+  - name: notification
+    description: Thông báo (Notification service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api    
 paths:
   /auth/signin:
     post:
@@ -3880,3 +3886,96 @@ paths:
                     message: 
                       type: string
                       example: "Giao dịch không thành công do: Khách hàng hủy giao dịch"
+  
+  /notification/num-notification:
+    get:
+      tags:
+        - notification
+      summary: Lấy số lượng thông báo mới
+      description: "Lấy số lượng thông báo mới để hiển thị cái số màu đỏ lên cái chuông thông báo. Lưu ý: thông báo sẽ được lấy theo userId trong JWT Token, 1 là chèn JWT token vào authorization header, 2 là bỏ vào trong cookie"
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                          status: 
+                            type: string
+                            example: success
+                          messsage: 
+                            type: string
+                            example: Lấy số lượng thông báo mới thành công
+                          data: 
+                            type: number
+                            example: 2
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /notification/get-notifications:
+    get:
+      tags:
+        - notification
+      summary: Lấy danh sách thông báo
+      description: "Danh sách được sắp xếp sao cho thông báo chưa đọc lên trước, sau đó thông báo mới nhất đến cũ hơn, hiển thị trạng thái đọc na ná facebook. Đồng thời, khi lấy danh sách thông báo mới thì server tự động set trạng thái toàn bộ thông báo là đã đọc luôn. Giới hạn khi load ra danh sách là 20 thông báo."
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                            status: 
+                              type: string
+                              example: success
+                            messsage: 
+                              type: string
+                              example: Lấy danh sách thông báo thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    example: 666da15889eb362bb0ef6e63
+                                  userId: 
+                                    type: string
+                                    example: 093213213212
+                                  title: 
+                                    type: string
+                                    example: Chào mừng bạn đến với nhà hàng của chúng tôi!
+                                  message: 
+                                    type: string
+                                    example: Cảm ơn bạn đã đăng ký! Hãy thưởng thức giảm giá 10% cho đơn hàng đầu tiên của bạn.
+                                  isRead: 
+                                    type: boolean
+                                  link: 
+                                    type: string
+                                    example: /khuyen-mai/giam-gia-don-dau-tien
+                                  createdAt: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-06-15T10:00:00Z
+                                  updatedAt: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-06-15T10:00:00Z
+                              example: [
+                                  {
+                                    _id: 666da15889eb362bb0ef6e63,
+                                    userId: 093213213212,
+                                    title: "Chào mừng bạn đến với nhà hàng của chúng tôi!",
+                                    message: "Cảm ơn bạn đã đăng ký! Hãy thưởng thức giảm giá 10% cho đơn hàng đầu tiên của bạn.",
+                                    isRead: false,
+                                    link: "/khuyen-mai/giam-gia-don-dau-tien",
+                                    createdAt: "2024-06-15T10:00:00Z",
+                                    updatedAt: "2024-06-15T10:00:00Z"
+                                  }
+                              ]
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+     

@@ -1,0 +1,39 @@
+[
+    {
+      "userId": "0123456789",
+      "title": "Chào mừng bạn đến với nhà hàng của chúng tôi!",
+      "message": "Cảm ơn bạn đã đăng ký! Hãy thưởng thức giảm giá 10% cho đơn hàng đầu tiên của bạn.",
+      "isRead": false,
+      "link": "/khuyen-mai/giam-gia-don-dau-tien",
+      "createdAt": "2024-06-15T10:00:00Z",
+      "updatedAt": "2024-06-15T10:00:00Z"
+    },
+    {
+      "userId": "0123456789",
+      "title": "Món mới: Bánh Burger chay",
+      "message": "Hãy thử ngay Bánh Burger chay mới của chúng tôi được làm từ nguyên liệu tươi sạch, hữu cơ.",
+      "isRead": true,
+      "link": "/thuc-don/banh-burger-chay",
+      "createdAt": "2024-06-14T09:00:00Z",
+      "updatedAt": "2024-06-14T09:00:00Z"
+    },
+    {
+      "userId": "0123456789",
+      "title": "Xác nhận đặt bàn",
+      "message": "Bàn của bạn cho 2 người đã được xác nhận vào thứ Sáu lúc 19h.",
+      "isRead": false,
+      "link": "/dat-ban/xac-nhan",
+      "createdAt": "2024-06-13T08:30:00Z",
+      "updatedAt": "2024-06-13T08:30:00Z"
+    },
+    {
+      "userId": "62b8f9901234567893d1b1f943d2a87c91",
+      "title": "Chương trình giờ vàng",
+      "message": "Hãy tham gia chương trình giờ vàng của chúng tôi! Nhận ưu đãi mua 1 tặng 1 cho đồ uống từ 17h đến 19h.",
+      "isRead": true,
+      "link": "/su-kien/gio-vang",
+      "createdAt": "2024-06-12T17:00:00Z",
+      "updatedAt": "2024-06-12T17:00:00Z"
+    }
+  ]
+  
