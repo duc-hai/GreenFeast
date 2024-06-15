@@ -291,27 +291,34 @@ class OrderService {
 
             const order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
 
-            return res.status(200).json({ status: 'success', message: 'Lấy danh sách order thành công', data: order })
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách order thành công', data: order })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
-    // async getPromotions(req, res, next) {
-    //     try {   
-    //         const promotions = await Promotion.find({ status: true })
+    //
+    async getPromotions(req, res, next) {
+        try {   
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const promotions = await Promotion.find({ 
+                status: true,
+                start_at: { $lte: today },
+                end_at: { $gte: today }
+            }).sort({ _id: -1 }).lean();
 
-    //         return res.status(200).json({
-    //             status: 'success',
-    //             message: 'Lấy khuyến mãi thành công',
-    //             data: promotions
-    //         })
-    //     }
-    //     catch (err) {
-    //         return next(createError(StatusCode.InternalServerError_500, err.message)) 
-    //     }
-    // }
+            return res.status(200).json({
+                status: 'success',
+                message: 'Lấy khuyến mãi thành công',
+                data: promotions
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 
     getMenuDetailRowBill = async (order) => {
         let menuDetailRow = []
@@ -398,7 +405,7 @@ class OrderService {
             order.table = tableToId
             await order.save()
 
-            return res.status(200).json({ status: 'success', message: 'Chuyển bàn thành công' })
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Chuyển bàn thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
@@ -701,6 +708,56 @@ class OrderService {
             await order.save()
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật tình trạng lên món thành công' })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    applyPromotion = async (req, res, next) => {
+        try {
+            let { promotionId, tableId } = req.body
+
+            if (!promotionId || !tableId)
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu mã khuyến mãi hoặc mã đơn hàng'))
+
+            promotionId = parseInt(promotionId.toString())
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const order = await Order.findOne({ table: tableId, status: false })
+            if (!order)
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ'))
+            
+            const promotion = await Promotion.findOne({ _id: promotionId, status: true, start_at: { $lte: today }, end_at: { $gte: today } }).lean()
+            if (!promotion)
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy chương trình khuyến mãi, vui lòng kiểm tra lại'))
+
+            // console.log(promotion.condition_apply)
+            // console.log(order.subtotal)
+            if (promotion.condition_apply > order.subtotal)
+                return next(createError(StatusCode.BadRequest_400, `Hóa đơn của bạn còn thiếu ${new Intl.NumberFormat('vi-VN').format(promotion.condition_apply - order.subtotal)} để áp dụng chương trình khuyến mãi này`))
+
+            //calculate promotion value
+            const promotionValue = promotion.promotion_value
+            if (promotionValue.toString().includes('%')) {
+                const percentageValue = parseInt(promotionValue.replace('%', ''))
+                const discount = Math.round(order.subtotal / 100 *  percentageValue)
+                order.discount = discount
+                order.total = order.subtotal - discount + order.surcharge
+            }
+            else {
+                order.discount = parseInt(promotionValue.toString())
+                order.total = order.subtotal - promotionValue + order.surcharge
+            }
+
+            await order.save()
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Áp dụng khuyến mãi thành công'
+            })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

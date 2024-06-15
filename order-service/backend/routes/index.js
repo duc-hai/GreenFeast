@@ -12,7 +12,7 @@ router.get('/menu/search', menuService.searchMenu)
 
 router.post('/online', orderService.orderMenuOnline)
 router.get('/view-order/:tableSlug', orderService.getOrderInfor)
-// router.get('/promotion', orderService.getPromotions)
+router.get('/promotion', orderService.getPromotions)
 
 router.get('/print-bill/:tableSlug', orderService.printerBill)
 router.get('/category/get-all', orderService.getCategory)
@@ -31,8 +31,9 @@ router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
 router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
 
-router.post('/:tableSlug', orderService.orderMenu)
+router.post('/apply-promotion', orderService.applyPromotion)
 
+router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)
 

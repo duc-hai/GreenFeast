@@ -6,31 +6,6 @@
     "auditLog": "logs/.2c987c58147faeebd3b761d3cdb8db34421beb84-audit.json",
     "files": [
         {
-            "date": 1716651433690,
-            "name": "logs/2024-05-25.log",
-            "hash": "3efc81fd6cb5d8a16858c0b259843dd5ca580992f6611adfdbecec48295116ce"
-        },
-        {
-            "date": 1716873345218,
-            "name": "logs/2024-05-28.log",
-            "hash": "be924529d812491f8ee42b6ac092a417bbde53e590335c89e6da403760012a4b"
-        },
-        {
-            "date": 1716951440514,
-            "name": "logs/2024-05-29.log",
-            "hash": "f6c72cf20595d5a5af7cfe934fad56ab1a7a4913bd4f5877e96ebe11769313cb"
-        },
-        {
-            "date": 1717040725487,
-            "name": "logs/2024-05-30.log",
-            "hash": "2fe30aa45f060bf3efcc196cc6567b6a51c1ee520bef57b7c892e5616646c80b"
-        },
-        {
-            "date": 1717127638229,
-            "name": "logs/2024-05-31.log",
-            "hash": "85f6fba06b603eb23ff4c7adb373d0ef3edbc72c4728a9bd8565340fff9c2230"
-        },
-        {
             "date": 1717253309235,
             "name": "logs/2024-06-01.log",
             "hash": "c226d6850ef77f75be419198a567034a3995ba0b5d0400e511a5c698fb0872ba"
@@ -44,6 +19,21 @@
             "date": 1717850202998,
             "name": "logs/2024-06-08.log",
             "hash": "5efe76c8b566dcc3ad7a7609d40fdf69f012a00c05b5003266cb799b5f5e1ce1"
+        },
+        {
+            "date": 1717986003493,
+            "name": "logs/2024-06-10.log",
+            "hash": "4d82157afa5fac9b114a08630d8d1efb73a3c856457686b1a173967c24824e8e"
+        },
+        {
+            "date": 1718254993666,
+            "name": "logs/2024-06-13.log",
+            "hash": "f4ef076ea7af7edff925fd9e64725d2e594f4dd1fa7f56d04b813328f55a277f"
+        },
+        {
+            "date": 1718426398724,
+            "name": "logs/2024-06-15.log",
+            "hash": "a027660d8eac420b4fbff3dd5b3f90cc242131e645c7d2daf05744b636c5a78c"
         }
     ],
     "hashType": "sha256"

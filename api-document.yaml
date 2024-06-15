@@ -2867,59 +2867,69 @@ paths:
       tags:
         - order
       summary: Lấy danh sách khuyến mãi
-      description: Lấy danh sách các khuyến mãi cho việc giảm giá. Hiện tại chưa cập nhật việc sử dụng khuyến mãi cho hóa đơn, chỉ là load ra thôi
-      
+      description: "Lấy danh sách các khuyến mãi cho việc giảm giá. Các chương trình giảm giá này sẽ áp dụng cho trường hợp tổng hóa đơn. Còn giảm giá theo món thì sẽ trừ thẳng vào menu (có discount_type khi load menu ra). Thông tin khuyến mãi hiển thị phía người dùng, không phải admin nên chỉ query các chương trình có status là true và ngày hiện tại nằm trong khoảng ngày bắt đầu và ngày kết thúc của khuyến mãi. Nhớ import database khuyến mãi trong /order-service/database/promotion. Sắp tới có thời gian sẽ triển khai luôn database online"
           
       responses:
         '200':
-            description: Thành công.
+            description: Thành công. condition_apply là điều kiện hóa đơn phải đạt để giảm giá, còn promotion_value là giá trị giảm giá, có dấu % sẽ giảm theo %, không có thì giảm trực tiếp theo giá tiền
             content:
               application/json:
                 schema:
                   type: object
                   properties: 
-                        status: 
-                          type: string
-                          example: success
-                        message: 
-                          type: string
-                          example: Lấy khuyến mãi thành công
-                        data: 
-                          type: array
-                          items: 
-                            type: object
-                            properties: 
-                              _id: 
-                                type: number
-                                example: 2
-                              name: 
-                                type: string
-                                example: Khuyến mãi ngày tết
-                              status: 
-                                type: boolean
-                              note: 
-                                type: string
-                                example: Ghi chú khuyến mãi
-                              condition_apply: 
-                                type: number
-                                example: 41
-                              promotion_value: 
-                                type: string
-                                example: 50%
-                              __v: 
-                                type: number
-                                example: 0
-                          example: [
-                            {
-                              _id: 2,
-                              name: Khuyến mãi ngày tết,
-                              status: true,
-                              note: Ghi chú khuyến mãi,
-                              condition_apply: 41,
-                              promotion_value: 50%,
-                              __v: 0
-                            }
-                          ]
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy khuyến mãi thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                _id: 
+                                  type: number
+                                  example: 1
+                                name: 
+                                  type: string
+                                  example: Khuyến mãi mùa xuân
+                                status: 
+                                  type: boolean
+                                note: 
+                                  type: string
+                                  example: Giảm giá trên tất cả các món ăn
+                                description: 
+                                  type: string
+                                  example: Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.
+                                condition_apply: 
+                                  type: number
+                                  example: 100
+                                promotion_value: 
+                                  type: string
+                                  example: 20%
+                                start_at: 
+                                  type: string
+                                  format: date-time
+                                  example: 2024-06-01T00:00:00.000Z
+                                end_at: 
+                                  type: string
+                                  format: date-time
+                                  example: 2024-06-30T23:59:59.000Z
+                            example: [
+                                {
+                                  _id: 1,
+                                name: Khuyến mãi mùa xuân,
+                                status: true,
+                                note: Giảm giá trên tất cả các món ăn,
+                                description: Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.,
+                                condition_apply: 100000,
+                                promotion_value: 20%,
+                                start_at: 2024-06-01T00:00:00.000Z,
+                                end_at: 2024-06-30T23:59:59.000Z
+                                }
+                            ]
+
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
             
@@ -3725,6 +3735,59 @@ paths:
                     
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
+            
+  /order/apply-promotion:
+    post:
+      tags:
+        - order
+      summary: Áp dụng khuyến mãi vào hóa đơn
+      description: "Từ danh sách khuyến mãi tại api lấy danh sách khuyến mãi (GET: /order/promotion), ta có thể áp dụng khuyến mãi vào 1 hóa đơn (dành cho thu ngân khi bấm vào 1 bàn để áp dụng khuyến mãi). Hệ thống sẽ tự tính toán giá trị khuyến mãi và áp dụng vào hóa đơn, người dùng có thể xem lại thông tin mới sau đó. Lưu ý là khi load danh sách khuyến mãi sẽ load hết khuyến mãi ra nên có thể là bàn đó chưa đủ điều kiện khuyến mãi, sẽ có trường hợp trả về lỗi là Không đủ điều kiện khuyến mãi, nhớ hiển thị message lỗi nếu có."
+     
+      requestBody: 
+        description: Thông tin gồm id của bàn và id của mã khuyến mãi
+        content: 
+          application/json:
+            schema:
+                type: object
+                properties: 
+                      tableId: 
+                        type: string
+                        example: A01
+                      promotionId: 
+                        type: number
+                        example: 1
+
+   
+
+        required: true
+      responses:
+        '200':
+            description: Thành công. Thông tin gồm message với thông báo 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Áp dụng khuyến mãi thành công
+
+        '400':
+            description: "Lỗi cũng phải bắt đầu từ đâu đó"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Hóa đơn của bạn còn thiếu 671.000 để áp dụng chương trình khuyến mãi này
             
   /payment/create-payment-url:
     post:
