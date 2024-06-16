@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 async function connect() {
     //Connection string: mongodb://localhost:27017
-    const connectionString = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT
+    // const connectionString = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT
+    const connectionString = process.env.DB_CONNECTION_STRING 
     try {
         await mongoose.connect(connectionString, {
             dbName: process.env.DB_NAME

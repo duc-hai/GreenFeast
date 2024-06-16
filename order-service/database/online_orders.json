@@ -1,0 +1,143 @@
+[{
+  "_id": {
+    "$oid": "66630edb3721b447d54a21cd"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 0,
+  "surcharge": 0,
+  "shippingfee": 0,
+  "note": "Giao nhanh giùm nha",
+  "total": 329000,
+  "time": {
+    "$date": "2024-06-07T13:44:56.519Z"
+  },
+  "payment_method": "bank",
+  "status": 0,
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "address": "District 7, Ho Chi Minh City"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66630f2f50b97db7151de5f3"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 0,
+  "surcharge": 0,
+  "shippingfee": 0,
+  "note": "Giao nhanh giùm nha",
+  "total": 329000,
+  "time": {
+    "$date": "2024-06-07T13:46:20.182Z"
+  },
+  "payment_method": "bank",
+  "status": 0,
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "address": "District 7, Ho Chi Minh City"
+  },
+  "order_person": {
+    "_id": "093213213212",
+    "name": "Hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "666316b495a1863c9e20f1cb"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 0,
+  "surcharge": 0,
+  "shippingfee": 0,
+  "note": "Giao nhanh giùm nha",
+  "total": 329000,
+  "time": {
+    "$date": "2024-06-07T14:17:40.357Z"
+  },
+  "payment_method": "bank",
+  "status": 0,
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "address": "District 7, Ho Chi Minh City"
+  },
+  "order_person": {
+    "_id": "093213213212",
+    "name": "Hải"
+  },
+  "__v": 0
+}]

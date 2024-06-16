@@ -1,0 +1,151 @@
+[{
+  "_id": {
+    "$oid": "6659ea174e86ae1f9e43896e"
+  },
+  "order_detail": [
+    {
+      "menu": [
+        {
+          "_id": 4,
+          "name": "Bông cải xào tỏi",
+          "quantity": 3,
+          "price": 70000,
+          "note": "Không hành",
+          "processing_status": 0
+        },
+        {
+          "_id": 19,
+          "name": "Canh bông hẹ đậu hũ",
+          "quantity": 2,
+          "price": 37000,
+          "note": "Không hẹ",
+          "processing_status": 0
+        },
+        {
+          "_id": 32,
+          "name": "Nha đam hạt chia",
+          "quantity": 1,
+          "price": 45000,
+          "note": "Ít ngọt",
+          "processing_status": 0
+        }
+      ],
+      "time": {
+        "$date": "2024-05-31T15:17:43.096Z"
+      },
+      "order_person": {
+        "_id": "093213213212",
+        "name": "Nhân viên: Hải"
+      },
+      "_id": {
+        "$oid": "6659ea174e86ae1f9e43896f"
+      }
+    },
+    {
+      "menu": [
+        {
+          "_id": 4,
+          "name": "Bông cải xào tỏi",
+          "quantity": 3,
+          "price": 70000,
+          "note": "Không hành",
+          "processing_status": 0
+        },
+        {
+          "_id": 19,
+          "name": "Canh bông hẹ đậu hũ",
+          "quantity": 2,
+          "price": 37000,
+          "note": "Không hẹ",
+          "processing_status": 0
+        },
+        {
+          "_id": 32,
+          "name": "Nha đam hạt chia",
+          "quantity": 1,
+          "price": 45000,
+          "note": "Ít ngọt",
+          "processing_status": 0
+        }
+      ],
+      "time": {
+        "$date": "2024-05-31T15:18:10.730Z"
+      },
+      "order_person": {
+        "_id": "093213213212",
+        "name": "Nhân viên: Hải"
+      },
+      "_id": {
+        "$oid": "6659ea324e86ae1f9e438977"
+      }
+    }
+  ],
+  "subtotal": 658000,
+  "discount": 0,
+  "surcharge": 0,
+  "table": "A01",
+  "checkin": {
+    "$date": "2024-05-31T15:17:43.096Z"
+  },
+  "status": true,
+  "__v": 0,
+  "checkout": {
+    "$date": "2024-05-31T15:25:27.155Z"
+  },
+  "payment_method": "Transfer",
+  "total": 5000000
+},
+{
+  "_id": {
+    "$oid": "665b387197d50736338330d6"
+  },
+  "order_detail": [
+    {
+      "menu": [
+        {
+          "_id": 4,
+          "name": "Bông cải xào tỏi",
+          "quantity": 3,
+          "price": 70000,
+          "note": "Không hành",
+          "processing_status": 1
+        },
+        {
+          "_id": 19,
+          "name": "Canh bông hẹ đậu hũ",
+          "quantity": 2,
+          "price": 37000,
+          "note": "Không hẹ",
+          "processing_status": 0
+        },
+        {
+          "_id": 32,
+          "name": "Nha đam hạt chia",
+          "quantity": 1,
+          "price": 45000,
+          "note": "Ít ngọt",
+          "processing_status": 0
+        }
+      ],
+      "time": {
+        "$date": "2024-06-01T15:04:17.129Z"
+      },
+      "order_person": {
+        "name": "Khách"
+      },
+      "_id": {
+        "$oid": "665b387197d50736338330d7"
+      }
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "table": "A01",
+  "checkin": {
+    "$date": "2024-06-01T15:04:17.129Z"
+  },
+  "status": false,
+  "__v": 0,
+  "total": 263200
+}]

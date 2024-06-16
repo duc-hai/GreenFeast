@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
+declare const module: any; //Hot reload
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false }); //abortOnError option is used to show errors instead of the default exiting application with code 1 if there is an error
@@ -35,5 +36,11 @@ async function bootstrap() {
   const PORT = process.env.PORT || 4000 //Get port from .env file
   await app.listen(PORT);
   console.log(`Website is running at http://localhost:${PORT}`)
+
+  //Hot reload
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();

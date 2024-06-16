@@ -23,13 +23,11 @@ const getAccessToken = (req) => {
 exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
     try {
         const accessToken = getAccessToken(req)
-
         if (!accessToken) 
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập'))
 
         //verify with secret key
         const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
-
         if (!verified) 
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, access token không hợp lệ'))
 
@@ -38,7 +36,6 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
             user_type: 1,
             status: true
         })
-
         if (!user)
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
         
@@ -56,23 +53,19 @@ exports.jwtTokenValidatorRestaurantSide = async (req, res, next) => {
 exports.jwtTokenValidatorCustomer = async (req, res, next) => {
     try {
         const accessToken = getAccessToken(req)
-
         if (!accessToken)
             return next()
-        
-        const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
 
+        const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
         if (!verified)
             return next()
         
         const user = await User.findOne({ _id: verified.username, user_type: 2, status: true })
-        
         if (!user)
             return next()
         
         //Had user data
         req.user = user
-
         return next()
     }   
     catch (err) {
@@ -83,12 +76,10 @@ exports.jwtTokenValidatorCustomer = async (req, res, next) => {
 exports.jwtTokenValidatorBoth = async (req, res, next) => {
     try {
         const accessToken = getAccessToken(req)
-    
         if (!accessToken)
             return next()
 
         const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
-
         if (!verified) {
             return next()
         }
@@ -97,7 +88,6 @@ exports.jwtTokenValidatorBoth = async (req, res, next) => {
             _id: verified.username,
             status: true
         })
-        
         if (!user)
             return next()
         
@@ -116,12 +106,10 @@ exports.jwtTokenValidatorUser = async (req, res, next) => {
     
         if (!accessToken)
             return next(createError(StatusCode.Unauthorized_401, 'Thiếu mã JWT'))
-
         const verified = await verify(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY || '')
 
         if (!verified) 
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
-        
         const user = await User.findOne({
             _id: verified.username,
             status: true
@@ -129,7 +117,6 @@ exports.jwtTokenValidatorUser = async (req, res, next) => {
         
         if (!user)
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực tài khoản'))
-        
         req.user = user
 
         return next()

@@ -1,7 +1,0 @@
-[2024-06-01 22:01:17] 	POST /api/order/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 500 - message: Cannot read properties of undefined (reading '0')]
-[2024-06-01 22:03:20] 	POST /api/order/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 500 - message: Cannot read properties of undefined (reading '0')]
-[2024-06-01 22:22:17] 	PATCH /api/admin/order/update/processing-status [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
-[2024-06-01 22:22:42] 	PATCH /api/admin/order/update/processing-status [status: 500 - message: Số điện thoại không hợp lệ]
-[2024-06-01 22:29:47] 	PATCH /api/admin/order/update/processing-status [status: 500 - message: Mã hóa đơn không hợp lệ]
-[2024-06-01 22:30:05] 	PATCH /api/admin/order/update/processing-status [status: 500 - message: Vui lòng nhập mã đặt món]
-[2024-06-01 22:46:31] 	PATCH /api/admin/order/update/processing-status [status: 500 - message: Vui lòng nhập trạng thái lên món]
