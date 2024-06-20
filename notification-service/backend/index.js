@@ -3,9 +3,11 @@ const env = require('dotenv')
 const app = express()
 const routerNotification = require('./routes/notification.route')
 const database = require('./config/connect.mongo')
+const consume = require('./services/consumer.rabbitmq')
 
 env.config()
 database.connect()
+consume.receiveQueue()
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))
 

@@ -19,7 +19,8 @@
     "redis": "docker run --name redis -p 6379:6379 -it redis/redis-stack-server:latest",
 
     "all": "concurrently \"npm run apigateway\" \"npm run management\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\"",
-    "all:docker": "concurrently \"npm run apigateway\" \"npm run management\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\" \"npm run rabbitmq\" \"npm run redis\""
+    "all:docker": "concurrently \"npm run apigateway\" \"npm run management\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\" \"npm run rabbitmq\" \"npm run redis\"",
+    "all:express": "concurrently \"npm run apigateway\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\""
   },
   "keywords": [],
   "author": "",

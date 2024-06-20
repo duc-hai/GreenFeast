@@ -35,6 +35,7 @@ const userSchema = new Schema (
         },
 
         refresh_token: { type: String }, //CONSIDER HERE 
+        isVerifyEmail: { type: Boolean, default: false }
     }, {
         timestamps: true, //format ISO 8601 //create "createdAt & updatedAt" //To convert to a readable date and time, use 'new Date(isoString)'
         collection: 'users'

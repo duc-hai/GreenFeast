@@ -12,6 +12,9 @@ const checkValidation = require('../helpers/check.validation')
 const StatusCode = require('../enums/http.status.code')
 const createError = require('http-errors')
 const hiddenPropertiesOption = require('../config/hidden.properties')
+const generateOtp = require('../helpers/generate.otp')
+const producer = require('./producer.rabbitmq')
+const clientRedis = require('../config/connect.redis')
 
 class UserService {
     //For both client and admin (1 for admin, 2 for customer)
@@ -257,6 +260,62 @@ class UserService {
                 status: 'success',
                 message: 'Lấy danh sách nhân viên thành công',
                 data: users
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    async verifyEmail (req, res, next) {
+        try {
+            let { email }= req.body;
+            if (!email) email = req.user.email
+            if (!email)
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin email'))
+            const otp = generateOtp()
+
+            const client = await clientRedis()
+            await client.set(`email:${req.user._id}`, otp, { EX: 60 * 5 }) //Ex is second
+            await client.quit()
+
+            producer.sendQueue('email', {
+                action: 'verify',
+                otp: otp,
+                email: email
+            })
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: `Gửi OTP thành công đến email ${email}, otp có hiệu lực trong 5 phút`,
+                data: {
+                    userId: req.user._id
+                }
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    async verifyOtpEmail (req, res, next) {
+        try {
+            const { userId, otp } = req.body
+            const client = await clientRedis()
+            const otpRedis = await client.get(`email:${userId}`)
+            console.log(otpRedis)
+            await client.quit()
+
+            if (otpRedis != otp) 
+                return next(createError(StatusCode.BadRequest_400, 'Mã xác thực không đúng'))
+
+            await User.findOneAndUpdate({ _id: userId, status: true }, {
+                isVerifyEmail: true
+            })
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Xác thực email thành công'
             })
         }
         catch (err) {

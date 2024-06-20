@@ -92,7 +92,9 @@ tags:
     description: Thông báo (Notification service)
     externalDocs:
       description: More details
-      url: https://greenfeast.space/api    
+      url: https://greenfeast.space/api 
+  - name: email
+    description: Gửi mail
 paths:
   /auth/signin:
     post:
@@ -3978,4 +3980,102 @@ paths:
 
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /user/verify-email:
+    post:
+      tags:
+        - email
+      summary: Xác thực email người dùng
+      description: Xác thực chính chủ email của người dùng. Mục đích của việc xác thực là để email được sử dụng cho việc quên mật khẩu hoặc nhận các thông báo về đơn hàng, khuyến mãi. Mặc dù số điện thoại là khóa chính nhưng lại dùng email vì các dịch vụ gửi sms bây giờ toàn tính phí, dùng email cho nó tiết kiệm. Để sử dụng email này tất nhiên người dùng cần đăng nhập (role nào cũng được). Sẽ có middleware kiểm tra user đã đăng nhập chưa. Ở đây backend sẽ generate ra 1 OTP 6 số, và chuyển tiếp sang service send mail, đồng thời backend sẽ lưu cái OTP vào Redis và set thời gian hết hạn cho nó là 5 phút. Vì thế, bật docker lên và chạy redis với lệnh trong folder `docker-redis` không là sẽ báo lỗi redis đó.
+      requestBody: 
+        description: "Gửi lên email mà người dùng nhập, hoặc nếu không nhập thì hệ thống tự động lấy email (chưa xác thực) mà người dùng đã thêm vào profile trước đó"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                email: 
+                  type: string
+                  example: luuduchai.nt@gmail.com
+        required: true
+      responses:
+        '200':
+          description: Hệ thống sẽ trả về thông báo send otp đến email kèm theo userId, cái userId này để frontend lưu lại để sử dụng cho api phía sau, là gửi OTP lên xác thực
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Gửi OTP thành công đến email luuduchai.nt@gmail.com otp có hiệu lực trong 5 phút
+                    data: 
+                      type: object
+                      properties: 
+                        userId: 
+                          type: string
+                          example: 093213213212
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi cũng phải bắt đầu từ đâu đó
      
+  /user/verify-otp-email:
+    post:
+      tags:
+        - email
+      summary: Xác thực OTP từ api bên trên
+      description: Frontend sau khi lấy thành công response từ phía trên thì hiển thị trang cho người dùng nhập OTP (6 số), người dùng check email để lấy OTP, sau đó frontend gửi đến api này kèm userId (từ api phía trên) và otp mà người dùng nhập
+      requestBody: 
+        description: "Gửi lên email mà người dùng nhập, hoặc nếu không nhập thì hệ thống tự động lấy email (chưa xác thực) mà người dùng đã thêm vào profile trước đó"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                userId: 
+                  type: string
+                  example: 093213213212
+                otp:
+                  type: string
+                  example: 150802
+        required: true
+      responses:
+        '200':
+          description: Hệ thống sẽ trả về thông báo send otp đến email kèm theo userId, cái userId này để frontend lưu lại để sử dụng cho api phía sau, là gửi OTP lên xác thực
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Xác thực email thành công
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Mã xác thực không đúng
