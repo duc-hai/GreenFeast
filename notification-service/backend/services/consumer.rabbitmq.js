@@ -1,5 +1,6 @@
 const amqplib = require('amqplib')
 const emailService = require('./email.service')
+const User = require('../models/user.js')
 
 const receiveQueue = async () => {
     const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
@@ -43,8 +44,31 @@ const handleData = async (message) => {
         if (message.action === 'verify') {
             subject = 'Xác thực email cho website GreenFeast',
             text = `Mã xác thực của bạn là <b>${message.otp}</b>, OTP có hiệu lực trong 5 phút, vui lòng không cung cấp OTP cho bất cứ ai.`
+            emailService.sendMail(message.email, subject, text)
         }
-        emailService.sendMail(message.email, subject, text);
+        else if (message.action === 'promotion') {
+            subject = 'Giảm giá đặc biệt tại Green Feast'
+            text = message.text
+            const emailList = await getUserListEmail()
+            emailService.sendMailPromotion(emailList, subject, text)
+        }
+        else if (message.action === 'add') {
+            await new User({
+                _id: message.userId,
+                email: message.email
+            }).save()
+        }
+    }
+    catch (err) {
+        console.error(`Error occured at consumer RabbitMQ: ${err.message}`)
+    }
+}
+
+const getUserListEmail = async () => {
+    try {
+        const users = await User.find().lean()
+        const emails = users.map(value => value.email)
+        return emails
     }
     catch (err) {
         console.error(`Error occured at consumer RabbitMQ: ${err.message}`)

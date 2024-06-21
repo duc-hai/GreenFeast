@@ -59,4 +59,7 @@ export class CreatePromotionDto {
 
     @IsOptional()
     end_at: Date;
+
+    @IsOptional()
+    text_email: string;
 }

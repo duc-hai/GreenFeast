@@ -854,7 +854,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true,\r\n    \"text_email\": \"Nhận ngay giảm giá đến 50% khi đặt bàn trực tuyến. Chương trình áp dụng từ 10/6/2024 đến 20/6/2024.\"\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1426,6 +1426,34 @@
 								"api",
 								"order",
 								"promotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply promotion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tableId\": \"A01\",\r\n    \"promotionId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/apply-promotion",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"apply-promotion"
 							]
 						}
 					},
@@ -2028,6 +2056,176 @@
 								"menu",
 								"delete",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"luuduchai.nt@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/verify-email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"verify-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"093213213212\",\r\n    \"otp\": \"356002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/verify-otp-email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"verify-otp-email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tms",
+			"item": [
+				{
+					"name": "Tms Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"duchai\",\r\n    \"password\": \"123456\",\r\n    \"main_url\": \"http://localhost:3000\",\r\n    \"sub_url\": \"http://localhost:4000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/tms/register-tms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"tms",
+								"register-tms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tms Register Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"duchai\",\r\n    \"password\": \"123456\",\r\n    \"main_url\": \"http://localhost:3000\",\r\n    \"sub_url\": \"http://localhost:4000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/tms/get-order/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"tms",
+								"get-order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "666458f9d8f8927ab0cbf5f4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Num Notification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/notification/num-notification",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"num-notification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/notification/get-notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"get-notifications"
 							]
 						}
 					},

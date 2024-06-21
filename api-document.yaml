@@ -2149,7 +2149,7 @@ paths:
       summary: Tạo mới khuyến mãi
       description: Tạo mới khuyến mãi
       requestBody: 
-        description: "Tên khuyến mãi, trạng thái khuyến mãi, ghi chú, form-promotion là hình thức áp dụng, 1 là cho tổng hóa đơn, 2 là cho món ăn cụ thể. Phía dưới có API để lấy danh sách form-promotion. condition_apply là điều kiện áp dụng, nếu form-promotion là 1: giảm tổng hóa đơn thì condition_apply là tổng hóa đơn, còn nếu là giảm cho món ăn thì condition_apply là mã của menu, condition_apply có kiểu number. promotion_value là giá trị khuyến mãi, nếu nhỏ hơn 0 thì là khuyến mãi, lớn hơn 0 là phụ phí (ví dụ ngày tết). promotion_value có 2 trường hợp, 1 là giảm theo %, 2 là giảm theo giá cụ thể, tham số nhận vào có thể là 1 số hoặc 1 số kèm theo %. Ví dụ 50%, -50% hoặc 10000 đều hợp lệ. auto_apply là tự động áp dụng (phía front end tick sẵn vào ô này), khuyến mãi sẽ bắt đầu áp dụng từ lúc tạo khuyến mãi, không muốn thì chọn false. Ngoài ra còn có 2 tham số là start_at, end_at, định dạng date, là ngày bắt đầu, kết thúc, 2 tham số này là tùy chọn nên có hay không cũng được"
+        description: "Tên khuyến mãi, trạng thái khuyến mãi, ghi chú, form-promotion là hình thức áp dụng, 1 là cho tổng hóa đơn, 2 là cho món ăn cụ thể. Phía dưới có API để lấy danh sách form-promotion. condition_apply là điều kiện áp dụng, nếu form-promotion là 1: giảm tổng hóa đơn thì condition_apply là tổng hóa đơn, còn nếu là giảm cho món ăn thì condition_apply là mã của menu, condition_apply có kiểu number. promotion_value là giá trị khuyến mãi, nếu nhỏ hơn 0 thì là khuyến mãi, lớn hơn 0 là phụ phí (ví dụ ngày tết). promotion_value có 2 trường hợp, 1 là giảm theo %, 2 là giảm theo giá cụ thể, tham số nhận vào có thể là 1 số hoặc 1 số kèm theo %. Ví dụ 50%, -50% hoặc 10000 đều hợp lệ. auto_apply là tự động áp dụng (phía front end tick sẵn vào ô này), khuyến mãi sẽ bắt đầu áp dụng từ lúc tạo khuyến mãi, không muốn thì chọn false. Ngoài ra còn có 2 tham số là start_at, end_at, định dạng date, là ngày bắt đầu, kết thúc, 2 tham số này là tùy chọn nên có hay không cũng được. **Updated on 21/6:** Bổ sung thêm 1 tham số là text_email, nếu admin nhập thông tin vào ô này tức là sẽ gửi nội dung email khuyến mãi đến người dùng (để tiện thì người dùng nhập ô note tới đâu thì frontend copy qua ô text_email đến đó). Email sẽ được gửi tới cho các user đã verify email"
         content: 
           application/json:
             schema:
@@ -2174,6 +2174,9 @@ paths:
                   example: 50%
                 auto_apply: 
                   type: boolean    
+                text_email: 
+                  type: string
+                  example: "Nhận ngay giảm giá đến 50% khi đặt bàn trực tuyến. Chương trình áp dụng từ 10/6/2024 đến 20/6/2024."
         required: true
       responses:
         '200':

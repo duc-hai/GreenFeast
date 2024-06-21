@@ -1,0 +1,4 @@
+[2024-06-21 11:32:45] 	POST /api/user/verify-email [status: 500 - message: Cannot read properties of undefined (reading 'set')]
+[2024-06-21 11:34:42] 	POST /api/user/verify-email [status: 500 - message: Xảy ra lỗi khi kết nối Redis]
+[2024-06-21 11:36:26] 	POST /api/user/verify-otp-email [status: 400 - message: Mã xác thực không đúng]
+[2024-06-21 11:36:55] 	POST /api/user/verify-otp-email [status: 500 - message: email is not defined]

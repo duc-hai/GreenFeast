@@ -276,12 +276,18 @@ class UserService {
             const otp = generateOtp()
 
             const client = await clientRedis()
+            if (!client)
+                return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
             await client.set(`email:${req.user._id}`, otp, { EX: 60 * 5 }) //Ex is second
             await client.quit()
 
             producer.sendQueue('email', {
                 action: 'verify',
                 otp: otp,
+                email: email
+            })
+
+            await User.findOneAndUpdate({ _id: req.user._id, status: true }, {
                 email: email
             })
 
@@ -302,15 +308,23 @@ class UserService {
         try {
             const { userId, otp } = req.body
             const client = await clientRedis()
+            if (!client)
+                return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
             const otpRedis = await client.get(`email:${userId}`)
-            console.log(otpRedis)
+            // console.log(otpRedis)
             await client.quit()
 
             if (otpRedis != otp) 
                 return next(createError(StatusCode.BadRequest_400, 'Mã xác thực không đúng'))
 
-            await User.findOneAndUpdate({ _id: userId, status: true }, {
+            const user = await User.findOneAndUpdate({ _id: userId, status: true }, {
                 isVerifyEmail: true
+            })
+
+            producer.sendQueue('email', {
+                action: 'add',
+                userId: userId,
+                email: user.email
             })
 
             return res.status(StatusCode.OK_200).json({

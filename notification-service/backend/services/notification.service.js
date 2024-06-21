@@ -46,7 +46,7 @@ class NotificationService {
         catch (err) {
             return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at getNotifications: ${err.message}`])
         }
-    }
+    } 
 }
 
 module.exports = new NotificationService()

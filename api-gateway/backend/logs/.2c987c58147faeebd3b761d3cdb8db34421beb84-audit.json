@@ -64,6 +64,11 @@
             "date": 1718864869755,
             "name": "logs\\2024-06-20.log",
             "hash": "6064c1507b780d9968fcbae0adabbea60dbe2890db5bf200219bce46667c8e6c"
+        },
+        {
+            "date": 1718941904101,
+            "name": "logs\\2024-06-21.log",
+            "hash": "1e86ba40dc2f2827398abcee0a320089c696bfccbedc3f5b26bdd7b02f085a5d"
         }
     ],
     "hashType": "sha256"
