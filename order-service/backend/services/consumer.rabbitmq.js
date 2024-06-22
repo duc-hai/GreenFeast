@@ -4,7 +4,7 @@ const Order = require('../models/order')
 const Area = require('../models/area')
 
 const receiveQueue = async () => {
-    const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD 
+    const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
     // const amqpUrl = `amqp://${process.env.AMQP_SERVER_URL_HOST}:${process.env.AMQP_SERVER_URL_PORT}`
     try {
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
@@ -39,7 +39,7 @@ const receiveQueue = async () => {
 }
 
 const receiveQueuePayment = async () => {
-    const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD 
+    const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER
     // const amqpUrl = `amqp://${process.env.AMQP_SERVER_URL_HOST}:${process.env.AMQP_SERVER_URL_PORT}`
     try {
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)

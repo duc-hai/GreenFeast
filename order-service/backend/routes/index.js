@@ -4,7 +4,9 @@ const menuService = require('../services/menu.service')
 const orderService = require('../services/order.service')
 const router = express.Router()
 const validation = require('../validations/body.validation')
+const statisticsRoute = require('./statistics.route')
 
+router.use('/statistics', statisticsRoute)
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
 

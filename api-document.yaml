@@ -94,7 +94,9 @@ tags:
       description: More details
       url: https://greenfeast.space/api 
   - name: email
-    description: Gửi mail
+    description: Gửi mail (Notification service)
+  - name: statistics
+    description: Thống kê (Order service)
 paths:
   /auth/signin:
     post:
@@ -4082,3 +4084,132 @@ paths:
                   message:
                     type: string
                     example: Mã xác thực không đúng
+                    
+  /statistics/get-revenue:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu
+        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày, thống kê lượt khách thay ngày... Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Trong đó, _id là số ngày, totalAmount là số doanh thu của ngày đó, ngày nào có mới hiển thị ra danh sách. Hiển thị dạng đồ thị, trục hoành là ngày, trục tung là tiền
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Thống kê doanh thu thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    format: date
+                                    example: 2024-06-22
+                                  totalAmount: 
+                                    type: number
+                                    example: 658000
+                              example: [
+                                {
+                                  _id: 2024-06-22,
+                                  totalAmount: 658000
+                                }
+                              ]
+
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi nào đó  
+                    
+  /statistics/num-customer:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê số lượt khách
+        description: "Có thể truyền số ngày muốn lấy (from, to) hoặc server tự động lấy ra số lượt khách của ngày hiện tại. Có thể query theo 2 cái from, to phía dưới để query được data, query sai khoảng ngày là không ra đâu"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Trong đó, _id là số ngày, count là số lượt khách của ngày đó, ngày nào có mới hiển thị ra danh sách. Hiển thị dạng đồ thị, trục hoành là ngày, trục tung là số lượt
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy số lượt khách thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                _id: 
+                                  type: string
+                                  format: date
+                                  example: 2024-05-31
+                                count: 
+                                  type: number
+                                  example: 1
+                            example: [
+                                {
+                                  _id: 2024-05-31,
+                                  count: 2
+                                }
+                            ]
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi nào đó  
