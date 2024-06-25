@@ -6,8 +6,9 @@ const statisticsService = require('../services/statistics.service')
 router.get('/num-customer', statisticsService.getNumberOfCustomer)
 router.get('/get-revenue', statisticsService.getRevenue)
 router.get('/area', statisticsService.getArea)
+router.get('/menu', statisticsService.getMenu)
 
 router.use('/', errorHandler.catchNotFoundError)
-router.use('/', errorHandler.errorHandle)
+router.use('/', errorHandler.errorHandler)
 
 module.exports = router

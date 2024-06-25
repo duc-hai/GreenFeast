@@ -83,7 +83,7 @@ tags:
       url: https://greenfeast.space/api    
       
   - name: payment 
-    description: Thanh toán (Order service)
+    description: Thanh toán (Payment service)
     externalDocs:
       description: More details
       url: https://greenfeast.space/api    
@@ -96,7 +96,7 @@ tags:
   - name: email
     description: Gửi mail (Notification service)
   - name: statistics
-    description: Thống kê (Order service)
+    description: Thống kê (Statistics service)
 paths:
   /auth/signin:
     post:
@@ -4090,7 +4090,7 @@ paths:
         tags:
           - statistics
         summary: Thống kê doanh thu
-        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày, thống kê lượt khách thay ngày... Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay"
+        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày hôm nay, thống kê lượt khách theo ngày, thống kê doanh thu món theo ngày... (kiểu như `Tổng doanh thu hôm nay: xxx`). Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay"
         parameters:
           - in: query
             name: from
@@ -4213,3 +4213,142 @@ paths:
                       message:
                         type: string
                         example: Lỗi nào đó  
+                        
+  /statistics/area:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu theo khu vực
+        description: "Truyền thông tin ngày muốn thống kê (chỉ nhận 1 ngày thôi, không nhận nhiều ngày). Nếu không truyền thì mặc định là hôm nay."
+        parameters:
+          - in: query
+            name: date
+            schema:
+              type: string
+              example: "2024-06-22T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Thông tin trả về là tên khu vực và doanh thu của khu vực đó. Hiển thị biểu đồ hoặc dạng thông thường giống bảng cũng được.
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Thống kê doanh thu theo khu vực thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  Tầng 1: 
+                                    type: number
+                                    example: 658000
+                                  Tầng 2: 
+                                    type: number
+                                    example: 0
+                                  Mua mang về: 
+                                    type: number
+                                    example: 0
+                                  Nhân viên: 
+                                    type: number
+                                    example: 0
+                              example: [
+                                  {
+                                    Tầng 1: 658000
+                                  },
+                                  {
+                                    Tầng 2: 0
+                                  }, 
+                                  {
+                                    Mua mang về: 0
+                                  },
+                                  {
+                                    Nhân viên: 0
+                                  }
+                              ]
+
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example:  Lỗi cũng phải bắt đầu từ đâu đó 
+                        
+  /statistics/menu:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu theo món ăn
+        description: "Query param là khoảng thời gian muốn thống kê, nếu không có thì lấy ngày hôm nay, nói chung tương tự mấy cái trên"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Thông tin trả về là tên món, số lượng, và tổng doanh thu của món đó. Nó đã được sắp xếp sẵn theo thứ tự rồi, món đầu tiên là cái có doanh thu cao nhất. Response ít dữ liệu thì không sao, nhiều dữ liệu có thể sẽ phải thêm phân trang, có time thì làm sau vậy
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Thống kê doanh thu theo món ăn thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              name: 
+                                type: string
+                                example: Bông cải xào tỏi
+                              quantity: 
+                                type: number
+                                example: 15
+                              totalPrice: 
+                                type: number
+                                example: 1050000
+                          example: [
+                            {
+                              name: Bông cải xào tỏi,
+                              quantity: 15,
+                              totalPrice: 1050000
+                            }
+                          ]
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi cũng phải bắt đầu từ đâu đó

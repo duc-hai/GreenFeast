@@ -1,0 +1,14 @@
+[2024-06-25 11:10:41] 	GET /api/statistics/area?date=2024-06-22T00:00:00 [status: 500 - message: Lỗi máy chủ: InternalServerError: date.setHours is not a function
+    at getArea (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\services\statistics.service.js:110:25)
+    at Layer.handle [as handle_request] (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:47:12)]
+[2024-06-25 20:41:56] 	GET /api/statistics/menu?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00 [status: 500 - message: Lỗi máy chủ: InternalServerError: responseData is not defined
+    at getMenu (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\services\statistics.service.js:153:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)]
