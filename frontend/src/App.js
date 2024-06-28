@@ -5,6 +5,8 @@ import Homepage from "./pages/Homepage";
 import Header from "./components/Header";
 import Register from "./pages/Register";
 import Order from "./pages/Order";
+import OrderOnline from "./pages/OrderOnline";
+import OrderHistory from "./pages/OrderHistory";
 function App() {
   return (
     <>
@@ -14,6 +16,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/order-online" element={<OrderOnline />} />
+          <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/*" element={<DefaultLayout />} />
         </Routes>
 

@@ -18,7 +18,9 @@ import {
 import "./index.css";
 import { getAllArea } from "../../Services/ManagementServiceAPI";
 import {
+  applyPromotion,
   closeTable,
+  getPromotion,
   getTableByArea,
   moveTable,
   printBill,
@@ -36,6 +38,20 @@ const OrderManagement = () => {
   const [isModalCloseTable, setIsModalCloseTable] = useState(false);
   const [tableSlug, setTableSlug] = useState("");
   const [exportBuill, setExportBuill] = useState("");
+  const [dataPromotion, setDataPromotion] = useState([{}]);
+
+  const fetchPromotion = async () => {
+    try {
+      const res = await getPromotion();
+      setDataPromotion(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPromotion();
+  }, []);
 
   const fetchDataOrderDetail = async (id) => {
     try {
@@ -104,6 +120,7 @@ const OrderManagement = () => {
             <p className="flex justify-center gap-5">
               <span
                 onClick={() => {
+                  setTableSlug(record.slug);
                   showModal();
                   fetchDataOrderDetail(record.slug);
                 }}
@@ -114,6 +131,7 @@ const OrderManagement = () => {
                 onClick={() => {
                   setIsModalCloseTable(true);
                   setTableSlug(record.slug);
+                  fetchDataOrderDetail(record.slug);
                 }}
               >
                 <CloseCircleOutlined
@@ -138,9 +156,9 @@ const OrderManagement = () => {
 
   const columnorder = [
     {
-      title: "Id món",
-      dataIndex: "_id",
-      key: "_id",
+      title: "Tên món",
+      dataIndex: "name",
+      key: "name",
       align: "center",
     },
     {
@@ -149,7 +167,7 @@ const OrderManagement = () => {
       key: "price",
       align: "center",
       render: (text, record) => {
-        return record.price.toLocaleString("vi-VN", {});
+        return record.price?.toLocaleString("vi-VN", {});
       },
     },
     {
@@ -183,6 +201,7 @@ const OrderManagement = () => {
         return;
       }
       await closeTable(tableSlug, values);
+      await fetchData(area);
       message.success("Đóng bàn thành công");
     } catch (error) {
       console.log(error);
@@ -321,12 +340,54 @@ const OrderManagement = () => {
               name="form"
               onClick={onFinish}
             >
-              Đóng bàn
+              Thanh toán
             </Button>,
           ]}
           bodyStyle={{ height: "1280" }}
         >
           <Form layout="vertical" form={form} name="form">
+            {orderDetail?.order_detail?.length ? (
+              <div className="ant_body">
+                <div className="flex flex-col gap-1">
+                  <span>
+                    Thời gian đặt:{"  "}
+                    <span className="font-semibold">
+                      {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                    </span>
+                  </span>
+
+                  <span>
+                    Người đặt:{" "}
+                    <span className="font-semibold">
+                      {" "}
+                      {orderDetail?.order_detail?.length > 0 &&
+                        orderDetail?.order_detail[0]?.order_person?.name}{" "}
+                    </span>
+                  </span>
+                </div>
+                <p className="py-2 font-semibold">Danh sách món</p>
+                <Table
+                  columns={columnorder}
+                  pagination={false}
+                  dataSource={
+                    orderDetail?.order_detail?.length > 0 &&
+                    orderDetail?.order_detail[0]?.menu?.length > 0 &&
+                    orderDetail?.order_detail[0].menu.map((item, index) => {
+                      return { ...item, key: index };
+                    })
+                  }
+                  scroll={{ x: "max-content" }}
+                />
+                <p className="justify-end flex gap-2 mt-3">
+                  <span>Tổng giá:</span>
+                  <span className="font-semibold text-green-700">
+                    {orderDetail?.subtotal?.toLocaleString("vi-VN", {})} VNĐ
+                  </span>
+                </p>
+              </div>
+            ) : (
+              <div>Bàn trống</div>
+            )}
             <Row>
               <Col span={24}>
                 <Form.Item label="Loại thanh toán" name="payment_method">
@@ -351,7 +412,54 @@ const OrderManagement = () => {
                   <Input placeholder="Nhập note (Nếu có)" />
                 </Form.Item>
               </Col>
+              <Col span={24}>
+                <Form.Item label="Khuyến mãi" name="promotion">
+                  <Select
+                    style={{ width: 220 }}
+                    onChange={async (value) => {
+                      if (!value) message.error("Vui lòng chọn khuyến mãi");
+                      try {
+                        const res = await applyPromotion({
+                          promotionId: value,
+                          tableId: orderDetail?.table,
+                        });
+                        if (res.status === "success") {
+                          message.success(res.message);
+                          fetchDataOrderDetail(tableSlug);
+                        }
+                      } catch (error) {
+                        console.log(error);
+                        message.error("Áp dụng khuyến mãi thất bại");
+                      }
+                    }}
+                    placeholder="Chọn khuyến mãi"
+                    options={
+                      dataPromotion?.length > 0 &&
+                      dataPromotion.map((item) => {
+                        return {
+                          value: item._id,
+                          label: item.name,
+                        };
+                      })
+                    }
+                  />
+                </Form.Item>
+              </Col>
             </Row>
+            <p className="justify-end flex gap-2 mb-3">
+              <span>Số tiền được giảm giá:</span>
+              <span className="font-semibold text-red-700">
+                {orderDetail?.discount?.toLocaleString("vi-VN", {}) || 0} VNĐ
+              </span>
+            </p>
+            <p className="justify-end flex gap-2 mb-3">
+              <span>Số tiền phải thanh toán:</span>
+              <span className="font-semibold text-green-700">
+                {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
+                  orderDetail?.subtotal?.toLocaleString("vi-VN", {})}{" "}
+                VNĐ
+              </span>
+            </p>
           </Form>
         </Modal>
       </div>

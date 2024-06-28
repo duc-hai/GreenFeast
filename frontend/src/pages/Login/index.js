@@ -28,6 +28,11 @@ const Login = () => {
         response?.data?.refresh_token,
         values.remember ? 30 : 1
       );
+      setCookie(
+        "accessToken",
+        response?.data?.access_token,
+        values.remember ? 30 : 1
+      );
       sessionStorage.setItem("user", JSON.stringify(response?.data?.data));
       notification.open({
         message: "Đăng nhập thành công",

@@ -20,11 +20,15 @@ import { editUserCustomer, updateStaff } from "../../Services/AuthAPI";
 import dayjs from "dayjs";
 import { getAllArea } from "../../Services/ManagementServiceAPI";
 import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
+import { verifyMail, verifyOtp } from "../../Services/Notification";
 
 const Header = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenEmail, setIsModalOpenEmail] = useState(false);
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const [isModalOpenQR, setIsModalOpenQR] = useState(false);
   const [form] = Form.useForm();
   const [getArea, setGetArea] = useState([]);
@@ -62,7 +66,6 @@ const Header = () => {
       console.log(error);
     }
   };
-  console.log(qr);
   useEffect(() => {
     if (area) {
       fetchTable(area);
@@ -125,9 +128,21 @@ const Header = () => {
       label: <p onClick={showModal}>Sửa thông tin</p>,
       key: "0",
     },
+    !us?.email && {
+      label: (
+        <p
+          onClick={() => {
+            setIsModalOpenEmail(true);
+          }}
+        >
+          Xác thực email
+        </p>
+      ),
+      key: "1",
+    },
     {
       label: <p onClick={handleLogout}>Đăng xuất</p>,
-      key: "1",
+      key: "2",
     },
   ];
   const onFinish = async () => {
@@ -228,6 +243,123 @@ const Header = () => {
       </Modal>
       <Modal
         className="headerModal"
+        title="Xác thực mail"
+        open={isModalOpenEmail}
+        onCancel={() => {
+          setIsModalOpenEmail(false);
+        }}
+        footer={[
+          <Button
+            key="back"
+            danger
+            onClick={() => {
+              setIsModalOpenEmail(false);
+            }}
+          >
+            ĐÓNG
+          </Button>,
+          // <Button
+          //   type="primary"
+          //   // loading={loading}
+          //   form="form"
+          //   name="form"
+          //   onClick={() => {
+          //     setIsModalOpenEmail(false);
+          //   }}
+          // >
+          //   Xác nhận
+          // </Button>,
+        ]}
+        bodyStyle={{ height: "1280" }}
+      >
+        <div className="ant_body">
+          <Form layout="vertical">
+            <Row>
+              <div className="grid grid-cols-5 items-center gap-3 w-full">
+                <div className="col-span-4">
+                  <Form.Item label="Email" name="email">
+                    <Input
+                      placeholder="Nhập địa chỉ email"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div className="translate-y-[3px]">
+                  <Button
+                    type="text"
+                    onClick={async () => {
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                      try {
+                        if (!email) {
+                          message.error("Vui lòng nhập email");
+                          return;
+                        }
+
+                        if (!emailRegex.test(email)) {
+                          message.error("Email không đúng định dạng");
+                          return;
+                        }
+                        await verifyMail({ email: email });
+                        message.success("Đã gửi mã xác nhận");
+                      } catch (e) {
+                        console.log(e);
+                        message.error("Đã có lỗi xảy ra");
+                      }
+                    }}
+                  >
+                    Gửi mã
+                  </Button>
+                </div>
+              </div>
+              <div className="grid grid-cols-5 items-center gap-3 w-full">
+                <div className="col-span-4">
+                  <Form.Item label="Nhập mã xác nhận" name="otpcode">
+                    <Input
+                      placeholder="Nhập mã xác nhận gửi về mail"
+                      onChange={(e) => {
+                        setCode(e.target.value);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div className="translate-y-[3px]">
+                  <Button
+                    type="text"
+                    onClick={async () => {
+                      try {
+                        if (!code) {
+                          message.error("Vui lòng nhập code");
+                          return;
+                        }
+                        await verifyOtp({ otp: code, userId: us?._id });
+                        message.success("Xác thực thành công");
+                        setUs({ ...us, email: email });
+                        localStorage.setItem(
+                          "user",
+                          JSON.stringify({ ...us, email: email })
+                        );
+                        setIsModalOpenEmail(false);
+                      } catch (e) {
+                        console.log(e);
+                        message.error("Mã xác thực không đúng");
+                      }
+                    }}
+                  >
+                    Xác nhận
+                  </Button>
+                </div>
+              </div>
+            </Row>
+          </Form>
+        </div>
+      </Modal>
+      <Modal
+        className="headerModal"
         title="Tạo QR"
         open={isModalOpenQR}
         onCancel={() => {
@@ -307,9 +439,17 @@ const Header = () => {
             </Link>
 
             {us?.role === "customer" ? (
-              <Link to="/order" style={{ fontSize: 18 }}>
-                Đặt món
-              </Link>
+              <div className="flex items-center gap-8">
+                <Link to="/order" style={{ fontSize: 18 }}>
+                  Đặt món
+                </Link>
+                <Link to="/order-online" style={{ fontSize: 18 }}>
+                  Đặt món Online
+                </Link>
+                <Link to="/order-history" style={{ fontSize: 18 }}>
+                  Lịch sử đặt món
+                </Link>
+              </div>
             ) : (
               <div className="flex gap-6">
                 {us && (

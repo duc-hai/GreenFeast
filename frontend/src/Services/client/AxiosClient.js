@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "../../utils/Cookie";
 
 export default function getInstanceAxios(baseAPI) {
   const instance = axios.create({
@@ -6,11 +7,15 @@ export default function getInstanceAxios(baseAPI) {
   });
   instance.interceptors.request.use(
     function (config) {
+      const token = getCookie("accessToken");
       config.headers = {
         ...config.headers,
         Accept: "application/json",
         "Content-Type": "application/json",
       };
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`; // Thêm token vào header Authorization
+      }
 
       return config;
     },

@@ -1,33 +1,15 @@
-import {
-  Button,
-  Dropdown,
-  Input,
-  Modal,
-  Select,
-  Space,
-  Spin,
-  Table,
-  message,
-} from "antd";
-import FoodComponent from "../../components/FoodCompoent";
-import { UserOutlined } from "@ant-design/icons";
+import { Button, Input, Modal, Select, Spin, Table, message } from "antd";
 import { Menu } from "antd";
 import "./index.css";
 import { useEffect, useState } from "react";
 import {
-  createOrder,
+  createOrderOnline,
   fetchMenuOrder,
-  fetchTableCategory,
-  getAllAreaOrder,
   getCategoryOrder,
   getMenuByCategory,
   getMenuBySearch,
-} from "./../../Services/OrderAPI";
-import {
-  getAllArea,
-  getCategory,
-  getTable,
-} from "../../Services/ManagementServiceAPI";
+} from "../../Services/OrderAPI";
+import { getAllArea } from "../../Services/ManagementServiceAPI";
 import Header from "../../components/Header";
 import Search from "antd/es/transfer/search";
 
@@ -40,13 +22,10 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
-const Order = () => {
+const OrderOnline = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
   const [getArea, setGetArea] = useState([]);
-  const [area, setArea] = useState();
-  const [tableList, setTableList] = useState([]);
-  const [tableSlug, setTableSlug] = useState();
   const [listDataCate, setListDataCate] = useState([]);
   const [getListMenu, setListMenu] = useState([]);
   const [order, setOrder] = useState([]);
@@ -54,24 +33,14 @@ const Order = () => {
   const [isModalOpenDetail, setIsModalOpenDetail] = useState(0);
   const [loading, setLoading] = useState(false);
   const [textSearch, setTextSearch] = useState("");
+  const [delivery, setDelivery] = useState({});
+  const [note, setNote] = useState("");
+  const [payment_method, setPayment_method] = useState("bank");
   const onSearch = (e) => {
     setTextSearch(e.target.value);
   };
-  const fetchTable = async (id) => {
-    try {
-      const res = await fetchTableCategory(id);
-      setTableList(
-        res.data?.map((item) => {
-          return {
-            key: item.slug,
-            label: item._id,
-            status: item.status,
-          };
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  const handleChange = (value) => {
+    setPayment_method(value);
   };
 
   const fetchDataByKeywork = async (key) => {
@@ -88,15 +57,9 @@ const Order = () => {
   }, [textSearch]);
 
   useEffect(() => {
-    if (area) {
-      fetchTable(area);
-    }
-  }, [area]);
-  useEffect(() => {
     const fetchArea = async () => {
       try {
         const res = await getAllArea();
-        // const res = await getAllAreaOrder();
         setGetArea(
           res.data?.map((item) => {
             return {
@@ -218,20 +181,23 @@ const Order = () => {
       message.error("Vui lòng chọn món");
       return;
     }
-    if (!tableSlug) {
-      message.error("Vui lòng chọn bàn");
+    if (!delivery.name || !delivery.phone_number || !delivery.address) {
+      message.error("Vui lòng nhập thông tin giao hàng");
       return;
     }
     setLoading(true);
     try {
-      const res = await createOrder(
-        tableSlug,
-        order?.map((item) => ({
+      const res = await createOrderOnline({
+        menu: order?.map((item) => ({
           _id: item.id,
           quantity: item.quantity,
           note: item.note,
-        }))
-      );
+        })),
+        note: note,
+        payment_method: payment_method,
+        delivery: delivery,
+        time_receive: null,
+      });
       if (res?.data?.length > 0) {
         res.data?.map((item) => window.open(item, "_blank"));
       }
@@ -276,6 +242,63 @@ const Order = () => {
               dataSource={order}
               pagination={false}
             />
+          </div>
+          <div className="">
+            <span className="font-semibold text-base">Thông tin giao hàng</span>
+            <div className="grid gap-x-6 gap-y-3 grid-cols-2 mt-3">
+              <div className="flex flex-col gap-1">
+                <span>Họ và tên:</span>
+                <input
+                  placeholder="Nhập họ và tên"
+                  className="border none outline-none px-2 py-1 rounded-lg"
+                  onChange={(e) => {
+                    setDelivery({ ...delivery, name: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Số điện thoại:</span>
+                <input
+                  placeholder="Nhập số điện thoại"
+                  className="border none outline-none px-2 py-1 rounded-lg"
+                  onChange={(e) => {
+                    setDelivery({ ...delivery, phone_number: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Địa chỉ nhận hàng:</span>
+                <input
+                  placeholder="Nhập địa chỉ nhận hàng"
+                  className="border none outline-none px-2 py-1 rounded-lg"
+                  onChange={(e) => {
+                    setDelivery({ ...delivery, address: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Ghi chú:</span>
+                <input
+                  placeholder="Nhập Ghi chú"
+                  className="border none outline-none px-2 py-1 rounded-lg"
+                  onChange={(e) => {
+                    setNote(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Loại thanh toán:</span>
+                <Select
+                  defaultValue="bank"
+                  style={{ width: 320 }}
+                  onChange={handleChange}
+                  options={[
+                    { value: "bank", label: "Thanh toán online" },
+                    { value: "cod", label: "Thanh toán khi nhận hàng" },
+                  ]}
+                />
+              </div>
+            </div>
           </div>
         </Modal>
 
@@ -334,44 +357,7 @@ const Order = () => {
 
           <div className="content bg-[#d4e3d3]">
             <div className="flex w-full justify-between items-end gap-3 py-3">
-              <div className="flex flex-col w-[48%] gap-2">
-                <span className="font">Chọn tầng</span>
-                <Select
-                  name="gender"
-                  placeholder="Chọn tầng"
-                  allowClear
-                  onChange={(value) => {
-                    setArea(value);
-                  }}
-                >
-                  {getArea?.map((item) => (
-                    <Select.Option key={item.key} value={item.key}>
-                      {item.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </div>
-              <div className="flex flex-col w-[48%] gap-2">
-                <span className="font">Chọn bàn</span>
-                <Select
-                  disabled={tableList?.length === 0}
-                  name="gender"
-                  placeholder="Chọn bàn"
-                  allowClear
-                  onChange={(value) => {
-                    setTableSlug(value);
-                  }}
-                >
-                  {tableList?.map((item) => {
-                    if (item.status === 0)
-                      return (
-                        <Select.Option key={item.key} value={item.key}>
-                          {item.label}
-                        </Select.Option>
-                      );
-                  })}
-                </Select>
-              </div>
+              <div></div>
               <div>
                 <Search
                   placeholder="Tìm kiếm ..."
@@ -507,4 +493,4 @@ const Order = () => {
     </>
   );
 };
-export default Order;
+export default OrderOnline;
