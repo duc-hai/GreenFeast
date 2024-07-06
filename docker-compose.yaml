@@ -73,8 +73,8 @@ services:
     networks:
       - apigateway-network
       - greenfeast
-    depends_on:
-      - apigateway
+    # depends_on:
+    #   - apigateway
     expose:
       - 80
 

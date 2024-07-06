@@ -1,6 +1,6 @@
 FROM node:20-alpine AS build
 
-WORKDIR /app
+WORKDIR /appreact
 
 COPY package*.json ./
 
