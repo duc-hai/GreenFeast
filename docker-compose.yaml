@@ -23,10 +23,10 @@ services:
       - DB_HOST=apiGatewayDB # database is service's name
       - FRONT_END_URL=http://localhost
       - ORDER_SERVICE_URL=http://order:5000
-      - MANAGEMENT_SERVICE_URL=http://management:4000
-      - PAYMENT_SERVICE_URL=http://payment:5005
-      - TMS_SERVICE_URL=http://tms:5010
       - NOTIFICATION_SERVICE_URL=http://notification:5020
+      - PAYMENT_SERVICE_URL=http://payment:5005
+      - MANAGEMENT_SERVICE_URL=http://management:4000
+      - TMS_SERVICE_URL=http://tms:5010
       - STATISTICS_SERVICE_URL=http://statistics:5030
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
@@ -334,7 +334,8 @@ networks:
   order-network:
     driver: bridge
 
-#docker compose -p greenfeast up -d 
+#docker compose -p greenfeast up -d --build
 
-#up is build file (run container), d is detach, after install with be auto exit
+#up is build file (run container), d is detach, after install with be auto exit, --build is force build image again (for cicd)
 #then open "Log" in container backend to see work log
+#docker compose down --rmi all: stop all containers and remove images which created by docker compose
