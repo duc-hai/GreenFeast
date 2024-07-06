@@ -81,6 +81,22 @@ tags:
     externalDocs:
       description: More details
       url: https://greenfeast.space/api    
+      
+  - name: payment 
+    description: Thanh toán (Payment service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api    
+      
+  - name: notification
+    description: Thông báo (Notification service)
+    externalDocs:
+      description: More details
+      url: https://greenfeast.space/api 
+  - name: email
+    description: Gửi mail (Notification service)
+  - name: statistics
+    description: Thống kê (Statistics service)
 paths:
   /auth/signin:
     post:
@@ -110,67 +126,54 @@ paths:
               schema:
                 type: object
                 properties: 
-                  status: 
-                    type: string
-                    example: success
-                  message: 
-                    type: string
-                    example: Đăng nhập thành công
-                  data: 
-                    type: object
-                    properties: 
-                      access_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzA5OTU4NTYyfQ.qleaZTrN97-880ZfxzFwMXEzmm5Py2J0eA5iXwEC3ds
-                      refresh_token: 
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjY1ZWIxMjdhZWU5MmIzYzA2YTNlYjI4YSIsImlhdCI6MTcwOTkyMjU2MiwiZXhwIjoxNzEyNTE0NTYyfQ.ZS8wOBZrKU7pDApmM9dQhPBFxnFZ9jpa5fz4M8Y__pI
-                      full_name: 
-                        type: string
-                        example: Đức Hải
-                      data: 
-                        type: object
-                        properties: 
-                          customer: 
-                            type: object
-                            properties: 
-                              order_list: 
-                                type: array
-                                items: 
-                                  type: string
-                                example: []
-                          _id: 
-                            type: string
-                            example: 65eb127aee92b3c06a3eb28a
-                          full_name: 
-                            type: string
-                            example: Đức Hải
-                          gender: 
-                            type: string
-                            example: không
-                          phone_number: 
-                            type: string
-                            example: 
-                          address: 
-                            type: string
-                            example: 
-                          role: 
-                            type: string
-                            example: admin
-                          user_type: 
-                            type: number
-                            example: 1
-                          createdAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-03-08T13:28:26.273Z
-                          updatedAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-03-08T13:28:26.273Z
-                          __v: 
-                            type: number
-                            example: 0
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đăng nhập thành công
+                    data: 
+                      type: object
+                      properties: 
+                        access_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcxNjg4Mjk0MSwiZXhwIjoxNzE2OTE4OTQxfQ.ak2qYAs5dW928P-mezAp_WNc9fF5y1m95b6CJib4Htk
+                        refresh_token: 
+                          type: string
+                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA5MzIxMzIxMzIxMiIsImlhdCI6MTcxNjg4Mjk0MSwiZXhwIjoxNzE5NDc0OTQxfQ.EkE6DCqusgP-8Ko7NIUVTlBpJWv2w6QEZTbD2UzhwHk
+                        full_name: 
+                          type: string
+                          example: Lưu Đức Hải
+                        data: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 093213213212
+                            full_name: 
+                              type: string
+                              example: Lưu Đức Hải
+                            gender: 
+                              type: string
+                              example: không
+                            phone_number: 
+                              type: string
+                              example: 
+                            address: 
+                              type: string
+                              example: 
+                            role: 
+                              type: string
+                              example: customer
+                            customer: 
+                              type: object
+                              properties: 
+                                order_id_history: 
+                                  type: array
+                                  items: 
+                                    type: string
+                                    example: []
+
                
             
         '400':
@@ -707,68 +710,51 @@ paths:
               schema:
                 type: object
                 properties: 
-                    status: 
-                      type: string
-                      example: success
-                    message: 
-                      type: string
-                      example: Lấy danh sách nhân viên thành công
-                    data: 
-                      type: array
-                      items: 
-                        type: object
-                        properties: 
-                          _id: 
-                            type: string
-                            example: 65d752f0b5f9a4ed01060239
-                          full_name: 
-                            type: string
-                            example: Hải
-                          gender: 
-                            type: string
-                            example: nam
-                          phone_number: 
-                            type: string
-                            example: 0123213123
-                          address: 
-                            type: string
-                            example: 
-                          role: 
-                            type: string
-                            example: admin
-                          user_type: 
-                            type: number
-                            example: 1
-                          createdAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-02-22T13:58:08.714Z
-                          updatedAt: 
-                            type: string
-                            format: date-time
-                            example: 2024-02-23T09:36:56.070Z
-                          birthday: 
-                            type: string
-                            format: date-time
-                            example: 2002-08-15T00:00:00.000Z
-                          email: 
-                            type: string
-                            example: admin@gmail.com
-                      example: [
-                        {
-                          _id: 65d752f0b5f9a4ed01060239,
-                          full_name: Hải,
-                          gender: nam,
-                          phone_number: '0123213123',
-                          address: ,
-                          role: admin,
-                          user_type: 1,
-                          createdAt: "2024-02-22T13:58:08.714Z",
-                          updatedAt: "2024-02-23T09:36:56.070Z",
-                          birthday: "2002-08-15T00:00:00.000Z",
-                          email: admin@gmail.com
-                        }
-                      ]
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách nhân viên thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 093213213212
+                            full_name: 
+                              type: string
+                              example: Đức hải
+                            gender: 
+                              type: string
+                              example: nam
+                            phone_number: 
+                              type: string
+                              example: 0123213123
+                            address: 
+                              type: string
+                              example: Quận 7
+                            birthday: 
+                              type: string
+                              format: date-time
+                              example: 2002-08-15T00:00:00.000Z
+                            email: 
+                              type: string
+                              example: admin@gmail.com
+                        example: [
+                          {
+                            _id: 093213213212,
+                            full_name: Đức hải,
+                            gender: nam,
+                            phone_number: 0123213123,
+                            address: Quận 7,
+                            birthday: "2002-08-15T00:00:00.000Z",
+                            email: admin@gmail.com
+                          }
+                        ]
+
 
                  
         '400':
@@ -2165,7 +2151,7 @@ paths:
       summary: Tạo mới khuyến mãi
       description: Tạo mới khuyến mãi
       requestBody: 
-        description: "Tên khuyến mãi, trạng thái khuyến mãi, ghi chú, form-promotion là hình thức áp dụng, 1 là cho tổng hóa đơn, 2 là cho món ăn cụ thể. Phía dưới có API để lấy danh sách form-promotion. condition_apply là điều kiện áp dụng, nếu form-promotion là 1: giảm tổng hóa đơn thì condition_apply là tổng hóa đơn, còn nếu là giảm cho món ăn thì condition_apply là mã của menu, condition_apply có kiểu number. promotion_value là giá trị khuyến mãi, nếu nhỏ hơn 0 thì là khuyến mãi, lớn hơn 0 là phụ phí (ví dụ ngày tết). promotion_value có 2 trường hợp, 1 là giảm theo %, 2 là giảm theo giá cụ thể, tham số nhận vào có thể là 1 số hoặc 1 số kèm theo %. Ví dụ 50%, -50% hoặc 10000 đều hợp lệ. auto_apply là tự động áp dụng (phía front end tick sẵn vào ô này), khuyến mãi sẽ bắt đầu áp dụng từ lúc tạo khuyến mãi, không muốn thì chọn false. Ngoài ra còn có 2 tham số là start_at, end_at, định dạng date, là ngày bắt đầu, kết thúc, 2 tham số này là tùy chọn nên có hay không cũng được"
+        description: "Tên khuyến mãi, trạng thái khuyến mãi, ghi chú, form-promotion là hình thức áp dụng, 1 là cho tổng hóa đơn, 2 là cho món ăn cụ thể. Phía dưới có API để lấy danh sách form-promotion. condition_apply là điều kiện áp dụng, nếu form-promotion là 1: giảm tổng hóa đơn thì condition_apply là tổng hóa đơn, còn nếu là giảm cho món ăn thì condition_apply là mã của menu, condition_apply có kiểu number. promotion_value là giá trị khuyến mãi, nếu nhỏ hơn 0 thì là khuyến mãi, lớn hơn 0 là phụ phí (ví dụ ngày tết). promotion_value có 2 trường hợp, 1 là giảm theo %, 2 là giảm theo giá cụ thể, tham số nhận vào có thể là 1 số hoặc 1 số kèm theo %. Ví dụ 50%, -50% hoặc 10000 đều hợp lệ. auto_apply là tự động áp dụng (phía front end tick sẵn vào ô này), khuyến mãi sẽ bắt đầu áp dụng từ lúc tạo khuyến mãi, không muốn thì chọn false. Ngoài ra còn có 2 tham số là start_at, end_at, định dạng date, là ngày bắt đầu, kết thúc, 2 tham số này là tùy chọn nên có hay không cũng được. **Updated on 21/6:** Bổ sung thêm 1 tham số là text_email, nếu admin nhập thông tin vào ô này tức là sẽ gửi nội dung email khuyến mãi đến người dùng (để tiện thì người dùng nhập ô note tới đâu thì frontend copy qua ô text_email đến đó). Email sẽ được gửi tới cho các user đã verify email"
         content: 
           application/json:
             schema:
@@ -2190,6 +2176,9 @@ paths:
                   example: 50%
                 auto_apply: 
                   type: boolean    
+                text_email: 
+                  type: string
+                  example: "Nhận ngay giảm giá đến 50% khi đặt bàn trực tuyến. Chương trình áp dụng từ 10/6/2024 đến 20/6/2024."
         required: true
       responses:
         '200':
@@ -2662,7 +2651,7 @@ paths:
                           _id: 55,
                           name: Món chay nè he,
                           description: Mô tả của món ăn,
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709623528/x4bci4dqrvntnmagehtu.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709623528/x4bci4dqrvntnmagehtu.png",
                           price: 123,
                           status: true,
                           category_id: 2,
@@ -2731,7 +2720,7 @@ paths:
       tags:
         - order
       summary: Đặt món (dùng cho cả nhân viên và khách hàng)
-      description: Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này.
+      description: "Table Slug là thông tin load được từ api trước. Đường dẫn ví dụ như `/api/order/view-order/e326fc31-1531-4587-853f-588404860af9` để tránh việc lộ đường dẫn nhằm tránh khách hàng đặt món sang các bàn khác. Đặc biệt là, api này sẽ dùng cho cả trường hợp khách hàng đặt món lần đầu và thêm món. Khi vào trang đặt món, front end phải load thông tin món ở api phía dưới xem bàn này đang có món nào không (`if data === null`). Nếu đã có món thì load lên tổng giá (subtotal) để khách hàng biết là đã đặt các món trước đó, nếu khách có nhu cầu xem lại món thì mới hiện full món đã đặt. Còn nếu chưa có món thì bỏ qua, khách hàng cứ việc chọn món và gửi đến api này. CẬP NHẬT MỚI: Khách hàng sẽ quét mã QR đến đường dẫn frontend như: /order/at-restaurant/validate?token=... Khi mở trang này ra, đầu tiên front end phải gửi 1 api lên server để xác minh là tableSlug này có hợp lệ không, nếu lỗi thì hiển thị message lỗi, nếu thành công thì chuyển hướng trang đặt món. API doc: /order/verify-slug/{tableSlug}. Mục đích của chuyển hướng trang là xóa đi url cũ (vì có tableslug ở đó, người dùng có thể vào lại url này) và cũng là để hiển thị danh sách món ăn để đặt và tên của bàn đó (có trong response trả về). Lưu ý: khi chuyển hướng trang phải dùng: window.location.replace('/order/at-restaurant'), mục đích là để xóa lịch sử url web cũ có dính token. Ngoài ra, lưu tableSlug đó vào cookie, set thời gian hết hạn khoảng 30 phút. Mục đích là giúp người dùng không cần phải quét lại QR nữa. Mục đích lưu trong cookie còn để giúp frontend lấy ra tableSlug nữa (Vì api đặt món là /order/{tableSlug}, nên frontend phải lấy slug trong cookie để đính kèm vào api này). Khi người dùng vào lại lần 2 tại trang đặt món: /order/at-restaurant. Frontend gửi request lên lại api lúc nãy /order/verify-slug/{tableSlug}, trong đó tableSlug để là số 1 (hoặc số nào cũng được), server sẽ check trong cookie của người dùng trước, nếu có tableSlug thì lấy ra để verify, không thì mới dùng tới tableSlug trên url. Nếu res thành công thì frontend hiển thị lại trang đặt món. Ngoài ra, ở góc màn hình có chỗ để xem danh sách các món đã đặt (/order/view-order/{tableSlug}) và nút thanh toán (lưu ý là gọi API thanh toán thì amount là toàn bộ số tiền của hóa đơn đó -> thanh toán làm sau cũng được). Khi hiển thị danh sách món đã đặt, có thể phân chia theo số lần đặt, lần 1 gồm các món ABC, trong database mới cập nhật thêm tên món để hiển thị cho dễ nhìn) Xử lý phía server (xem cho biết): Khi khách hàng vào quét QR và chuyển hướng sang trang đặt món như /order/at-restaurant, tableSlug sẽ được lưu vào bộ nhớ cache với thời gian hết hạn = khoảng 30 phút. Nếu khách vào đặt món lần 2: vào lại link cũ: /order/at-restaurant, frontend gửi api xác thực giống lúc nãy, server tự động lấy cookie ra để xác thực có hợp lệ không để không phải bắt quét lại QR. Trong trường hợp khách hàng chuyển bàn (hoặc thanh toán), mình sẽ xóa tableSlug lưu trong cache, nên là dù cookie vẫn còn thời gian nhưng cache ở server không còn thì vẫn phải quét lại QR ở bàn mới để đặt món."
       parameters:
         - in: path
           name: tableSlug
@@ -2741,7 +2730,7 @@ paths:
           required: true
           
       requestBody: 
-        description: Gửi 1 mảng thông tin các món gồm mã món, số lượng của món đó và ghi chú (tùy chọn). Phía backend sẽ tự động load ra các thông tin gồm giá từng món, giá tổng, người đặt món, thời gian nên không cần gửi đính kèm các thông tin này.
+        description: Gửi 1 mảng thông tin các món gồm mã món, số lượng của món đó và ghi chú (tùy chọn). Phía backend sẽ tự động load ra các thông tin gồm giá, tên từng món, giá tổng, người đặt món, thời gian nên không cần gửi đính kèm các thông tin này.
         content: 
           application/json:
             schema:
@@ -2762,7 +2751,7 @@ paths:
         required: true
       responses:
         '200':
-            description: Thành công. Thông tin gồm message với thông báo thông báo. Ngoài ra, data trả về là 2 đường dẫn của phiếu in bếp và phiếu in quầy bar, front end có thể mở 2 file này trong tab mới hoặc tải về (recommend nên mở 2 file trong tab mới để người dùng dễ thấy). Lưu ý data là 1 mảng, không phải lúc nào cũng có 2 giá trị, có thể có 1 hoặc 0 có giá trị nào.
+            description: Thành công. Thông tin gồm message với thông báo 
             content:
               application/json:
                 schema:
@@ -2774,18 +2763,7 @@ paths:
                     message: 
                       type: string
                       example: Đặt món thành công
-                    data: 
-                      type: array
-                      items: 
-                        type: object
-                        properties: 
-                          0: 
-                            type: string
-                            example: j
-                      example: [
-                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570911/65f53d9bfa61a866a41f8ada-1.pdf",
-                        "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710570912/65f53d9bfa61a866a41f8ada-1.pdf"
-                      ]
+                    
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             
@@ -2811,82 +2789,88 @@ paths:
                 schema:
                   type: object
                   properties: 
-                      status: 
-                        type: string
-                        example: success
-                      message: 
-                        type: string
-                        example: Lấy danh sách order thành công
-                      data: 
-                        type: object
-                        properties: 
-                          _id: 
-                            type: string
-                            example: 65e8465c9004814e249cb46e
-                          order_detail: 
-                            type: array
-                            items: 
-                              type: object
-                              properties: 
-                                order_person: 
-                                  type: object
-                                  properties: 
-                                    _id: 
-                                      type: string
-                                      example: 65e48397489655124aae2fc1
-                                    name: 
-                                      type: string
-                                      example: Khách
-                                menu: 
-                                  type: array
-                                  items: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy danh sách order thành công
+                        data: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 6658082f66e00619d3d484ff
+                            order_detail: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  order_person: 
                                     type: object
                                     properties: 
-                                      _id: 
-                                        type: number
-                                        example: 55
-                                      quantity: 
-                                        type: number
-                                        example: 2
-                                      price: 
-                                        type: number
-                                        example: 123
-                                      note: 
+                                      name: 
                                         type: string
-                                        example: Ghi chú món ăn
-                                  example: [
-                                    {
-                                      _id: 55,
-                                      quantity: 2,
-                                      price: 123,
-                                      note: Ghi chú món ăn
-                                    }
-                                  ]
-                                time: 
-                                  type: string
-                                  format: date-time
-                                  example: 2024-03-06T10:33:00.790Z
-                                _id: 
-                                  type: string
-                                  example: 65e8465c9004814e249cb46f
-                          subtotal: 
-                            type: number
-                            example: 984
-                          discount: 
-                            type: number
-                            example: 0
-                          surcharge: 
-                            type: number
-                            example: 0
-                          table: 
-                            type: string
-                            example: A21
-                          checkin: 
-                            type: string
-                            format: date-time
-                            example: 2024-03-06T10:33:00.790Z
-                          status: 
-                            type: boolean
+                                        example: "Nhân viên: Hải"
+                                  menu: 
+                                    type: array
+                                    items: 
+                                      type: object
+                                      properties: 
+                                        _id: 
+                                          type: number
+                                          example: 4
+                                        name: 
+                                          type: string
+                                          example: Bông cải xào tỏi
+                                        quantity: 
+                                          type: number
+                                          example: 3
+                                        price: 
+                                          type: number
+                                          example: 70000
+                                        note: 
+                                          type: string
+                                          example: Không hành
+                                        processing_status: 
+                                          type: number
+                                          example: 0
+                                    example: [
+                                        {
+                                          _id: 4,
+                                        name: Bông cải xào tỏi,
+                                        quantity: 3,
+                                        price: 70000,
+                                        note: Không hành,
+                                        processing_status: 0
+                                        }
+                                    ]
+                                  time: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-05-30T05:01:35.140Z
+                                  _id: 
+                                    type: string
+                                    example: 6658082f66e00619d3d48500
+                            subtotal: 
+                              type: number
+                              example: 6909000
+                            discount: 
+                              type: number
+                              example: 0
+                            surcharge: 
+                              type: number
+                              example: 0
+                            table: 
+                              type: string
+                              example: A01
+                            checkin: 
+                              type: string
+                              format: date-time
+                              example: 2024-05-30T05:01:35.140Z
+                            status: 
+                              type: boolean
+
 
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
@@ -2896,59 +2880,69 @@ paths:
       tags:
         - order
       summary: Lấy danh sách khuyến mãi
-      description: Lấy danh sách các khuyến mãi cho việc giảm giá. Hiện tại chưa cập nhật việc sử dụng khuyến mãi cho hóa đơn, chỉ là load ra thôi
-      
+      description: "Lấy danh sách các khuyến mãi cho việc giảm giá. Các chương trình giảm giá này sẽ áp dụng cho trường hợp tổng hóa đơn. Còn giảm giá theo món thì sẽ trừ thẳng vào menu (có discount_type khi load menu ra). Thông tin khuyến mãi hiển thị phía người dùng, không phải admin nên chỉ query các chương trình có status là true và ngày hiện tại nằm trong khoảng ngày bắt đầu và ngày kết thúc của khuyến mãi. Nhớ import database khuyến mãi trong /order-service/database/promotion. Sắp tới có thời gian sẽ triển khai luôn database online"
           
       responses:
         '200':
-            description: Thành công.
+            description: Thành công. condition_apply là điều kiện hóa đơn phải đạt để giảm giá, còn promotion_value là giá trị giảm giá, có dấu % sẽ giảm theo %, không có thì giảm trực tiếp theo giá tiền
             content:
               application/json:
                 schema:
                   type: object
                   properties: 
-                        status: 
-                          type: string
-                          example: success
-                        message: 
-                          type: string
-                          example: Lấy khuyến mãi thành công
-                        data: 
-                          type: array
-                          items: 
-                            type: object
-                            properties: 
-                              _id: 
-                                type: number
-                                example: 2
-                              name: 
-                                type: string
-                                example: Khuyến mãi ngày tết
-                              status: 
-                                type: boolean
-                              note: 
-                                type: string
-                                example: Ghi chú khuyến mãi
-                              condition_apply: 
-                                type: number
-                                example: 41
-                              promotion_value: 
-                                type: string
-                                example: 50%
-                              __v: 
-                                type: number
-                                example: 0
-                          example: [
-                            {
-                              _id: 2,
-                              name: Khuyến mãi ngày tết,
-                              status: true,
-                              note: Ghi chú khuyến mãi,
-                              condition_apply: 41,
-                              promotion_value: 50%,
-                              __v: 0
-                            }
-                          ]
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy khuyến mãi thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                _id: 
+                                  type: number
+                                  example: 1
+                                name: 
+                                  type: string
+                                  example: Khuyến mãi mùa xuân
+                                status: 
+                                  type: boolean
+                                note: 
+                                  type: string
+                                  example: Giảm giá trên tất cả các món ăn
+                                description: 
+                                  type: string
+                                  example: Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.
+                                condition_apply: 
+                                  type: number
+                                  example: 100
+                                promotion_value: 
+                                  type: string
+                                  example: 20%
+                                start_at: 
+                                  type: string
+                                  format: date-time
+                                  example: 2024-06-01T00:00:00.000Z
+                                end_at: 
+                                  type: string
+                                  format: date-time
+                                  example: 2024-06-30T23:59:59.000Z
+                            example: [
+                                {
+                                  _id: 1,
+                                name: Khuyến mãi mùa xuân,
+                                status: true,
+                                note: Giảm giá trên tất cả các món ăn,
+                                description: Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.,
+                                condition_apply: 100000,
+                                promotion_value: 20%,
+                                start_at: 2024-06-01T00:00:00.000Z,
+                                end_at: 2024-06-30T23:59:59.000Z
+                                }
+                            ]
+
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"          
             
@@ -3133,7 +3127,7 @@ paths:
                               _id: 1,
                               name: Gỏi cuốn sốt đậu phộng,
                               description: Với các nguyên liệu thanh đạm và đặc biệt là nước chấm “xốt đậu phộng” béo béo bùi bùi làm món Gỏi Cuốn Chay thêm ngon ăn hoài không chán đó nha!,
-                              image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg,
+                              image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg",
                               price: 90000,
                               status: true,
                               category_id: 1,
@@ -3326,7 +3320,7 @@ paths:
                           {
                             _id: 65f308e8a63520ebb2e9b27d,
                             table: A02,
-                            checkout: 2024-03-14T15:20:51.819Z,
+                            checkout: "2024-03-14T15:20:51.819Z",
                             note: Ghi chú,
                             total: 250000
                           }
@@ -3334,18 +3328,19 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
             
-  /admin/order/history/print-bill:
+  /order/verify-slug/{tableSlug}:
     get:
       tags:
         - order
-      summary: In lại hóa đơn từ lịch sử đơn hàng
-      description: "Cho phép in lại hóa đơn từ các đơn hàng đã hoàn thành, chỉ cần truyền mã hóa đơn vào là sẽ nhận được url của hóa đơn"
+      summary: Xác thực xem slug (có được khi quét QR) có hợp lệ không để hiển thị trang đặt món tương ứng với bàn 
+      description: "Quét mã đặt món, trong mã có url gồm slug table để tránh lộn sang bàn khác (như cũ), đồng thời thêm chức năng thông báo để nhân viên xác nhận lại món (cái này có thể làm sau). Lưu ý: slug đó thay cho mã bàn (A01, A02, A03, ...) để tránh việc người đặt món có thể dễ dàng đổi url để order sang bàn khác, mặc dù có bước xác nhận lại của nhân viên nhưng hạn chế được phần nào hay phần đó. Thêm 1 trang front end chứa đường dẫn frontend ví dụ như /order/at-restaurant/validate?token=... để khi khách quét mã đặt món sẽ vào url này. Khi mở trang này ra, đầu tiên front end phải gửi 1 api lên server để xác minh là tableSlug này có hợp lệ không, nếu lỗi thì hiển thị message lỗi, nếu thành công thì chuyển hướng trang đặt món. Mục đích của chuyển hướng trang là xóa đi url cũ (vì có tableslug ở đó, người dùng có thể vào lại url này) và cũng là để hiển thị danh sách đặt món (như cũ) và tên của bàn đó (có trong response trả về). Lưu ý: khi chuyển hướng trang phải dùng: window.location.replace('/order/at-restaurant'), mục đích là để xóa lịch sử url web cũ có dính token. Ngoài ra, lưu tableSlug đó vào cookie, set thời gian hết hạn khoảng 30 phút. Mục đích là giúp người dùng không cần phải quét lại QR nữa. Xử lý ở server: Khi khách hàng vào quét QR và chuyển hướng sang trang đặt món như /order/at-restaurant, tableSlug sẽ được lưu vào bộ nhớ cache với thời gian hết hạn = khoảng 30 phút. Nếu khách vào đặt món lần 2: vào lại link cũ: /order/at-restaurant, server tự động lấy cookie ra để xác thực có hợp lệ không để không phải bắt quét lại QR. Trong trường hợp khách hàng chuyển bàn (hoặc thanh toán), mình sẽ xóa tableSlug lưu trong cache, nên là dù cookie vẫn còn thời gian nhưng cache ở server không còn thì vẫn phải quét lại QR ở bàn mới để đặt món."
       parameters:
-        - in: query
-          name: order
+        - in: path
+          name: tableSlug
+          description: Đã mô tả ở trên
           schema:
             type: string
-            example: order=65f308e8a63520ebb2e9b27d
+            example: 2a2a5d39-a834-4dd5-bdd9-32c91059315c
           required: true
 
       responses:
@@ -3356,16 +3351,1004 @@ paths:
                 schema:
                   type: object
                   properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Đã tìm thấy bàn hợp lệ
+                        data: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: B01
+                            status: 
+                              type: number
+                              example: 0
+                            slug: 
+                              type: string
+                              example: 2a2a5d39-a834-4dd5-bdd9-32c91059315c
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Mã đặt bàn không hợp lệ  
+                      
+  /order/area/get-all:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách khu vực 
+      description: Lấy danh sách khu vực tại order service thay vì management service
+      
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách khu vực thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: number
+                              example: 1
+                            name: 
+                              type: string
+                              example: Tầng 1
+                            description: 
+                              type: string
+                              example: Khu vực tầng trệt
+                        example: [
+                          {
+                            _id: 1,
+                            name: Tầng 1,
+                            description: Khu vực tầng trệt
+                          }
+                        ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+                      
+  /order/processing-ticket/kitchen:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách phiếu chế biến của bếp
+      description: Có sử dụng phân trang
+      parameters:
+        - in: query
+          name: page
+          description: Page có truyền hoặc không, mặc định là 1
+          schema:
+            type: string
+            example: 1
+          required: false
+      responses:
+        '200':
+            description: Thành công. Danh sách sẽ được sắp xếp theo thứ tự theo thời gian mới nhất (giảm dần theo updatedAt), front end cũng thể hiện thời gian ngày tháng năm giờ phút giây luôn. (Gọi `new Date(updatedAt)` là được). Hiển thị 1 nút xem phiếu chế biến là mở ra cái url đó.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy danh sách phiếu chế biến bếp thành công
+                        paginationResult: 
+                          type: object
+                          properties: 
+                            currentPage: 
+                              type: string
+                              example: 1
+                            totalItems: 
+                              type: number
+                              example: 5
+                            eachPage: 
+                              type: number
+                              example: 10
+                            totalPage: 
+                              type: number
+                              example: 1
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: string
+                                example: 665819ebbf7e27178edaf20f
+                              url_ticket: 
+                                type: string
+                                example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf
+                              print_times: 
+                                type: number
+                                example: 1
+                              createdAt: 
+                                type: string
+                                format: date-time
+                                example: 2024-05-30T06:17:15.528Z
+                              updatedAt: 
+                                type: string
+                                format: date-time
+                                example: 2024-05-30T06:17:15.528Z
+                          example: [
+                              {
+                                _id: 665819ebbf7e27178edaf20f,
+                              url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
+                              print_times: 1,
+                              createdAt: "2024-05-30T06:17:15.528Z",
+                              updatedAt: "2024-05-30T06:17:15.528Z"
+                              }
+                          ]    
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+                      
+  /order/processing-ticket/bar:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách phiếu chế biến của pha chế
+      description: Có sử dụng phân trang. Tương tự như api phía trên luôn
+      parameters:
+        - in: query
+          name: page
+          description: Page có truyền hoặc không, mặc định là 1
+          schema:
+            type: string
+            example: 1
+          required: false
+      responses:
+        '200':
+            description: Thành công. Danh sách sẽ được sắp xếp theo thứ tự theo thời gian mới nhất (giảm dần theo updatedAt), front end cũng thể hiện thời gian ngày tháng năm giờ phút giây luôn. (Gọi `new Date(updatedAt)` là được). Hiển thị 1 nút xem phiếu chế biến là mở ra cái url đó.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy danh sách phiếu chế biến bếp thành công
+                        paginationResult: 
+                          type: object
+                          properties: 
+                            currentPage: 
+                              type: string
+                              example: 1
+                            totalItems: 
+                              type: number
+                              example: 5
+                            eachPage: 
+                              type: number
+                              example: 10
+                            totalPage: 
+                              type: number
+                              example: 1
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: string
+                                example: 665819ebbf7e27178edaf20f
+                              url_ticket: 
+                                type: string
+                                example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf
+                              print_times: 
+                                type: number
+                                example: 1
+                              createdAt: 
+                                type: string
+                                format: date-time
+                                example: 2024-05-30T06:17:15.528Z
+                              updatedAt: 
+                                type: string
+                                format: date-time
+                                example: 2024-05-30T06:17:15.528Z
+                          example: [
+                              {
+                                _id: 665819ebbf7e27178edaf20f,
+                              url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
+                              print_times: 1,
+                              createdAt: "2024-05-30T06:17:15.528Z",
+                              updatedAt: "2024-05-30T06:17:15.528Z"
+                              }
+                          ]    
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+                      
+  /admin/order/update/processing-status:
+    patch:
+      tags:
+        - order
+      summary: Cập nhật tình trạng lên món
+      description: "Chức năng này sẽ giành cho bộ phận tiếp thực. Bộ phận này chịu trách nhiệm lên món cho khách hàng cũng như cập nhật để xác định bàn nào đã lên món, bàn nào chưa. "
+      requestBody: 
+        description: "Muốn cập nhật tình trạng, phải xem được danh sách món đã đặt của bàn đó để thao tác. Từ đó, có được các thông tin như mã hóa đơn (orderId), mã lần đặt món (order_detail[i]._id), mã của tên món muốn cập nhật và trạng thái của món đó (status). Status gồm 0: đang chế biến, 1: đã lên món, 2: đã hủy"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  orderId: 
+                    type: string
+                    example: 665b387197d50736338330d6
+                  orderDetailId: 
+                    type: string
+                    example: 665b387197d50736338330d7
+                  menuId: 
+                    type: number
+                    example: 4
+                  status: 
+                    type: number
+                    example: 1
+
+        required: true
+      responses:
+        '200':
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
                     status: 
                       type: string
                       example: success
                     message: 
                       type: string
-                      example: In hóa đơn thành công    
-                    data: 
+                      example: Cập nhật tình trạng lên món thành công
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+                    
+  /order/online:
+    post:
+      tags:
+        - order
+      summary: Đặt món trực tuyến
+      description: "Có thể tận dụng lại trang đặt món, chỉ khác là gọi api đặt món khác nhau. Muốn đặt món yêu cầu phải đăng nhập"
+     
+      requestBody: 
+        description: Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được
+        content: 
+          application/json:
+            schema:
+                type: object
+                properties: 
+                    menu: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          _id: 
+                            type: string
+                            example: 4
+                          quantity: 
+                            type: number
+                            example: 3
+                          note: 
+                            type: string
+                            example: Không hành
+                      example: [
+                          {
+                            _id: 4,
+                            quantity: 3,
+                            note: Không hành,
+                          }
+                      ]
+                    note: 
                       type: string
-                      example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1710571822/65f2fe49be6f3e6d8ce015e6-1.pdf
+                      example: Giao nhanh giùm nha
+                    payment_method: 
+                      type: string
+                      example: bank
+                    delivery: 
+                      type: object
+                      properties: 
+                        name: 
+                          type: string
+                          example: Lưu Đức Hải
+                        phone_number: 
+                          type: string
+                          example: 0123456789
+                        address: 
+                          type: string
+                          example: District 7 Ho Chi Minh City
+                    time_receive: 
+                      type: string
+                      example: 
+   
+
+        required: true
+      responses:
+        '200':
+            description: Thành công. Thông tin gồm message với thông báo 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Đặt món thành công
+                    
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
+            
+  /order/apply-promotion:
+    post:
+      tags:
+        - order
+      summary: Áp dụng khuyến mãi vào hóa đơn
+      description: "Từ danh sách khuyến mãi tại api lấy danh sách khuyến mãi (GET: /order/promotion), ta có thể áp dụng khuyến mãi vào 1 hóa đơn (dành cho thu ngân khi bấm vào 1 bàn để áp dụng khuyến mãi). Hệ thống sẽ tự tính toán giá trị khuyến mãi và áp dụng vào hóa đơn, người dùng có thể xem lại thông tin mới sau đó. Lưu ý là khi load danh sách khuyến mãi sẽ load hết khuyến mãi ra nên có thể là bàn đó chưa đủ điều kiện khuyến mãi, sẽ có trường hợp trả về lỗi là Không đủ điều kiện khuyến mãi, nhớ hiển thị message lỗi nếu có."
+     
+      requestBody: 
+        description: Thông tin gồm id của bàn và id của mã khuyến mãi
+        content: 
+          application/json:
+            schema:
+                type: object
+                properties: 
+                      tableId: 
+                        type: string
+                        example: A01
+                      promotionId: 
+                        type: number
+                        example: 1
+
+   
+
+        required: true
+      responses:
+        '200':
+            description: Thành công. Thông tin gồm message với thông báo 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Áp dụng khuyến mãi thành công
 
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"           
+            description: "Lỗi cũng phải bắt đầu từ đâu đó"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Hóa đơn của bạn còn thiếu 671.000 để áp dụng chương trình khuyến mãi này
             
+  /payment/create-payment-url:
+    post:
+      tags:
+        - payment
+      summary: Tạo url thanh toán đến trang của VNPay
+      description: "Tạo url thanh toán đến trang của VNPay. Backend sẽ trả về 1 VNPay URL, frontend sẽ chuyển hướng đến trang web đó -> chọn phương thức thanh toán là Thẻ nội địa và ngân hàng. Thông tin thẻ demo mẫu tại: https://sandbox.vnpayment.vn/apis/vnpay-demo/"
+      requestBody: 
+        description: Amount là số tiền cần thanh toán. orderId là mã hóa đơn
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                amount: 
+                  type: number
+                  example: 50000
+                orderId:
+                  type: string
+                  example: "6658082f66e00619d3d484ff"
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: 
+                      type: string
+                      example: success
+                    data: 
+                      type: object
+                      properties: 
+                        vnpUrl: 
+                          type: string
+                          example: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=5000000&vnp_Command=pay&vnp_CreateDate=20240524195131&vnp_CurrCode=VND&vnp_IpAddr=%3A%3A1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A24195131&vnp_OrderType=other&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A5005%2Fvnpay_return&vnp_TmnCode=CVPSQQMS&vnp_TxnRef=24195131&vnp_Version=2.1.0&vnp_SecureHash=b71c6edca72cf37156a44063e82c050859d86c13980aaef841c871e8d826cffffd4bf5caa6e5d26b66c65ed18fd1af17b4da6fa3d889ee7afb9d4698e004927b"
+
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /payment/vnpay_return:
+    get:
+      tags:
+        - payment
+      summary: Callback sau khi khách hàng thực hiện thanh toán
+      description: "Frontend sẽ tạo 1 trang để hứng kết quả trả về từ VNPay. Sau đó, vào payment-service, sửa lại vnp_ReturnUrl là url trang này của frontend. Tức là, sau khi khách hàng thanh toán ở api phía trên, VNPay sẽ trả về kết quả thanh toán của khách hàng vào returnUrl đó (thông tin kết quả sẽ được truyền dưới dạng query). Frontend sẽ chuyển tiếp tất cả các query đó lên server với api này: /payment/vnpay_return. Server sẽ trả về kết quả thanh toán và frontend sẽ hiển thị kết quả lên giao diện. Nếu thất bại sẽ báo cả lý do (thẻ hết tiền, thẻ bị khóa, ...). Vì backend còn phải lưu data giao dịch vào trong database nên mới cần frontend gửi lên backend rồi mới hiển thị kết quả."
+      parameters:
+        - in: query
+          name: .
+          description: "Lấy toàn bộ query được trả về từ VNPay để thêm vào query gửi lên server. Ví dụ đây: "
+          schema:
+            type: string
+            example: "?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b"
+          required: true
+
+      responses:
+        '200':
+            description: Thành công. Cái code là cái để xác định mã lỗi, không cần quan tâm lắm vì server sẽ convert từ mã lỗi ra message cụ thể
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        code: 
+                          type: string
+                          example: "00"
+                        message: 
+                          type: string
+                          example: Giao dịch thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    code: 
+                      type: string
+                      example: 24
+                    message: 
+                      type: string
+                      example: "Giao dịch không thành công do: Khách hàng hủy giao dịch"
+  
+  /notification/num-notification:
+    get:
+      tags:
+        - notification
+      summary: Lấy số lượng thông báo mới
+      description: "Lấy số lượng thông báo mới để hiển thị cái số màu đỏ lên cái chuông thông báo. Lưu ý: thông báo sẽ được lấy theo userId trong JWT Token, 1 là chèn JWT token vào authorization header, 2 là bỏ vào trong cookie"
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                          status: 
+                            type: string
+                            example: success
+                          messsage: 
+                            type: string
+                            example: Lấy số lượng thông báo mới thành công
+                          data: 
+                            type: number
+                            example: 2
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /notification/get-notifications:
+    get:
+      tags:
+        - notification
+      summary: Lấy danh sách thông báo
+      description: "Danh sách được sắp xếp sao cho thông báo chưa đọc lên trước, sau đó thông báo mới nhất đến cũ hơn, hiển thị trạng thái đọc na ná facebook. Đồng thời, khi lấy danh sách thông báo mới thì server tự động set trạng thái toàn bộ thông báo là đã đọc luôn. Giới hạn khi load ra danh sách là 20 thông báo."
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                            status: 
+                              type: string
+                              example: success
+                            messsage: 
+                              type: string
+                              example: Lấy danh sách thông báo thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    example: 666da15889eb362bb0ef6e63
+                                  userId: 
+                                    type: string
+                                    example: 093213213212
+                                  title: 
+                                    type: string
+                                    example: Chào mừng bạn đến với nhà hàng của chúng tôi!
+                                  message: 
+                                    type: string
+                                    example: Cảm ơn bạn đã đăng ký! Hãy thưởng thức giảm giá 10% cho đơn hàng đầu tiên của bạn.
+                                  isRead: 
+                                    type: boolean
+                                  link: 
+                                    type: string
+                                    example: /khuyen-mai/giam-gia-don-dau-tien
+                                  createdAt: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-06-15T10:00:00Z
+                                  updatedAt: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-06-15T10:00:00Z
+                              example: [
+                                  {
+                                    _id: 666da15889eb362bb0ef6e63,
+                                    userId: 093213213212,
+                                    title: "Chào mừng bạn đến với nhà hàng của chúng tôi!",
+                                    message: "Cảm ơn bạn đã đăng ký! Hãy thưởng thức giảm giá 10% cho đơn hàng đầu tiên của bạn.",
+                                    isRead: false,
+                                    link: "/khuyen-mai/giam-gia-don-dau-tien",
+                                    createdAt: "2024-06-15T10:00:00Z",
+                                    updatedAt: "2024-06-15T10:00:00Z"
+                                  }
+                              ]
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            
+  /user/verify-email:
+    post:
+      tags:
+        - email
+      summary: Xác thực email người dùng
+      description: Xác thực chính chủ email của người dùng. Mục đích của việc xác thực là để email được sử dụng cho việc quên mật khẩu hoặc nhận các thông báo về đơn hàng, khuyến mãi. Mặc dù số điện thoại là khóa chính nhưng lại dùng email vì các dịch vụ gửi sms bây giờ toàn tính phí, dùng email cho nó tiết kiệm. Để sử dụng email này tất nhiên người dùng cần đăng nhập (role nào cũng được). Sẽ có middleware kiểm tra user đã đăng nhập chưa. Ở đây backend sẽ generate ra 1 OTP 6 số, và chuyển tiếp sang service send mail, đồng thời backend sẽ lưu cái OTP vào Redis và set thời gian hết hạn cho nó là 5 phút. Vì thế, bật docker lên và chạy redis với lệnh trong folder `docker-redis` không là sẽ báo lỗi redis đó.
+      requestBody: 
+        description: "Gửi lên email mà người dùng nhập, hoặc nếu không nhập thì hệ thống tự động lấy email (chưa xác thực) mà người dùng đã thêm vào profile trước đó"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                email: 
+                  type: string
+                  example: luuduchai.nt@gmail.com
+        required: true
+      responses:
+        '200':
+          description: Hệ thống sẽ trả về thông báo send otp đến email kèm theo userId, cái userId này để frontend lưu lại để sử dụng cho api phía sau, là gửi OTP lên xác thực
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Gửi OTP thành công đến email luuduchai.nt@gmail.com otp có hiệu lực trong 5 phút
+                    data: 
+                      type: object
+                      properties: 
+                        userId: 
+                          type: string
+                          example: 093213213212
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi cũng phải bắt đầu từ đâu đó
+     
+  /user/verify-otp-email:
+    post:
+      tags:
+        - email
+      summary: Xác thực OTP từ api bên trên
+      description: Frontend sau khi lấy thành công response từ phía trên thì hiển thị trang cho người dùng nhập OTP (6 số), người dùng check email để lấy OTP, sau đó frontend gửi đến api này kèm userId (từ api phía trên) và otp mà người dùng nhập
+      requestBody: 
+        description: "Gửi lên email mà người dùng nhập, hoặc nếu không nhập thì hệ thống tự động lấy email (chưa xác thực) mà người dùng đã thêm vào profile trước đó"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                userId: 
+                  type: string
+                  example: 093213213212
+                otp:
+                  type: string
+                  example: 150802
+        required: true
+      responses:
+        '200':
+          description: Hệ thống sẽ trả về thông báo send otp đến email kèm theo userId, cái userId này để frontend lưu lại để sử dụng cho api phía sau, là gửi OTP lên xác thực
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Xác thực email thành công
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Mã xác thực không đúng
+                    
+  /statistics/get-revenue:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu
+        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày hôm nay, thống kê lượt khách theo ngày, thống kê doanh thu món theo ngày... (kiểu như `Tổng doanh thu hôm nay: xxx`). Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Trong đó, _id là số ngày, totalAmount là số doanh thu của ngày đó, ngày nào có mới hiển thị ra danh sách. Hiển thị dạng đồ thị, trục hoành là ngày, trục tung là tiền
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Thống kê doanh thu thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    format: date
+                                    example: 2024-06-22
+                                  totalAmount: 
+                                    type: number
+                                    example: 658000
+                              example: [
+                                {
+                                  _id: 2024-06-22,
+                                  totalAmount: 658000
+                                }
+                              ]
+
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi nào đó  
+                    
+  /statistics/num-customer:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê số lượt khách
+        description: "Có thể truyền số ngày muốn lấy (from, to) hoặc server tự động lấy ra số lượt khách của ngày hiện tại. Có thể query theo 2 cái from, to phía dưới để query được data, query sai khoảng ngày là không ra đâu"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Trong đó, _id là số ngày, count là số lượt khách của ngày đó, ngày nào có mới hiển thị ra danh sách. Hiển thị dạng đồ thị, trục hoành là ngày, trục tung là số lượt
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy số lượt khách thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                _id: 
+                                  type: string
+                                  format: date
+                                  example: 2024-05-31
+                                count: 
+                                  type: number
+                                  example: 1
+                            example: [
+                                {
+                                  _id: 2024-05-31,
+                                  count: 2
+                                }
+                            ]
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi nào đó  
+                        
+  /statistics/area:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu theo khu vực
+        description: "Truyền thông tin ngày muốn thống kê (chỉ nhận 1 ngày thôi, không nhận nhiều ngày). Nếu không truyền thì mặc định là hôm nay."
+        parameters:
+          - in: query
+            name: date
+            schema:
+              type: string
+              example: "2024-06-22T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Thông tin trả về là tên khu vực và doanh thu của khu vực đó. Hiển thị biểu đồ hoặc dạng thông thường giống bảng cũng được.
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Thống kê doanh thu theo khu vực thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  Tầng 1: 
+                                    type: number
+                                    example: 658000
+                                  Tầng 2: 
+                                    type: number
+                                    example: 0
+                                  Mua mang về: 
+                                    type: number
+                                    example: 0
+                                  Nhân viên: 
+                                    type: number
+                                    example: 0
+                              example: [
+                                  {
+                                    Tầng 1: 658000
+                                  },
+                                  {
+                                    Tầng 2: 0
+                                  }, 
+                                  {
+                                    Mua mang về: 0
+                                  },
+                                  {
+                                    Nhân viên: 0
+                                  }
+                              ]
+
+  
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example:  Lỗi cũng phải bắt đầu từ đâu đó 
+                        
+  /statistics/menu:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê doanh thu theo món ăn
+        description: "Query param là khoảng thời gian muốn thống kê, nếu không có thì lấy ngày hôm nay, nói chung tương tự mấy cái trên"
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: Thành công. Thông tin trả về là tên món, số lượng, và tổng doanh thu của món đó. Nó đã được sắp xếp sẵn theo thứ tự rồi, món đầu tiên là cái có doanh thu cao nhất. Response ít dữ liệu thì không sao, nhiều dữ liệu có thể sẽ phải thêm phân trang, có time thì làm sau vậy
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Thống kê doanh thu theo món ăn thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              name: 
+                                type: string
+                                example: Bông cải xào tỏi
+                              quantity: 
+                                type: number
+                                example: 15
+                              totalPrice: 
+                                type: number
+                                example: 1050000
+                          example: [
+                            {
+                              name: Bông cải xào tỏi,
+                              quantity: 15,
+                              totalPrice: 1050000
+                            }
+                          ]
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi cũng phải bắt đầu từ đâu đó

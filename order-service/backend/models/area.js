@@ -6,7 +6,6 @@ const area = new Schema (
     {
         _id: { type: Number } , 
         name: { type: String },
-        price_percentage: { type: Number },
         description: { type: String },
         table_list: [
             {

@@ -15,6 +15,11 @@ export const getMenuByCategory = (id) => {
 export const createOrder = (slug, data) => {
   return ApiOrderService.post(`/order/${slug}`, data);
 };
+
+export const createOrderOnline = (data) => {
+  return ApiOrderService.post(`/order/online`, data);
+};
+
 export const getQR = (tableId) => {
   return ApiOrderService.get(`/admin/create-qr?table=${tableId}`);
 };
@@ -37,6 +42,10 @@ export const printBill = (tableId) => {
 
 export const moveTable = (from, to) => {
   return ApiOrderService.get(`/admin/order/move-table?from=${from}&to=${to}`);
+};
+
+export const getAllAreaOrder = () => {
+  return ApiOrderService.get("/order/area/get-all");
 };
 
 export const getRevenus = (start, to) => {
@@ -63,4 +72,12 @@ export const getHistoryOrder = () => {
 
 export const getBillHistory = (id) => {
   return ApiOrderService.get(`/admin/order/history/print-bill?order=${id}`);
+};
+
+export const getPromotion = () => {
+  return ApiOrderService.get(`/order/promotion`);
+};
+
+export const applyPromotion = (body) => {
+  return ApiOrderService.post(`/order/apply-promotion`, body);
 };

@@ -1,0 +1,204 @@
+[{
+  "_id": {
+    "$oid": "665817a3352fbf5d1f427a5c"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049250/6658179f352fbf5d1f427a52-1.pdf",
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-30T06:07:31.637Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:07:31.637Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665817a4352fbf5d1f427a5e"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049250/6658179f352fbf5d1f427a52-2.pdf",
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-30T06:07:32.145Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:07:32.145Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658190b57c94d20e5f2eeff"
+  },
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-30T06:13:31.880Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:13:31.880Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658190c57c94d20e5f2ef02"
+  },
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-30T06:13:32.507Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:13:32.507Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658198d231187dd5dc86112"
+  },
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-30T06:15:41.738Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:15:41.738Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658198e231187dd5dc86115"
+  },
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-30T06:15:42.555Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:15:42.555Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665819afe6e362b9740f982a"
+  },
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-30T06:16:15.125Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:16:15.125Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665819afe6e362b9740f982d"
+  },
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-30T06:16:15.704Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:16:15.704Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665819eabf7e27178edaf20d"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-2.pdf",
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-30T06:17:14.987Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:17:14.987Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665819ebbf7e27178edaf20f"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-30T06:17:15.528Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-30T06:17:15.528Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6659ea364e86ae1f9e438981"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717168693/6659ea324e86ae1f9e438977-2.pdf",
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-05-31T15:18:14.492Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-31T15:18:14.492Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6659ea374e86ae1f9e438983"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717168694/6659ea324e86ae1f9e438977-1.pdf",
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-05-31T15:18:15.173Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-31T15:18:15.173Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665b387697d50736338330e1"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717254260/665b387197d50736338330d7-1.pdf",
+  "print_times": 1,
+  "ticket_type": 1,
+  "createdAt": {
+    "$date": "2024-06-01T15:04:22.430Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-01T15:04:22.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665b387697d50736338330e3"
+  },
+  "url_ticket": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717254260/665b387197d50736338330d7-2.pdf",
+  "print_times": 1,
+  "ticket_type": 2,
+  "createdAt": {
+    "$date": "2024-06-01T15:04:22.454Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-01T15:04:22.454Z"
+  },
+  "__v": 0
+}]

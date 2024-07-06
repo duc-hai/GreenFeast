@@ -5,16 +5,11 @@ const catchNotFoundError = (req, res) => {
 }
 
 const errorHandle = (err, req, res, next) => {
-    //Logger error
-    if (err.stack) {
-        logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${err.stack}]`)
-        return res.status(500).json({status: 'error', message: `Lỗi máy chủ: ${err.stack}`})
-    }
-
-    //Logger error
-    logger.error(`${req.method} ${req.originalUrl} [status: ${err[0]} - message: ${err[2]}]`)
-
-    return res.status(err[0]).json({status: err[1], message: err[2]})
+    // console.log(err.stack) 
+    
+    logger.error(`${req.method} ${req.originalUrl} [status: ${err.status} - message: ${err.message}]`) //tracking log error
+    
+    return res.status(err.status).json({status: 'error', message: err.message})
 }
 
 module.exports = {

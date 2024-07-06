@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
  
 const category = new Schema (
     {
-        _id: { type: Number } , 
+        _id: { type: Number }, 
         name: { type: String },
     }, {
         collection: 'categories'

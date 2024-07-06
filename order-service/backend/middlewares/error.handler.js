@@ -3,9 +3,9 @@ const catchNotFoundError = (req, res) => {
 }
 
 const errorHandle = (err, req, res, next) => {
-    if (err.stack)
-        return res.status(500).json({status: 'error', message: `Lỗi máy chủ: ${err.stack}`})
-    return res.status(err[0]).json({status: err[1], message: err[2]})
+    // if (err.stack) // Should not throw err.stack because it doesn't pretty
+    //     return res.status(500).json({status: 'error', message: `Lỗi máy chủ: ${err.stack}`})
+    return res.status(err.status).json({status: 'error', message: err.message})
 }
 
 module.exports = {

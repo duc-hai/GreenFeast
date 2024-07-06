@@ -8,6 +8,7 @@ import { join } from 'path';
 import { Menu } from 'src/entities/menu.entity';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
 import { RabbitmqService } from 'src/rabbitmq/rabbitmq.service';
+import { title } from 'process';
 
 @Injectable()
 export class PromotionService {
@@ -158,6 +159,12 @@ export class PromotionService {
                 action: 'create',
                 data: promotion
             })
+
+            if (createPromotionDto.text_email) 
+                this.rabbitMQService.sendMessage('email', {
+                    text: createPromotionDto.text_email,
+                    action: 'promotion'
+                })
 
             return promotion
         }

@@ -1,6 +1,7 @@
 const amqplib = require('amqplib')
 const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
 
+//Temporary
 const sendQueue = async (msg) => {
     try {
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)

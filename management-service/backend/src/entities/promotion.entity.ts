@@ -8,6 +8,9 @@ export class Promotion {
     @Column()
     name: string;
 
+    @Column({ default: '' })
+    description: string;
+
     @Column({ default: true })
     status: boolean;
 

@@ -10,14 +10,16 @@ const order = new Schema (
                 menu: [
                     {
                         _id: { type: Number },
+                        name: { type: String },
                         quantity: { type: Number },
                         price: { type: Number },
-                        note: { type: String }
+                        note: { type: String },
+                        processing_status: { type: Number, default: 0 }
                     }
                 ],
                 time: { type: Date },
                 order_person: { 
-                    _id: { type: Schema.Types.ObjectId },
+                    _id: { type: String },
                     name: { type: String }
                 } 
             }

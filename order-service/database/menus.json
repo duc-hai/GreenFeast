@@ -4,7 +4,7 @@
   "description": "Với các nguyên liệu thanh đạm, và đặc biệt là nước chấm “xốt đậu phộng” béo béo, bùi bùi làm món Gỏi Cuốn Chay thêm ngon, ăn hoài không chán đó nha!",
   "image": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg",
   "price": 90000,
-  "status": true,
+  "status": false,
   "category_id": 1,
   "menu_type": 1,
   "__v": 0
@@ -27,7 +27,7 @@
   "description": "Đậu hũ chiên là món quen thuộc trong bữa cơm gia đình đặc biệt nó còn là món yêu thích của các bạn thích bún đậu mắm tôm",
   "image": "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927368/m0qko4lo64gfcikvlcud.png",
   "price": 30000,
-  "status": true,
+  "status": false,
   "category_id": 1,
   "menu_type": 1,
   "__v": 0

@@ -1,0 +1,36 @@
+  
+[
+    {
+      "_id": 1,
+      "name": "Khuyến mãi mùa xuân",
+      "status": true,
+      "note": "Giảm giá trên tất cả các món ăn",
+      "description": "Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.",
+      "condition_apply": 100,
+      "promotion_value": "20%",
+      "start_at": { "$date": "2024-06-01T00:00:00.000Z" },
+      "end_at": { "$date": "2024-06-30T23:59:59.000Z" }
+    },
+    {
+      "_id": 2,
+      "name": "Ưu đãi mùa hè",
+      "status": true,
+      "note": "Ưu đãi có giới hạn",
+      "description": "Chuẩn bị cho mùa hè với các món ăn giảm giá đặc biệt.",
+      "condition_apply": 150,
+      "promotion_value": "15%",
+      "start_at": { "$date": "2024-07-01T00:00:00.000Z" },
+      "end_at": { "$date": "2024-07-31T23:59:59.000Z" }
+    },
+    {
+      "_id": 3,
+      "name": "Trở lại trường học",
+      "status": false,
+      "note": "Chương trình khuyến mãi sắp tới",
+      "description": "Chuẩn bị cho năm học mới với các ưu đãi hấp dẫn.",
+      "condition_apply": 200,
+      "promotion_value": "-25%",
+      "start_at": { "$date": "2024-08-01T00:00:00.000Z" },
+      "end_at": { "$date": "2024-08-31T23:59:59.000Z" }
+    }
+]

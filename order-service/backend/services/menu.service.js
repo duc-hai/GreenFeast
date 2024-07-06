@@ -1,6 +1,8 @@
 const Menu = require('../models/menu')
 const Area = require('../models/area')
 const qrcode = require('qrcode')
+const createError = require('http-errors')
+const StatusCode = require('../enums/http.status.code')
 
 class MenuService {
     async getAllMenu(req, res, next) {
@@ -21,7 +23,7 @@ class MenuService {
                 totalPage: Math.ceil(total / perPage)
             }
 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Lấy danh sách thành công',
                 paginationResult,
@@ -29,7 +31,7 @@ class MenuService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -37,7 +39,7 @@ class MenuService {
         try {
             const keyword = req.query.keyword
             if (!keyword)
-                return next([400, 'error', 'Thiếu từ khóa tìm kiếm'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu từ khóa tìm kiếm')) 
             
             const regex = new RegExp(keyword, 'i') //'i' for case-insensitive search
             
@@ -50,21 +52,21 @@ class MenuService {
                 ]
             }).sort({ _id: 1 }).select({ __v: 0 })
 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Tìm kiếm thành công',
                 data: menus
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
     async getMenuByCategory (req, res, next) {
         try {
             if (!req.params.id)
-                return next([400, 'error', 'Thiếu mã danh mục'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu mã danh mục')) 
 
             const page = req.query.page || 1
             const perPage = req.query.perPage || 10
@@ -82,7 +84,7 @@ class MenuService {
                 totalPage: Math.ceil(total / perPage)
             }
 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Lấy danh sách thành công',
                 paginationResult,
@@ -90,7 +92,7 @@ class MenuService {
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -99,21 +101,21 @@ class MenuService {
             const areaId = req.params.id
 
             if (!areaId)
-                return next([400, 'error', 'Vui lòng cung cấp mã khu vực'])
+                return next(createError(StatusCode.BadRequest_400, 'Vui lòng cung cấp mã khu vực')) 
 
             const area = await Area.findOne({ _id: areaId })
 
             if (!area)
-                return next([400, 'error', 'Không tìm thấy mã khu vực hoặc khu vực không có bàn nào'])
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã khu vực hoặc khu vực không có bàn nào')) 
             
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Lấy danh sách bàn thành công',
                 data: area?.table_list
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 
@@ -122,28 +124,28 @@ class MenuService {
             const tableId = req.query.table
 
             if (!tableId)
-                return next([400, 'error', 'Thiếu dữ liệu bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Thiếu dữ liệu bàn'))
 
             const area = await Area.findOne({ 'table_list._id': tableId })
 
             if (!area)
-                return next([400, 'error', 'Không tìm thấy bàn'])
+                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy bàn'))
 
             const table = area?.table_list.find(table => table._id === tableId)
 
-            const hostUrl = process.env.API_GATEWAY_URL || 'http://localhost:3000'
+            const hostUrl = process.env.FRONT_END_URL_QRCODE || 'http://localhost:3000'
 
             //Create QR Code
             const qrCodeBase64 = await qrcode.toDataURL(`${hostUrl}/api/order/${table.slug}`)
 
-            return res.status(200).json({
+            return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Tạo QR bàn thành công',
                 data: qrCodeBase64
             })
         }
         catch (err) {
-            return next([400, 'error', err.message])
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 }

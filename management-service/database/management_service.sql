@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 10, 2024 lúc 09:34 AM
+-- Thời gian đã tạo: Th5 29, 2024 lúc 04:40 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -30,8 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `area` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `price_percentage` int(11) NOT NULL DEFAULT 0,
-  `description` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -42,13 +41,13 @@ CREATE TABLE `area` (
 -- Đang đổ dữ liệu cho bảng `area`
 --
 
-INSERT INTO `area` (`id`, `name`, `price_percentage`, `description`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
-(1, 'Tầng 1', 0, 'Khu vực tầng trệt', '2024-03-09 13:04:36', NULL, NULL, 0),
-(2, 'Tầng 2', 0, 'Khu vực tầng 2', '2024-03-09 13:04:57', NULL, NULL, 0),
-(3, 'Mua mang về', 0, 'Dành cho khách mua mang về', '2024-03-09 13:05:35', NULL, NULL, 0),
-(4, 'Grab', 15, 'Dành cho đơn Grab, giá cao hơn 15% so với mua tại quán', '2024-03-09 13:06:27', NULL, NULL, 0),
-(5, 'Shopee', 15, 'Dành cho đơn Shopee Food, giá cao hơn 15% so với mua tại quán', '2024-03-09 13:07:00', NULL, NULL, 0),
-(6, 'Nhân viên', -10, 'Đơn nhân viên, giảm 10%', '2024-03-09 13:07:30', NULL, NULL, 0);
+INSERT INTO `area` (`id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
+(1, 'Tầng 1', 'Khu vực tầng trệt', '2024-03-09 13:04:36', NULL, NULL, 0),
+(2, 'Tầng 2', 'Khu vực tầng 2', '2024-03-09 13:04:57', NULL, NULL, 0),
+(3, 'Mua mang về', 'Dành cho khách mua mang về', '2024-03-09 13:05:35', NULL, NULL, 0),
+(4, 'Grab', 'Dành cho đơn Grab, giá cao hơn 15% so với mua tại quán', '2024-03-09 13:06:27', NULL, NULL, 0),
+(5, 'Shopee', 'Dành cho đơn Shopee Food, giá cao hơn 15% so với mua tại quán', '2024-03-09 13:07:00', NULL, NULL, 0),
+(6, 'Nhân viên', 'Đơn nhân viên, giảm 10%', '2024-03-09 13:07:30', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -73,7 +72,7 @@ INSERT INTO `category` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`, 
 (1, 'Khai vị', '2024-03-09 01:35:23', NULL, NULL, 0),
 (2, 'Món ngũ cốc', '2024-03-09 01:35:31', NULL, NULL, 0),
 (3, 'Món xào', '2024-03-09 01:35:50', NULL, NULL, 0),
-(4, 'Món kho', '2024-03-09 01:35:55', NULL, NULL, 0),
+(4, 'Món xào', '2024-03-09 01:35:55', '2024-05-29 15:27:09', '2024-05-29 15:27:14', 0),
 (5, 'Món canh', '2024-03-09 01:36:16', NULL, NULL, 0),
 (6, 'Lẩu', '2024-03-09 01:36:40', NULL, NULL, 0),
 (7, 'Món trộn', '2024-03-09 01:37:01', NULL, NULL, 0),
@@ -109,9 +108,9 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id`, `name`, `description`, `image`, `price`, `menu_type`, `status`, `category_id`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
-(1, 'Gỏi cuốn sốt đậu phộng', 'Với các nguyên liệu thanh đạm, và đặc biệt là nước chấm “xốt đậu phộng” béo béo, bùi bùi làm món Gỏi Cuốn Chay thêm ngon, ăn hoài không chán đó nha!', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg', 90000, 1, 1, 1, '2024-03-09 02:40:19', NULL, NULL, 0),
+(1, 'Gỏi cuốn sốt đậu phộng', 'Với các nguyên liệu thanh đạm, và đặc biệt là nước chấm “xốt đậu phộng” béo béo, bùi bùi làm món Gỏi Cuốn Chay thêm ngon, ăn hoài không chán đó nha!', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709926819/wpu3gkpkqqpn4zgbbczs.jpg', 90000, 1, 0, 1, '2024-03-09 02:40:19', '2024-03-19 23:46:29', NULL, 0),
 (2, 'Chả giò', 'Chả giò là món ăn cực kỳ phổ biến tại Việt Nam. Một cuốn chả giò thơm sẽ là sự kết hợp giữa phần nhân tròn vị và phần bánh tráng giòn tan', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927150/fm6hiqag2rcfhmyvu6o5.jpg', 80000, 1, 1, 1, '2024-03-09 02:45:51', NULL, NULL, 0),
-(3, 'Đậu hũ chiên giòn', 'Đậu hũ chiên là món quen thuộc trong bữa cơm gia đình đặc biệt nó còn là món yêu thích của các bạn thích bún đậu mắm tôm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927368/m0qko4lo64gfcikvlcud.png', 30000, 1, 1, 1, '2024-03-09 02:49:28', NULL, NULL, 0),
+(3, 'Đậu hũ chiên giòn', 'Đậu hũ chiên là món quen thuộc trong bữa cơm gia đình đặc biệt nó còn là món yêu thích của các bạn thích bún đậu mắm tôm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927368/m0qko4lo64gfcikvlcud.png', 30000, 1, 0, 1, '2024-03-09 02:49:28', '2024-03-21 19:11:32', NULL, 0),
 (4, 'Bông cải xào tỏi', 'Bông cải xanh xào tỏi là món đơn giản từ bông cải xanh, bông cải xanh xào vừa chín tới cùng với vị thơm từ tỏi hòa cùng với nhau rất bắt vị', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927628/psciktiykhjoibcastbf.jpg', 70000, 1, 1, 1, '2024-03-09 02:53:49', NULL, NULL, 0),
 (5, 'Khoai tây chiên bơ', 'Khoai tây chiên bơ là một món ăn vặt hấp dẫn với vẻ ngoài vàng rượm, lại vừa giòn vừa thơm kết hợp cùng vị cay cay của tương ớt tạo nên một hương vị ngon khó cưỡng. Ngoài là món ăn ngon thì khoai tây còn có nhiều lợi ích với sức khoẻ', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709927804/oh1rvtrxuci4ishj44j8.jpg', 45000, 1, 1, 1, '2024-03-09 02:56:44', NULL, NULL, 0),
 (6, 'Cơm chiên thượng hải', 'Cơm chiên Thượng Hải thường được làm từ cơm trắng đã nấu chín và cắt nhỏ, sau đó được xào chung với các nguyên liệu như thịt heo, tôm, trứng, rau cải, hành tây và gia vị như dầu mè, dầu mè trắng, dầu mỡ hành, nước tương, và gia vị khác', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709928190/b4rwmymiig6kska3xo2h.jpg', 75000, 1, 1, 2, '2024-03-09 03:03:11', NULL, NULL, 0),
@@ -136,7 +135,7 @@ INSERT INTO `menu` (`id`, `name`, `description`, `image`, `price`, `menu_type`, 
 (25, 'Gỏi chôm chôm chua ngọt', 'Món gỏi chôm chôm chua ngọt thường là một lựa chọn bổ dưỡng và thú vị trong các bữa ăn gia đình và buổi gặp gỡ bạn bè. Hương vị chua ngọt, mát lạnh của gỏi chôm chôm sẽ chinh phục được cả những thực khách khó tính nhất', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709962860/sjtoh7b19wttgbntktjy.jpg', 82000, 1, 1, 7, '2024-03-09 12:41:01', NULL, NULL, 0),
 (26, 'Xà lách trộn', 'Xà lách trộn là một món salad phổ biến và rất được ưa chuộng trên toàn thế giới. Món salad này thường được làm từ xà lách và các nguyên liệu khác như rau củ, hoa quả, hạt, và sốt, tạo ra một hương vị độc đáo và bổ dưỡng', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963002/clgd9gkd0quhgdajtwtl.png', 45000, 1, 1, 7, '2024-03-09 12:43:23', NULL, NULL, 0),
 (27, 'Cơm thêm', 'Cơm thêm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963082/xcq5ccsprwtz9osmlwsv.jpg', 10000, 1, 1, 8, '2024-03-09 12:44:42', NULL, NULL, 0),
-(28, 'Bún thêm', 'Bún thêm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963152/zxudxy9sk0ko1ss555sm.jpg', 10000, 1, 1, 8, '2024-03-09 12:45:53', '2024-03-09 12:47:58', NULL, 0),
+(28, 'Bún thêm', 'Bún thêm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963152/zxudxy9sk0ko1ss555sm.jpg', 10000, 1, 1, 8, '2024-03-09 12:45:53', '2024-03-11 00:12:15', NULL, 0),
 (29, 'Rau thêm', 'Rau thêm', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963196/ujncxuowx7zfswwdqq8e.jpg', 10000, 1, 1, 8, '2024-03-09 12:46:36', '2024-03-09 12:48:07', NULL, 0),
 (30, 'Cam cà rốt', 'Nước ép cam cà rốt là một đồ uống bổ dưỡng và ngon miệng, kết hợp hài hòa giữa vị ngọt tự nhiên của cà rốt và vị chua ngọt của cam', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963424/clhmpc13wom1tyidg7am.png', 40000, 2, 1, 9, '2024-03-09 12:50:25', NULL, NULL, 0),
 (31, 'Dừa tươi', 'Dừa tươi là một loại trái cây tự nhiên và bổ dưỡng, thường được ưa chuộng để thưởng thức trực tiếp hoặc sử dụng trong nhiều món ăn và đồ uống khác nhau', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963513/aeifug0uygg16u1t5yis.jpg', 35000, 2, 1, 9, '2024-03-09 12:51:54', NULL, NULL, 0),
@@ -148,7 +147,7 @@ INSERT INTO `menu` (`id`, `name`, `description`, `image`, `price`, `menu_type`, 
 (37, 'Sữa đậu nành', 'Sữa đậu nành là một thay thế sức khỏe cho sữa từ sữa bò, đặc biệt phù hợp cho những người ăn chay, người không dung nạp được lactose, và những ai quan tâm đến sức khỏe của mình', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963942/jtyne1dvwd7nhnclw2d3.jpg', 30000, 2, 1, 11, '2024-03-09 12:59:02', NULL, NULL, 0),
 (38, 'Trà trái cây nhiệt đới', 'Trà trái cây nhiệt đới là một đồ uống phổ biến được pha chế từ trà đen hoặc trà xanh kết hợp với hương vị tự nhiên và tươi mát của các loại trái cây nhiệt đới', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709964064/gdfxyupsjsugb31y8hs9.jpg', 43000, 2, 1, 12, '2024-03-09 13:01:04', NULL, NULL, 0),
 (39, 'Trà chanh thái đỏ', 'Trà chanh thái đỏ là một biến thể độc đáo của trà chanh truyền thống, nổi tiếng với màu sắc và hương vị tươi mát, cũng như lợi ích sức khỏe từ thành phần chính là trà và chanh', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709964138/gpsh1htiuiodqklmixga.jpg', 39000, 2, 1, 12, '2024-03-09 13:02:18', NULL, NULL, 0),
-(40, 'Trà vải cam sả', 'Trà vải cam sả là một loại đồ uống truyền thống của nhiều vùng miền, nổi tiếng với hương vị tươi mát và sự kết hợp độc đáo giữa vải, cam và sả', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709964231/lvwxg4lozvpwzdw6zwho.png', 40000, 2, 1, 12, '2024-03-09 13:03:52', NULL, NULL, 0);
+(40, 'Trà vải cam sả', 'Trà vải cam sả là một loại đồ uống truyền thống của nhiều vùng miền, nổi tiếng với hương vị tươi mát và sự kết hợp độc đáo giữa vải, cam và sả', 'https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709964231/lvwxg4lozvpwzdw6zwho.png', 40000, 2, 1, 12, '2024-03-09 13:03:52', NULL, '2024-05-29 10:53:50', 0);
 
 -- --------------------------------------------------------
 
@@ -173,13 +172,13 @@ CREATE TABLE `printer` (
 --
 
 INSERT INTO `printer` (`id`, `name`, `ip_address`, `printer_type`, `area_id`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
-(1, 'Máy in tầng 1', '192.168.0.1', 1, 1, '2024-03-10 15:28:27', NULL, NULL, 0),
+(1, 'Máy in tầng 1', '192.168.0.1', 1, 1, '2024-03-10 15:28:27', NULL, '0000-00-00 00:00:00', 0),
 (2, 'Máy in tầng 1', '192.168.0.1', 1, 3, '2024-03-10 15:28:34', NULL, NULL, 0),
 (3, 'Máy in tầng 1', '192.168.0.1', 1, 4, '2024-03-10 15:28:39', NULL, NULL, 0),
 (4, 'Máy in tầng 1', '192.168.0.1', 1, 5, '2024-03-10 15:28:42', NULL, NULL, 0),
 (5, 'Máy in tầng 1', '192.168.0.1', 1, 6, '2024-03-10 15:28:46', NULL, NULL, 0),
 (6, 'Máy in tầng 2', '192.168.0.1', 1, 2, '2024-03-10 15:29:21', NULL, NULL, 0),
-(7, 'Máy in bếp', '192.168.0.2', 2, 0, '2024-03-10 15:29:46', '2024-03-10 15:32:40', NULL, 0),
+(7, 'Máy in bếp', '192.168.0.2', 2, 0, '2024-03-10 15:29:46', '2024-05-29 15:30:52', NULL, 0),
 (8, 'Máy in quầy nước', '192.168.0.3', 3, 0, '2024-03-10 15:30:14', NULL, NULL, 0);
 
 -- --------------------------------------------------------
@@ -192,7 +191,7 @@ CREATE TABLE `promotion` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
-  `note` varchar(255) DEFAULT NULL,
+  `note` varchar(255) NOT NULL DEFAULT '1',
   `form_promotion` int(11) NOT NULL,
   `condition_apply` int(11) DEFAULT NULL,
   `promotion_value` varchar(255) NOT NULL,
@@ -202,15 +201,17 @@ CREATE TABLE `promotion` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT 0
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
+  `description` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `promotion`
 --
 
-INSERT INTO `promotion` (`id`, `name`, `status`, `note`, `form_promotion`, `condition_apply`, `promotion_value`, `auto_apply`, `start_at`, `end_at`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
-(1, 'Khuyến mãi đầu xuân', 1, 'Giảm 10% cho món chả giò, đặc sản ngày tết', 2, 2, '-10%', 1, NULL, NULL, '2024-03-14 22:39:18', NULL, NULL, 0);
+INSERT INTO `promotion` (`id`, `name`, `status`, `note`, `form_promotion`, `condition_apply`, `promotion_value`, `auto_apply`, `start_at`, `end_at`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`, `description`) VALUES
+(1, 'Khuyến mãi ngày tết nè he he', 0, 'Ghi chú khuyến mãi', 2, 41, '-50000', 1, NULL, NULL, '2024-03-14 22:39:18', '2024-05-29 15:34:12', NULL, 0, ''),
+(2, 'Khuyến mãi đầu xuân', 1, 'Giảm 10% cho món chả giò, đặc sản ngày tết', 2, 2, '-10%', 1, NULL, NULL, '2024-05-29 15:33:52', NULL, NULL, 0, 'mô tả');
 
 -- --------------------------------------------------------
 
@@ -287,16 +288,6 @@ INSERT INTO `table` (`id`, `area_id`, `created_at`, `updated_at`, `deleted_at`, 
 ('MMV08', 3, '2024-03-13 19:17:54', NULL, NULL, 0),
 ('MMV09', 3, '2024-03-13 19:17:54', NULL, NULL, 0),
 ('MMV10', 3, '2024-03-13 19:17:54', NULL, NULL, 0),
-('NV01', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV02', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV03', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV04', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV05', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV06', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV07', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV08', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV09', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
-('NV10', 6, '2024-03-13 19:19:02', NULL, NULL, 0),
 ('SHOPEE01', 5, '2024-03-13 19:18:45', NULL, NULL, 0),
 ('SHOPEE02', 5, '2024-03-13 19:18:45', NULL, NULL, 0),
 ('SHOPEE03', 5, '2024-03-13 19:18:45', NULL, NULL, 0),
@@ -356,31 +347,31 @@ ALTER TABLE `table`
 -- AUTO_INCREMENT cho bảng `area`
 --
 ALTER TABLE `area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT cho bảng `printer`
 --
 ALTER TABLE `printer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -20,6 +20,12 @@ export class UpdatePromotionDto {
     note: string;
 
     @IsOptional()
+    @IsString({
+        message: 'Mô tả không hợp lệ'
+    })
+    description: string;
+
+    @IsOptional()
     @IsInt({
         message: 'Hình thức khuyến mãi không hợp lệ'
     })

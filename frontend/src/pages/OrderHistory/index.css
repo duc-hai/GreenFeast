@@ -1,0 +1,40 @@
+.col-5 {
+    margin-left: 8px;
+}
+
+.content {
+    width: 90%;
+    padding: 0px 56px;
+}
+
+.ant-menu-custom {
+    background: #E4E4D0;
+    min-height: 95vh;
+}
+
+.buton {
+    height: 100px;
+    z-index: 100;
+    position: fixed;
+    bottom: -24px;
+    right: 56px;
+}
+.display-menu {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .display-menu {
+        display: block;
+    }
+
+    .display-menu-1 {
+        display: none;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .content {
+        width: 100%;
+        padding: 0px 8px;
+    }
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header img {
+      width: 100%;
+      height: auto;
+    }
+    .content {
+      text-align: center;
+      padding: 20px;
+    }
+    .content h1 {
+      font-size: 24px;
+      color: #333;
+    }
+    .content p {
+      font-size: 16px;
+      color: #666;
+    }
+    .cta {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .footer {
+      text-align: center;
+      padding: 10px 0;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <table class="container" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="header">
+        <img src="cid:unique@nodemailer.com" alt="Banner">
+      </td>
+    </tr>
+    <tr>
+      <td class="content">
+        <h1>Giảm giá đặc biệt tại GreenFeast</h1>
+        <p><%= discountDetails %></p>
+        <a href="#" class="cta" style="color: #ffffff;">Đặt bàn ngay</a>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        GreenFeast | Số 19 Nguyễn Hữu Thọ, Tân Phong, Q7, TP.HCM | 0123456789 | greenfeast.notification@gmail.com
+        <br>
+        <a href="#">Hủy đăng ký nhận email</a>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

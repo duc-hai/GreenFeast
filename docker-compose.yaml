@@ -1,16 +1,16 @@
 version: '3.8'
 services:
-  rabbitmq:
-    image: rabbitmq:3.12-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"  # Default port to communicate with RabbitMQ
-      - "15672:15672"  # Interface management of RabbitMQ
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq  # Folder storage data of RabbitMQ
-    restart: unless-stopped
-    networks:
-      - greenfeast
+  # rabbitmq:
+  #   image: rabbitmq:3.12-management
+  #   container_name: rabbitmq
+  #   ports:
+  #     - "5672:5672"  # Default port to communicate with RabbitMQ
+  #     - "15672:15672"  # Interface management of RabbitMQ
+  #   volumes:
+  #     - rabbitmq_data:/var/lib/rabbitmq  # Folder storage data of RabbitMQ
+  #   restart: unless-stopped
+  #   networks:
+  #     - greenfeast
   
   apigateway: #name of service
     container_name: apigateway
@@ -23,7 +23,11 @@ services:
       - DB_HOST=apiGatewayDB # database is service's name
       - FRONT_END_URL=http://localhost
       - ORDER_SERVICE_URL=http://order:5000
+      - NOTIFICATION_SERVICE_URL=http://notification:5020
+      - PAYMENT_SERVICE_URL=http://payment:5005
       - MANAGEMENT_SERVICE_URL=http://management:4000
+      - TMS_SERVICE_URL=http://tms:5010
+      - STATISTICS_SERVICE_URL=http://statistics:5030
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -35,23 +39,23 @@ services:
       - apigateway-network
       - greenfeast
 
-  apiGatewayDB:
-    container_name: apiGatewayDB
-    image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-    restart: always
-    environment: 
-      MONGO_INITDB_DATABASE: api-gateway
-      #MONGO_INITDB_ROOT_USERNAME: root
-      #MONGO_INITDB_ROOT_PASSWORD: password
-    ports:
-      - 27017:27017
-    expose: 
-      - 27017 #This service will open port 27017 so that other containers can communicate
-    volumes: # save data after container is deleted
-      - dbdata6:/data/db
-    networks:
-      - apigateway-network
-      - greenfeast
+  # apiGatewayDB:
+  #   container_name: apiGatewayDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: api-gateway
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27017:27017
+  #   expose: 
+  #     - 27017 #This service will open port 27017 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata6:/data/db
+  #   networks:
+  #     - apigateway-network
+  #     - greenfeast
 
   nginxreact: 
     container_name: nginxreact
@@ -91,8 +95,8 @@ services:
       # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
     expose:
       - 4000
-    depends_on: #Start after rabbit mq run
-      - rabbitmq
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
     networks:
       - greenfeast
 
@@ -132,36 +136,194 @@ services:
       # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
     expose:
       - 5000
-    depends_on: #Start after rabbit mq run
-      - rabbitmq
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
     networks:
       - order-network
       - greenfeast
 
-  orderDB:
-    container_name: orderDB
-    image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-    restart: always
-    environment: 
-      MONGO_INITDB_DATABASE: order
-      #MONGO_INITDB_ROOT_USERNAME: root
-      #MONGO_INITDB_ROOT_PASSWORD: password
-    ports:
-      - 27018:27018
-    command: mongod --port 27018 # !Important. This will change default port in mongo
-    expose: 
-      - 27018 #This service will open port 27018 so that other containers can communicate
-    volumes: # save data after container is deleted
-      - dbdata7:/data/db2
+  # orderDB:
+  #   container_name: orderDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: order
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27018:27018
+  #   command: mongod --port 27018 # !Important. This will change default port in mongo
+  #   expose: 
+  #     - 27018 #This service will open port 27018 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata7:/data/db2
+  #   networks:
+  #     - order-network
+  #     - greenfeast
+
+  notification: #name of service
+    container_name: notification
+    build:
+      context: ./notification-service/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=notificationDB # orderDB is service's name
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5020:5020 #The first 5020 is your port local, the second 5020 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5020
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
     networks:
       - order-network
       - greenfeast
+
+  # notificationDB:
+  #   container_name: notificationDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: notification
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27019:27019
+  #   command: mongod --port 27019 # !Important. This will change default port in mongo
+  #   expose: 
+  #     - 27019 #This service will open port 27019 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata9:/data/db2
+  #   networks:
+  #     - greenfeast
+
+  payment: #name of service
+    container_name: payment
+    build:
+      context: ./payment-service/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27020 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=paymentDB # orderDB is service's name
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5005:5005 #The first 5005 is your port local, the second 5005 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5005
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
+    networks:
+      - order-network
+      - greenfeast
+
+  # paymentDB:
+  #   container_name: paymentDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: payment
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27020:27020
+  #   command: mongod --port 27020 # !Important. This will change default port in mongo
+  #   expose: 
+  #     - 27020 #This service will open port 27020 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata10:/data/db2
+  #   networks:
+  #     - greenfeast
+
+  statistics: #name of service
+    container_name: statistics
+    build:
+      context: ./statistics-service/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27021 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=statisticsDB # orderDB is service's name
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5030:5030 #The first 5030 is your port local, the second 5030 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5030
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
+    networks:
+      - greenfeast
+
+  # statisticsDB:
+  #   container_name: statisticsDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: statistics
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27021:27021
+  #   command: mongod --port 27021 # !Important. This will change default port in mongo
+  #   expose: 
+  #     - 27021 #This service will open port 27021 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata11:/data/db2
+  #   networks:
+  #     - greenfeast
+
+  tms: #name of service
+    container_name: tms
+    build:
+      context: ./tms-service/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=tmsDB # orderDB is service's name
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5010:5010 #The first 5010 is your port local, the second 5010 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5010
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
+    networks:
+      - greenfeast
+
+  # tmsDB:
+  #   container_name: tmsDB
+  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
+  #   restart: always
+  #   environment: 
+  #     MONGO_INITDB_DATABASE: tms
+  #     #MONGO_INITDB_ROOT_USERNAME: root
+  #     #MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27022:27022
+  #   command: mongod --port 27022 # !Important. This will change default port in mongo
+  #   expose: 
+  #     - 27022 #This service will open port 27022 so that other containers can communicate
+  #   volumes: # save data after container is deleted
+  #     - dbdata12:/data/db2
+  #   networks:
+  #     - greenfeast
 
 volumes:
   dbdata6:
   dbdata7:
   dbdata8:
   rabbitmq_data:
+  dbdata9:
+  dbdata10:
+  dbdata11:
+  dbdata12:
 
 networks:
   apigateway-network:
@@ -172,9 +334,8 @@ networks:
   order-network:
     driver: bridge
 
+#docker compose -p greenfeast up -d --build
 
-
-#docker compose -p greenfeast up -d 
-
-#up is build file (run container), d is detach, after install with be auto exit
+#up is build file (run container), d is detach, after install with be auto exit, --build is force build image again (for cicd)
 #then open "Log" in container backend to see work log
+#docker compose down --rmi all: stop all containers and remove images which created by docker compose

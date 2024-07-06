@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -54,7 +53,6 @@ const SaleManagement = () => {
     };
     fetchDataPromotion();
   }, []);
-  const editMenu = (record) => {};
   const deleteMenu = async (record) => {
     try {
       await deletePromotion(record.id);
@@ -192,6 +190,7 @@ const SaleManagement = () => {
           start_at: values?.time_apply
             ? values.time_apply[0].format("YYYY-MM-DD")
             : "",
+          text_email: values.text_email,
         });
         notification.success({
           message: "Cập nhật thành công",
@@ -212,6 +211,7 @@ const SaleManagement = () => {
           start_at: values?.time_apply
             ? values.time_apply[0].format("YYYY-MM-DD")
             : "",
+          text_email: values.text_email,
         });
         notification.success({
           message: "Tạo mới thành công",
@@ -344,6 +344,14 @@ const SaleManagement = () => {
                   <Col span={24}>
                     <Form.Item label="Ghi chú" name="note">
                       <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Nhập nội dung thông báo khuyến mãi"
+                      name="text_email"
+                    >
+                      <Input.TextArea />
                     </Form.Item>
                   </Col>
                   <Col span={24}>

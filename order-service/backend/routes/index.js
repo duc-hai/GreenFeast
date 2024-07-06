@@ -2,26 +2,38 @@ const express = require('express')
 const errorHandler = require('../middlewares/error.handler')
 const menuService = require('../services/menu.service')
 const orderService = require('../services/order.service')
-
-
 const router = express.Router()
+const validation = require('../validations/body.validation')
 
-router.get('/order/menu/get-list', menuService.getAllMenu)
-router.get('/order/menu/get-by-category/:id', menuService.getMenuByCategory)
-router.post('/order/:tableSlug', orderService.orderMenu)
+router.get('/menu/get-list', menuService.getAllMenu)
+router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
+
+router.get('/menu/search', menuService.searchMenu)
+
+router.post('/online', orderService.orderMenuOnline)
+router.get('/view-order/:tableSlug', orderService.getOrderInfor)
+router.get('/promotion', orderService.getPromotions)
+
+router.get('/print-bill/:tableSlug', orderService.printerBill)
+router.get('/category/get-all', orderService.getCategory)
+router.get('/verify-slug/:tableSlug', orderService.verifyTableSlug)
+router.get('/area/get-all', orderService.getAllArea)
+router.get('/processing-ticket/kitchen', orderService.getProcessingTicketKitchen)
+router.get('/processing-ticket/bar', orderService.getProcessingTicketBar)
+
+// For admin & emoployee
 router.get('/order/tables/:id', menuService.getTablesByAreaId)
-router.get('/order/view-order/:tableSlug', orderService.getOrderInfor)
-router.get('/order/promotion', orderService.getPromotions)
-router.post('/order/close/:tableSlug', orderService.closeTable)
-router.get('/order/print-bill/:tableSlug', orderService.printerBill)
-router.get('/order/category/get-all', orderService.getCategory)
-router.get('/order/menu/search', menuService.searchMenu)
 router.get('/order/move-table', orderService.moveTable)
+router.post('/order/close/:tableSlug', orderService.closeTable)
+router.get('/order/create-qr', menuService.createQRCode)
 router.get('/order/get-revenue', orderService.getRevenueByDay)
-router.get('/create-qr', menuService.createQRCode)
 router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
+router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
 
+router.post('/apply-promotion', orderService.applyPromotion)
+
+router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)
 
