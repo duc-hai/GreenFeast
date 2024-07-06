@@ -63,7 +63,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - REACT_APP_API=http://apigateway:3000
+      - REACT_APP_API=https://greenfeast.space
     ports:
       - 80:80
     volumes: #override interface nginx default #copy file, folder from local computer to docker
