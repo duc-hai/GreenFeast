@@ -1,4 +1,0 @@
-[2024-06-20 13:57:05] 	POST /api/user/verify-email [status: 401 - message: Thiếu mã JWT]
-[2024-06-20 13:57:16] 	POST /api/auth/signin [status: 400 - message: Số điện thoại hoặc mật khẩu không đúng]
-[2024-06-20 14:46:19] 	POST /api/user/verify-otp-email [status: 400 - message: Mã xác thực không đúng]
-[2024-06-20 14:46:46] 	POST /api/user/verify-otp-email [status: 400 - message: Mã xác thực không đúng]

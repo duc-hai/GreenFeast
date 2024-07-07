@@ -12,7 +12,7 @@ import {
   message,
 } from "antd";
 import { Link, NavLink } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
+import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { deleteCookie } from "./../../utils/Cookie";
@@ -21,6 +21,7 @@ import dayjs from "dayjs";
 import { getAllArea } from "../../Services/ManagementServiceAPI";
 import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
 import { verifyMail, verifyOtp } from "../../Services/Notification";
+import NotifyHeader from "./NotifyHeader";
 
 const Header = () => {
   const [us, setUs] = useState({});
@@ -443,6 +444,7 @@ const Header = () => {
                 <Link to="/order" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
+
                 <Link to="/order-online" style={{ fontSize: 18 }}>
                   Đặt món Online
                 </Link>
@@ -460,11 +462,20 @@ const Header = () => {
                 <Link to="/order" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
+                <Link to="/order-online" style={{ fontSize: 18 }}>
+                  Đặt món online
+                </Link>
+                <Link to="/admin-chart" style={{ fontSize: 18 }}>
+                  Báo cáo kinh doanh
+                </Link>
               </div>
             )}
           </div>
         </div>
         <div className="flex gap-6">
+          <div className="flex items-center gap-4">
+            <NotifyHeader />
+          </div>
           {us?.full_name ? (
             <div className="flex items-center gap-4">
               <div>Xin chào, {us?.full_name || "Khách"}</div>

@@ -352,7 +352,7 @@ const Order = () => {
                 </Select>
               </div>
               <div className="flex flex-col w-[48%] gap-2">
-                <span className="font">Chọn bàn</span>
+                <span className="font">Chọn bàn 1</span>
                 <Select
                   disabled={tableList?.length === 0}
                   name="gender"

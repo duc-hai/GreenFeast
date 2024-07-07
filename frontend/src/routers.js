@@ -9,6 +9,8 @@ import PrintManagement from "./pages/PrintManagement";
 import OrderManagement from "./pages/OrderManagement";
 import RevenusManagement from "./pages/RevenusManagement/index";
 import HistoryOrder from "./pages/HistoryOrder/index";
+import AdminDemo from "./components/ChartDemo/PageDemo/Amin";
+import OrderOnline from "./pages/OrderOnline";
 
 const routers = [
   {
@@ -50,6 +52,14 @@ const routers = [
   {
     path: "/history-order-management",
     Conponent: () => <HistoryOrder />,
+  },
+  {
+    path: "/admin-chart",
+    Conponent: () => <AdminDemo />,
+  },
+  {
+    path: "/order-online",
+    Conponent: () => <OrderOnline />,
   },
   // {
   //     path: '/sanpham/:userID',
