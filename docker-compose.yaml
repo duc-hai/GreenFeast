@@ -11,6 +11,12 @@ services:
   #   restart: unless-stopped
   #   networks:
   #     - greenfeast
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
   
   apigateway: #name of service
     container_name: apigateway
