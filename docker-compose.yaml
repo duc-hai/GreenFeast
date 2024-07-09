@@ -15,6 +15,8 @@ services:
   redis:
     image: redis:latest
     container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - 6379:6379
   
@@ -34,7 +36,8 @@ services:
       - MANAGEMENT_SERVICE_URL=http://management:4000
       - TMS_SERVICE_URL=http://tms:5010
       - STATISTICS_SERVICE_URL=http://statistics:5030
-
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container

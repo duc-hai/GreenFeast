@@ -1,8 +1,13 @@
+require('dotenv').config()
+
 const redis = require('redis')
 
 async function connectRedis() {
     try {
-        const client = await redis.createClient()
+        const client = await redis.createClient({
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT
+        })
 
         client.on('connect', () => {
             console.log('Connect to Redis successfully')
