@@ -3749,6 +3749,260 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
             
+  /order/online/history-list:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách lịch sử đặt món online của user
+      description: Lấy theo mã người dùng đang đăng nhập nên yêu cầu đăng nhập.
+      responses:
+        '200':
+            description: Thành công. Sắp xếp theo thời gian giảm dần
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách lịch sử đặt món thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 668ab1e913c23180e5cb8560
+                            menu_detail: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: number
+                                    example: 2
+                                  name: 
+                                    type: string
+                                    example: Chả giò
+                                  quantity: 
+                                    type: number
+                                    example: 3
+                                  price: 
+                                    type: number
+                                    example: 80000
+                              example: [
+                                {
+                                  _id: 2,
+                                  name: Chả giò,
+                                  quantity: 3,
+                                  price: 80000
+                                }
+                              ]
+                            total: 
+                              type: number
+                              example: 380000
+                            time: 
+                              type: string
+                              format: date-time
+                              example: 2024-07-07T02:57:51.923Z
+                            status: 
+                              type: number
+                              example: 0
+                        example: [
+                            {
+                              _id: 668ab1e913c23180e5cb8560,
+                              menu_detail: [
+                                  {
+                                    _id: 2,
+                                    name: Chả giò,
+                                    quantity: 3,
+                                    price: 80000,
+                                  }
+                              ],
+                              total: 380000,
+                              time: 2024-07-07T02:57:51.923Z,
+                              status: 0
+                            }
+                        ]
+   
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+                      
+  /order/online/history-detail/{id}:
+    get:
+      tags:
+        - order
+      summary: Lấy chi tiết đơn hàng trực tuyến
+      description: Lấy dựa trên id truyền vào
+      parameters:
+        - in: path
+          name: id
+          description: "Mã đơn hàng"
+          schema:
+            type: string
+            example: "668ab1e913c23180e5cb8560"
+          required: true
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy lịch sử đặt món thành công
+                      data: 
+                        type: object
+                        properties: 
+                          type: object
+                          properties: 
+                            delivery_information: 
+                              type: object
+                              properties: 
+                                name: 
+                                  type: string
+                                  example: abv
+                                phone_number: 
+                                  type: string
+                                  example: 023
+                                address: 
+                                  type: string
+                                  example: ddd
+                            order_person: 
+                              type: object
+                              properties: 
+                                _id: 
+                                  type: string
+                                  example: 0123456789
+                                name: 
+                                  type: string
+                                  example: Lưu Đức Hải
+                            _id: 
+                              type: string
+                              example: 668ab1e913c23180e5cb8560
+                            menu_detail: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: number
+                                    example: 2
+                                  name: 
+                                    type: string
+                                    example: Chả giò
+                                  quantity: 
+                                    type: number
+                                    example: 3
+                                  price: 
+                                    type: number
+                                    example: 80000
+                              example: [
+                                {
+                                  _id: 2,
+                                  name: Chả giò,
+                                  quantity: 3,
+                                  price: 80000
+                                }
+                              ]
+                            subtotal: 
+                              type: number
+                              example: 380000
+                            discount: 
+                              type: number
+                              example: 0
+                            surcharge: 
+                              type: number
+                              example: 0
+                            shippingfee: 
+                              type: number
+                              example: 0
+                            note: 
+                              type: string
+                              example: 
+                            total: 
+                              type: number
+                              example: 380000
+                            time: 
+                              type: string
+                              format: date-time
+                              example: 2024-07-07T02:57:51.923Z
+                            payment_method: 
+                              type: string
+                              example: cod
+                            status: 
+                              type: number
+                              example: 0
+                        example: 
+                            {
+                              delivery_information: 
+                              {
+                                name: abv,
+                                phone_number: 023,
+                                address: ddd
+                              },
+                              order_person: 
+                                {
+                                  _id: 0123456789,
+                                  name: Lưu Đức Hải
+                                },
+                              _id: 668ab1e913c23180e5cb8560,
+                              menu_detail: [
+                                  {
+                                    _id: 2,
+                                    name: Chả giò,
+                                    quantity: 3,
+                                    price: 80000,
+                                  }
+                              ],
+                              subtotal: 380000,
+                              discount: 0,
+                              surcharge: 0,
+                              shippingfee: 0,
+                              note: "Ghi chú",
+                              total: 380000,
+                              time: 2024-07-07T02:57:51.923Z,
+                              payment_method: cod,
+                              status: 0
+                            }
+                        
+   
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+            
   /order/apply-promotion:
     post:
       tags:

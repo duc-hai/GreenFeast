@@ -1,0 +1,3 @@
+[2024-07-12 22:54:26] 	GET /api/order/online/history-list [status: 500 - message: read ECONNRESET]
+[2024-07-12 22:56:47] 	GET /api/order/online/history-list [status: 401 - message: Thiếu mã JWT]
+[2024-07-12 22:57:00] 	GET /api/order/online/history-list [status: 500 - message: user is not defined]

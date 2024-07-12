@@ -12,13 +12,13 @@ services:
   #   networks:
   #     - greenfeast
 
-  redis:
-    image: redis:latest
-    container_name: redis
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    ports:
-      - 6379:6379
+  # redis:
+  #   image: redis:latest
+  #   container_name: redis
+  #   environment:
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #   ports:
+  #     - 6379:6379
   
   apigateway: #name of service
     container_name: apigateway

@@ -10,7 +10,11 @@ router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
 
 router.get('/menu/search', menuService.searchMenu)
 
+//Online module
 router.post('/online', orderService.orderMenuOnline)
+router.get('/online/history-list', orderService.historyOrderOnlineList)
+router.get('/online/history-detail/:id', orderService.historyOrderOnlineDetail)
+
 router.get('/view-order/:tableSlug', orderService.getOrderInfor)
 router.get('/promotion', orderService.getPromotions)
 

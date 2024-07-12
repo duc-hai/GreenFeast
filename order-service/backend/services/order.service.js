@@ -763,6 +763,45 @@ class OrderService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
+
+    historyOrderOnlineList = async (req, res, next) => {
+        try {
+            if (!req.headers['user-infor-header']) 
+                return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
+
+            const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
+            const orderList = await OrderOnline.find({ 'order_person._id': userInfor._id }).select({ __v: 0, order_person: 0, subtotal: 0, discount: 0, surcharge: 0, shippingfee: 0, note: 0, payment_method: 0, delivery_information: 0 }).sort({ time: -1 })
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy danh sách lịch sử đặt món thành công',
+                data: orderList
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    historyOrderOnlineDetail = async (req, res, next) => {
+        try {
+            // if (!req.headers['user-infor-header']) 
+            //     return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
+            // const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
+
+            const orderId = req.params.id
+            const orderDetail = await OrderOnline.findOne({ _id: orderId }).select({ __v: 0 })
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy lịch sử đặt món thành công',
+                data: orderDetail
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 }
 
 module.exports = new OrderService()
