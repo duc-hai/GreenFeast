@@ -121,7 +121,7 @@ services:
     expose: 
       - 3306 #This service will open port 3306 so that other containers can communicate
     volumes: # save data after container is deleted
-      - dbdata8:/data/mysql/db
+      # - dbdata8:/data/mysql/db
       - ./management-service/database/management_service.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - greenfeast
@@ -324,15 +324,15 @@ services:
   #   networks:
   #     - greenfeast
 
-volumes:
-  dbdata6:
-  dbdata7:
-  dbdata8:
-  rabbitmq_data:
-  dbdata9:
-  dbdata10:
-  dbdata11:
-  dbdata12:
+# volumes:
+#   dbdata6:
+#   dbdata7:
+#   dbdata8:
+#   rabbitmq_data:
+#   dbdata9:
+#   dbdata10:
+#   dbdata11:
+#   dbdata12:
 
 networks:
   apigateway-network:
