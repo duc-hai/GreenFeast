@@ -327,6 +327,8 @@ class UserService {
                 email: user.email
             })
 
+            client.del(`email:${userId}`)
+
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Xác thực email thành công'

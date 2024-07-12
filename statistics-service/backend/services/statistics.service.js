@@ -112,7 +112,7 @@ class StatisticsService {
             }
 
             const responseData = areas.map((value, index) => {
-                return { [value['name']]: revenues[index] }
+                return { area: value['name'], value: revenues[index] }
             })
 
             // console.log(responseData)

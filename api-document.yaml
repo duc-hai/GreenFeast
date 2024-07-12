@@ -4234,43 +4234,30 @@ paths:
                   schema:
                     type: object
                     properties: 
-                            status: 
-                              type: string
-                              example: success
-                            message: 
-                              type: string
-                              example: Thống kê doanh thu theo khu vực thành công
-                            data: 
-                              type: array
-                              items: 
-                                type: object
-                                properties: 
-                                  Tầng 1: 
-                                    type: number
-                                    example: 658000
-                                  Tầng 2: 
-                                    type: number
-                                    example: 0
-                                  Mua mang về: 
-                                    type: number
-                                    example: 0
-                                  Nhân viên: 
-                                    type: number
-                                    example: 0
-                              example: [
+                              status: 
+                                type: string
+                                example: success
+                              message: 
+                                type: string
+                                example: Thống kê doanh thu theo khu vực thành công
+                              data: 
+                                type: array
+                                items: 
+                                  type: object
+                                  properties: 
+                                    area: 
+                                      type: string
+                                      example: Tầng 1
+                                    value: 
+                                      type: number
+                                      example: 658000
+                                example: [
                                   {
-                                    Tầng 1: 658000
-                                  },
-                                  {
-                                    Tầng 2: 0
-                                  }, 
-                                  {
-                                    Mua mang về: 0
-                                  },
-                                  {
-                                    Nhân viên: 0
+                                    area: Tầng 1,
+                                    value: 658000
                                   }
-                              ]
+                                ]
+
 
   
           '400':
