@@ -13,13 +13,6 @@ const checkValidation = require('../helpers/check.validation')
 const OrderOnline = require('../models/online_order')
 
 class OrderService {
-    validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
-        if (menus.length == undefined || menus.length == 0) return 'Thiếu thông tin thực đơn'
-        if (payment_method == '') return 'Thiếu thông tin thanh toán'
-        if (!delivery_information || !delivery_information.name || !delivery_information.phone_number || !delivery_information.address) return 'Thiếu thông tin giao hàng'
-        return true;
-    }
-
     getMenuById = async id => {
         const menu = await Menu.findOne({ _id: id, status: true }).lean()
         if (!menu) throw new Error('Can not find food or beverage')
@@ -34,44 +27,6 @@ class OrderService {
             }
         }))
         return menuList
-    }
-
-    orderMenuOnline = async (req, res, next) => {
-        try {
-            const menus = req.body.menu
-            const note = req.body.note || ''
-            const payment_method = req.body.payment_method
-            const delivery_information = req.body.delivery
-
-            const checkValidator = this.validatorBodyMenuOnline(menus, payment_method, delivery_information)
-            if (checkValidator !== true) return next(createError(StatusCode.BadRequest_400, checkValidator))
-
-            const menuList = await this.getInformationMenuList(menus)
-
-            const subtotalPrice = menuList.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
-
-            let user = {} //initial by default
-
-            if (req.headers['user-infor-header']) {
-                const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
-                user.name = userInfor.full_name
-                user._id = userInfor._id
-            }
-            await new OrderOnline({
-                menu_detail: menuList,
-                note: note,
-                payment_method: payment_method,
-                delivery_information: delivery_information,
-                subtotal: subtotalPrice,
-                total: subtotalPrice,
-                order_person: user
-            }).save()
-
-            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công' })
-        }
-        catch (err) {
-            return next(createError(StatusCode.InternalServerError_500, err.message)) 
-        }
     }
 
     getUserInfor = headerInfor => {
@@ -757,45 +712,6 @@ class OrderService {
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Áp dụng khuyến mãi thành công'
-            })
-        }
-        catch (err) {
-            return next(createError(StatusCode.InternalServerError_500, err.message)) 
-        }
-    }
-
-    historyOrderOnlineList = async (req, res, next) => {
-        try {
-            if (!req.headers['user-infor-header']) 
-                return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
-
-            const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
-            const orderList = await OrderOnline.find({ 'order_person._id': userInfor._id }).select({ __v: 0, order_person: 0, subtotal: 0, discount: 0, surcharge: 0, shippingfee: 0, note: 0, payment_method: 0, delivery_information: 0 }).sort({ time: -1 })
-
-            return res.status(StatusCode.OK_200).json({
-                status: 'success',
-                message: 'Lấy danh sách lịch sử đặt món thành công',
-                data: orderList
-            })
-        }
-        catch (err) {
-            return next(createError(StatusCode.InternalServerError_500, err.message)) 
-        }
-    }
-
-    historyOrderOnlineDetail = async (req, res, next) => {
-        try {
-            // if (!req.headers['user-infor-header']) 
-            //     return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
-            // const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
-
-            const orderId = req.params.id
-            const orderDetail = await OrderOnline.findOne({ _id: orderId }).select({ __v: 0 })
-
-            return res.status(StatusCode.OK_200).json({
-                status: 'success',
-                message: 'Lấy lịch sử đặt món thành công',
-                data: orderDetail
             })
         }
         catch (err) {

@@ -1,6 +1,7 @@
 const amqplib = require('amqplib')
 const { v4: uuidv4 } = require('uuid')
 const Order = require('../models/order')
+const OrderOnline = require('../models/online_order')
 const Area = require('../models/area')
 
 const receiveQueue = async () => {
@@ -61,7 +62,7 @@ const receiveQueuePayment = async () => {
         //Buffer is a binary form of data, faster than regular objects, supports encoding
         await channel.consume(queueName, msg => {
             // console.log(`Message: ${msg.content.toString()}` )
-            closeTable(JSON.parse(msg.content.toString()))
+            handleDataPayment(JSON.parse(msg.content.toString()))
         }, {
             noAck: true //The parameter is true or false to respond when receiving a message. For example, if set to false, when receiving a message the status will be unreceived. If run the app again, it will continue processing
             //Confirm whether the message has been received
@@ -70,6 +71,20 @@ const receiveQueuePayment = async () => {
     catch (err) {
         console.error(`Connection string: ${amqpUrl}`)
         console.error(`Rabbit MQ is error with message: ${err.message}`)
+    }
+}
+
+const handleDataPayment = async message => {
+    try {
+        if (message.title !== 'payment') return null
+
+        //Order at restaurant
+        const order = await Order.findOne({ _id: message.data?.orderId, status: false })
+        if (order) closeTable(message)
+        else await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 1 })
+    }
+    catch (err) {
+        console.error(`Error occured: ${err.message}`)
     }
 }
 

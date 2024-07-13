@@ -21,7 +21,7 @@ const onlineOrder = new Schema (
         total: { type: Number },
         time: { type: Date, default: Date.now() },
         payment_method: { type: String },
-        status: { type: Number, default: 0 },
+        status: { type: Number, default: 1 },
         delivery_information: {
             name: { type: String, default: '' },
             phone_number: { type: String, required: true },

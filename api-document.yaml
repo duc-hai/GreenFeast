@@ -2938,8 +2938,8 @@ paths:
                                 description: Thưởng thức mùa xuân với các món ăn giảm giá đặc biệt.,
                                 condition_apply: 100000,
                                 promotion_value: 20%,
-                                start_at: 2024-06-01T00:00:00.000Z,
-                                end_at: 2024-06-30T23:59:59.000Z
+                                start_at: "2024-06-01T00:00:00.000Z",
+                                end_at: "2024-06-30T23:59:59.000Z"
                                 }
                             ]
 
@@ -3733,18 +3733,24 @@ paths:
         required: true
       responses:
         '200':
-            description: Thành công. Thông tin gồm message với thông báo 
+            description: "Thành công. Thông tin gồm message với thông báo. **Cập nhật 13/7**: Kết quả trả thêm về orderId và total, frontend sẽ sử dụng orderId, total này để tạo url thanh toán. Luồng hoạt động như sau: người dùng bấm Đặt món, gửi đến API đặt món này, nếu thanh toán với hình thức là cod thì Thông báo đặt món thành công, còn hình thức bank thì đơn hàng sẽ được lưu dưới dạng bản nháp, frontend sẽ chuyển sang API thanh toán phía dưới (cả order và order online đều dùng chung API thanh toán), nếu thanh toán thành công thì đơn hàng mới chính thức Đặt thành công" 
             content:
               application/json:
                 schema:
                   type: object
                   properties: 
-                    status: 
-                      type: string
-                      example: success
-                    message: 
-                      type: string
-                      example: Đặt món thành công
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Đặt đơn hàng thành công
+                      orderId: 
+                        type: string
+                        example: 669226b9b3e525f406300b96
+                      total:
+                        type: number
+                        example: 329000
                     
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
@@ -3810,8 +3816,8 @@ paths:
                               format: date-time
                               example: 2024-07-07T02:57:51.923Z
                             status: 
-                              type: number
-                              example: 0
+                              type: string
+                              example: "Đang chờ giao hàng"
                         example: [
                             {
                               _id: 668ab1e913c23180e5cb8560,
@@ -3824,8 +3830,8 @@ paths:
                                   }
                               ],
                               total: 380000,
-                              time: 2024-07-07T02:57:51.923Z,
-                              status: 0
+                              time: "2024-07-07T02:57:51.923Z",
+                              status: "Đang chờ giao hàng"
                             }
                         ]
    
@@ -3875,8 +3881,6 @@ paths:
                       data: 
                         type: object
                         properties: 
-                          type: object
-                          properties: 
                             delivery_information: 
                               type: object
                               properties: 
@@ -3952,8 +3956,8 @@ paths:
                               type: string
                               example: cod
                             status: 
-                              type: number
-                              example: 0
+                              type: string
+                              example: "Đang chờ giao hàng"
                         example: 
                             {
                               delivery_information: 
@@ -3982,9 +3986,9 @@ paths:
                               shippingfee: 0,
                               note: "Ghi chú",
                               total: 380000,
-                              time: 2024-07-07T02:57:51.923Z,
+                              time: "2024-07-07T02:57:51.923Z",
                               payment_method: cod,
-                              status: 0
+                              status: "Đang chờ giao hàng"
                             }
                         
    

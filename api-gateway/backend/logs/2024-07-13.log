@@ -1,0 +1,6 @@
+[2024-07-13 13:41:53] 	GET /api/order/online/history-list [status: 401 - message: Thiếu mã JWT]
+[2024-07-13 13:50:55] 	GET /api/order/online/history-detail/668ab1e913c23180e5cb8560 [status: 500 - message: Cannot read properties of null (reading '_doc')]
+[2024-07-13 13:58:34] 	POST /api/order/online [status: 500 - message: this.validatorBodyMenuOnline is not a function]
+[2024-07-13 13:59:20] 	POST /api/order/online [status: 500 - message: this.getInformationMenuList is not a function]
+[2024-07-13 14:00:57] 	POST /api/order/online [status: 500 - message: this.getMenuById is not a function]
+[2024-07-13 14:01:18] 	POST /api/order/online [status: 500 - message: Menu is not defined]

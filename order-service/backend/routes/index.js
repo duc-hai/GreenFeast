@@ -2,18 +2,18 @@ const express = require('express')
 const errorHandler = require('../middlewares/error.handler')
 const menuService = require('../services/menu.service')
 const orderService = require('../services/order.service')
+const orderOnlineService = require('../services/order.online.service')
 const router = express.Router()
 const validation = require('../validations/body.validation')
 
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
-
 router.get('/menu/search', menuService.searchMenu)
 
 //Online module
-router.post('/online', orderService.orderMenuOnline)
-router.get('/online/history-list', orderService.historyOrderOnlineList)
-router.get('/online/history-detail/:id', orderService.historyOrderOnlineDetail)
+router.post('/online', orderOnlineService.orderMenuOnline)
+router.get('/online/history-list', orderOnlineService.historyOrderOnlineList)
+router.get('/online/history-detail/:id', orderOnlineService.historyOrderOnlineDetail)
 
 router.get('/view-order/:tableSlug', orderService.getOrderInfor)
 router.get('/promotion', orderService.getPromotions)
