@@ -25,7 +25,12 @@ const onlineOrder = new Schema (
         delivery_information: {
             name: { type: String, default: '' },
             phone_number: { type: String, required: true },
-            address: { type: String, required: true }
+            address: { type: String, required: false },
+            province: { type: String, required: false },
+            district: { type: String, required: false },
+            ward: { type: String, required: false },
+            longitude: { type: String, required: true },
+            latitude: { type: String, required: true },
         },
         order_person: {
             _id: { type: String },

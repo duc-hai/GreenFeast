@@ -3,6 +3,8 @@ const StatusCode = require('../enums/http.status.code')
 const OrderOnline = require('../models/online_order')
 const StatusOnlineOrder = require('../enums/status.online.order')
 const Menu = require('../models/menu')
+const calculateShippingFee = require('../helpers/calculate.shippingfee')
+const calculateDistance = require('../helpers/calculate.distance')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -103,13 +105,18 @@ class OrderOnlineService {
                 user._id = userInfor._id
             }
             
+            const { latitude, longitude } = delivery_information
+            if (!latitude || !longitude) return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin vị trí giao hàng'))
+            const shippingFee = calculateShippingFee(calculateDistance(latitude, longitude))
+            
             const order = await new OrderOnline({
                 menu_detail: menuList,
                 note: note,
                 payment_method: payment_method,
                 delivery_information: delivery_information,
                 subtotal: subtotalPrice,
-                total: subtotalPrice,
+                shippingfee: shippingFee,
+                total: subtotalPrice + shippingFee,
                 order_person: user,
                 status: status
             }).save()

@@ -3680,54 +3680,69 @@ paths:
       description: "Có thể tận dụng lại trang đặt món, chỉ khác là gọi api đặt món khác nhau. Muốn đặt món yêu cầu phải đăng nhập"
      
       requestBody: 
-        description: Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được
+        description: "Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được. **Update on 13/7**: thông tin giao hàng bổ sung tỉnh thành, quận huyện, phường xã, địa chỉ số nhà, vào kinh độ, tọa độ từ api của phường xã, mục đích để backend tính toán phí ship."
         content: 
           application/json:
             schema:
                 type: object
                 properties: 
-                    menu: 
-                      type: array
-                      items: 
+                      menu: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            _id: 
+                              type: string
+                              example: 4
+                            quantity: 
+                              type: number
+                              example: 3
+                            note: 
+                              type: string
+                              example: Không hành
+                        example: [
+                            {
+                              _id: 4,
+                              quantity: 3,
+                              note: Không hành
+                            }
+                        ]
+                      note: 
+                        type: string
+                        example: Giao nhanh giùm nha
+                      payment_method: 
+                        type: string
+                        example: bank
+                      delivery: 
                         type: object
                         properties: 
-                          _id: 
+                          name: 
                             type: string
-                            example: 4
-                          quantity: 
-                            type: number
-                            example: 3
-                          note: 
+                            example: Lưu Đức Hải
+                          phone_number: 
                             type: string
-                            example: Không hành
-                      example: [
-                          {
-                            _id: 4,
-                            quantity: 3,
-                            note: Không hành,
-                          }
-                      ]
-                    note: 
-                      type: string
-                      example: Giao nhanh giùm nha
-                    payment_method: 
-                      type: string
-                      example: bank
-                    delivery: 
-                      type: object
-                      properties: 
-                        name: 
-                          type: string
-                          example: Lưu Đức Hải
-                        phone_number: 
-                          type: string
-                          example: 0123456789
-                        address: 
-                          type: string
-                          example: District 7 Ho Chi Minh City
-                    time_receive: 
-                      type: string
-                      example: 
+                            example: 0123456789
+                          province: 
+                            type: string
+                            example: Thành phố Hồ Chí Minh
+                          district: 
+                            type: string
+                            example: Quận 1
+                          ward: 
+                            type: string
+                            example: Phường Đa Kao
+                          longitude: 
+                            type: string
+                            example: 106.7032527
+                          latitude: 
+                            type: string
+                            example: 10.7801495
+                          address: 
+                            type: string
+                            example: Nguyễn Siêu
+                      time_receive: 
+                        type: string
+                        example: null
    
 
         required: true
@@ -4059,6 +4074,225 @@ paths:
                     message: 
                       type: string
                       example: Hóa đơn của bạn còn thiếu 671.000 để áp dụng chương trình khuyến mãi này
+                      
+  /order/online/provinces:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách tỉnh thành
+      description: Danh sách tỉnh thành để chọn địa chỉ giao hàng, mục đích sử dụng đến API này là để tính phí ship hàng cũng như tiện lợi cho đơn vị giao hàng. Tuy nhiên, cái này là tạm thôi. Nếu được, tích hợp API của Google Map, cho phép người dùng lấy vị trí hiện tại hoặc chọn vị trí trên bản đồ, vì như thế sẽ chính xác đến vị trí cụ thể thay vì chỉ chính xác đến phường xã. Nhưng nếu chưa tìm hiểu hoặc bị lỗi thì xài 3 cái API lấy tỉnh thành, phường xã, quận huyện này cũng được (chủ yếu 3 cái này dành cho ecommerce như Shopee ship hàng cả nước, còn mình ship đồ ăn nội thành thì ghim vị trí sẽ oke hơn). Nếu sử dụng 3 API này thì địa chỉ ô đặt món sẽ có tỉnh thành, quận huyện, phường xã, và tên đường số nhà
+      responses:
+        '200':
+            description: Thành công. Chủ yếu lấy id để gọi đến API tiếp theo và lấy tên để hiển thị
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy dữ liệu tỉnh thành thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              id: 
+                                type: string
+                                example: 89
+                              name: 
+                                type: string
+                                example: An Giang
+                              latitude: 
+                                type: string
+                                example: 10.5392057
+                              longitude: 
+                                type: string
+                                example: 105.2312822
+                          example: [
+                              {
+                                id: 89,
+                                name: An Giang,
+                                latitude: 10.5392057,
+                                longitude: 105.2312822
+                              }
+                          ]
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: Đã xảy ra lỗi
+                      
+  /order/online/districts/{id}:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách quận huyện theo tỉnh thành
+      description: Tương tự
+      parameters:
+        - in: path
+          name: id
+          description: "ID truyền vào là ID của tỉnh thành lấy từ API trước"
+          schema:
+            type: string
+            example: "79"
+          required: true
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy dữ liệu quận huyện thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              id: 
+                                type: string
+                                example: 760
+                              name: 
+                                type: string
+                                example: Quận 1
+                              latitude: 
+                                type: string
+                                example: 10.7773145
+                              longitude: 
+                                type: string
+                                example: 106.6999907
+                          example: [
+                              {
+                                id: 760,
+                                name: Quận 1,
+                                latitude: 10.7773145,
+                                longitude: 106.6999907
+                              }
+                          ]
+                          
+  /order/online/wards/{id}:
+    get:
+      tags:
+        - order
+      summary: Lấy danh sách phường xã theo quận huyện
+      description: Tương tự. Lưu ý đây là cấp API được sử dụng để tính phí ship, nên là khi người dùng chọn phường xã nào thì sẽ lấy long, lat từ dữ liệu trả về để tính phí ship. Sau khi người dùng chọn phường xã xong, gọi đến API tính phí ship bên dưới để người dùng biết được phí ship.
+      parameters:
+        - in: path
+          name: id
+          description: "ID truyền vào là ID của quận huyện lấy từ API trước"
+          schema:
+            type: string
+            example: "778"
+          required: true
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy dữ liệu phường xã thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                id: 
+                                  type: string
+                                  example: 27490
+                                name: 
+                                  type: string
+                                  example: Phường Tân Phong
+                                latitude: 
+                                  type: string
+                                  example: 10.7303569
+                                longitude: 
+                                  type: string
+                                  example: 106.7055701
+                            example: [
+                                {
+                                  id: 27490,
+                                  name: Phường Tân Phong,
+                                  latitude: 10.7303569,
+                                  longitude: 106.7055701
+                                }
+                            ]
+                            
+  /order/online/shipping-fee:
+    post:
+      tags:
+        - order
+      summary: Tính phí ship dựa trên tọa độ giao hàng
+      description: "Sau khi người dùng đã chọn 3 cấp thông tin là tỉnh thành, quận huyện, phường xã, sử dụng tọa độ của phường xã hoặc sử dụng API của google map cũng cung cấp cho mình kinh độ và vĩ độ (long, lat). Sử dụng 2 thông tin này để tính phí ship, đồng thời cộng thêm phí ship này vào tổng tiền. API đặt món cũng sẽ được cập nhật thêm thông tin kinh độ và vĩ độ. Tại backend, thông tin giao hàng sẽ được tính dựa trên khoảng cách từ phường xã giao hàng đến vị trí nhà hàng (hiện tại đang được ghim là tọa độ trường ĐH Tôn Đức Thắng), dựa trên công thức `haversine`. Phí giao hàng tại backend được tính như sau: phí cơ bản từ 15,000 VND cho khoảng cách ngắn (3 km đầu tiên), sau đó tính thêm khoảng 5,000 VND cho mỗi km tiếp theo"
+      requestBody: 
+        description: Kinh độ và vĩ độ
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  longitude: 
+                    type: string
+                    example: 106.7032527
+                  latitude: 
+                    type: string
+                    example: 10.7801495
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Tính dữ liệu phí ship thành công
+                      data: 
+                        type: object
+                        properties: 
+                          distance: 
+                            type: string
+                            example: 5.29 km
+                          shippingFee: 
+                            type: number
+                            example: 26500
+
+
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+
             
   /payment/create-payment-url:
     post:

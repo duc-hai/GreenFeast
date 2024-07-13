@@ -4,3 +4,25 @@
 [2024-07-13 13:59:20] 	POST /api/order/online [status: 500 - message: this.getInformationMenuList is not a function]
 [2024-07-13 14:00:57] 	POST /api/order/online [status: 500 - message: this.getMenuById is not a function]
 [2024-07-13 14:01:18] 	POST /api/order/online [status: 500 - message: Menu is not defined]
+[2024-07-13 17:33:09] 	GET /api/order/online/provinces [status: 500 - message: Converting circular structure to JSON
+    --> starting at object with constructor 'ClientRequest'
+    |     property 'res' -> object with constructor 'IncomingMessage'
+    --- property 'req' closes the circle]
+[2024-07-13 17:34:51] 	GET /api/order/online/provinces [status: 500 - message: Converting circular structure to JSON
+    --> starting at object with constructor 'ClientRequest'
+    |     property 'res' -> object with constructor 'IncomingMessage'
+    --- property 'req' closes the circle]
+[2024-07-13 17:35:17] 	GET /api/order/online/provinces [status: 500 - message: Converting circular structure to JSON
+    --> starting at object with constructor 'ClientRequest'
+    |     property 'res' -> object with constructor 'IncomingMessage'
+    --- property 'req' closes the circle]
+[2024-07-13 17:35:35] 	GET /api/order/online/provinces [status: 500 - message: Converting circular structure to JSON
+    --> starting at object with constructor 'ClientRequest'
+    |     property 'res' -> object with constructor 'IncomingMessage'
+    --- property 'req' closes the circle]
+[2024-07-13 17:36:03] 	GET /api/order/online/provinces [status: 500 - message: Converting circular structure to JSON
+    --> starting at object with constructor 'ClientRequest'
+    |     property 'res' -> object with constructor 'IncomingMessage'
+    --- property 'req' closes the circle]
+[2024-07-13 17:57:52] 	GET /api/order/online/dictricts/01 [status: 500 - message: ]
+[2024-07-13 18:03:17] 	GET /api/order/online/awards/274 [status: 500 - message: Không tìm thấy đường dẫn]
