@@ -3503,14 +3503,18 @@ paths:
                               updatedAt: 
                                 type: string
                                 format: date-time
-                                example: 2024-05-30T06:17:15.528Z
+                                example: 2024-05-30T06:17:15.528
+                              tableId: 
+                                type: string
+                                example: A04
                           example: [
                               {
                                 _id: 665819ebbf7e27178edaf20f,
-                              url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
-                              print_times: 1,
-                              createdAt: "2024-05-30T06:17:15.528Z",
-                              updatedAt: "2024-05-30T06:17:15.528Z"
+                                url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
+                                print_times: 1,
+                                createdAt: "2024-05-30T06:17:15.528Z",
+                                updatedAt: "2024-05-30T06:17:15.528Z",
+                                tableId: "A04"
                               }
                           ]    
 
@@ -3593,13 +3597,17 @@ paths:
                                 type: string
                                 format: date-time
                                 example: 2024-05-30T06:17:15.528Z
+                              tableId: 
+                                type: string
+                                example: A04
                           example: [
                               {
                                 _id: 665819ebbf7e27178edaf20f,
-                              url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
-                              print_times: 1,
-                              createdAt: "2024-05-30T06:17:15.528Z",
-                              updatedAt: "2024-05-30T06:17:15.528Z"
+                                url_ticket: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1717049833/665819e6bf7e27178edaf203-1.pdf",
+                                print_times: 1,
+                                createdAt: "2024-05-30T06:17:15.528Z",
+                                updatedAt: "2024-05-30T06:17:15.528Z",
+                                tableId: "A04"
                               }
                           ]    
 

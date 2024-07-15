@@ -175,7 +175,7 @@ class OrderService {
                 
             const ticketFoodUrl = await pdfService.sendPrinterFoodAndBeverage(menuDetailRow, orderDetail, 'Phiếu in bếp', orderMenu.table, 1)
 
-            this.storageProcessingTicket(ticketFoodUrl, 1)
+            this.storageProcessingTicket(ticketFoodUrl, 1, orderMenu.table)
 
             return 
         }
@@ -184,11 +184,12 @@ class OrderService {
         }
     }
 
-    storageProcessingTicket = async (url, ticketType) => {
+    storageProcessingTicket = async (url, ticketType, tableId) => {
         try {
             await new ProcessingTicket({
                 url_ticket: url,
-                ticket_type: ticketType
+                ticket_type: ticketType,
+                tableId: tableId,
             }).save()
         }   
         catch (err) {
@@ -203,7 +204,7 @@ class OrderService {
 
             const ticketBeverageUrl = await pdfService.sendPrinterFoodAndBeverage(menuDetailRow, orderDetail, 'Phiếu in pha chế', orderMenu.table, 2)
 
-            this.storageProcessingTicket(ticketBeverageUrl, 2)
+            this.storageProcessingTicket(ticketBeverageUrl, 2, orderMenu.table)
 
             return 
         }
