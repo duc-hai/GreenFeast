@@ -18,7 +18,7 @@ const NotifyContent =({data}) => {
     )
 }
 const NotifyHeader =() => {
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
   const [data,setData] = useState([])
     const handleClick=() => {
         setIsOpen(pre =>!pre)

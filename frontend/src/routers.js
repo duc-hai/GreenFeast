@@ -11,6 +11,8 @@ import RevenusManagement from "./pages/RevenusManagement/index";
 import HistoryOrder from "./pages/HistoryOrder/index";
 import AdminDemo from "./components/ChartDemo/PageDemo/Amin";
 import OrderOnline from "./pages/OrderOnline";
+import BillKitchen from "./components/Print/BillKitchen/BillKitchen";
+import BillBar from "./components/Print/BillBar/BillBar";
 
 const routers = [
   {
@@ -60,6 +62,14 @@ const routers = [
   {
     path: "/order-online",
     Conponent: () => <OrderOnline />,
+  },
+  {
+    path: "/bill-kitchen",
+    Conponent: () => <BillKitchen />,
+  },
+  {
+    path: "/bill-bar",
+    Conponent: () => <BillBar />,
   },
   // {
   //     path: '/sanpham/:userID',

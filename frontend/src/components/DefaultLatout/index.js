@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import "./index.css";
+import BillKitchen from "../Print/BillKitchen/BillKitchen";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -46,6 +47,8 @@ const DefaultLayout = () => {
     getItem("Quản lý máy in", "/printf-management", <PrinterOutlined />),
     getItem("Quản lý order", "/order-management", <BorderOuterOutlined />),
     getItem("Quản lý doanh thu", "/revenue-management", <BorderTopOutlined />),
+    getItem("Quản lý phiếu in bếp", "/bill-kitchen", <PrinterOutlined />),
+    getItem("Quản lý phiếu in pha chế", "/bill-bar", <PrinterOutlined />),
     getItem("Lịch sử order", "/history-order-management", <HistoryOutlined />),
   ];
   const navigate = useNavigate();

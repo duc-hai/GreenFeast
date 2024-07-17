@@ -12,6 +12,12 @@ import {
 import { getAllArea } from "../../Services/ManagementServiceAPI";
 import Header from "../../components/Header";
 import Search from "antd/es/transfer/search";
+import {
+  getListDistrict,
+  getListProvince,
+  getListWard,
+  postShipFee,
+} from "../../Services/AddressApi";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -36,6 +42,18 @@ const OrderOnline = () => {
   const [delivery, setDelivery] = useState({});
   const [note, setNote] = useState("");
   const [payment_method, setPayment_method] = useState("bank");
+  const [optionsProvince, setOptionsProvince] = useState([]);
+  const [optionsDistrict, setOptionsDistrict] = useState([]);
+  const [optionsWard, setOptionsWard] = useState([]);
+  const [shipFee, setShipFee] = useState(0);
+  const [dataWard, setDataWard] = useState([]);
+  const convertOption = (dataOption, keyValue, keyLabel) => {
+    let valueOptions = [...dataOption]?.map((item) => ({
+      value: Number(item[keyValue]),
+      label: item[keyLabel],
+    }));
+    return valueOptions;
+  };
   const onSearch = (e) => {
     setTextSearch(e.target.value);
   };
@@ -43,6 +61,93 @@ const OrderOnline = () => {
     setPayment_method(value);
   };
 
+  const handleChangeProvince = (option) => {
+    setDelivery((pre) => ({
+      ...pre,
+      province: option,
+      district: "",
+      ward: "",
+    }));
+    setOptionsWard([]);
+  };
+  const handleChangWard = (option) => {
+    let tempTude = [...dataWard].find(
+      (item) => Number(item?.id) === Number(option?.value)
+    );
+    console.log(tempTude);
+    setDelivery((pre) => ({
+      ...pre,
+      ward: option,
+      latitude: tempTude.latitude,
+      longitude: tempTude.longitude,
+    }));
+  };
+  // get address
+  const fetchDataProvince = async () => {
+    try {
+      const res = await getListProvince();
+      let tempOptions = convertOption(res?.data, "id", "name");
+      setOptionsProvince(tempOptions);
+      console.log(tempOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchDataDistrict = async (id) => {
+    try {
+      const res = await getListDistrict(id);
+      let tempOptions = convertOption(res?.data, "id", "name");
+
+      setOptionsDistrict(tempOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchDataWard = async (id) => {
+    try {
+      const res = await getListWard(id);
+      setDataWard(res?.data);
+      let tempOptions = convertOption(res?.data, "id", "name");
+
+      setOptionsWard(tempOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchShipFee = async (data) => {
+    try {
+      const res = await postShipFee({
+        longitude: data?.longitude,
+        latitude: data?.latitude,
+      });
+      setShipFee(res?.data?.shippingFee);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  ////////
+  useEffect(() => {
+    if (!!delivery?.province?.value) {
+      fetchDataDistrict(delivery?.province?.value);
+    }
+  }, [delivery?.province?.value]);
+
+  useEffect(() => {
+    if (!!delivery?.district?.value) {
+      fetchDataWard(delivery?.district?.value);
+    }
+  }, [delivery?.district?.value]);
+
+  useEffect(() => {
+    if (!!delivery?.ward?.value) {
+      fetchShipFee(delivery);
+    }
+  }, [delivery?.ward?.value]);
+
+  ///////////////////
   const fetchDataByKeywork = async (key) => {
     try {
       const res = await getMenuBySearch(key);
@@ -72,7 +177,7 @@ const OrderOnline = () => {
         console.log(error);
       }
     };
-    fetchArea();
+    Promise.all([fetchArea(), fetchDataProvince()]);
   }, []);
   const fetchMenu = async () => {
     try {
@@ -108,7 +213,13 @@ const OrderOnline = () => {
     }
     setLoading(false);
   };
-
+  const handleMoneyOrder = (dataOrder) => {
+    let value = 0;
+    if (order?.length > 0) {
+      value = order?.reduce((a, b) => a + b.price * b.quantity, 0);
+    }
+    return value;
+  };
   // useEffect(() => {
   //   if (!us) {
   //     message.error("Vui lòng đăng nhập");
@@ -181,12 +292,25 @@ const OrderOnline = () => {
       message.error("Vui lòng chọn món");
       return;
     }
-    if (!delivery.name || !delivery.phone_number || !delivery.address) {
+    if (
+      !delivery.name ||
+      !delivery.phone_number ||
+      !delivery?.address ||
+      !delivery?.province ||
+      !delivery?.district ||
+      !delivery?.ward
+    ) {
       message.error("Vui lòng nhập thông tin giao hàng");
       return;
     }
     setLoading(true);
     try {
+      let tempDelivery = {
+        ...delivery,
+        province: delivery?.province?.label,
+        district: delivery?.district?.label,
+        ward: delivery?.ward?.label,
+      };
       const res = await createOrderOnline({
         menu: order?.map((item) => ({
           _id: item.id,
@@ -195,7 +319,8 @@ const OrderOnline = () => {
         })),
         note: note,
         payment_method: payment_method,
-        delivery: delivery,
+
+        delivery: tempDelivery,
         time_receive: null,
       });
       if (res?.data?.length > 0) {
@@ -245,7 +370,10 @@ const OrderOnline = () => {
           </div>
           <div className="">
             <span className="font-semibold text-base">Thông tin giao hàng</span>
-            <div className="grid gap-x-6 gap-y-3 grid-cols-2 mt-3">
+            <div
+              className="grid gap-x-6 gap-y-3 grid-cols-2 mt-3"
+              style={{ gridTemplateColumns: "8fr 4fr" }}
+            >
               <div className="flex flex-col gap-1">
                 <span>Họ và tên:</span>
                 <input
@@ -268,24 +396,79 @@ const OrderOnline = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <span>Địa chỉ nhận hàng:</span>
-                <input
-                  placeholder="Nhập địa chỉ nhận hàng"
-                  className="border none outline-none px-2 py-1 rounded-lg"
-                  onChange={(e) => {
-                    setDelivery({ ...delivery, address: e.target.value });
-                  }}
-                />
+                <div className="grid grid-cols-3 gap-1">
+                  <Select
+                    placeholder="Chọn tỉnh"
+                    options={optionsProvince}
+                    showSearch
+                    value={delivery?.province?.value || null}
+                    onChange={(e, option) => handleChangeProvince(option)}
+                  />
+                  <Select
+                    placeholder="Chọn huyện"
+                    options={optionsDistrict}
+                    value={delivery?.district?.value || null}
+                    showSearch
+                    onChange={(e, option) =>
+                      setDelivery((pre) => ({
+                        ...pre,
+                        district: option,
+                        ward: "",
+                      }))
+                    }
+                  />
+                  <Select
+                    placeholder="Chọn xã"
+                    options={optionsWard}
+                    value={delivery?.ward?.value || null}
+                    showSearch
+                    onChange={(e, option) => handleChangWard(option)}
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-1">
+                  <input
+                    onChange={(e) =>
+                      setDelivery((pre) => ({
+                        ...pre,
+                        address: e.target.value,
+                      }))
+                    }
+                    placeholder="Nhập địa chỉ chi tiết"
+                    className="border none outline-none px-2 py-1 rounded-lg"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <span>Ghi chú:</span>
-                <input
-                  placeholder="Nhập Ghi chú"
-                  className="border none outline-none px-2 py-1 rounded-lg"
-                  onChange={(e) => {
-                    setNote(e.target.value);
-                  }}
-                />
+              <div className="grid grid-col-1 gap-2">
+                <div className="flex flex-col gap-1">
+                  <span>Ghi chú:</span>
+                  <input
+                    placeholder="Nhập Ghi chú"
+                    className="border none outline-none px-2 py-1 rounded-lg"
+                    onChange={(e) => {
+                      setNote(e.target.value);
+                    }}
+                  />
+                </div>
+                <p className="grid grid-cols-2 gap-1">
+                  <span>Tiền món ăn :</span>
+                  <span className="font-semibold">
+                    {handleMoneyOrder(order).toLocaleString()} VNĐ
+                  </span>
+                </p>
+                <p className="grid grid-cols-2 gap-1">
+                  <span>Phí ship :</span>
+                  <span className="font-semibold">
+                    {shipFee.toLocaleString()} VNĐ
+                  </span>{" "}
+                </p>
+                <p className="grid grid-cols-2 gap-1">
+                  <span>Tổng tiền:</span>
+                  <span className="font-semibold text-red-600">
+                    {(shipFee + handleMoneyOrder(order)).toLocaleString()} VNĐ
+                  </span>
+                </p>
               </div>
+
               <div className="flex flex-col gap-1">
                 <span>Loại thanh toán:</span>
                 <Select
@@ -463,7 +646,7 @@ const OrderOnline = () => {
             </div>
             <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
               <span className="font-medium text-xl">
-                Tổng tiền:{" "}
+                Tiền món ăn:{" "}
                 {order?.length > 0
                   ? order
                       ?.reduce((a, b) => a + b.price * b.quantity, 0)

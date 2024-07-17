@@ -441,7 +441,7 @@ const Header = () => {
 
             {us?.role === "customer" ? (
               <div className="flex items-center gap-8">
-                <Link to="/order" style={{ fontSize: 18 }}>
+                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
 
@@ -459,32 +459,36 @@ const Header = () => {
                     Quản lý
                   </Link>
                 )}
-                <Link to="/order" style={{ fontSize: 18 }}>
+                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
                 <Link to="/order-online" style={{ fontSize: 18 }}>
                   Đặt món online
                 </Link>
-                <Link to="/admin-chart" style={{ fontSize: 18 }}>
-                  Báo cáo kinh doanh
-                </Link>
+                {user?.role === "Manager" && (
+                  <Link to="/admin-chart" style={{ fontSize: 18 }}>
+                    Báo cáo kinh doanh
+                  </Link>
+                )}
               </div>
             )}
           </div>
         </div>
         <div className="flex gap-6">
-          <div className="flex items-center gap-4">
-            <NotifyHeader />
-          </div>
           {us?.full_name ? (
-            <div className="flex items-center gap-4">
-              <div>Xin chào, {us?.full_name || "Khách"}</div>
-              <Dropdown menu={{ items }} trigger={["click"]}>
-                <p className="p-2 bg-white rounded-full">
-                  <UserOutlined style={{ color: "black" }} />
-                </p>
-              </Dropdown>
-            </div>
+            <>
+              <div className="flex items-center gap-4">
+                <NotifyHeader />
+              </div>
+              <div className="flex items-center gap-4">
+                <div>Xin chào, {us?.full_name || "Khách"}</div>
+                <Dropdown menu={{ items }} trigger={["click"]}>
+                  <p className="p-2 bg-white rounded-full">
+                    <UserOutlined style={{ color: "black" }} />
+                  </p>
+                </Dropdown>
+              </div>
+            </>
           ) : (
             <NavLink to="/login" style={{ fontSize: 18 }}>
               <Button type="primary">Đăng nhập</Button>

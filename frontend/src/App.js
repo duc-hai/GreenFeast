@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import Order from "./pages/Order";
 import OrderOnline from "./pages/OrderOnline";
 import OrderHistory from "./pages/OrderHistory";
+import OrderAtRestaurant from "./pages/Order/OrderAtRestaurant";
+import CheckTokenOrder from "./pages/Order/CheckTokenOrder";
 function App() {
   return (
     <>
@@ -14,8 +16,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/order/at-restaurant">
+            <Route path="" element={<OrderAtRestaurant />} />
+            <Route path="validate" element={<CheckTokenOrder />} />
+          </Route>
+
           <Route path="/register" element={<Register />} />
-          <Route path="/order" element={<Order />} />
+          {/* <Route path="/order" element={<Order />} /> */}
           <Route path="/order-online" element={<OrderOnline />} />
           <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/*" element={<DefaultLayout />} />
