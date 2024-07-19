@@ -78,7 +78,7 @@ router.delete('/printer/delete/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSi
 router.get('/order/move-table', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 router.post('/order/close/:tableSlug', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/get-revenue', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
-router.get('/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+router.get('/order/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/history', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/history/print-bill', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 

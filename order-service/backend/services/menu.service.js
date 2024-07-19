@@ -134,14 +134,15 @@ class MenuService {
             const table = area?.table_list.find(table => table._id === tableId)
 
             const hostUrl = process.env.FRONT_END_URL_QRCODE || 'http://localhost:3000'
-
+            const linkToOrder = `${hostUrl}/order/at-restaurant/validate?token=${table.slug}`
             //Create QR Code
-            const qrCodeBase64 = await qrcode.toDataURL(`${hostUrl}/api/order/${table.slug}`)
+            const qrCodeBase64 = await qrcode.toDataURL(linkToOrder)
 
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Tạo QR bàn thành công',
-                data: qrCodeBase64
+                data: qrCodeBase64,
+                link: linkToOrder
             })
         }
         catch (err) {

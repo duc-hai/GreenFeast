@@ -139,6 +139,7 @@ services:
       - AMQP_SERVER_URL_PORT=5672
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=https://greenfeast.space
+      - FRONT_END_URL_QRCODE=https://greenfeast.space
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5000:5000 #The first 5000 is your port local, the second 5000 is the port on docker container
