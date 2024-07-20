@@ -29,7 +29,8 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
       - DB_HOST=apiGatewayDB # database is service's name
-      - FRONT_END_URL=http://localhost
+      # - FRONT_END_URL=http://localhost
+      - FRONT_END_URL=https://greenfeast.space
       - ORDER_SERVICE_URL=http://order:5000
       - NOTIFICATION_SERVICE_URL=http://notification:5020
       - PAYMENT_SERVICE_URL=http://payment:5005

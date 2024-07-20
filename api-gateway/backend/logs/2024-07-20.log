@@ -5,3 +5,6 @@
 [2024-07-20 10:27:20] 	POST /api/order/online [status: 500 - message: Không tìm thấy đồ ăn hoặc thức uống yêu cầu với mã 4, vui lòng thử lại]
 [2024-07-20 10:45:48] 	GET /api/admin/order/history/print-bill?order=6658082f66e00619d3d484ff [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
 [2024-07-20 10:46:01] 	GET /api/admin/order/history/print-bill?order=6658082f66e00619d3d484ff [status: 500 - message: Không tìm thấy đơn hàng]
+[2024-07-20 10:52:18] 	POST /api/order/online/shipping-fee [status: 500 - message: Khoảng cách hiện tại cách nhà hàng 6447.07 km, chúng tôi chỉ nhận giao hàng trong phạm vi 20 km]
+[2024-07-20 11:57:01] 	GET /api/auth/google [status: 500 - message: passport is not defined]
+[2024-07-20 12:01:24] 	GET /api/auth/google/callback?code=4/0AcvDMrAzYTZobcFYvBo-GNt30qadAUE6znnvnfvaL4WN79TOfgpSl7Grtdn3HMi-0uGGyg&scope=email%20profile%20openid%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&authuser=0&prompt=consent [status: 400 - message: Đã xảy ra lỗi khi gọi đăng nhập Google: Bad Request]

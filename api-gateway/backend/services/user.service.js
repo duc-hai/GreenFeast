@@ -15,6 +15,7 @@ const hiddenPropertiesOption = require('../config/hidden.properties')
 const generateOtp = require('../helpers/generate.otp')
 const producer = require('./producer.rabbitmq')
 const clientRedis = require('../config/connect.redis')
+const passport = require('passport')
 
 class UserService {
     //For both client and admin (1 for admin, 2 for customer)
@@ -269,7 +270,7 @@ class UserService {
 
     async verifyEmail (req, res, next) {
         try {
-            let { email }= req.body;
+            let { email }= req.body
             if (!email) email = req.user.email
             if (!email)
                 return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin email'))
@@ -333,6 +334,83 @@ class UserService {
                 status: 'success',
                 message: 'Xác thực email thành công'
             })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    findOrCreateUserGoogle = async (profile) => {
+        try {
+            const username = `google:${profile.id}`
+            const displayName = profile.displayName
+            const email = profile.emails[0]?.value
+
+            const user = await User.findOne({ _id: username, status: true }).select(hiddenPropertiesOption.userInfor).lean()
+            if (user) return user
+           
+            const newUser = await User.insertMany([{
+                _id: username,
+                full_name: displayName,
+                user_type: 2,
+                role: 'customer',
+                email: email,
+                isVerifyEmail: true
+            }])
+
+            if (!newUser)
+                return new Error('Đã xảy ra lỗi khi tạo mới người dùng')
+            return newUser 
+        }
+        catch (err) {
+            return new Error(err.message)
+        }
+    }
+
+    authenticateGoogle = async (req, res, next) => {
+        try {
+            passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next)
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    authenticateGoogleCallback = async (req, res, next) => {
+        try {
+            passport.authenticate('google', { failureRedirect: `${process.env.FRONT_END_URL}/login` },
+            async function(error, user, infor) {
+                if (error) return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi gọi đăng nhập Google: ${error.message}`))
+                const accessToken = await jwt.sign({ username: user._id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
+                const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+                    
+                res.cookie('access_token', accessToken, {
+                    httpOnly: true, //Config cookie just accessed by server
+                    signed: true, //Cookie secure, prevents client-side modifications
+                    maxAge: 10 * 60 * 60 * 1000, //Expires after 10 hours
+                    // sameSite: 'none',
+                    // secure: true // Cookies are only transmitted over a secure channel (eg: https protocol)
+                })
+
+                const data = {
+                    access_token: accessToken,
+                    refresh_token: refreshToken,
+                    user: user
+                }
+    
+                // Successful authentication
+                res.redirect(`${process.env.FRONT_END_URL}/google?data=${encodeURIComponent(JSON.stringify(data))}`)    
+
+                // return res.status(StatusCode.OK_200).json({
+                //     status: 'success',
+                //     message: 'Đăng nhập Google thành công',
+                //     data: {
+                //         access_token: accessToken,
+                //         refresh_token: refreshToken,
+                //         data: user
+                //     }
+                // })
+            })(req, res, next)
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

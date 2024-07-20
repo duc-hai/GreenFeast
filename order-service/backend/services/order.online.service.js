@@ -110,7 +110,7 @@ class OrderOnlineService {
             const MAXIMUM_DISTANCE = process.env.MAXIMUM_DISTANCE || 20
             const distance = calculateDistance(latitude, longitude)
             if (distance > MAXIMUM_DISTANCE)
-                return next(createError(StatusCode.BadRequest_400, `Khoảng cách hiện tại cách nhà hàng ${distance}, chúng tôi chỉ nhận giao hàng trong phạm vi ${MAXIMUM_DISTANCE} km`))
+                return next(createError(StatusCode.BadRequest_400, `Khoảng cách giao hàng cách nhà hàng ${distance}, chúng tôi chỉ nhận giao hàng trong phạm vi ${MAXIMUM_DISTANCE} km`))
             const shippingFee = calculateShippingFee(distance)
             
             const order = await new OrderOnline({

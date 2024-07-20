@@ -298,13 +298,13 @@ paths:
       tags:
         - auth
       summary: Đăng nhập với google (khách hàng)
-      description: "Đăng nhập với google, chỉ cần gắn đường link này cho nút đăng nhập với google là được. Còn lại thì server sẽ tự động xử lý. Không cần truyền param hay body gì hết. Chức năng này sẽ xác thực google và chuyển hướng về trang /, đồng thời đã áp dụng JWT, server sẽ tự động lưu access_token vào trình duyệt người dùng (không dùng refresh token cho loại đăng nhập này). Lưu ý: project GreenFeast đăng ký trên Google cloud hiện đã xuất bản và xác thực nên tài khoản google nào cũng có thể đăng nhập. Ngoài ra, để thuận tiện cho việc hiển thị tên người dùng lên giao diện, cookie sẽ lưu thêm 1 tham số nữa là full_name tương ứng tên người dùng. full_name này lưu ở chế độ client có thể truy cập cũng như không mã hóa nên front end có thể dễ dàng lấy ra giá trị để hiển thị" 
+      description: "Đăng nhập với google, chỉ cần gắn đường link này cho nút đăng nhập với google là được. Còn lại thì server sẽ tự động xử lý. Không cần truyền param hay body gì hết. Chức năng này sẽ xác thực google và chuyển hướng về trang frontend, đồng thời đã áp dụng JWT, server sẽ tự động lưu access_token vào trình duyệt người dùng. Lưu ý: project GreenFeast đăng ký trên Google cloud hiện đã xuất bản và xác thực nên tài khoản google nào cũng có thể đăng nhập. **Updated on 20/7:** Tại frontend, tạo 1 trang để hứng data `{url}/google?data=...`, trong đó url là url của frontend như localhost:3001, url này được lưu trữ ở biến `FRONT_END_URL` ở .env của api gateway, data là kết quả nhận được từ backend sau khi đăng nhập thành công. Data này gồm thông tin access_token, refresh_token và user (chứa thông tin như _id, role, full_name). Data này là querystring dưới dạng encode, để giải mã và sử dụng như object thì dùng `JSON.parse(decodeURIComponent(data))`. Flow là frontend gọi đến api này, backend chuyển hướng người dùng đến trang đăng nhập của Google, người dùng đăng nhập và cấp quyền, sau đó backend sẽ lấy thông tin hồ sơ người dùng lưu vào DB và encode JWT, và trả kết quả cho frontend thông qua 1 url của frontend, frontend sau khi nhận kết quả thì thực hiện các xử lý."
       responses:
         '200':
-          description: Đăng nhập thành công, tự động chuyển hướng về trang / (hiện đang để tạm, tùy vào nghiệp vụ mà sau này sửa lại url chuyển hướng cho đúng)
+          description: Đăng nhập thành công, tự động chuyển hướng về trang frontend là `{url-frontend}/google?data=...`
           
         '400':
-          description: Nếu lỗi thì tự động chuyển hướng lại trang đăng nhập
+          description: Nếu lỗi thì tự động chuyển hướng lại trang đăng nhập ở frontend, là /login
 
   /auth/logout:
     get:
@@ -4302,8 +4302,18 @@ paths:
 
 
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
-
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message. Nếu khoảng cách giao hàng quá xa so với vị trí nhà hàng cũng sẽ báo lỗi." 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: 
+                      type: string
+                      example: error
+                    message: 
+                      type: string
+                      example: "Khoảng cách giao hàng cách nhà hàng 30.07 km, chúng tôi chỉ nhận giao hàng trong phạm vi 20 km"
             
   /payment/create-payment-url:
     post:
