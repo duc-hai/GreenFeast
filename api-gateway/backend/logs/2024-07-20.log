@@ -1,0 +1,7 @@
+[2024-07-20 10:21:44] 	POST /api/order/online/shipping-fee [status: 500 - message: Khoảng cách hiện tại cách nhà hàng 5.29, chúng tôi chỉ nhận giao hàng trong phạm vi 20 km]
+[2024-07-20 10:22:29] 	POST /api/order/online/shipping-fee [status: 500 - message: Khoảng cách hiện tại cách nhà hàng 5.29 km, chúng tôi chỉ nhận giao hàng trong phạm vi 20 km]
+[2024-07-20 10:24:31] 	POST /api/order/online [status: 500 - message: Can not find food or beverage]
+[2024-07-20 10:26:07] 	POST /api/order/online [status: 500 - message: Không tìm thấy đồ ăn hoặc thức uống yêu cầu, vui lòng thử lại]
+[2024-07-20 10:27:20] 	POST /api/order/online [status: 500 - message: Không tìm thấy đồ ăn hoặc thức uống yêu cầu với mã 4, vui lòng thử lại]
+[2024-07-20 10:45:48] 	GET /api/admin/order/history/print-bill?order=6658082f66e00619d3d484ff [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-20 10:46:01] 	GET /api/admin/order/history/print-bill?order=6658082f66e00619d3d484ff [status: 500 - message: Không tìm thấy đơn hàng]

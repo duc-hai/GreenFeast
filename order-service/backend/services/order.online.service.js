@@ -52,7 +52,7 @@ class OrderOnlineService {
 
     getMenuById = async id => {
         const menu = await Menu.findOne({ _id: id, status: true }).lean()
-        if (!menu) throw new Error('Can not find food or beverage')
+        if (!menu) throw new Error(`Không tìm thấy đồ ăn hoặc thức uống yêu cầu với mã ${id}, vui lòng thử lại`)
         return menu
     }
 
@@ -107,7 +107,11 @@ class OrderOnlineService {
             
             const { latitude, longitude } = delivery_information
             if (!latitude || !longitude) return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin vị trí giao hàng'))
-            const shippingFee = calculateShippingFee(calculateDistance(latitude, longitude))
+            const MAXIMUM_DISTANCE = process.env.MAXIMUM_DISTANCE || 20
+            const distance = calculateDistance(latitude, longitude)
+            if (distance > MAXIMUM_DISTANCE)
+                return next(createError(StatusCode.BadRequest_400, `Khoảng cách hiện tại cách nhà hàng ${distance}, chúng tôi chỉ nhận giao hàng trong phạm vi ${MAXIMUM_DISTANCE} km`))
+            const shippingFee = calculateShippingFee(distance)
             
             const order = await new OrderOnline({
                 menu_detail: menuList,

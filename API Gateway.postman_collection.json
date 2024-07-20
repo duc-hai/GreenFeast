@@ -19,7 +19,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "093213213212",
+									"value": "0123456789",
 									"type": "text"
 								},
 								{
@@ -854,7 +854,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true,\r\n    \"text_email\": \"Nhận ngay giảm giá đến 50% khi đặt bàn trực tuyến. Chương trình áp dụng từ 10/6/2024 đến 20/6/2024.\"\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true,\r\n    \"text_email\": \"Nhận ngay giảm giá đến 20% toàn bộ món bánh canh, phở, hủ tiếu . Chương trình áp dụng từ 10/6/2024 đến 20/6/2024.\"\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1162,7 +1162,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/admin/order/history/print-bill?order=6658082f66e00619d3d484ff",
+							"raw": "{{url}}/api/admin/order/history/print-bill?order=669424a24e595538b9468440",
 							"host": [
 								"{{url}}"
 							],
@@ -1176,7 +1176,7 @@
 							"query": [
 								{
 									"key": "order",
-									"value": "6658082f66e00619d3d484ff"
+									"value": "669424a24e595538b9468440"
 								}
 							]
 						}
@@ -1189,13 +1189,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/admin/create-qr?table=A01",
+							"raw": "{{url}}/api/admin/order/create-qr?table=A01",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"admin",
+								"order",
 								"create-qr"
 							],
 							"query": [
@@ -1351,42 +1352,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/order/9c48d924-a481-493e-8bbe-6d866e89eb70",
+							"raw": "{{url}}/api/order/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"order",
-								"9c48d924-a481-493e-8bbe-6d866e89eb70"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Order Online",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"menu\": [\r\n        {\r\n            \"_id\": \"4\",\r\n            \"quantity\": 3,\r\n            \"note\": \"Không hành\"\r\n        },\r\n        {\r\n            \"_id\": \"19\",\r\n            \"quantity\": 2,\r\n            \"note\": \"Không hẹ\"\r\n        },\r\n        {\r\n            \"_id\": \"32\",\r\n            \"quantity\": 1,\r\n            \"note\": \"Ít ngọt\"\r\n        }\r\n    ],\r\n    \"note\": \"Giao nhanh giùm nha\",\r\n    \"payment_method\": \"bank\",\r\n    \"delivery\": {\r\n        \"name\": \"Lưu Đức Hải\",\r\n        \"phone_number\": \"0123456789\",\r\n        \"address\": \"District 7, Ho Chi Minh City\"\r\n    },\r\n    \"time_receive\": \"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/order/online",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"order",
-								"online"
+								"781db1c5-6cd2-4eaf-916b-f280ea4f2bb5"
 							]
 						}
 					},
@@ -1474,7 +1447,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/admin/order/close/9c48d924-a481-493e-8bbe-6d866e89eb70",
+							"raw": "{{url}}/api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5",
 							"host": [
 								"{{url}}"
 							],
@@ -1483,7 +1456,7 @@
 								"admin",
 								"order",
 								"close",
-								"9c48d924-a481-493e-8bbe-6d866e89eb70"
+								"781db1c5-6cd2-4eaf-916b-f280ea4f2bb5"
 							]
 						}
 					},
@@ -2226,6 +2199,306 @@
 								"api",
 								"notification",
 								"get-notifications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "Number of customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/num-customer?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"num-customer"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-03-07T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "2024-10-07T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revenue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"get-revenue"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-03-07T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "2024-10-07T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/area?date=2024-06-22T00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"area"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2024-06-22T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/menu?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"menu"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-03-07T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "2024-10-07T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Online order",
+			"item": [
+				{
+					"name": "History list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/online/history-list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"history-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/online/history-detail/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"history-detail",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "66921ba8458d79e8aa059624"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pronvinces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/online/provinces",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"provinces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Districts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/online/districts/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"districts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "79"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/online/wards/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"wards",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "778"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shipping Fee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"longitude\": \"106.7032527\",\r\n    \"latitude\": \"10.7801495\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/online/shipping-fee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online",
+								"shipping-fee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Online",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"menu\": [\r\n        {\r\n            \"_id\": \"4\",\r\n            \"quantity\": 3,\r\n            \"note\": \"Không hành\"\r\n        },\r\n        {\r\n            \"_id\": \"19\",\r\n            \"quantity\": 2,\r\n            \"note\": \"Không hẹ\"\r\n        },\r\n        {\r\n            \"_id\": \"32\",\r\n            \"quantity\": 1,\r\n            \"note\": \"Ít ngọt\"\r\n        }\r\n    ],\r\n    \"note\": \"Giao nhanh giùm nha\",\r\n    \"payment_method\": \"bank\",\r\n    \"delivery\": {\r\n        \"name\": \"Lưu Đức Hải\",\r\n        \"phone_number\": \"0123456789\",\r\n        \"province\": \"Thành phố Hồ Chí Minh\",\r\n        \"district\": \"Quận 1\",\r\n        \"ward\": \"Phường Đa Kao\",\r\n        \"longitude\": \"106.7032527\",\r\n        \"latitude\": \"10.7801495\",\r\n        \"address\": \"Nguyễn Siêu\"\r\n    },\r\n    \"time_receive\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/online",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"online"
 							]
 						}
 					},

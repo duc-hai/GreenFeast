@@ -86,10 +86,10 @@ class PdfService {
     }
 
     uploadPdfCloudinary = async (outputPath, publicId) => {
-        //Upload to cloud
+        
         cloudinary.config(cloudinaryConfig)
         const result = await cloudinary.uploader.upload(outputPath, { public_id: publicId })
-
+        fs.promises.unlink(outputPath) //remove file in local
         return result.secure_url
     }
 
