@@ -39,6 +39,7 @@ services:
       - STATISTICS_SERVICE_URL=http://statistics:5030
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - GOOGLE_REDIRECT_URI=https://greenfeast.space/api/auth/google/callback
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container
