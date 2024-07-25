@@ -53,7 +53,7 @@ class RecommendService {
 
             const dataMenu = dataResponse.data?.data
 
-            if (!dataMenuArray)
+            if (!dataMenu)
                 return next(createError(dataResponse.status, dataResponse.message)) 
 
             const menuArray = JSON.parse(dataMenu)
