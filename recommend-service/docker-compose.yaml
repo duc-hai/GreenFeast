@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  recommend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 5090:5090
+    expose:
+      - 5090

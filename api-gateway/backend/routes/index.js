@@ -12,6 +12,7 @@ const router = express.Router()
 
 router.use('/auth/google', googleRouter)
 router.use('/payment', forwardService.forwardRequestWithAlias('payment'))
+router.use('/recommend', jwtTokenGuard.jwtTokenValidatorBoth, forwardService.forwardRequestWithAlias('recommend'))
 router.use('/statistics', forwardService.forwardRequestWithAlias('statistics'))
 router.use('/tms', forwardService.forwardRequestWithAlias('tms'))
 router.use('/notification', jwtTokenGuard.jwtTokenValidatorUser, forwardService.forwardRequestWithAlias('notification'))

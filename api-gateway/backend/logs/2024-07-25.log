@@ -1,0 +1,5 @@
+[2024-07-25 15:15:15] 	GET /api/recommend/menu/3123 [status: 500 - message: Không tìm thấy đường dẫn]
+[2024-07-25 15:19:05] 	GET /api/recommend/menu [status: 500 - message: argument of type 'NoneType' is not iterable]
+[2024-07-25 15:19:42] 	GET /api/recommend/menu [status: 500 - message: argument of type 'NoneType' is not iterable]
+[2024-07-25 22:58:28] 	GET /api/recommend/menu [status: 500 - message: Object of type ndarray is not JSON serializable]
+[2024-07-25 23:07:10] 	GET /api/recommend/menu [status: 401 - message: Thiếu mã JWT]

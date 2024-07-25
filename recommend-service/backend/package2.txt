@@ -1,0 +1,8 @@
+pandera
+recommenders
+Flask
+pandas
+tensorflow-cpu
+lightgbm
+category_encoders
+scikit-learn 
