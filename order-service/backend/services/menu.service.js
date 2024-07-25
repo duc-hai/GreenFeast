@@ -152,12 +152,10 @@ class MenuService {
 
     getMenuDetail = async (req, res, next) => {
         try {
-            const id = req.params.id
-            console.log(id)
-            console.log(typeof id)
+            let id = req.params.id
             if (!id) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn'))
+            id = parseInt(id)
             const menu = await Menu.findOne({ _id: id, status: true }).lean()
-            console.log(menu)
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy chi tiết món thành công', data: menu })
         }
         catch (error) {
