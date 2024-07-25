@@ -67,6 +67,10 @@ class RecommendService {
                         return status >= 100 && status <= 600
                     },
                 })
+
+                console.log(axiosData)
+                console.log(axiosData.data)
+                console.log(typeof axiosData.data?.data)
                 return axiosData.data?.data || {}
             })
 

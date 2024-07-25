@@ -154,7 +154,6 @@ class MenuService {
         try {
             let id = req.params.id
             if (!id) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn'))
-            id = parseInt(id)
             const menu = await Menu.findOne({ _id: id, status: true }).lean()
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy chi tiết món thành công', data: menu })
         }
