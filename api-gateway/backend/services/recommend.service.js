@@ -58,7 +58,7 @@ class RecommendService {
 
             const menuArray = JSON.parse(dataMenu)
 
-            const dataResult = menuArray.map(async value => {
+            const dataResult = await Promise.all(menuArray.map(async value => {
                 const axiosData = await axios({
                     method: 'GET',
                     url: `${process.env[envOfServivces['order']]}/order/menu/${value}`,
@@ -67,12 +67,9 @@ class RecommendService {
                         return status >= 100 && status <= 600
                     },
                 })
-
-                console.log(axiosData)
-                console.log(axiosData.data)
-                console.log(typeof axiosData.data?.data)
+                
                 return axiosData.data?.data || {}
-            })
+            }))
 
             return res.status(axiosResponse.status).json({
                 status: dataResponse.status,
