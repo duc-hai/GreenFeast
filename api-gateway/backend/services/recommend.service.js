@@ -53,6 +53,8 @@ class RecommendService {
 
             const dataMenu = dataResponse?.data
 
+            console.log(dataMenu)
+
             if (!dataMenu)
                 return next(createError(dataResponse.status, dataResponse.message)) 
 

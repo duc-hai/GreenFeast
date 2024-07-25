@@ -41,7 +41,7 @@ router.get('/order/history/print-bill', orderService.printerBillAgain)
 router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
 
 router.post('/apply-promotion', orderService.applyPromotion)
-router.get('/order/menu/:id', orderService.getMenuDetail)
+router.get('/order/menu/:id', menuService.getMenuDetail)
 
 router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)

@@ -149,6 +149,21 @@ class MenuService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
+
+    getMenuDetail = async (req, res, next) => {
+        try {
+            const id = req.params.id
+            console.log(id)
+            console.log(typeof id)
+            if (!id) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn'))
+            const menu = await Menu.findOne({ _id: id, status: true }).lean()
+            console.log(menu)
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy chi tiết món thành công', data: menu })
+        }
+        catch (error) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 }
 
 module.exports = new MenuService()
