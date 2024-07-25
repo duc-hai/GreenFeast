@@ -4314,6 +4314,72 @@ paths:
                     message: 
                       type: string
                       example: "Khoảng cách giao hàng cách nhà hàng 30.07 km, chúng tôi chỉ nhận giao hàng trong phạm vi 20 km"
+  
+  /recommend/menu:
+    get:
+      tags:
+        - order
+      summary: Đề xuất món ăn
+      description: Sử dụng mô hình `LightGBM` và `LightGCN` cho phân hệ đề xuất. Người dùng có thể đăng nhập hoặc không cần đăng nhập để sử dụng chức năng này. Nếu người dùng đăng nhập sẽ có thêm thông tin để gợi ý món. Thêm 1 phần là `Đề xuất` (mặc định) nằm ở chỗ danh mục khi đặt món, kết quả sẽ trả về 10 món ăn gợi ý (thỉnh thoảng sẽ không đủ 10 nếu món đó đã tắt món). Để kiểm thử chức năng này, có thể tạo các tài khoản giống như trong tập dataset tại `/recommend-service/training-models/dataset.csv`, bao gồm id, birthday và gender, lúc này recommend sẽ chính xác hơn. 
+      responses:
+        '200':
+            description: Thành công.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Lấy danh sách đề xuất món ăn thành công
+                    data: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          _id: 
+                            type: number
+                            example: 26
+                          name: 
+                            type: string
+                            example: Xà lách trộn
+                          description: 
+                            type: string
+                            example: Xà lách trộn là một món salad phổ biến và rất được ưa chuộng trên toàn thế giới. Món salad này thường được làm từ xà lách và các nguyên liệu khác như rau củ hoa quả hạt và sốt tạo ra một hương vị độc đáo và bổ dưỡng
+                          image: 
+                            type: string
+                            example: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963002/clgd9gkd0quhgdajtwtl.png
+                          price: 
+                            type: number
+                            example: 45000
+                          status: 
+                            type: boolean
+                          category_id: 
+                            type: number
+                            example: 7
+                          menu_type: 
+                            type: number
+                            example: 1
+                          __v: 
+                            type: number
+                            example: 0
+                      example: [
+                        {
+                          _id: 26,
+                          name: Xà lách trộn,
+                          description: Xà lách trộn là một món salad phổ biến và rất được ưa chuộng trên toàn thế giới. Món salad này thường được làm từ xà lách và các nguyên liệu khác như rau củ hoa quả hạt và sốt tạo ra một hương vị độc đáo và bổ dưỡng,
+                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963002/clgd9gkd0quhgdajtwtl.png,
+                          price: 45000,
+                          status: true,
+                          category_id: 7,
+                          menu_type: 1,
+                          __v: 0
+                        }
+                      ]
+
             
   /payment/create-payment-url:
     post:
