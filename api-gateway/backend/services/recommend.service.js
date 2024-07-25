@@ -51,7 +51,7 @@ class RecommendService {
             if (!dataResponse)
                 return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi nhận dữ liệu trả về: ${dataResponse.message}`)) 
 
-            const dataMenu = dataResponse.data?.data
+            const dataMenu = dataResponse?.data
 
             if (!dataMenu)
                 return next(createError(dataResponse.status, dataResponse.message)) 
