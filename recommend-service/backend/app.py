@@ -143,7 +143,10 @@ def predict_LightGCN (user_id_predict): # for combine 2 models
     return result.drop(columns=['userID']) # Drop column to have the same size columns with LightGBM
   except Exception as e:
     print(str(e))
-    return pd.DataFrame(columns = ['itemID', 'prediction'])
+    # return pd.DataFrame(columns = ['itemID', 'prediction'])
+    top_10_items = dataset.groupby('itemID')['rating'].mean().nlargest(10).reset_index()
+    top_10_items.columns = ['itemID', 'prediction']
+    return top_10_items
 
 # Call train, evaluate functions
 modelLightGCN = Setup_LightGCN(train, test)
@@ -270,10 +273,10 @@ def recommend_items(user_id_predict, user_gender, user_age_predict):
 def generate_random_phone_number():
     return f'0{random.randint(100000000, 999999999)}'
 
-@app.route('/recommend/menu', methods=['GET'])
+@app.route('/menu', methods=['GET'])
 def handler_recommend_api():
   try:
-    items = ''
+    item = ''
     header_info = request.headers.get('user-infor-header')
     if header_info is None:
       items = recommend_items(generate_random_phone_number(), random.choice(['Male', 'Female']), random.randint(5, 50))
