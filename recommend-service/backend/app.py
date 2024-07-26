@@ -273,7 +273,7 @@ def recommend_items(user_id_predict, user_gender, user_age_predict):
 def generate_random_phone_number():
     return f'0{random.randint(100000000, 999999999)}'
 
-@app.route('/menu', methods=['GET'])
+@app.route('/recommend/menu', methods=['GET'])
 def handler_recommend_api():
   try:
     item = ''
