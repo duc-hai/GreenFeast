@@ -152,10 +152,12 @@ class MenuService {
 
     getMenuDetail = async (req, res, next) => {
         try {
-            let id = req.params.id
-            if (!id) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn'))
-            const menu = await Menu.findOne({ _id: id, status: true }).lean()
-            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy chi tiết món thành công', data: menu })
+            const menuList = req.body.menu
+            if (!menuList || !Array.isArray(menuList)) return next(createError(StatusCode.BadRequest_400, 'Thiếu danh sách món ăn hoặc không đúng định dạng'))
+            const menus = await Promise.all(menuList.map(async value => {
+                return await Menu.findOne({ _id: value, status: true }).lean() || {}
+            }))
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy chi tiết món thành công', data: menus })
         }
         catch (error) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
