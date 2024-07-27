@@ -123,22 +123,12 @@ def Training_LightGCN(modelLightGCN):
   # print(topk_scores)
   return topk_scores, modelLightGCN
 
-def Evaluate_LightGCN(topk_scores):
-  eval_map = map(test, topk_scores, k=TOP_K)
-  eval_ndcg = ndcg_at_k(test, topk_scores, k=TOP_K)
-  eval_precision = precision_at_k(test, topk_scores, k=TOP_K)
-  eval_recall = recall_at_k(test, topk_scores, k=TOP_K)
-  print("MAP:\t%f" % eval_map,
-        "NDCG:\t%f" % eval_ndcg,
-        "Precision@K:\t%f" % eval_precision,
-        "Recall@K:\t%f" % eval_recall, sep='\n')
-
 def predict_LightGCN (user_id_predict): # for combine 2 models
   try:
     predict_data = pd.DataFrame({
       'userID': [user_id_predict]
     })
-    # Dự đoán điểm số cho các item
+    # predict score for items
     result = modelLightGCN.recommend_k_items(predict_data, top_k=TOP_K, remove_seen=False)
     return result.drop(columns=['userID']) # Drop column to have the same size columns with LightGBM
   except Exception as e:
@@ -151,8 +141,19 @@ def predict_LightGCN (user_id_predict): # for combine 2 models
 # Call train, evaluate functions
 modelLightGCN = Setup_LightGCN(train, test)
 topk_scores, modelLightGCN = Training_LightGCN(modelLightGCN)
-Evaluate_LightGCN(topk_scores)
 #print(predict_LightGCN ('0105289402')) #0435321829 #0111111
+
+def Evaluate_LightGCN(topk_scores):
+  eval_map = map(test, topk_scores, k=TOP_K)
+  eval_ndcg = ndcg_at_k(test, topk_scores, k=TOP_K)
+  eval_precision = precision_at_k(test, topk_scores, k=TOP_K)
+  eval_recall = recall_at_k(test, topk_scores, k=TOP_K)
+  print("MAP:\t%f" % eval_map,
+        "NDCG:\t%f" % eval_ndcg,
+        "Precision@K:\t%f" % eval_precision,
+        "Recall@K:\t%f" % eval_recall, sep='\n')
+
+Evaluate_LightGCN(topk_scores)
 
 """## Training LightGBM Model"""
 
@@ -218,17 +219,17 @@ def predict_LightGBM (user_id_predict, user_gender, user_age_predict):
   df_item_predict_length = df_item_predict.shape[0]
 
   df_user_predict = pd.DataFrame({
-      'userID': [user_id_predict] * df_item_predict_length,  # Tạo n hàng với cùng một user
-      'gender': [user_gender_predict] * df_item_predict_length,  # Thông tin về user
-      'age': [user_age_predict] * df_item_predict_length,  # Thông tin về user
+      'userID': [user_id_predict] * df_item_predict_length,  # Create n rows with the same user
+      'gender': [user_gender_predict] * df_item_predict_length,  # user info
+      'age': [user_age_predict] * df_item_predict_length,  # user info
   })
 
   predict_data = pd.concat([df_user_predict, df_item_predict], axis=1)
 
-  # Dự đoán điểm số cho các item
+  # predict score for items
   predict_data_result = modelLightGBM.predict(predict_data)
 
-  # Thêm cột dự đoán vào dataframe
+  # add prediction columns into df
   predict_data['prediction_lightgbm'] = predict_data_result
 
   recommended_items = predict_data.sort_values(by='prediction_lightgbm', ascending=False)
@@ -237,6 +238,22 @@ def predict_LightGBM (user_id_predict, user_gender, user_age_predict):
 
 """## Combine two models and API integration"""
 
+def recommend_items(user_id_predict, user_gender, user_age_predict):
+  recommend_items_LightGBM = predict_LightGBM(user_id_predict, user_gender, user_age_predict) # print(recommend_items_LightGBM)
+  recommend_items_LightGCN = predict_LightGCN(user_id_predict) # print(recommend_items_LightGCN)
+  df_combined = pd.merge(recommend_items_LightGCN, recommend_items_LightGBM, on=['itemID'], how='outer')
+  df_combined['prediction'].fillna(0, inplace=True)
+  df_combined['prediction_lightgbm'].fillna(0, inplace=True)
+  df_combined['predicted_score_avg'] = (df_combined['prediction_lightgbm'] + df_combined['prediction']) / 2
+  print(df_combined)
+  df_combined_sorted = df_combined.sort_values(by='predicted_score_avg', ascending=False) # Sort by predict_score
+  # print(df_combined_sorted)
+  top_n_items = df_combined_sorted.head(TOP_K) # Choose top-N item to recommend
+  return top_n_items['itemID'].values.tolist()
+
+# Testing
+# print(recommend_items('0105289402', 'Female', 25)) # 0435321829
+
 # API integration
 from flask import Flask, jsonify, request
 import urllib.parse
@@ -244,31 +261,6 @@ import json
 import random
 
 app = Flask(__name__)
-
-def recommend_items(user_id_predict, user_gender, user_age_predict):
-  recommend_items_LightGBM = predict_LightGBM(user_id_predict, user_gender, user_age_predict)
-  recommend_items_LightGCN = predict_LightGCN(user_id_predict)
-  # print(recommend_items_LightGBM)
-  # print(recommend_items_LightGCN)
-
-  df_combined = pd.merge(recommend_items_LightGCN, recommend_items_LightGBM, on=['itemID'], how='outer')
-  df_combined['prediction'].fillna(0, inplace=True)
-  df_combined['prediction_lightgbm'].fillna(0, inplace=True)
-  # print(df_combined)
-  df_combined['predicted_score_avg'] = (df_combined['prediction_lightgbm'] + df_combined['prediction']) / 2
-
-  # Sort by predict_score
-  df_combined_sorted = df_combined.sort_values(by='predicted_score_avg', ascending=False)
-  # print(df_combined_sorted)
-  # Choose top-N item to recommend
-  top_n_items = df_combined_sorted.head(TOP_K)
-  return top_n_items['itemID'].values.tolist()
-
-# Testing
-# user_id_predict = '0105289402' # 0435321829
-# user_gender = 'Female'
-# user_age_predict = 25
-# print(recommend_items(user_id_predict, user_gender, user_age_predict))
 
 def generate_random_phone_number():
     return f'0{random.randint(100000000, 999999999)}'
