@@ -1,1 +1,7 @@
 [2024-07-28 13:48:41] 	POST /api/order/online [status: 500 - message: Không tìm thấy chương trình khuyến mãi, vui lòng kiểm tra lại]
+[2024-07-28 15:47:11] 	POST /api/order/rating [status: 401 - message: Thiếu mã JWT]
+[2024-07-28 15:47:24] 	POST /api/order/rating [status: 500 - message: Đường dẫn đặt món không hợp lệ]
+[2024-07-28 15:54:10] 	POST /api/order/rating [status: 500 - message: Thiếu dữ liệu để đánh giá]
+[2024-07-28 15:54:38] 	POST /api/order/rating [status: 500 - message: headerInfor is not defined]
+[2024-07-28 16:13:00] 	POST /api/order/rating [status: 500 - message: ]
+[2024-07-28 16:27:54] 	POST /api/order/rating [status: 500 - message: Thiếu dữ liệu để đánh giá]

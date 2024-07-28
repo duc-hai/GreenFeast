@@ -12,7 +12,7 @@ class MenuService {
 
             const skip = (perPage * page) - perPage //In first page, skip 0 index
 
-            const menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0 }).skip(skip).limit(perPage) 
+            const menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
 
             const total = await Menu.countDocuments({ status: true })
 

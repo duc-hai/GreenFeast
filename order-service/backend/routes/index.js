@@ -6,6 +6,7 @@ const orderOnlineService = require('../services/order.online.service')
 const addressService = require('../services/address.service')
 const router = express.Router()
 const validation = require('../validations/body.validation')
+const ratingService = require('../services/rating.service')
 
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
@@ -39,9 +40,9 @@ router.get('/order/get-revenue', orderService.getRevenueByDay)
 router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
 router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
-
 router.post('/apply-promotion', orderService.applyPromotion)
 router.post('/order/menu/detail', menuService.getMenuDetail)
+router.post('/rating', validation.checkValidationRating(), ratingService.ratingMenu)
 
 router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)

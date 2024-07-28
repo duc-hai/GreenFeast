@@ -23,6 +23,19 @@ const validatorUpdateProcessingStatus = () => [
         .isNumeric().withMessage('Trạng thái lên món không hợp lệ'),    
 ]
 
+const checkValidationRating = () => [
+    // check('rating')
+    //     .exists().withMessage('Vui lòng chọn số sao')
+    //     .notEmpty().withMessage('Số sao không được để trống')
+    //     .isNumeric().withMessage('Số sao không đúng định dạng')
+    //     .isIn([1, 2, 3, 4, 5]).withMessage('Số sao không nằm trong khoảng 1 đến 5'),
+
+    check('orderId')
+        .exists().withMessage('Vui lòng nhập mã hóa đơn')
+        .notEmpty().withMessage('Mã hóa đơn không được để trống')
+        .isMongoId().withMessage('Mã hóa đơn không hợp lệ'),
+]
+
 module.exports = {
-    validatorUpdateProcessingStatus
+    validatorUpdateProcessingStatus, checkValidationRating
 }

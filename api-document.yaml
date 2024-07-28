@@ -2494,7 +2494,7 @@ paths:
           required: false
       responses:
         '200':
-            description: Thành công. Lưu ý, nếu data trả về có trường discount_price thì đó là giá khuyến mãi. Hiển thị giá gốc -> gạch ngang, để giá mới lên
+            description: "Thành công. Lưu ý, nếu data trả về có trường discount_price thì đó là giá khuyến mãi. Hiển thị giá gốc -> gạch ngang, để giá mới lên. **Updated on 28/7**: Bổ sung thêm 2 trường trả về: `rating_average` là số sao trung bình được đánh giá cho món ăn đó và `rating_count` là số lượt đánh giá"
             content:
               application/json:
                 schema:
@@ -2564,6 +2564,8 @@ paths:
                           status: true,
                           category_id: 2,
                           menu_type: 1,
+                          rating_average: 4.5,
+                          rating_count: 2
                         }
                       ]
 
@@ -3691,7 +3693,7 @@ paths:
       description: "Có thể tận dụng lại trang đặt món, chỉ khác là gọi api đặt món khác nhau. Muốn đặt món yêu cầu phải đăng nhập"
      
       requestBody: 
-        description: "Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được. **Update on 13/7**: thông tin giao hàng bổ sung tỉnh thành, quận huyện, phường xã, địa chỉ số nhà, vào kinh độ, tọa độ từ api của phường xã, mục đích để backend tính toán phí ship."
+        description: "Thông tin tương tự như bên đặt trực tiếp. Time receive có hay không cũng được. **Update on 13/7**: thông tin giao hàng bổ sung tỉnh thành, quận huyện, phường xã, địa chỉ số nhà, vào kinh độ, tọa độ từ api của phường xã, mục đích để backend tính toán phí ship. **Updated on 28/7**: Body cập nhật thêm thuộc tính `promotion_id` là mã khuyến mãi, load danh sách khuyến mãi và cho người dùng chọn. Lưu ý rằng server có thể trả về thông báo lỗi nếu mã khuyến mãi không hợp lệ (hết hạn,...). Ngoài ra, với hình thức thanh toán qua bank, giảm giá thêm cho người dùng 5% giá trị đơn hàng (5% so với giá trị tạm tính của đơn hàng, tức là bao gồm các món ăn và nước uống). Nhớ so sánh giá trị tính được với giá trị total ở response để kiểm tra trừ đúng chưa."
         content: 
           application/json:
             schema:
@@ -3754,6 +3756,9 @@ paths:
                       time_receive: 
                         type: string
                         example: null
+                      promotion_id:
+                        type: number
+                        example: 1
    
 
         required: true
@@ -3779,7 +3784,19 @@ paths:
                         example: 329000
                     
         '400':
-            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message"   
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message" 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                      status: 
+                        type: string
+                        example: error
+                      message: 
+                        type: string
+                        example: Không tìm thấy chương trình khuyến mãi vui lòng kiểm tra lại
+
             
   /order/online/history-list:
     get:
@@ -4380,6 +4397,62 @@ paths:
                         }
                       ]
 
+  /order/rating:
+    post:
+      tags:
+        - order
+      summary: Đánh giá món ăn
+      description: "Sau khi người dùng đã hoàn thành đơn hàng, người dùng có thể xem lại đơn hàng cũng như đánh giá từng món ăn trong đơn hàng đó. Thông tin đánh giá này sẽ hữu ích để training mô hình đề xuất."
+      requestBody: 
+        description: Rating từ 1 đến 5, comment có thể có hoặc không cũng được, orderId là mã của đơn hàng cần đánh giá
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                    orderId: 
+                      type: string
+                      example: 6693da224e595538b9467d12
+                    order: 
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          menuId: 
+                            type: number
+                            example: 1
+                          comment: 
+                            type: string
+                            example: Rất ngon
+                          rating: 
+                            type: number
+                            example: 5
+                      example: [
+                        {
+                          menuId: 1,
+                          comment: Rất ngon,
+                          rating: 5
+                        }
+                      ]
+
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Đánh giá món ăn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             
   /payment/create-payment-url:
     post:

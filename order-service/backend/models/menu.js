@@ -12,7 +12,10 @@ const menu = new Schema (
         status: { type: Boolean },
         category_id: { type: Number },
         discount_price: { type: Number },
-        menu_type: { type: Number }
+        menu_type: { type: Number },
+        rating_sum: { type: Number, default: 0 },
+        rating_count: { type: Number, default: 0 },
+        rating_average: { type: Number, default: 0 }
     }, {
         collection: 'menus'
     }
