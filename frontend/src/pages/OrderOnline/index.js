@@ -8,6 +8,9 @@ import {
   getCategoryOrder,
   getMenuByCategory,
   getMenuBySearch,
+  getMenuRecommend,
+  getPromotion,
+  postPayment,
 } from "../../Services/OrderAPI";
 import { getAllArea } from "../../Services/ManagementServiceAPI";
 import Header from "../../components/Header";
@@ -47,6 +50,9 @@ const OrderOnline = () => {
   const [optionsWard, setOptionsWard] = useState([]);
   const [shipFee, setShipFee] = useState(0);
   const [dataWard, setDataWard] = useState([]);
+  const [listPromotion, setListPromotion] = useState([]);
+
+  const [promotionId, setPromotionID] = useState(null);
   const convertOption = (dataOption, keyValue, keyLabel) => {
     let valueOptions = [...dataOption]?.map((item) => ({
       value: Number(item[keyValue]),
@@ -58,6 +64,7 @@ const OrderOnline = () => {
     setTextSearch(e.target.value);
   };
   const handleChange = (value) => {
+    console.log(value);
     setPayment_method(value);
   };
 
@@ -74,7 +81,7 @@ const OrderOnline = () => {
     let tempTude = [...dataWard].find(
       (item) => Number(item?.id) === Number(option?.value)
     );
-    console.log(tempTude);
+
     setDelivery((pre) => ({
       ...pre,
       ward: option,
@@ -82,13 +89,48 @@ const OrderOnline = () => {
       longitude: tempTude.longitude,
     }));
   };
+  // api thanh toan
+  const fetchPayment = async (data) => {
+    try {
+      const res = await postPayment(data);
+      console.log(res);
+      if (res?.status === "success" && !!res?.data?.vnpUrl) {
+        message.success("Thanh toán thành công");
+        window.open(res?.data?.vnpUrl, "_blank");
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  //get promotion
+  const convertOptionPromotion = (data) => {
+    let tempOptions = data?.map((item) => ({
+      value: item._id,
+      label: item.name,
+    }));
+    return tempOptions;
+  };
+  const fetchPromotion = async () => {
+    try {
+      const res = await getPromotion();
+
+      // let tempOption = res?.data?.map((item) => ({
+      //   value: item._id,
+      //   label: item.name,
+      // }));
+      setListPromotion(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // get address
+
   const fetchDataProvince = async () => {
     try {
       const res = await getListProvince();
       let tempOptions = convertOption(res?.data, "id", "name");
       setOptionsProvince(tempOptions);
-      console.log(tempOptions);
     } catch (err) {
       console.log(err);
     }
@@ -123,7 +165,11 @@ const OrderOnline = () => {
         longitude: data?.longitude,
         latitude: data?.latitude,
       });
-      setShipFee(res?.data?.shippingFee);
+      if (res?.data?.shippingFee) {
+        setShipFee(res?.data?.shippingFee);
+      } else {
+        message.error(res?.message);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -177,7 +223,7 @@ const OrderOnline = () => {
         console.log(error);
       }
     };
-    Promise.all([fetchArea(), fetchDataProvince()]);
+    Promise.all([fetchArea(), fetchDataProvince(), fetchPromotion()]);
   }, []);
   const fetchMenu = async () => {
     try {
@@ -203,22 +249,69 @@ const OrderOnline = () => {
     setLoading(true);
     try {
       const res = await getCategoryOrder();
-      console.log(res);
-      setListDataCate(
-        res.data?.length > 0 &&
-          res.data?.map((item) => getItem(item?.name, item?._id))
-      );
+      console.log(res?.data);
+      if (res.data?.length > 0) {
+        let tempData = res.data?.map((item) => getItem(item?.name, item?._id));
+        console.log(tempData);
+
+        tempData = [
+          ...[
+            {
+              key: "recommend",
+              icon: undefined,
+              children: undefined,
+              label: "Đề xuất ",
+              type: undefined,
+            },
+          ],
+          ...tempData,
+        ];
+        setListDataCate([...tempData]);
+      }
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
   };
+
+  const fetchMenuReCommend = async () => {
+    try {
+      const res = await getMenuRecommend();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const convertPercentToNumber = () => {
+    let percentageString = "20%";
+    let numberValue = parseFloat(percentageString.replace("%", ""));
+    return numberValue;
+  };
   const handleMoneyOrder = (dataOrder) => {
     let value = 0;
-    if (order?.length > 0) {
-      value = order?.reduce((a, b) => a + b.price * b.quantity, 0);
+    if (dataOrder?.length > 0) {
+      value = dataOrder?.reduce((a, b) => a + b.price * b.quantity, 0);
     }
+
     return value;
+  };
+
+  const handlePromotion = (dataOrder) => {
+    let value = handleMoneyOrder(dataOrder);
+    let disCountValue = 0;
+    let discountPercent = 0;
+    if (payment_method === "bank") {
+      discountPercent = discountPercent + 5;
+    }
+    if (promotionId) {
+      let tempDiscount = listPromotion.find((item) => item._id === promotionId);
+      if (tempDiscount) {
+        discountPercent = convertPercentToNumber(tempDiscount?.promotion_value);
+      }
+    }
+    disCountValue = value * (discountPercent / 100);
+    return disCountValue;
   };
   // useEffect(() => {
   //   if (!us) {
@@ -244,7 +337,9 @@ const OrderOnline = () => {
 
   const onClick = (e) => {
     console.log("click ", e);
-    fetchDataByCate(e.key);
+    if (e?.key === "recommend") {
+      //call api recommend
+    } else fetchDataByCate(e?.key);
   };
 
   const columnsOrder = [
@@ -319,14 +414,18 @@ const OrderOnline = () => {
         })),
         note: note,
         payment_method: payment_method,
-
+        promotion_id: promotionId,
         delivery: tempDelivery,
         time_receive: null,
       });
-      if (res?.data?.length > 0) {
-        res.data?.map((item) => window.open(item, "_blank"));
+      let dataBody = { orderId: res?.orderId, amount: res?.total };
+      if (payment_method === "bank") {
+        await fetchPayment(dataBody);
       }
-      window.location.reload();
+      // if (res?.data?.length > 0) {
+      //   res?.data?.map((item) => window.open(item, "_blank"));
+      // }
+
       message.success("Đặt món thành công");
       setIsModalOpen(false);
     } catch (error) {
@@ -450,7 +549,7 @@ const OrderOnline = () => {
                   />
                 </div>
                 <p className="grid grid-cols-2 gap-1">
-                  <span>Tiền món ăn :</span>
+                  <span>Tiền món ăn 1:</span>
                   <span className="font-semibold">
                     {handleMoneyOrder(order).toLocaleString()} VNĐ
                   </span>
@@ -462,24 +561,44 @@ const OrderOnline = () => {
                   </span>{" "}
                 </p>
                 <p className="grid grid-cols-2 gap-1">
+                  <span>Khuyến mãi :</span>
+                  <span className="font-semibold">
+                    {handlePromotion(order).toLocaleString()} VNĐ
+                  </span>{" "}
+                </p>
+                <p className="grid grid-cols-2 gap-1">
                   <span>Tổng tiền:</span>
                   <span className="font-semibold text-red-600">
-                    {(shipFee + handleMoneyOrder(order)).toLocaleString()} VNĐ
+                    {(
+                      shipFee +
+                      handleMoneyOrder(order) -
+                      handlePromotion(order)
+                    ).toLocaleString()}{" "}
+                    VNĐ
                   </span>
                 </p>
               </div>
-
-              <div className="flex flex-col gap-1">
-                <span>Loại thanh toán:</span>
-                <Select
-                  defaultValue="bank"
-                  style={{ width: 320 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "bank", label: "Thanh toán online" },
-                    { value: "cod", label: "Thanh toán khi nhận hàng" },
-                  ]}
-                />
+              <div className="flex gap-2">
+                <div className="flex flex-col gap-1">
+                  <span>Loại thanh toán:</span>
+                  <Select
+                    defaultValue="bank"
+                    style={{ width: 320 }}
+                    onChange={handleChange}
+                    options={[
+                      { value: "bank", label: "Thanh toán online" },
+                      { value: "cod", label: "Thanh toán khi nhận hàng" },
+                    ]}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span>Khuyến mãi</span>
+                  <Select
+                    style={{ width: 200 }}
+                    options={convertOptionPromotion(listPromotion) || []}
+                    onChange={(e) => setPromotionID(e)}
+                  />
+                </div>
               </div>
             </div>
           </div>

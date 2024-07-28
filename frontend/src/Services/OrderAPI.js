@@ -12,6 +12,9 @@ export const getMenuByCategory = (id) => {
   return ApiOrderService.get(`/order/menu/get-by-category/${id}`);
 };
 
+export const getMenuRecommend = () => {
+  return ApiOrderService.get(`/recommend/menu`);
+};
 export const createOrder = (slug, data) => {
   return ApiOrderService.post(`/order/${slug}`, data);
 };
@@ -32,8 +35,16 @@ export const viewDetailOrder = (id) => {
   return ApiOrderService.get(`/order/view-order/${id}`);
 };
 
+export const postPayment = (data) => {
+  return ApiOrderService.post(`payment/create-payment-url`, data);
+};
+
 export const closeTable = (tableId, body) => {
   return ApiOrderService.post(`/admin/order/close/${tableId}`, body);
+};
+
+export const getPromotion = () => {
+  return ApiOrderService.get(`/order/promotion`);
 };
 
 export const printBill = (tableId) => {
@@ -72,10 +83,6 @@ export const getHistoryOrder = () => {
 
 export const getBillHistory = (id) => {
   return ApiOrderService.get(`/admin/order/history/print-bill?order=${id}`);
-};
-
-export const getPromotion = () => {
-  return ApiOrderService.get(`/order/promotion`);
 };
 
 export const applyPromotion = (body) => {

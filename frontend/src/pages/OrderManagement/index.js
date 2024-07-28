@@ -347,44 +347,52 @@ const OrderManagement = () => {
         >
           <Form layout="vertical" form={form} name="form">
             {orderDetail?.order_detail?.length ? (
-              <div className="ant_body">
-                <div className="flex flex-col gap-1">
-                  <span>
-                    Thời gian đặt:{"  "}
-                    <span className="font-semibold">
-                      {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+              orderDetail?.order_detail.map((item) => (
+                <div className="ant_body">
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      Thời gian đặt:{"  "}
+                      <span className="font-semibold">
+                        {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                      </span>
                     </span>
-                  </span>
 
-                  <span>
-                    Người đặt:{" "}
-                    <span className="font-semibold">
-                      {" "}
-                      {orderDetail?.order_detail?.length > 0 &&
-                        orderDetail?.order_detail[0]?.order_person?.name}{" "}
+                    <span>
+                      Người đặt:{" "}
+                      <span className="font-semibold">
+                        {" "}
+                        {orderDetail?.order_detail?.length > 0 &&
+                          item?.order_person?.name}{" "}
+                      </span>
                     </span>
-                  </span>
+                  </div>
+                  <p
+                    className="py-2 font-semibold"
+                    onClick={() => console.log(orderDetail)}
+                  >
+                    Danh sách món
+                  </p>
+
+                  <Table
+                    columns={columnorder}
+                    pagination={false}
+                    dataSource={
+                      orderDetail?.order_detail?.length > 0 &&
+                      item?.menu?.length > 0 &&
+                      item.menu.map((item, index) => {
+                        return { ...item, key: index };
+                      })
+                    }
+                    scroll={{ x: "max-content" }}
+                  />
+                  <p className="justify-end flex gap-2 mt-3">
+                    <span>Tổng giá:</span>
+                    <span className="font-semibold text-green-700">
+                      {orderDetail?.subtotal?.toLocaleString("vi-VN", {})} VNĐ
+                    </span>
+                  </p>
                 </div>
-                <p className="py-2 font-semibold">Danh sách món</p>
-                <Table
-                  columns={columnorder}
-                  pagination={false}
-                  dataSource={
-                    orderDetail?.order_detail?.length > 0 &&
-                    orderDetail?.order_detail[0]?.menu?.length > 0 &&
-                    orderDetail?.order_detail[0].menu.map((item, index) => {
-                      return { ...item, key: index };
-                    })
-                  }
-                  scroll={{ x: "max-content" }}
-                />
-                <p className="justify-end flex gap-2 mt-3">
-                  <span>Tổng giá:</span>
-                  <span className="font-semibold text-green-700">
-                    {orderDetail?.subtotal?.toLocaleString("vi-VN", {})} VNĐ
-                  </span>
-                </p>
-              </div>
+              ))
             ) : (
               <div>Bàn trống</div>
             )}
@@ -495,45 +503,49 @@ const OrderManagement = () => {
           bodyStyle={{ height: "1280" }}
         >
           {orderDetail?.order_detail?.length ? (
-            <div className="ant_body">
-              <div className="flex flex-col gap-1">
-                <span>
-                  Thời gian đặt:{"  "}
-                  <span className="font-semibold">
-                    {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
-                  </span>
-                </span>
-                <span>
-                  Giảm giá:{" "}
-                  <span className="font-semibold">
-                    {" "}
-                    {orderDetail?.discount > 0
-                      ? `${orderDetail?.discount} %`
-                      : "Không giảm giá"}
-                  </span>
-                </span>
-                <span>
-                  Người đặt:{" "}
-                  <span className="font-semibold">
-                    {" "}
-                    {orderDetail?.order_detail?.length > 0 &&
-                      orderDetail?.order_detail[0]?.order_person?.name}{" "}
-                  </span>
-                </span>
-              </div>
-              <p className="py-2 font-semibold">Danh sách món</p>
-              <Table
-                columns={columnorder}
-                pagination={false}
-                dataSource={
-                  orderDetail?.order_detail?.length > 0 &&
-                  orderDetail?.order_detail[0]?.menu?.length > 0 &&
-                  orderDetail?.order_detail[0].menu.map((item, index) => {
-                    return { ...item, key: index };
-                  })
-                }
-                scroll={{ x: "max-content" }}
-              />
+            <div className="flex flex-col gap-4">
+              {orderDetail?.order_detail.map((item) => (
+                <div className="ant_body">
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      Thời gian đặt:{"  "}
+                      <span className="font-semibold">
+                        {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                      </span>
+                    </span>
+                    <span>
+                      Giảm giá:{" "}
+                      <span className="font-semibold">
+                        {" "}
+                        {orderDetail?.discount > 0
+                          ? `${orderDetail?.discount.toLocaleString()} VNĐ`
+                          : "Không giảm giá"}
+                      </span>
+                    </span>
+                    <span>
+                      Người đặt:{" "}
+                      <span className="font-semibold">
+                        {" "}
+                        {orderDetail?.order_detail?.length > 0 &&
+                          item?.order_person?.name}{" "}
+                      </span>
+                    </span>
+                  </div>
+                  <p className="py-2 font-semibold">Danh sách món</p>
+                  <Table
+                    columns={columnorder}
+                    pagination={false}
+                    dataSource={
+                      orderDetail?.order_detail?.length > 0 &&
+                      item?.menu?.length > 0 &&
+                      item.menu.map((item, index) => {
+                        return { ...item, key: index };
+                      })
+                    }
+                    scroll={{ x: "max-content" }}
+                  />
+                </div>
+              ))}
               <p className=" flex gap-2 mt-3">
                 <span>Tổng giá:</span>
                 <span className="font-semibold text-green-700">

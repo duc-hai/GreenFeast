@@ -9,6 +9,7 @@ import OrderOnline from "./pages/OrderOnline";
 import OrderHistory from "./pages/OrderHistory";
 import OrderAtRestaurant from "./pages/Order/OrderAtRestaurant";
 import CheckTokenOrder from "./pages/Order/CheckTokenOrder";
+import GoogleCallback from "./pages/AuthGoogle/GoogleCallBack";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/google" element={<GoogleCallback />} />
           <Route path="/order/at-restaurant">
             <Route path="" element={<OrderAtRestaurant />} />
             <Route path="validate" element={<CheckTokenOrder />} />

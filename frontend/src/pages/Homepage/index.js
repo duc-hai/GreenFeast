@@ -1,13 +1,17 @@
 import "./index.css";
 import { useEffect } from "react";
 import Header from "../../components/Header";
+
 const Homepage = () => {
   const user = sessionStorage.getItem("user");
+
   useEffect(() => {}, [user]);
+  // const dataGoogle = JSON.parse(decodeURIComponent(infoUser));
 
   return (
     <>
       <Header />
+
       <div className="container pt-2 px-[60px]">
         <div
           id="carouselExampleControls"
@@ -72,18 +76,18 @@ const Homepage = () => {
             />
           </div>
           <div className="col-md-8 col-sm-12 text-[18px] leading-7 text-justify">
-            Nhân tố cơ bản của thực đơn ở Green Feast là san sẻ mối quan tâm về
-            nhu cầu sinh hoạt và sức khỏe của mỗi thực khách nhằm tạo nên không
-            gian ẩm thực nuôi dưỡng một tâm hồn và cơ thể khỏe mạnh. Ẩm thực
-            Green Feast không chỉ chú trọng đến đặc tính nguyên liệu, cầu kỳ chế
-            biến mà còn được phục vụ bằng cung cách tận tụy, kết nối và sự sáng
-            tạo, tỉ mỉ trong từng khâu trình bày để mang đến trải nghiệm “Ẩm
-            thực chay đầy tinh tế” Green Feast mang đến thực khách hương vị mộc
-            mạc, nhuần nhuyễn, thanh khiết mà vẫn linh hoạt, đậm đà, giữ được sự
-            cân bằng đủ đầy cho một nhịp sống hiện đại “Đắng – Chua – Ngọt – Cay
-            – Mặn” và hành trình trải nghiệm ẩm thực đa giác quan. Để cuối cùng
-            khám phá dư âm của hương vị thanh nhẹ ẩn dấu trong mỗi món ăn, như
-            những bản tính thiện lành ẩn chứa trong mỗi con người.
+            Nhân 12 tố cơ bản của thực đơn ở Green Feast là san sẻ mối quan tâm
+            về nhu cầu sinh hoạt và sức khỏe của mỗi thực khách nhằm tạo nên
+            không gian ẩm thực nuôi dưỡng một tâm hồn và cơ thể khỏe mạnh. Ẩm
+            thực Green Feast không chỉ chú trọng đến đặc tính nguyên liệu, cầu
+            kỳ chế biến mà còn được phục vụ bằng cung cách tận tụy, kết nối và
+            sự sáng tạo, tỉ mỉ trong từng khâu trình bày để mang đến trải nghiệm
+            “Ẩm thực chay đầy tinh tế” Green Feast mang đến thực khách hương vị
+            mộc mạc, nhuần nhuyễn, thanh khiết mà vẫn linh hoạt, đậm đà, giữ
+            được sự cân bằng đủ đầy cho một nhịp sống hiện đại “Đắng – Chua –
+            Ngọt – Cay – Mặn” và hành trình trải nghiệm ẩm thực đa giác quan. Để
+            cuối cùng khám phá dư âm của hương vị thanh nhẹ ẩn dấu trong mỗi món
+            ăn, như những bản tính thiện lành ẩn chứa trong mỗi con người.
           </div>
         </div>
         <div className="row pt-3" style={{ alignItems: "center" }}>

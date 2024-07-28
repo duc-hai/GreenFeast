@@ -7,6 +7,8 @@ import "./index.css";
 import { loginAdmin, loginUser } from "../../Services/AuthAPI";
 import { setCookie } from "../../utils/Cookie";
 import { GoogleOutlined } from "@ant-design/icons";
+import AuthGoogle from "../AuthGoogle/AuthoGoogle";
+import Cookies from "js-cookie";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -123,9 +125,10 @@ const Login = () => {
 
             <div className="pb-2">
               Đăng ký bằng google:{" "}
-              <a href="http://localhost:3000/api/auth/google">
+              {/* <a href="http://localhost:3000/api/auth/google">
                 <GoogleOutlined style={{ fontSize: "24px" }} />
-              </a>
+              </a> */}
+              <AuthGoogle />
             </div>
 
             <span>

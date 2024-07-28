@@ -27,14 +27,14 @@ import {
     getCategoryOrder,
     getMenuByCategory,
     getMenuBySearch,
+    getPromotion,
+    postPayment,
     printBill,
     viewDetailOrder,
   } from "./../../Services/OrderAPI";
   import {
     getAllArea,
-    getCategory,
-    getPromotion,
-    getTable,
+  
   } from "../../Services/ManagementServiceAPI";
   import Header from "../../components/Header";
   import Search from "antd/es/transfer/search";
@@ -77,6 +77,7 @@ import Cookies from "js-cookie";
     const [isModalCloseTable, setIsModalCloseTable] = useState(false);
     const [loadingDetail,setLoadingDetail] =useState(false)
     const [optionPromotion, setOptionPromotion]=useState([])
+   
     const handleOpenListOrderDetail =() => {
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
@@ -96,6 +97,24 @@ import Cookies from "js-cookie";
     setLoadingDetail(false)
   };
 
+  // api thanh toan
+  const fetchPayment =async(data) => {
+    try {
+      const res = await postPayment(data)
+      console.log(res)
+      if(res?.status ==='success' && (!!res?.data?.vnpUrl)){
+
+        message.success('Thanh toán thành công')
+        window.open(res?.data?.vnpUrl,'_blank')
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+
+  }
+
+
   // thanh toan
 
   const onFinish = async () => {
@@ -108,6 +127,9 @@ import Cookies from "js-cookie";
       }
       await closeTable(tableSlug, values);
       await fetchData(area);
+      let dataBody={orderId:orderDetail?._id,amount:orderDetail?.subtotal}
+     
+       await fetchPayment(dataBody)
       message.success("Đóng bàn thành công");
     } catch (error) {
       console.log(error);
@@ -238,6 +260,8 @@ import Cookies from "js-cookie";
     //   }
     // }, [us]);
   
+    // open url payment
+ 
     useEffect(() => {
       fetchData();
     }, []);
@@ -371,6 +395,7 @@ import Cookies from "js-cookie";
       <>
 
         <Spin spinning={loading}>
+          
           <Modal
             title="Xác nhận đặt món"
             open={isModalOpen}
@@ -625,7 +650,7 @@ import Cookies from "js-cookie";
               name="form"
               onClick={onFinish}
             >
-              Thanh toán
+              Thanh toán 
             </Button>,
           ]}
           bodyStyle={{ height: "1280" }}
@@ -733,15 +758,8 @@ import Cookies from "js-cookie";
                     showSearch
                     placeholder="Chọn khuyến mãi"
                     // options={optionPromotion}
-                    options={
-                      dataPromotion?.length > 0 &&
-                      dataPromotion.map((item) => {
-                        return {
-                          value: item.id,
-                          label: item.name,
-                        };
-                      })
-                    }
+                    options={optionPromotion||[]}
+                    
                   />
                 </Form.Item>
               </Col>
