@@ -5,6 +5,7 @@ const StatusOnlineOrder = require('../enums/status.online.order')
 const Menu = require('../models/menu')
 const calculateShippingFee = require('../helpers/calculate.shippingfee')
 const calculateDistance = require('../helpers/calculate.distance')
+const Promotion = require('../models/promotion')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -96,13 +97,42 @@ class OrderOnlineService {
             const menuList = await this.getInformationMenuList(menus)
 
             const subtotalPrice = menuList.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
-
+            
             let user = {} //initial by default
 
             if (req.headers['user-infor-header']) {
                 const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
                 user.name = userInfor.full_name
                 user._id = userInfor._id
+            }
+
+            let promotionId = req.body.promotion_id
+            let discount = 0
+
+            if (promotionId) {
+                promotionId = parseInt(promotionId.toString())
+                const today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                const promotion = await Promotion.findOne({ _id: promotionId, status: true, start_at: { $lte: today }, end_at: { $gte: today } }).lean()
+                if (!promotion) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy chương trình khuyến mãi, vui lòng kiểm tra lại'))
+
+                if (promotion.condition_apply > subtotalPrice)
+                    return next(createError(StatusCode.BadRequest_400, `Hóa đơn của bạn còn thiếu ${new Intl.NumberFormat('vi-VN').format(promotion.condition_apply - subtotalPrice)} để áp dụng chương trình khuyến mãi này`))
+        
+                //calculate promotion value
+                const promotionValue = promotion.promotion_value
+                if (promotionValue.toString().includes('%')) {
+                    const percentageValue = parseInt(promotionValue.replace('%', ''))
+                    discount = Math.round(subtotalPrice / 100 *  percentageValue)
+                }
+                else {
+                    discount = parseInt(promotionValue.toString())
+                }
+            }
+
+            if (payment_method === 'bank') {
+                discount += Math.round(subtotalPrice * 0.05)
             }
             
             const { latitude, longitude } = delivery_information
@@ -120,9 +150,10 @@ class OrderOnlineService {
                 delivery_information: delivery_information,
                 subtotal: subtotalPrice,
                 shippingfee: shippingFee,
-                total: subtotalPrice + shippingFee,
+                total: subtotalPrice + shippingFee - discount,
                 order_person: user,
-                status: status
+                status: status,
+                discount: discount
             }).save()
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công', orderId: order._id.toString(), total: order.total })
