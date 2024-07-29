@@ -1623,6 +1623,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "History list order customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/history-list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"history-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History detail order customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/history-detail/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"history-detail",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "669bf8f6af22e23ea9daac26"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2558,6 +2603,36 @@
 									"key": "id",
 									"value": "66a70d5ba8e3cdffb6480408"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update status order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"66a75d7501d3883d239c8b78\",\r\n    \"status\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/order/online/update-status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"online",
+								"update-status"
 							]
 						}
 					},

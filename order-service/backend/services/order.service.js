@@ -11,6 +11,7 @@ const clientRedis = require('../config/connect.redis')
 const hiddenProperties = require('../config/hidden.properties')
 const checkValidation = require('../helpers/check.validation')
 const OrderOnline = require('../models/online_order')
+const producerNotification = require('./producer.notification')
 
 class OrderService {
     getMenuById = async id => {
@@ -154,6 +155,8 @@ class OrderService {
             
             this.sendPrinterFood(order, getOrderLatest)
             this.sendPrinterBaverage(order, getOrderLatest) 
+
+            producerNotification.sendQueue(null, 'Đơn hàng mới tại nhà hàng', `Món ăn vừa được đặt tại bàn ${table._id}`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt món thành công' })
         }
@@ -390,6 +393,8 @@ class OrderService {
             //Update table
             order.table = tableToId
             await order.save()
+
+            producerNotification.sendQueue(null, 'Khách hàng đã chuyển bàn', `Đơn hàng từ bàn ${tableFromId} vừa chuyển sang bàn ${tableToId}`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Chuyển bàn thành công' })
         }

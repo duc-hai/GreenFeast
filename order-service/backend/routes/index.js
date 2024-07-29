@@ -35,6 +35,8 @@ router.get('/processing-ticket/bar', orderService.getProcessingTicketBar)
 // For admin & emoployee
 router.get('/order/online/history-list', orderOnlineService.manageOrderAdmin)
 router.get('/order/online/history/:id', orderOnlineService.historyOrderOnlineDetail)
+router.post('/order/online/update-status', orderOnlineService.updateStatusOrder)
+
 router.get('/order/tables/:id', menuService.getTablesByAreaId)
 router.get('/order/move-table', orderService.moveTable)
 router.post('/order/close/:tableSlug', orderService.closeTable)

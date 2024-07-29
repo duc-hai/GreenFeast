@@ -1,16 +1,20 @@
 const amqplib = require('amqplib')
-const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
+const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
 
-//Temporary
-const sendQueue = async (msg) => {
+const sendQueue = async (userId, title, message, link = '', broadcast = null) => {
     try {
+        //boardcast is send noti for multi user, null is no, 1 is for restaurant, 2 is for customer
+        if (!title || !message) return 
+
+        const msg = { userId,  title, message, link, broadcast }
+
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
         const connect = await amqplib.connect(amqpUrl)
 
         //Create channel
         const channel = await connect.createChannel()
 
-        const queueName = 'q1' //If not set, it will generate automatically
+        const queueName = 'notification' //If not set, it will generate automatically
         
         //Create queue
         await channel.assertQueue(queueName, {
@@ -19,7 +23,7 @@ const sendQueue = async (msg) => {
 
         //Send data to queue
         //Buffer is a binary form of data, faster than regular objects, supports encoding
-        await channel.sendToQueue(queueName, Buffer.from(msg), {
+        await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(msg)), {
             expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })

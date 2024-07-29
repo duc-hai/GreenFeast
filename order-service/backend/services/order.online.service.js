@@ -7,6 +7,7 @@ const calculateShippingFee = require('../helpers/calculate.shippingfee')
 const calculateDistance = require('../helpers/calculate.distance')
 const Promotion = require('../models/promotion')
 const orderService = require('./order.service')
+const producerNotification = require('./producer.notification')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -161,6 +162,8 @@ class OrderOnlineService {
                 orderService.sendPrinterOrderOnline(order)
             }
 
+            producerNotification.sendQueue(null, 'Đơn hàng mới tại website nhà hàng', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
+
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công', orderId: order._id.toString(), total: order.total })
         }
         catch (err) {
@@ -202,6 +205,33 @@ class OrderOnlineService {
             })
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách đơn hàng thành công', data: result, pagination })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message))
+        }
+    }
+
+    updateStatusOrder = async (req, res, next) => {
+        try {
+            const { orderId, status } = req.body
+
+            if (!orderId || !status) return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin để cập nhật'))
+
+            if (status != 3 && status != 4) return next(createError(StatusCode.BadRequest_400, 'Trạng thái không hợp lệ'))
+
+            const order = await OrderOnline.findOne({ _id: orderId })
+
+            if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy đơn hàng'))
+
+            if (order.status != 2 && order.status != 3) return next(createError(StatusCode.BadRequest_400, 'Trạng thái hiện tại của đơn hàng không hợp lệ'))
+
+            order.status = status 
+
+            await order.save()
+
+            producerNotification.sendQueue(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`)
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật trạng thái đơn hàng thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message))

@@ -1,5 +1,6 @@
 const StatusCodeEnum = require('../enums/http.status.code')
 const Notification = require('../models/notification')
+const User = require('../models/user')
 
 class NotificationService {
     getNumberOfNoti = async (req, res, next) => {
@@ -47,6 +48,39 @@ class NotificationService {
             return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at getNotifications: ${err.message}`])
         }
     } 
+
+    storageDatabaseNotification = async (data) => {
+        try {
+            data = JSON.parse(data)
+            if (!data) {
+                console.error(`Data from message queue is not exist, error occured`)
+                return null
+            }
+
+            if (!data.broadcast)
+                new Notification({
+                    userId: data.userId,
+                    title: data.title,
+                    message: data.message,
+                    link: data.link
+                }).save()
+            else {
+                const user = await User.find({ user_type: data.broadcast })
+                if (!user) return 
+                user.forEach(value => {
+                    new Notification({
+                        userId: value._id,
+                        title: data.title,
+                        message: data.message,
+                        link: data.link
+                    }).save()
+                })
+            }
+        }
+        catch (err) {
+            console.error(`Error occurred at storageDatabaseNotification: ${err.message}`)
+        }
+    }
 }
 
 module.exports = new NotificationService()

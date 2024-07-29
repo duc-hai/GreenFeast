@@ -19,7 +19,7 @@ class RatingService {
             if (checkValidation(req) !== null) return next(createError(StatusCode.BadRequest_400, checkValidation(req))) 
 
             const orderDb = await Order.findOne({ _id: orderId, status: true, is_rating: false })
-            const orderOnlineDb = await OrderOnline.findOne({ _id: orderId, status: 4, is_rating: false }) //status 4 is delivered //check right menu
+            const orderOnlineDb = await OrderOnline.findOne({ _id: orderId, status: 5, is_rating: false }) //status 5 is delivered //check right menu
     
             if (!orderDb && !orderOnlineDb) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy đơn hàng hoặc đơn hàng chưa hoàn thành hoặc đơn hàng đã đánh giá')) 
     

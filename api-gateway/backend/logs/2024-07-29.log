@@ -20,3 +20,4 @@
 [2024-07-29 16:49:57] 	GET /api/order/history-list [status: 500 - message: ]
 [2024-07-29 16:50:00] 	GET /api/order/history-list [status: 500 - message: ]
 [2024-07-29 16:57:25] 	GET /api/order/detail/669bf8f6af22e23ea9daac26 [status: 500 - message: Không tìm thấy đường dẫn]
+[2024-07-29 20:22:56] 	POST /api/admin/order/online/update-status [status: 500 - message: Online_orders validation failed: delivery_information.latitude: Path `delivery_information.latitude` is required., delivery_information.longitude: Path `delivery_information.longitude` is required.]

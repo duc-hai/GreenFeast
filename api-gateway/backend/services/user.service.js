@@ -93,6 +93,11 @@ class UserService {
             if (!newUser)
                 return next(createError(StatusCode.Forbidden_403, 'Đã xảy ra lỗi khi tạo người dùng'))  
 
+            producer.sendQueue('gateway-notification', {
+                userId: username,
+                user_type: 2
+            })
+
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: `Tài khoản ${username} được tạo thành công`
@@ -182,6 +187,11 @@ class UserService {
 
             if (!newUser)
                 return next(createError(StatusCode.Forbidden_403, 'Đã xảy ra lỗi khi tạo người dùng'))  
+
+            producer.sendQueue('gateway-notification', {
+                userId: username,
+                user_type: 1
+            })
 
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
@@ -367,6 +377,12 @@ class UserService {
 
             if (!newUser)
                 return new Error('Đã xảy ra lỗi khi tạo mới người dùng')
+
+            producer.sendQueue('gateway-notification', {
+                userId: username,
+                user_type: 2
+            })
+
             return newUser 
         }
         catch (err) {

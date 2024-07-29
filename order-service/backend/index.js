@@ -3,7 +3,6 @@ const env = require('dotenv')
 const app = express()
 const database = require('./config/connect.mongo')
 const routes = require('./routes')
-const producer = require('./services/producer.rabbitmq')
 const consumer = require('./services/consumer.rabbitmq')
 const cookieParser = require('cookie-parser')
 

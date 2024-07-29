@@ -160,11 +160,20 @@ export class PromotionService {
                 data: promotion
             })
 
-            if (createPromotionDto.text_email) 
+            if (createPromotionDto.text_email) {
                 this.rabbitMQService.sendMessage('email', {
                     text: createPromotionDto.text_email,
                     action: 'promotion'
-                })
+                }) //Send mail
+
+                this.rabbitMQService.sendMessage('notification', {
+                    userId: null,
+                    title: 'Khuyến mãi mới tại nhà hàng!',
+                    message: createPromotionDto.text_email,
+                    link: '',
+                    broadcast: 2
+                }) //Send noti
+            }
 
             return promotion
         }

@@ -90,5 +90,6 @@ router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, f
 //
 router.get('/order/online/history-list', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order-online'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/online/history/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order-online'), forwardService.forwardRequestWithAlias('order'))
+router.post('/order/online/update-status', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('updateAny', 'order-online'), forwardService.forwardRequestWithAlias('order'))
 
 module.exports = router

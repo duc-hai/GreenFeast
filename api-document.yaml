@@ -4543,16 +4543,17 @@ paths:
       tags:
         - order
       summary: Xem danh sách đơn hàng online theo trạng thái
-      description: "Chia các tab ra thành các trạng thái đơn hàng, tab đầu tiên là tất cả, các tab tiếp theo tương ứng với từng trạng thái của đơn hàng. Hình minh họa: `https://down-vn.img.susercontent.com/vn-11134141-7r98o-lx6bs19fkpnfcb`. Mỗi đơn hàng sẽ có thêm một nút để cập nhật trạng thái đơn hàng."
+      description: "Chia các tab ra thành các trạng thái đơn hàng, tab đầu tiên là tất cả, các tab tiếp theo tương ứng với từng trạng thái của đơn hàng. Hình minh họa: `https://down-vn.img.susercontent.com/vn-11134141-7r98o-lx6bs19fkpnfcb`. Các đơn hàng có trạng thái là `Đang chế biến` và `Đang giao hàng` sẽ thêm một nút để cập nhật trạng thái đơn hàng. Người dùng có thể bấm vào từng dòng để xem chi tiết đơn hàng, và đặc biệt thêm một nút tìm kiếm đơn hàng theo mã đơn hàng ngay trên đầu danh sách, người dùng nhập mã đơn hàng và gửi thì lấy ra chi tiết đơn hàng đó (api lấy chi tiết ở phía dưới, một công đôi việc)"
       parameters:
         - in: query
           name: status
-          description: "Trạng thái của món ăn, nằm từ khoảng 1 đến 6, nếu không truyền thì mặc định là lấy tất cả. Trạng thái cụ thể như sau: 1: Đang chờ xác nhận,
+          description: "Trạng thái của đơn hàng, nằm từ khoảng 1 đến 7, nếu không truyền thì mặc định là lấy tất cả. Trạng thái cụ thể như sau: 1: Đang chờ xác nhận,
                 2: Đang chế biến,
-                3: Đang giao hàng,
-                4: Đã giao hàng,
-                5: Giao không thành công,
-                6: Trả món/Hoàn tiền"
+                3: Đơn hàng đã sẵn sàng,
+                4: Đang giao hàng,
+                5: Đã giao hàng,
+                6: Đã hủy
+                7: Trả món/Hoàn tiền"
           schema:
             type: number
             example: 4
@@ -4985,7 +4986,45 @@ paths:
                             example: 0123456789
 
           '400':
-              description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+              description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message."
+  
+  /admin/order/online/update-status:
+    post:
+      tags:
+        - order
+      summary: Cập nhật trạng thái đơn hàng
+      description: "Như đã trình bày ở API xem danh sách đơn hàng online, có tất cả là 7 trạng thái của 1 đơn hàng. Trong đó, trạng thái 1 là Chờ xác nhận, cái này hệ thống tự động xử lý. Trạng thái 2 là đang chế biến, với các order ở trạng thái này sẽ có nút cập nhật sang trạng thái tiếp theo là Đơn hàng đã sẵn sàng (status: 3). Tiếp tục, trạng thái Đơn hàng đã sẵn sàng sẽ có nút để cập nhật sang trạng thái Đang giao hàng (status: 4). Còn lại các trạng thái giao hàng thành công hay thất bại sẽ do đơn vị vận chuyển cập nhật. Admin chỉ chuyển từ trạng thái từ 2 -> 3 và 3 -> 4. Trong tương lai nếu xử lý đơn hàng phức tạp hơn thì mở rộng sau."
+      requestBody: 
+        description: "Thông tin của orderId và status là trạng thái muốn cập nhật, nếu order đang ở status là 2 thì có thể chuyển sang 3 hoặc 4, còn đang ở trạng thái 3 thì chỉ chuyển sang 4. Vì thế, status trong body chỉ có thể là 3 hoặc 4"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                      orderId: 
+                        type: string
+                        example: 66a75d7501d3883d239c8b78
+                      status: 
+                        type: number
+                        example: 4
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Cập nhật trạng thái đơn hàng thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             
   /payment/create-payment-url:
     post:
@@ -5442,9 +5481,6 @@ paths:
                                     value: 658000
                                   }
                                 ]
-
-
-  
           '400':
               description: "Lỗi"
               content:
