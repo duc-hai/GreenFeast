@@ -15,7 +15,8 @@ const menu = new Schema (
         menu_type: { type: Number },
         rating_sum: { type: Number, default: 0 },
         rating_count: { type: Number, default: 0 },
-        rating_average: { type: Number, default: 0 }
+        rating_average: { type: Number, default: 0 },
+        rating_pages: { type: Number, default: 0 }
     }, {
         collection: 'menus'
     }

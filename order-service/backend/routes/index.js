@@ -11,6 +11,7 @@ const ratingService = require('../services/rating.service')
 router.get('/menu/get-list', menuService.getAllMenu)
 router.get('/menu/get-by-category/:id', menuService.getMenuByCategory)
 router.get('/menu/search', menuService.searchMenu)
+router.get('/view-rating/:id', ratingService.viewRating)
 
 //Online module
 router.post('/online', orderOnlineService.orderMenuOnline)

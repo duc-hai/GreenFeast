@@ -35,7 +35,8 @@ const onlineOrder = new Schema (
         order_person: {
             _id: { type: String },
             name: { type: String }
-        }
+        },
+        is_rating: { type: Boolean, default: false }
     }, {
         collection: 'online_orders'
     }

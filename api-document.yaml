@@ -3806,7 +3806,7 @@ paths:
       description: Lấy theo mã người dùng đang đăng nhập nên yêu cầu đăng nhập.
       responses:
         '200':
-            description: Thành công. Sắp xếp theo thời gian giảm dần
+            description: "Thành công. Sắp xếp theo thời gian giảm dần. **Updated on 29/7:** Cập nhật thêm thuộc tính is_rating là trạng thái đánh giá của đơn hàng, false là chưa đánh giá, hiện nút đánh giá cho người dùng nếu chưa đánh giá. Lưu ý là trạng thái phải là `Đã giao hàng` mới được đánh giá"
             content:
               application/json:
                 schema:
@@ -3874,7 +3874,8 @@ paths:
                               ],
                               total: 380000,
                               time: "2024-07-07T02:57:51.923Z",
-                              status: "Đang chờ giao hàng"
+                              status: "Đã giao hàng",
+                              is_rating: false
                             }
                         ]
    
@@ -3909,7 +3910,7 @@ paths:
           required: true
       responses:
         '200':
-            description: Thành công.
+            description: "Thành công. T**Updated on 29/7:** Cập nhật thêm thuộc tính is_rating là trạng thái đánh giá của đơn hàng, false là chưa đánh giá, hiện nút đánh giá cho người dùng nếu chưa đánh giá. Lưu ý là trạng thái phải là `Đã giao hàng` mới được đánh giá"
             content:
               application/json:
                 schema:
@@ -4031,7 +4032,8 @@ paths:
                               total: 380000,
                               time: "2024-07-07T02:57:51.923Z",
                               payment_method: cod,
-                              status: "Đang chờ giao hàng"
+                              status: "Đã giao hàng",
+                              is_rating: true
                             }
                         
    
@@ -4402,7 +4404,7 @@ paths:
       tags:
         - order
       summary: Đánh giá món ăn
-      description: "Sau khi người dùng đã hoàn thành đơn hàng, người dùng có thể xem lại đơn hàng cũng như đánh giá từng món ăn trong đơn hàng đó. Thông tin đánh giá này sẽ hữu ích để training mô hình đề xuất."
+      description: "Sau khi người dùng đã hoàn thành đơn hàng, người dùng có thể xem lại đơn hàng cũng như đánh giá từng món ăn trong đơn hàng đó. Thông tin đánh giá này sẽ hữu ích để training mô hình đề xuất. Lưu ý: khi đánh giá là đánh giá toàn bộ món ăn trong 1 đơn hàng đó, mặc định là 5 sao hết. Đánh giá chỉ được 1 lần, không được sửa lại đánh giá sau đó. Backend sẽ dựa trên thuộc tính is_rating của đơn hàng, nếu false thì mới được đánh giá, để đảm bảo chỉ được đánh giá 1 lần cho 1 đơn hàng. Thêm một điều kiện nữa là chỉ có những đơn hàng đã hoàn thành (đã giao hoặc đã đóng bàn) thì mới đánh giá. Đánh giá món ăn này sẽ áp dụng cho cả online và offline."
       requestBody: 
         description: Rating từ 1 đến 5, comment có thể có hoặc không cũng được, orderId là mã của đơn hàng cần đánh giá
         content: 
@@ -4451,6 +4453,88 @@ paths:
                         message: 
                           type: string
                           example: Đánh giá món ăn thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+    
+  /order/view-rating/{id}:
+    get:
+      tags:
+        - order
+      summary: Xem đánh giá của món ăn
+      description: "Xem đánh giá món ăn, có sử dụng phân trang, mỗi trang 10 đánh giá, hiển thị theo mới nhất đến cũ nhất"
+      parameters:
+        - in: path
+          name: id
+          description: "Mã món ăn"
+          schema:
+            type: number
+            example: 4
+          required: true
+        - in: query
+          name: page
+          description: "Page, không truyền thì mặc định là 1"
+          schema:
+            type: number
+            example: 1
+          required: false
+      responses:
+        '200':
+            description: Thành công. Trong đó, data là danh sách đánh giá gồm tên người đánh giá (cứ public không sao hết, backend đã ẩn đi mã người dùng rồi), rating là số sao, comment là nội dung (có thể rỗng), timestamp là thời gian đánh giá (hiện ngày tháng năm giờ phút). Pagination là nội dung phân trang, totalPage là tổng số trang đánh giá của món ăn, currentPage là trang hiện tại, pagesize là số lượng đánh giá mỗi trang, nextpage là số trang tiếp theo, prevpage là số trang trước đó, nếu page hiện tại đã max hoặc đã min thì nextpage hoặc prevpage sẽ là -1, tức không còn trang nào ở tiếp theo hoặc ở trước. Tùy theo frontend thiết kế phân trang sao mà dùng tham số đó cho phù hợp.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy danh sách đánh giá thành công
+                      data: 
+                        type: array
+                        items: 
+                          type: object
+                          properties: 
+                            user_name: 
+                              type: string
+                              example: Lưu Đức Hải
+                            rating: 
+                              type: number
+                              example: 5
+                            comment: 
+                              type: string
+                              example: Rất ngon
+                            timestamp: 
+                              type: string
+                              format: date-time
+                              example: 2024-07-29T04:44:27.077Z
+                        example: [
+                            {
+                              user_name: Lưu Đức Hải,
+                              rating: 5,
+                              comment: Rất ngon,
+                              timestamp: 2024-07-29T04:44:27.077Z
+                            }
+                        ]
+                      pagination: 
+                        type: object
+                        properties: 
+                          totalPage: 
+                            type: number
+                            example: 2
+                          currentPage: 
+                            type: number
+                            example: 1
+                          pagesize: 
+                            type: number
+                            example: 10
+                          nextpage: 
+                            type: number
+                            example: 2
+                          prevpage: 
+                            type: number
+                            example: -1
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             

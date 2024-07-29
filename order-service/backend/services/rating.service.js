@@ -18,6 +18,24 @@ class RatingService {
 
             if (checkValidation(req) !== null) return next(createError(StatusCode.BadRequest_400, checkValidation(req))) 
 
+            const orderDb = await Order.findOne({ _id: orderId, status: true, is_rating: false })
+            const orderOnlineDb = await OrderOnline.findOne({ _id: orderId, status: 4, is_rating: false }) //status 4 is delivered //check right menu
+    
+            if (!orderDb && !orderOnlineDb) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy đơn hàng hoặc đơn hàng chưa hoàn thành hoặc đơn hàng đã đánh giá')) 
+    
+            if (orderDb) {
+                    //check
+                    orderDb.is_rating = true
+                    await orderDb.save()
+            }
+            else {
+                if (orderOnlineDb.order_person?._id !== user._id) {
+                    return next(createError(StatusCode.BadRequest_400, 'Tài khoản đánh giá không hợp lệ')) 
+                }
+                orderOnlineDb.is_rating = true
+                await orderOnlineDb.save()
+            }
+
             //asynchorously
             order.forEach(value => {
                 this.ratingMenuDatabase(value.menuId, user, value.rating, value.comment, orderId)
@@ -53,7 +71,7 @@ class RatingService {
                         newReview
                     ]
                 }).save()
-                this.updateRatingMenu(menuId, rating)
+                this.updateRatingMenu(menuId, rating, 1)
                 return 
             }
 
@@ -73,7 +91,7 @@ class RatingService {
                         newReview
                     ]
                 }).save()
-                this.updateRatingMenu(menuId, rating)
+                this.updateRatingMenu(menuId, rating, 1)
             }
             return
         }
@@ -82,17 +100,65 @@ class RatingService {
         }
     }
 
-    updateRatingMenu = async (menuId, rating) => {
+    updateRatingMenu = async (menuId, rating, addPage = 0) => {
         try {
             const menu = await Menu.findOne({ _id: menuId })
             menu.rating_sum += rating
             menu.rating_count += 1
             menu.rating_average = (menu.rating_sum / menu.rating_count).toFixed(1)
-
+            menu.rating_pages += addPage
             await menu.save()
         }
         catch (err) {
             console.error(err.message)
+        }
+    }
+
+    viewRating = async (req, res, next) => {
+        try {
+            const menuId = req.params.id
+            if (!menuId) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn')) 
+            const menu = await Menu.findOne({
+                _id: menuId,
+                status: true
+            })
+            if (!menu) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món ăn')) 
+            const totalPage = menu.rating_pages 
+            let page = req.query.page || 1  
+            const reviewList = await Review.findOne({
+                menu_id: menuId,
+                page: parseInt(totalPage - (page - 1))
+            })
+
+            let reviews = []
+            if (reviewList) {
+                reviews = reviewList.reviews.map(value => {
+                    if (value.is_show === true)
+                        return {
+                            user_name: value.user_name,
+                            rating: value.rating,
+                            comment: value.comment,
+                            timestamp: value.timestamp,
+                        }
+                    else return {}
+                })
+            }
+            
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy danh sách đánh giá thành công',
+                data: reviews,
+                pagination: {
+                    totalPage: totalPage,
+                    currentPage: parseInt(page),
+                    pagesize: 10,
+                    nextpage: totalPage <= page ? -1 : parseInt(page) + 1,
+                    prevpage: page <= 1 ? -1 : parseInt(page) - 1
+                }
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
 }
