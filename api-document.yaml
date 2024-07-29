@@ -4792,6 +4792,201 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             
+  /order/history-list:
+    get:
+      tags:
+        - order
+      summary: Lịch sử đơn hàng (khách hàng tại nhà hàng)
+      description: "Tại lịch sử đặt món, thêm một tab là tại nhà hàng (và online), hiển thị danh sách lịch sử order của khách hàng tại nhà hàng, yêu cầu đăng nhập, kết quả trả về có cả rating, thêm nút rating cho khách hàng đánh giá."
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Lấy danh sách lịch sử đặt món thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    example: 669bf8f6af22e23ea9daac26
+                                  subtotal: 
+                                    type: number
+                                    example: 599000
+                                  discount: 
+                                    type: number
+                                    example: 0
+                                  surcharge: 
+                                    type: number
+                                    example: 0
+                                  table: 
+                                    type: string
+                                    example: A04
+                                  checkin: 
+                                    type: string
+                                    format: date-time
+                                    example: 2024-07-20T17:50:46.015Z
+                                  status: 
+                                    type: boolean
+                                  is_rating: 
+                                    type: boolean
+                                  user_id: 
+                                    type: string
+                                    example: 0123456789
+                              example: [
+                                  {
+                                    _id: 669bf8f6af22e23ea9daac26,
+                                  subtotal: 599000,
+                                  discount: 0,
+                                  surcharge: 0,
+                                  table: A04,
+                                  checkin: "2024-07-20T17:50:46.015Z",
+                                  is_rating: false,
+                                  user_id: "0123456789"
+                                  }
+                              ]
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+            
+  /order/history-detail/{id}:
+    get:
+        tags:
+          - order
+        summary: Chi tiết lịch sử đơn hàng (khách hàng tại nhà hàng)
+        description: "Chi tiết đơn hàng, lấy id từ danh sách phía trên, tận dụng lại mấy trang có sẵn làm cho lẹ"
+        parameters:
+        - in: path
+          name: id
+          description: "Mã đơn hàng"
+          schema:
+            type: string
+            example: 669bf8f6af22e23ea9daac26
+          required: true
+        responses:
+          '200':
+              description: Thành công. 
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Lấy lịch sử đặt món thành công
+                      data: 
+                        type: object
+                        properties: 
+                          _id: 
+                            type: string
+                            example: 669bf8f6af22e23ea9daac26
+                          order_detail: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                order_person: 
+                                  type: object
+                                  properties: 
+                                    _id: 
+                                      type: string
+                                      example: 0123456789
+                                    name: 
+                                      type: string
+                                      example: "Nhân viên: Lưu Đức Hải"
+                                menu: 
+                                  type: array
+                                  items: 
+                                    type: object
+                                    properties: 
+                                      _id: 
+                                        type: number
+                                        example: 1
+                                      name: 
+                                        type: string
+                                        example: Gỏi cuốn sốt đậu phộng
+                                      quantity: 
+                                        type: number
+                                        example: 3
+                                      price: 
+                                        type: number
+                                        example: 90000
+                                      processing_status: 
+                                        type: number
+                                        example: 0
+                                  example: [
+                                      {
+                                        _id: 1,
+                                        name: Gỏi cuốn sốt đậu phộng,
+                                        quantity: 3,
+                                        price: 90000,
+                                        processing_status: 0
+                                      }
+                                  ]
+                                time: 
+                                  type: string
+                                  format: date-time
+                                  example: 2024-07-20T17:50:46.015Z
+                                _id: 
+                                  type: string
+                                  example: 669bf8f6af22e23ea9daac27
+                            example: [
+                                {
+                                  order_person: 
+                                  {
+                                    _id: "0123456789",
+                                    name: "Nhân viên: Lưu Đức Hải"
+                                  },
+                                menu: [
+                                    {
+                                      _id: 1,
+                                    name: Gỏi cuốn sốt đậu phộng,
+                                    quantity: 3,
+                                    price: 90000,
+                                    processing_status: 0
+                                    }
+                                ],
+                                time: "2024-07-20T17:50:46.015Z",
+                                _id: 669bf8f6af22e23ea9daac27
+                                }
+                            ]
+                          subtotal: 
+                            type: number
+                            example: 599000
+                          discount: 
+                            type: number
+                            example: 0
+                          surcharge: 
+                            type: number
+                            example: 0
+                          table: 
+                            type: string
+                            example: A04
+                          checkin: 
+                            type: string
+                            format: date-time
+                            example: 2024-07-20T17:50:46.015Z
+                          is_rating: 
+                            type: boolean
+                          user_id: 
+                            type: string
+                            example: 0123456789
+
+          '400':
+              description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+            
   /payment/create-payment-url:
     post:
       tags:

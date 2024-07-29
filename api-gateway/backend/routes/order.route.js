@@ -15,6 +15,9 @@ router.post('/online', jwtTokenGuard.jwtTokenValidatorUser, forwardService.forwa
 router.get('/online/history-list', jwtTokenGuard.jwtTokenValidatorUser, forwardService.forwardRequestWithAlias('order'))
 router.get('/online/history-detail/:id', forwardService.forwardRequestWithAlias('order'))
 
+router.get('/history-list', jwtTokenGuard.jwtTokenValidatorUser, forwardService.forwardRequestWithAlias('order'))
+router.get('/history-detail/:id', forwardService.forwardRequestWithAlias('order'))
+
 router.get('/view-order/:tableSlug', forwardService.forwardRequestWithAlias('order'))
 router.get('/promotion', forwardService.forwardRequestWithAlias('order'))
 router.get('/print-bill/:tableSlug', forwardService.forwardRequestWithAlias('order'))

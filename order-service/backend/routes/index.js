@@ -47,6 +47,9 @@ router.post('/apply-promotion', orderService.applyPromotion)
 router.post('/order/menu/detail', menuService.getMenuDetail)
 router.post('/rating', validation.checkValidationRating(), ratingService.ratingMenu)
 
+router.get('/history-list', orderService.historyOrderListCustomer)
+router.get('/history-detail/:id', orderService.historyOrderDetailCustomer)
+
 router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

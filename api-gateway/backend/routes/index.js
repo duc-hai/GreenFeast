@@ -1,4 +1,5 @@
 const express = require('express')
+const swaggerUi = require('swagger-ui-express')
 const errorHandler = require('../middlewares/error.handler')
 const adminRouter = require('./admin.route')
 const googleRouter = require('./google.route')
@@ -8,7 +9,6 @@ const orderRouter = require('./order.route')
 const forwardService = require('../services/forward.microservices')
 const jwtTokenGuard = require('../middlewares/jwt.token.guard')
 const recommendService = require('../services/recommend.service')
-
 const router = express.Router()
 
 router.use('/auth/google', googleRouter)

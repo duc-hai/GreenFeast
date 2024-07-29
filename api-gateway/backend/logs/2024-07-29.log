@@ -16,3 +16,7 @@
 [2024-07-29 11:48:47] 	GET /api/order/view-rating/2?page=1 [status: 500 - message: Không tìm thấy món ăn]
 [2024-07-29 13:58:46] 	GET /api/admin/order/online/history-list [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
 [2024-07-29 14:28:02] 	GET /api/admin/order/online/history/669b2ec76de091210e699673 [status: 500 - message: Mã đơn hàng không hợp lệ]
+[2024-07-29 16:49:52] 	GET /api/order/history-list [status: 500 - message: read ECONNRESET]
+[2024-07-29 16:49:57] 	GET /api/order/history-list [status: 500 - message: ]
+[2024-07-29 16:50:00] 	GET /api/order/history-list [status: 500 - message: ]
+[2024-07-29 16:57:25] 	GET /api/order/detail/669bf8f6af22e23ea9daac26 [status: 500 - message: Không tìm thấy đường dẫn]

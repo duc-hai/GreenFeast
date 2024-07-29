@@ -749,6 +749,44 @@ class OrderService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
+
+    historyOrderListCustomer = async (req, res, next) => {
+        try {
+            if (!req.headers['user-infor-header']) 
+                return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
+
+            const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
+            const orderList = await Order.find({ 'user_id': userInfor._id, status: true }).select({ __v: 0, order_detail: 0, status: 0 }).sort({ checkout: -1 })
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy danh sách lịch sử đặt món thành công',
+                data: orderList
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    historyOrderDetailCustomer = async (req, res, next) => {
+        try {
+            const orderId = req.params.id
+            const orderDetail = await Order.findOne({ _id: orderId, status: true }).select({ __v: 0, status: 0 })
+
+            if (!orderDetail) 
+                return next(createError(StatusCode.BadRequest_400, 'Mã đơn hàng không hợp lệ'))
+
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Lấy lịch sử đặt món thành công',
+                data: orderDetail
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 }
 
 module.exports = new OrderService()
