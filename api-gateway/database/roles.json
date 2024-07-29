@@ -86,6 +86,15 @@
       ]
     },
     {
+      "resource": "order-online",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
       "resource": "revenue",
       "actions": [
         "read:any",
@@ -120,6 +129,15 @@
       "resource": "revenue",
       "actions": [
         "read:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "order-online",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
         "create:any"
       ]
     }

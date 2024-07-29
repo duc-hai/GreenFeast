@@ -14,3 +14,5 @@
 [2024-07-29 11:46:39] 	POST /api/order/rating [status: 500 - message: ]
 [2024-07-29 11:46:44] 	POST /api/order/rating [status: 500 - message: Không tìm thấy đơn hàng hoặc đơn hàng chưa hoàn thành hoặc đơn hàng đã đánh giá]
 [2024-07-29 11:48:47] 	GET /api/order/view-rating/2?page=1 [status: 500 - message: Không tìm thấy món ăn]
+[2024-07-29 13:58:46] 	GET /api/admin/order/online/history-list [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-29 14:28:02] 	GET /api/admin/order/online/history/669b2ec76de091210e699673 [status: 500 - message: Mã đơn hàng không hợp lệ]

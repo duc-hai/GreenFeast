@@ -162,6 +162,46 @@ class OrderOnlineService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
+
+    manageOrderAdmin = async (req, res, next) => {
+        try {
+            const page = parseInt(req.query.page || 1)
+            const skip = (10 * page) - 10 //In first page, skip 0 index
+            let status = req.query.status
+            let orderList = []
+            let totalItem = 0
+            
+            if (!status) {
+                orderList = await OrderOnline.find({ status: { $ne: 0 } }).sort({ time: -1 }).select({ __v: 0, order_person: 0, subtotal: 0, discount: 0, surcharge: 0, shippingfee: 0, note: 0, payment_method: 0, delivery_information: 0 }).skip(skip).limit(10) 
+                totalItem = await OrderOnline.countDocuments({ status: { $ne: 0 } })
+            }
+            else {
+                status = parseInt(status.toString())
+                orderList = await OrderOnline.find({ status: status }).sort({ time: -1 }).select({ __v: 0, order_person: 0, subtotal: 0, discount: 0, surcharge: 0, shippingfee: 0, note: 0, payment_method: 0, delivery_information: 0 }).skip(skip).limit(10) 
+
+                totalItem = await OrderOnline.countDocuments({ status: status })
+            }
+
+            const pagination = {
+                currentPage: page,
+                totalItem: totalItem,
+                pagesize: 10,
+                totalPage: Math.ceil(totalItem / 10)
+            }
+
+            const result = orderList.map(order => {
+                return {
+                    ...order._doc,
+                    status: StatusOnlineOrder[order.status]
+                }
+            })
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Lấy danh sách đơn hàng thành công', data: result, pagination })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message))
+        }
+    }
 }
 
 module.exports = new OrderOnlineService()

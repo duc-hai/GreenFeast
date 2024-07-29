@@ -87,4 +87,8 @@ router.patch('/order/update/processing-status', jwtTokenGuard.jwtTokenValidatorR
 //Lấy danh sách bàn theo mã khu vực, phân quyền chỉ cho nhân viên xem
 router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('order'))
 
+//
+router.get('/order/online/history-list', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order-online'), forwardService.forwardRequestWithAlias('order'))
+router.get('/order/online/history/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order-online'), forwardService.forwardRequestWithAlias('order'))
+
 module.exports = router

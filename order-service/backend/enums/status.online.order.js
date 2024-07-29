@@ -4,6 +4,6 @@ module.exports = {
     2: 'Đang chế biến',
     3: 'Đang giao hàng',
     4: 'Đã giao hàng',
-    5: 'Đã hủy',
-    6: 'Hoàn tiền'
+    5: 'Giao không thành công',
+    6: 'Trả món/Hoàn tiền'
 }

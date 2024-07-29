@@ -54,7 +54,7 @@
 							"urlencoded": [
 								{
 									"key": "full_name",
-									"value": "Hải",
+									"value": "Lưu Đứuc hải",
 									"type": "text"
 								},
 								{
@@ -2483,7 +2483,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"menu\": [\r\n        {\r\n            \"_id\": \"4\",\r\n            \"quantity\": 3,\r\n            \"note\": \"Không hành\"\r\n        },\r\n        {\r\n            \"_id\": \"19\",\r\n            \"quantity\": 2,\r\n            \"note\": \"Không hẹ\"\r\n        },\r\n        {\r\n            \"_id\": \"32\",\r\n            \"quantity\": 1,\r\n            \"note\": \"Ít ngọt\"\r\n        }\r\n    ],\r\n    \"note\": \"Giao nhanh giùm nha\",\r\n    \"payment_method\": \"bank\",\r\n    \"delivery\": {\r\n        \"name\": \"Lưu Đức Hải\",\r\n        \"phone_number\": \"0123456789\",\r\n        \"province\": \"Thành phố Hồ Chí Minh\",\r\n        \"district\": \"Quận 1\",\r\n        \"ward\": \"Phường Đa Kao\",\r\n        \"longitude\": \"106.7032527\",\r\n        \"latitude\": \"10.7801495\",\r\n        \"address\": \"Nguyễn Siêu\"\r\n    },\r\n    \"time_receive\": \"\"\r\n}",
+							"raw": "{\r\n    \"menu\": [\r\n        {\r\n            \"_id\": \"4\",\r\n            \"quantity\": 3,\r\n            \"note\": \"Không hành\"\r\n        },\r\n        {\r\n            \"_id\": \"19\",\r\n            \"quantity\": 2,\r\n            \"note\": \"Không hẹ\"\r\n        },\r\n        {\r\n            \"_id\": \"32\",\r\n            \"quantity\": 1,\r\n            \"note\": \"Ít ngọt\"\r\n        }\r\n    ],\r\n    \"note\": \"Giao nhanh giùm nha\",\r\n    \"payment_method\": \"cod\",\r\n    \"delivery\": {\r\n        \"name\": \"Lưu Đức Hải\",\r\n        \"phone_number\": \"0123456789\",\r\n        \"province\": \"Thành phố Hồ Chí Minh\",\r\n        \"district\": \"Quận 1\",\r\n        \"ward\": \"Phường Đa Kao\",\r\n        \"longitude\": \"106.7032527\",\r\n        \"latitude\": \"10.7801495\",\r\n        \"address\": \"Nguyễn Siêu\"\r\n    },\r\n    \"time_receive\": \"\",\r\n    \"promotion_id\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2499,6 +2499,156 @@
 								"api",
 								"order",
 								"online"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HistoryOrderAdmin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/online/history-list?status=3&page=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"online",
+								"history-list"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DetailOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/admin/order/online/history/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"online",
+								"history",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "66a70d5ba8e3cdffb6480408"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recommend",
+			"item": [
+				{
+					"name": "Recommend",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://greenfeast.space/api/recommend/menu",
+							"protocol": "https",
+							"host": [
+								"greenfeast",
+								"space"
+							],
+							"path": [
+								"api",
+								"recommend",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rating",
+			"item": [
+				{
+					"name": "Rating menu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"66a70f87085f275be6bba060\",\r\n    \"order\": [\r\n        {\r\n            \"menuId\": 4,\r\n            \"comment\": \"Rất ngon\",\r\n            \"rating\": 5\r\n        },\r\n        {\r\n            \"menuId\": 19,\r\n            \"comment\": \"Ngon\",\r\n            \"rating\": 4\r\n        },\r\n        {\r\n            \"menuId\": 32,\r\n            \"comment\": \"Ngon\",\r\n            \"rating\": 4\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/order/rating",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"rating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Rating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order/view-rating/:id?page=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"view-rating",
+								":id"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},

@@ -4390,7 +4390,7 @@ paths:
                           _id: 26,
                           name: Xà lách trộn,
                           description: Xà lách trộn là một món salad phổ biến và rất được ưa chuộng trên toàn thế giới. Món salad này thường được làm từ xà lách và các nguyên liệu khác như rau củ hoa quả hạt và sốt tạo ra một hương vị độc đáo và bổ dưỡng,
-                          image: https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963002/clgd9gkd0quhgdajtwtl.png,
+                          image: "https://res.cloudinary.com/dmjsmmt3h/image/upload/v1709963002/clgd9gkd0quhgdajtwtl.png",
                           price: 45000,
                           status: true,
                           category_id: 7,
@@ -4514,7 +4514,7 @@ paths:
                               user_name: Lưu Đức Hải,
                               rating: 5,
                               comment: Rất ngon,
-                              timestamp: 2024-07-29T04:44:27.077Z
+                              timestamp: "2024-07-29T04:44:27.077Z"
                             }
                         ]
                       pagination: 
@@ -4535,6 +4535,260 @@ paths:
                           prevpage: 
                             type: number
                             example: -1
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+            
+  /admin/order/online/history-list:
+    get:
+      tags:
+        - order
+      summary: Xem danh sách đơn hàng online theo trạng thái
+      description: "Chia các tab ra thành các trạng thái đơn hàng, tab đầu tiên là tất cả, các tab tiếp theo tương ứng với từng trạng thái của đơn hàng. Hình minh họa: `https://down-vn.img.susercontent.com/vn-11134141-7r98o-lx6bs19fkpnfcb`"
+      parameters:
+        - in: query
+          name: status
+          description: "Trạng thái của món ăn, nằm từ khoảng 1 đến 6, nếu không truyền thì mặc định là lấy tất cả. Trạng thái cụ thể như sau: 1: Đang chờ xác nhận,
+                2: Đang chế biến,
+                3: Đang giao hàng,
+                4: Đã giao hàng,
+                5: Giao không thành công,
+                6: Trả món/Hoàn tiền"
+          schema:
+            type: number
+            example: 4
+          required: false
+        - in: query
+          name: page
+          description: "Page, không truyền thì mặc định là 1"
+          schema:
+            type: number
+            example: 1
+          required: false
+      responses:
+        '200':
+            description: Thành công. Có trả về kết quả phân trang.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy danh sách đơn hàng thành công
+                        data: 
+                          type: array
+                          items: 
+                            type: object
+                            properties: 
+                              _id: 
+                                type: string
+                                example: 66a70f87085f275be6bba060
+                              menu_detail: 
+                                type: array
+                                items: 
+                                  type: object
+                                  properties: 
+                                    _id: 
+                                      type: number
+                                      example: 4
+                                    name: 
+                                      type: string
+                                      example: Bông cải xào tỏi
+                                    quantity: 
+                                      type: number
+                                      example: 3
+                                    price: 
+                                      type: number
+                                      example: 70000
+                                    note: 
+                                      type: string
+                                      example: Không hành
+                                example: [
+                                  {
+                                    _id: 4,
+                                    name: Bông cải xào tỏi,
+                                    quantity: 3,
+                                    price: 70000,
+                                    note: Không hành
+                                  }
+                                ]
+                              total: 
+                                type: number
+                                example: 289700
+                              time: 
+                                type: string
+                                format: date-time
+                                example: 2024-07-29T03:41:29.774Z
+                              status: 
+                                type: string
+                                example: Đã giao hàng
+                              is_rating: 
+                                type: boolean
+                          example: [
+                              {
+                                _id: 66a70f87085f275be6bba060,
+                              menu_detail: [
+                                {
+                                   _id: 4,
+                                  name: Bông cải xào tỏi,
+                                  quantity: 3,
+                                  price: 70000,
+                                  note: Không hành,
+                                }
+                              ],
+                              total: 289700,
+                              time: "2024-07-29T03:41:29.774Z",
+                              status: Đã giao hàng,
+                              is_rating: true,
+                              }
+                          ]
+                        pagination: 
+                          type: object
+                          properties: 
+                            currentPage: 
+                              type: number
+                              example: 1
+                            totalItem: 
+                              type: number
+                              example: 7
+                            pagesize: 
+                              type: number
+                              example: 10
+                            totalPage: 
+                              type: number
+                              example: 1
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+  
+  /admin/order/online/history/{id}:
+    get:
+      tags:
+        - order
+      summary: Chi tiết đơn hàng
+      description: "API này trả về kết quả giống API lấy chi tiết đơn hàng ở client"
+      parameters:
+        - in: path
+          name: id
+          description: "Mã đơn hàng"
+          schema:
+            type: string
+            example: 66a70d5ba8e3cdffb6480408
+          required: true
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Lấy lịch sử đặt món thành công
+                          data: 
+                            type: object
+                            properties: 
+                              delivery_information: 
+                                type: object
+                                properties: 
+                                  name: 
+                                    type: string
+                                    example: Lưu Đức Hải
+                                  phone_number: 
+                                    type: string
+                                    example: 0123456789
+                                  address: 
+                                    type: string
+                                    example: Nguyễn Siêu
+                                  province: 
+                                    type: string
+                                    example: Thành phố Hồ Chí Minh
+                                  district: 
+                                    type: string
+                                    example: Quận 1
+                                  ward: 
+                                    type: string
+                                    example: Phường Đa Kao
+                                  longitude: 
+                                    type: string
+                                    example: 106.7032527
+                                  latitude: 
+                                    type: string
+                                    example: 10.7801495
+                              order_person: 
+                                type: object
+                                properties:  
+                                  _id: 
+                                    type: string
+                                    example: 66a70d5ba8e3cdffb6480408
+                                  menu_detail: 
+                                    type: array
+                                    items: 
+                                      type: object
+                                      properties: 
+                                        _id: 
+                                          type: number
+                                          example: 4
+                                        name: 
+                                          type: string
+                                          example: Bông cải xào tỏi
+                                        quantity: 
+                                          type: number
+                                          example: 3
+                                        price: 
+                                          type: number
+                                          example: 70000
+                                        note: 
+                                          type: string
+                                          example: Không hành
+                                example: [
+                                    {
+                                      _id: 4,
+                                    name: Bông cải xào tỏi,
+                                    quantity: 3,
+                                    price: 70000,
+                                    note: Không hành
+                                    }
+                                ]
+                              subtotal: 
+                                type: number
+                                example: 329000
+                              discount: 
+                                type: number
+                                example: 65800
+                              surcharge: 
+                                type: number
+                                example: 0
+                              shippingfee: 
+                                type: number
+                                example: 26500
+                              note: 
+                                type: string
+                                example: Giao nhanh giùm nha
+                              total: 
+                                type: number
+                                example: 289700
+                              time: 
+                                type: string
+                                format: date-time
+                                example: 2024-07-29T03:32:19.032Z
+                              payment_method: 
+                                type: string
+                                example: cod
+                              status: 
+                                type: string
+                                example: Đã giao hàng
+                              is_rating: 
+                                type: boolean
+
+
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             

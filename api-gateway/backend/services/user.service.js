@@ -236,7 +236,14 @@ class UserService {
         
             //Check validation inputs from body
             if (checkValidation(req) !== null)      
-                return next(createError(StatusCode.BadRequest_400, checkValidation(req)))    
+                return next(createError(StatusCode.BadRequest_400, checkValidation(req))) 
+            
+            if (req.body.gender && req.body.gender == 'nam') {
+                req.body.gender = 'Male'
+            }
+            else if (req.body.gender && req.body.gender == 'nữ') {
+                req.body.gender = 'Female'
+            }
 
             const resultUpdate = await User.findOneAndUpdate({ _id: req.user._id, user_type: req.locals.userType, status: true }, req.body)
 

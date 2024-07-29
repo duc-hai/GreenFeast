@@ -12,7 +12,7 @@ const userSchema = new Schema (
         salt: { type: String },
         full_name: { type: String },
         birthday: { type: Date },
-        gender: { type: String, default: 'không' },
+        gender: { type: String, default: 'Female', enum: ['Female', 'Male'] },
         phone_number: { type: String, maxLength: 11, default: '' },
         email: { type: String },
         address: { type: String, default: '' },

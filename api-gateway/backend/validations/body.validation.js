@@ -70,7 +70,7 @@ const validatorUpdateUserInfor = () => [
         
     check('gender')
         .optional()
-        .isIn('nam,nữ,khác').withMessage('Giới tính không hợp lệ'),
+        .isIn('nam,nữ,Female,Male').withMessage('Giới tính không hợp lệ'),
 
     check('phone_number')
         .optional()

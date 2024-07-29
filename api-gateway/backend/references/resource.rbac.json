@@ -77,6 +77,13 @@
         ]
     },
     {
+        "resource": "order-online",
+        "name": "Đặt món trực tuyến",
+        "actions": [
+            { "name": "Xem các đơn hàng đặt món", "slug": "read:any" }
+        ]
+    },
+    {
         "resource": "revenue",
         "name": "Quản lý doanh thu",
         "actions": [
