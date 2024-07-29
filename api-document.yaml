@@ -4543,7 +4543,7 @@ paths:
       tags:
         - order
       summary: Xem danh sách đơn hàng online theo trạng thái
-      description: "Chia các tab ra thành các trạng thái đơn hàng, tab đầu tiên là tất cả, các tab tiếp theo tương ứng với từng trạng thái của đơn hàng. Hình minh họa: `https://down-vn.img.susercontent.com/vn-11134141-7r98o-lx6bs19fkpnfcb`"
+      description: "Chia các tab ra thành các trạng thái đơn hàng, tab đầu tiên là tất cả, các tab tiếp theo tương ứng với từng trạng thái của đơn hàng. Hình minh họa: `https://down-vn.img.susercontent.com/vn-11134141-7r98o-lx6bs19fkpnfcb`. Mỗi đơn hàng sẽ có thêm một nút để cập nhật trạng thái đơn hàng."
       parameters:
         - in: query
           name: status

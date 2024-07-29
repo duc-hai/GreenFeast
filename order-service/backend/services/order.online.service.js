@@ -6,6 +6,7 @@ const Menu = require('../models/menu')
 const calculateShippingFee = require('../helpers/calculate.shippingfee')
 const calculateDistance = require('../helpers/calculate.distance')
 const Promotion = require('../models/promotion')
+const orderService = require('./order.service')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -155,6 +156,10 @@ class OrderOnlineService {
                 status: status,
                 discount: discount
             }).save()
+
+            if (payment_method === 'cod') {
+                orderService.sendPrinterOrderOnline(order)
+            }
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công', orderId: order._id.toString(), total: order.total })
         }

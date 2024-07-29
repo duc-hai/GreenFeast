@@ -34,12 +34,14 @@ class OrderService {
         if (user.user_type == 1)
             return {
                 _id: user._id,
-                full_name: `Nhân viên: ${user.full_name}`
+                full_name: `Nhân viên: ${user.full_name}`,
+                user_type: user.user_type
             }
         else 
             return {
                 _id: user._id,
-                full_name: `Khách hàng: ${user.full_name}`
+                full_name: `Khách hàng: ${user.full_name}`,
+                user_type: user.user_type
             }
     }
     
@@ -83,11 +85,13 @@ class OrderService {
             const subtotalPrice = menuData.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
 
             let user = { full_name: 'Khách' } //initial by default
+            let userId = ''
 
             if (req.headers['user-infor-header']) {
                 const userInfor = this.getUserInfor(req.headers['user-infor-header'])
                 user.full_name = userInfor.full_name
                 user._id = userInfor._id
+                if (userInfor.user_type == 2) userId = userInfor._id
             }
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
@@ -116,7 +120,8 @@ class OrderService {
                     subtotal: subtotalPrice,
                     table: table._id,
                     checkin: new Date(),
-                    status: false //Unpaid
+                    status: false, //Unpaid
+                    user_id: userId
                 }).save()
 
                 getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
@@ -125,8 +130,11 @@ class OrderService {
             else if (table?.status == 1) {
                 order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
 
-                if (!order)
-                    return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
+                if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
+
+                if (!order.user_id || order.user_id == '') {
+                    order.user_id = ''
+                }
 
                 order?.order_detail.push({
                     menu: menuData,
@@ -151,6 +159,28 @@ class OrderService {
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+    
+    sendPrinterOrderOnline = async (orderOnline) => {
+        try {
+            const order = {
+                table: 'Đơn hàng online'
+            }
+
+            //Edit for the right format
+            const orderDetail = {
+                menu: orderOnline.menu_detail,
+                time: orderOnline.time,
+                order_person: orderOnline.order_person,
+                _id: orderOnline._id
+            }
+
+            this.sendPrinterFood(order, orderDetail)
+            this.sendPrinterBaverage(order, orderDetail) 
+        }
+        catch (err) {
+            console.error(`Error is occured at storageProcessingTicket: ${err.message}`)
         }
     }
 

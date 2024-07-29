@@ -34,7 +34,8 @@ const order = new Schema (
         checkout: { type: Date },
         payment_method: { type: String },
         status: { type: Boolean }, //true is paid, means closed table
-        is_rating: { type: Boolean, default: false }
+        is_rating: { type: Boolean, default: false },
+        user_id: { type: String, default: '' }
     }, {
         collection: 'orders'
     }
