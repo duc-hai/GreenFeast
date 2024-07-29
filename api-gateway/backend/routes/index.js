@@ -1,5 +1,4 @@
 const express = require('express')
-const swaggerUi = require('swagger-ui-express')
 const errorHandler = require('../middlewares/error.handler')
 const adminRouter = require('./admin.route')
 const googleRouter = require('./google.route')
