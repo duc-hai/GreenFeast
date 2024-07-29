@@ -35,6 +35,6 @@ const io = socketio(server)
 io.use(authenticateSocketIo.authenticateSocketIo)
 socketIoService.listenSocketEvent(io)
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Notification service is running at http://${HOST}:${PORT}`)
 })
