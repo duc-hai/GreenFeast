@@ -1,6 +1,7 @@
 const StatusCodeEnum = require('../enums/http.status.code')
 const Notification = require('../models/notification')
 const User = require('../models/user')
+const socketIoService = require('./socketio.service')
 
 class NotificationService {
     getNumberOfNoti = async (req, res, next) => {
@@ -57,13 +58,16 @@ class NotificationService {
                 return null
             }
 
-            if (!data.broadcast)
+            if (!data.broadcast) {
                 new Notification({
                     userId: data.userId,
                     title: data.title,
                     message: data.message,
                     link: data.link
                 }).save()
+
+                socketIoService.sendNotification(data.title, data.message, data.userId)
+            }
             else {
                 const user = await User.find({ user_type: data.broadcast })
                 if (!user) return 
@@ -74,6 +78,7 @@ class NotificationService {
                         message: data.message,
                         link: data.link
                     }).save()
+                    socketIoService.sendNotification(data.title, data.message, value._id)
                 })
             }
         }
