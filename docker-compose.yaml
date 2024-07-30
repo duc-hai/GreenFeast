@@ -51,6 +51,27 @@ services:
       - apigateway-network
       - greenfeast
 
+  notification: #name of service
+    container_name: notification
+    build:
+      context: ./notification-service/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=notificationDB # orderDB is service's name
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5020:5020 #The first 5020 is your port local, the second 5020 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 5020
+    # depends_on: #Start after rabbit mq run
+    #   - rabbitmq
+    networks:
+      - order-network
+      - greenfeast
+
   # apiGatewayDB:
   #   container_name: apiGatewayDB
   #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
@@ -173,27 +194,6 @@ services:
   #   networks:
   #     - order-network
   #     - greenfeast
-
-  notification: #name of service
-    container_name: notification
-    build:
-      context: ./notification-service/backend #path to source backend (local)
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment: #override enviroment variable  (.env file)
-      - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
-      - DB_HOST=notificationDB # orderDB is service's name
-      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
-    ports: 
-      - 5020:5020 #The first 5020 is your port local, the second 5020 is the port on docker container
-      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
-    expose:
-      - 5020
-    # depends_on: #Start after rabbit mq run
-    #   - rabbitmq
-    networks:
-      - order-network
-      - greenfeast
 
   # notificationDB:
   #   container_name: notificationDB
