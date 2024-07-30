@@ -35,7 +35,10 @@ const order = new Schema (
         payment_method: { type: String },
         status: { type: Boolean }, //true is paid, means closed table
         is_rating: { type: Boolean, default: false },
-        user_id: { type: String, default: '' }
+        order_person: {
+            _id: { type: String },
+            name: { type: String } 
+        }
     }, {
         collection: 'orders'
     }

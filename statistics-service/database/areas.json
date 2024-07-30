@@ -1,0 +1,117 @@
+[{
+  "_id": 1,
+  "name": "Tầng 1",
+  "table_list": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "A20"
+  ],
+  "__v": 0
+},
+{
+  "_id": 2,
+  "name": "Tầng 2",
+  "table_list": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B10",
+    "B11",
+    "B12",
+    "B13",
+    "B14",
+    "B15"
+  ],
+  "__v": 0
+},
+{
+  "_id": 3,
+  "name": "Mua mang về",
+  "table_list": [
+    "MMV01",
+    "MMV02",
+    "MMV03",
+    "MMV04",
+    "MMV05",
+    "MMV06",
+    "MMV07",
+    "MMV08",
+    "MMV09",
+    "MMV10"
+  ],
+  "__v": 0
+},
+{
+  "_id": 4,
+  "name": "Grab",
+  "table_list": [
+    "GRAB01",
+    "GRAB02",
+    "GRAB03",
+    "GRAB04",
+    "GRAB05",
+    "GRAB06",
+    "GRAB07",
+    "GRAB08",
+    "GRAB09",
+    "GRAB10"
+  ],
+  "__v": 0
+},
+{
+  "_id": 5,
+  "name": "Shopee",
+  "table_list": [
+    "SHOPEE01",
+    "SHOPEE02",
+    "SHOPEE03",
+    "SHOPEE04",
+    "SHOPEE05",
+    "SHOPEE06",
+    "SHOPEE07",
+    "SHOPEE08",
+    "SHOPEE09",
+    "SHOPEE10"
+  ],
+  "__v": 0
+},
+{
+  "_id": 6,
+  "name": "Nhân viên",
+  "table_list": [
+    "NV01",
+    "NV02",
+    "NV03",
+    "NV04",
+    "NV05",
+    "NV06",
+    "NV07",
+    "NV08",
+    "NV09",
+    "NV10"
+  ],
+  "__v": 0
+}]

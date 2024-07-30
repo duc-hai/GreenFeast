@@ -36,13 +36,15 @@ class OrderService {
             return {
                 _id: user._id,
                 full_name: `Nhân viên: ${user.full_name}`,
-                user_type: user.user_type
+                user_type: user.user_type,
+                name: user.full_name
             }
         else 
             return {
                 _id: user._id,
                 full_name: `Khách hàng: ${user.full_name}`,
-                user_type: user.user_type
+                user_type: user.user_type,
+                name: user.full_name
             }
     }
     
@@ -87,12 +89,16 @@ class OrderService {
 
             let user = { full_name: 'Khách' } //initial by default
             let userId = ''
+            let userName = ''
 
             if (req.headers['user-infor-header']) {
                 const userInfor = this.getUserInfor(req.headers['user-infor-header'])
                 user.full_name = userInfor.full_name
                 user._id = userInfor._id
-                if (userInfor.user_type == 2) userId = userInfor._id
+                if (userInfor.user_type == 2) {
+                    userId = userInfor._id
+                    userName = userInfor.name
+                }
             }
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
@@ -122,7 +128,10 @@ class OrderService {
                     table: table._id,
                     checkin: new Date(),
                     status: false, //Unpaid
-                    user_id: userId
+                    order_person: {
+                        _id: userId,
+                        name: userName
+                    }
                 }).save()
 
                 getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
@@ -133,8 +142,11 @@ class OrderService {
 
                 if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
 
-                if (!order.user_id || order.user_id == '') {
-                    order.user_id = ''
+                if (!order.order_person?._id || !order.order_person?._id == '') {
+                    order.order_person = {
+                        _id: userId,
+                        name: userName
+                    }
                 }
 
                 order?.order_detail.push({
@@ -761,7 +773,7 @@ class OrderService {
                 return next(createError(StatusCode.BadRequest_400, 'Đã xảy ra lỗi với mã JWT'))
 
             const userInfor = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
-            const orderList = await Order.find({ 'user_id': userInfor._id, status: true }).select({ __v: 0, order_detail: 0, status: 0 }).sort({ checkout: -1 })
+            const orderList = await Order.find({ 'order_person._id': userInfor._id, status: true }).select({ __v: 0, order_detail: 0, status: 0 }).sort({ checkout: -1 })
 
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
