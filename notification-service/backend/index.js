@@ -32,8 +32,9 @@ const HOST = process.env.HOST || '0.0.0.0' || 'localhost'
 const PORT = process.env.PORT || 5020
 
 const io = socketio(server)
-io.use(authenticateSocketIo.authenticateSocketIo)
-socketIoService.listenSocketEvent(io)
+const ioNamespace = io.of('/notification')
+ioNamespace.use(authenticateSocketIo.authenticateSocketIo)
+socketIoService.listenSocketEvent(ioNamespace)
 
 server.listen(PORT, () => {
     console.log(`Notification service is running at http://${HOST}:${PORT}`)
