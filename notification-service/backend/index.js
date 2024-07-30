@@ -22,7 +22,7 @@ app.set('views', './views')
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))
 
-app.use('/noti', (req, res) => {
+app.use('/notification/noti', (req, res) => {
     res.render('notification')
 })
 
