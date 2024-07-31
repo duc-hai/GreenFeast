@@ -1,3 +1,21 @@
 [2024-07-31 15:19:30] 	POST /api/order/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 500 - message: Không tìm thấy order trước đó]
 [2024-07-31 15:24:40] 	POST /api/order/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 500 - message: ]
 [2024-07-31 15:28:16] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 500 - message: updatedOrder.lean is not a function]
+[2024-07-31 17:37:59] 	GET /api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all [status: 500 - message: Lỗi máy chủ: InternalServerError: revenueOffline is not defined
+    at getRevenue (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\services\statistics.service.js:82:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)]
+[2024-07-31 20:22:17] 	GET /api/statistics/customer [status: 500 - message: Lỗi máy chủ: InternalServerError: Cannot find module '../models/offline'
+Require stack:
+- C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\services\statistics.service.js
+- C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\routes\statistics.route.js
+- C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\index.js
+    at getStatisticsByCustomer (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\services\statistics.service.js:353:25)
+    at Layer.handle [as handle_request] (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Users\Luu Duc Hai\Workspace\GreenFeast\statistics-service\backend\node_modules\express\lib\router\index.js:47:12)]

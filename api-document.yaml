@@ -5324,7 +5324,7 @@ paths:
         tags:
           - statistics
         summary: Thống kê doanh thu
-        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày hôm nay, thống kê lượt khách theo ngày, thống kê doanh thu món theo ngày... (kiểu như `Tổng doanh thu hôm nay: xxx`). Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay"
+        description: "Giới thiệu phân hệ thống kê: Tạo một menu chính là báo cáo kinh doanh. Trong đó sẽ có danh sách các loại thống kê như bên dưới. Trang chủ của báo cáo kinh doanh này có thể hiển thị mặc định là thống kê doanh thu theo ngày hôm nay, thống kê lượt khách theo ngày, thống kê doanh thu món theo ngày... (kiểu như `Tổng doanh thu hôm nay: xxx`). Còn về api thống kê doanh thu này, chọn ngày bắt đầu và ngày kết thúc muốn thống kê, nếu không chọn thì mặc định là hôm nay. **Updated on 31/7:** query thêm cái hình thức muốn thống kê, tạo thêm 1 cái drop box cho người dùng chọn, online, offline, hoặc all (mặc định nếu không để gì hết)"
         parameters:
           - in: query
             name: from
@@ -5336,6 +5336,12 @@ paths:
             schema:
               type: string
               example: "2024-10-07T00:00:00"
+          - in: query
+            name: form
+            description: online, offline hoặc all
+            schema:
+              type: string
+              example: "online"
         responses:
           '200':
               description: Thành công. Trong đó, _id là số ngày, totalAmount là số doanh thu của ngày đó, ngày nào có mới hiển thị ra danh sách. Hiển thị dạng đồ thị, trục hoành là ngày, trục tung là tiền
@@ -5557,6 +5563,146 @@ paths:
                               totalPrice: 1050000
                             }
                           ]
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi cũng phải bắt đầu từ đâu đó
+  
+  /statistics/payment-method:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê theo phương thức thanh toán
+        description: "Tương tự các API phía trước, truyền from, to, không có thì mặc định là hôm nay."
+        parameters:
+          - in: query
+            name: from
+            schema:
+              type: string
+              example: "2024-03-07T00:00:00"
+          - in: query
+            name: to
+            schema:
+              type: string
+              example: "2024-10-07T00:00:00"
+        responses:
+          '200':
+              description: "Thành công. Data là danh sách các phương thức thanh toán, có 4 phương thức chính, totalAmount là số doanh thu, count là số lượng giao dịch. Total là thông tin tổng của tất cả các phương thức. Hiển thị dạng bảng, ở đây sẽ không trả về theo ngày mà trả về chung luôn, vì đang thống kê theo phương thức thanh toán. Video minh họa: `https://www.youtube.com/watch?v=PsXahKyAr-0`"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Thống kê doanh thu theo phương thức thanh toán thành công
+                          data: 
+                            type: array
+                            items: 
+                              type: object
+                              properties: 
+                                name: 
+                                  type: string
+                                  example: Tiền mặt tại nhà hàng
+                                totalAmount: 
+                                  type: number
+                                  example: 1974000
+                                count: 
+                                  type: number
+                                  example: 6
+                            example: [
+                                {
+                                  name: Tiền mặt tại nhà hàng,
+                                  totalAmount: 1974000,
+                                  count: 6
+                                }
+                            ]
+                          total: 
+                            type: object
+                            properties: 
+                              sum: 
+                                type: number
+                                example: 7553400
+                              count: 
+                                type: number
+                                example: 9
+
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Lỗi cũng phải bắt đầu từ đâu đó
+                        
+  /statistics/customer:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê theo khách hàng
+        description: "Tương tự các API phía trước, truyền form, không có thì mặc định là offline"
+        parameters:
+          - in: query
+            name: form
+            description: offline hoặc online
+            schema:
+              type: string
+              example: "online"
+        responses:
+          '200':
+              description: "Thành công."
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Thống kê theo khách hàng thành công
+                            data: 
+                              type: array
+                              items: 
+                                type: object
+                                properties: 
+                                  _id: 
+                                    type: string
+                                    example: 0123456789
+                                  totalAmount: 
+                                    type: number
+                                    example: 289700
+                                  name: 
+                                    type: string
+                                    example: Lưu Đức hải
+                              example: [
+                                {
+                                  _id: "0123456789",
+                                  totalAmount: 289700,
+                                  name: Lưu Đức hải
+                                }
+                              ]
+
+
           '400':
               description: "Lỗi"
               content:

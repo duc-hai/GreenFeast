@@ -7,6 +7,8 @@ router.get('/num-customer', statisticsService.getNumberOfCustomer)
 router.get('/get-revenue', statisticsService.getRevenue)
 router.get('/area', statisticsService.getArea)
 router.get('/menu', statisticsService.getMenu)
+router.get('/payment-method', statisticsService.getRevenueByPaymentMethod)
+router.get('/customer', statisticsService.getStatisticsByCustomer)
 
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandler)

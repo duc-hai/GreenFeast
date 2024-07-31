@@ -85,9 +85,9 @@
     },
     {
         "resource": "revenue",
-        "name": "Quản lý doanh thu",
+        "name": "Thống kê, báo cáo",
         "actions": [
-            { "name": "Xem doanh thu", "slug": "read:any" },
+            { "name": "Xem thống kê", "slug": "read:any" },
             { "name": "Lịch sử đơn hàng, in lại hóa đơn", "slug": "create:any" }
         ]
     }
