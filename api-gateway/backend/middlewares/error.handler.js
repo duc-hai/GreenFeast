@@ -6,8 +6,11 @@ const catchNotFoundError = (req, res) => {
 
 const errorHandle = (err, req, res, next) => {
     // console.log(err.stack) 
-    
-    logger.error(`${req.method} ${req.originalUrl} [status: ${err.status} - message: ${err.message}]`) //tracking log error
+    let bodyInfor = ''
+    let userId = ''
+    if (req.body && Object.keys(req.body).length !== 0) bodyInfor = ` - body: ${JSON.stringify(req.body)}`
+    if (req.user) userId = ` - userid: ${req.user._id}`
+    logger.loggerError.error(`${req.method} ${req.originalUrl} [status: ${err.status} - message: ${err.message}]${bodyInfor}${userId}`) //tracking log error
     
     return res.status(err.status).json({status: 'error', message: err.message})
 }

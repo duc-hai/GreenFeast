@@ -9,6 +9,8 @@ const cors = require('cors')
 const HOST = process.env.HOST || '0.0.0.0' || 'localhost'
 const PORT = process.env.PORT || 3000
 const compression = require('compression')
+const logger = require('./middlewares/logger.log')
+const authenMiddleware = require('./middlewares/jwt.token.guard')
 
 env.config()
 database.connect()
@@ -39,6 +41,20 @@ app.use(compression({
         return compression.filter(req, res)
     }
 }))
+
+app.use(authenMiddleware.jwtTokenValidatorBoth, (req, res, next) => {
+    if (req.method != 'GET') {
+        let bodyInfor = ''
+        let userId = ''
+        if (req.body && Object.keys(req.body).length !== 0) bodyInfor = ` - [body: ${JSON.stringify(req.body)}]`
+        if (req.user) userId = ` [userid: ${req.user._id}] - `
+        const ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+        const deviceId = req.headers['device-id'] || 'unknown'
+        const userAgent = req.headers['user-agent'] || 'unknown'
+        logger.loggerInfo.info(`${req.method} ${req.originalUrl}${bodyInfor} - ${userId}[ipAddress: ${ipaddress} - deviceId: ${deviceId} - userAgent: ${userAgent}]`)
+    }
+    return next()
+})
 
 app.use('/api', routes)
 

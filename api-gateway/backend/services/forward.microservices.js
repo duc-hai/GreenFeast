@@ -90,8 +90,13 @@ class CallMicroservices {
         axiosResponse.data.on('end', () => {
             responseData = JSON.parse(responseData)
 
-            if (responseData.status === 'error')
-                logger.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]`)
+            if (responseData.status === 'error') {
+                let bodyInfor = ''
+                let userId = ''
+                if (req.user) userId = ` - userid: ${req.user._id}`
+                if (req.body && Object.keys(req.body).length !== 0) bodyInfor = ` - body: ${JSON.stringify(req.body)}`
+                logger.loggerError.error(`${req.method} ${req.originalUrl} [status: 500 - message: ${responseData.message}]${bodyInfor}${userId}`)
+            }
         })
 
         return passThroughStream        

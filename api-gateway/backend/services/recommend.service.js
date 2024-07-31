@@ -51,6 +51,14 @@ class RecommendService {
             if (!dataResponse)
                 return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi nhận dữ liệu trả về: ${dataResponse.message}`)) 
 
+            if (dataResponse.status === 'error') {
+                let bodyInfor = ''
+                let userId = ''
+                if (req.user) userId = ` - userid: ${req.user._id}`
+                if (req.body && Object.keys(req.body).length !== 0) bodyInfor = ` - body: ${JSON.stringify(req.body)}`
+                logger.loggerError.error(`GET ${envServiceUrl}${pathname} [status: 500 - message: ${dataResponse.message}]${bodyInfor}${userId}`)
+            }
+
             const dataMenu = dataResponse?.data
 
             if (!dataMenu)

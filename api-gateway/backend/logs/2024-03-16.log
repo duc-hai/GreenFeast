@@ -1,2 +1,0 @@
-[2024-03-16 13:45:56] 	GET /api/order/print-bill/e326fc31-1531-4587-853f-588404860af9 [status: 500 - message: Đường dẫn in hóa đơn không hợp lệ]
-[2024-03-16 13:46:08] 	GET /api/order/print-bill/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 500 - message: orderDetail is not defined]

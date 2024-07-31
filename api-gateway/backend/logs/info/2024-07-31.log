@@ -1,0 +1,14 @@
+[2024-07-31 22:58:46] 	POST /api/admin/auth/signin
+[2024-07-31 23:10:32] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5
+[2024-07-31 23:13:18] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5
+[2024-07-31 23:14:56] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5
+[2024-07-31 23:18:54] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5
+[2024-07-31 23:23:10] 	POST /api/admin/auth/signin - body: {"username":"0123456789","password":"123456"} - 
+[2024-07-31 23:26:30] 	POST /api/admin/auth/signin - body: {"username":"0123456789","password":"123456"} - network information: undefined undefined
+[2024-07-31 23:27:11] 	POST /api/admin/auth/signin - body: {"username":"0123456789","password":"123456"} - network information: undefined undefined
+[2024-07-31 23:32:30] 	POST /api/admin/auth/signin - body: {"username":"0123456789","password":"123456"} - ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0
+[2024-07-31 23:34:13] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-07-31 23:45:51] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-07-31 23:46:05] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-07-31 23:46:50] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-07-31 23:51:54] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]

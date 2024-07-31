@@ -1,0 +1,14 @@
+[2024-07-31 22:58:19] 	GET /api/statistics/customer?form=online [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-31 23:05:44] 	GET /api/statistics/customer?form=online [status: 500 - message: ]
+[2024-07-31 23:05:52] 	GET /api/statistics/customer?form=online [status: 500 - message: ]
+[2024-07-31 23:06:16] 	GET /api/statistics/customer?form=online [status: 500 - message: ]
+[2024-07-31 23:07:35] 	GET /api/statistics/customer?form=online [status: 500 - message: ]
+[2024-07-31 23:09:50] 	GET /api/statistics/customer?form=online [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-31 23:10:32] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-31 23:13:18] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập] - body: JSON.stringify(req.body)
+[2024-07-31 23:14:56] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập] - body: {"note":"Ghi chú","payment_method":"Tiền mặt"}
+[2024-07-31 23:16:40] 	GET /api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập] - body: {}
+[2024-07-31 23:18:30] 	GET /api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-31 23:18:54] 	POST /api/admin/order/close/781db1c5-6cd2-4eaf-916b-f280ea4f2bb5 [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập] - body: {"note":"Ghi chú","payment_method":"Tiền mặt"}
+[2024-07-31 23:52:31] 	GET /api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]
+[2024-07-31 23:58:26] 	GET /api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập]

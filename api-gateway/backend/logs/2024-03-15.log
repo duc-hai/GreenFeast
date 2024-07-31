@@ -1,6 +1,0 @@
-[2024-03-15 20:40:25] 	GET /api/admin/order/move-table?from=A01&to=A02 [status: 400 - message: Cannot read properties of undefined (reading 'on')]
-[2024-03-15 20:43:26] 	GET /api/admin/order/move-table?from=A01&to=A02 [status: 400 - message: Bàn này chưa thực hiện đặt món]
-[2024-03-15 20:45:31] 	GET /api/admin/order/move-table?from=A01&to=A02 [status: 500 - message: Bàn này chưa thực hiện đặt món]
-[2024-03-15 21:00:52] 	GET /api/admin/order/move-table?from=A01&to=A02 [status: 500 - message: Bàn này chưa thực hiện đặt món]
-[2024-03-15 22:48:35] 	POST /api/order/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 400 - message: socket hang up]
-[2024-03-15 22:52:36] 	POST /api/order/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 400 - message: socket hang up]
