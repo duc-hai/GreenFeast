@@ -10,6 +10,7 @@ const onlineOrder = new Schema (
                 name: { type: String },
                 quantity: { type: Number },
                 price: { type: Number },
+                note: { type: String }
             }
         ],
         subtotal: { type: Number },

@@ -7,7 +7,7 @@ const calculateShippingFee = require('../helpers/calculate.shippingfee')
 const calculateDistance = require('../helpers/calculate.distance')
 const Promotion = require('../models/promotion')
 const orderService = require('./order.service')
-const producerNotification = require('./producer.notification')
+const producer = require('./producer.rabbitmq')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -160,9 +160,10 @@ class OrderOnlineService {
 
             if (payment_method === 'cod') {
                 orderService.sendPrinterOrderOnline(order)
+                producer.sendQueueStatistics('online', order)
             }
 
-            producerNotification.sendQueue(null, 'Đơn hàng mới tại website nhà hàng', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
+            producer.sendQueueNotification(null, 'Đơn hàng mới tại website nhà hàng', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công', orderId: order._id.toString(), total: order.total })
         }
@@ -229,7 +230,7 @@ class OrderOnlineService {
 
             await order.save()
 
-            producerNotification.sendQueue(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`)
+            producer.sendQueueNotification(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật trạng thái đơn hàng thành công' })
         }

@@ -11,7 +11,7 @@ const clientRedis = require('../config/connect.redis')
 const hiddenProperties = require('../config/hidden.properties')
 const checkValidation = require('../helpers/check.validation')
 const OrderOnline = require('../models/online_order')
-const producerNotification = require('./producer.notification')
+const producer = require('./producer.rabbitmq')
 
 class OrderService {
     getMenuById = async id => {
@@ -168,7 +168,7 @@ class OrderService {
             this.sendPrinterFood(order, getOrderLatest)
             this.sendPrinterBaverage(order, getOrderLatest) 
 
-            producerNotification.sendQueue(null, 'Đơn hàng mới tại nhà hàng', `Món ăn vừa được đặt tại bàn ${table._id}`, '', 1)
+            producer.sendQueueNotification(null, 'Đơn hàng mới tại nhà hàng', `Món ăn vừa được đặt tại bàn ${table._id}`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt món thành công' })
         }
@@ -406,7 +406,7 @@ class OrderService {
             order.table = tableToId
             await order.save()
 
-            producerNotification.sendQueue(null, 'Khách hàng đã chuyển bàn', `Đơn hàng từ bàn ${tableFromId} vừa chuyển sang bàn ${tableToId}`, '', 1)
+            producer.sendQueueNotification(null, 'Khách hàng đã chuyển bàn', `Đơn hàng từ bàn ${tableFromId} vừa chuyển sang bàn ${tableToId}`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Chuyển bàn thành công' })
         }
@@ -435,19 +435,21 @@ class OrderService {
             if (!order)
                 return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món trong bàn'))
 
-            await Order.updateOne({ table: table._id, status: false }, {
+            const updatedOrder = await Order.findOneAndUpdate({ table: table._id, status: false }, {
                 note,
                 payment_method,
                 status: true,
                 checkout: new Date(),
                 total: order.subtotal
-            })
+            }, { returnDocument: 'after' }).lean()
 
             //Set table is available
             await Area.findOneAndUpdate(
                 { 'table_list.slug': tableSlug },
                 { $set: { 'table_list.$.status': 0 } }
-            )        
+            )
+            
+            producer.sendQueueStatistics('offline', updatedOrder)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đóng bàn thành công' })
         }

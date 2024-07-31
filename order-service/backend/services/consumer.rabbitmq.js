@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid')
 const Order = require('../models/order')
 const OrderOnline = require('../models/online_order')
 const Area = require('../models/area')
+const producer = require('./producer.rabbitmq')
 
 const receiveQueue = async () => {
     const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
@@ -81,7 +82,11 @@ const handleDataPayment = async message => {
         //Order at restaurant
         const order = await Order.findOne({ _id: message.data?.orderId, status: false })
         if (order) closeTable(message)
-        else await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 1 })
+        else {
+            const updatedOrder = await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 1 }, { returnDocument: 'after' })
+
+            producer.sendQueueStatistics('online', updatedOrder)
+        }
     }
     catch (err) {
         console.error(`Error occured: ${err.message}`)
@@ -98,7 +103,7 @@ const closeTable = async message => {
             checkout: new Date(),
             total: message.data?.amount,
             note: message.data?.note
-        })
+        }, { returnDocument: 'after' }).lean()
 
         if (!updateOrder) return null
         
@@ -106,6 +111,8 @@ const closeTable = async message => {
             { 'table_list._id': updateOrder.table },
             { $set: { 'table_list.$.status': 0 } }
         )
+
+        producer.sendQueueStatistics('offline', updateOrder)
     }
     catch (err) {
         console.error(`Error occured: ${err.message}`)

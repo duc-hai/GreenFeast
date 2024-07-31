@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const notification = new Schema (
     {   
         userId: { type: String },
-        title: { type: String, required: true },
+        title: { type: String },
         message: { type: String },
         isRead: { type: Boolean, default: false },
         link: { type: String, default: '' },

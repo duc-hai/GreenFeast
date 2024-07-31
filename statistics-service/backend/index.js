@@ -7,7 +7,7 @@ const consume = require('./services/consumer.rabbitmq')
 
 env.config()
 database.connect()
-consume.receiveQueue()
+consume.receiveQueueOrder()
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))
 
