@@ -91,7 +91,7 @@ class OrderOnlineService {
             const note = req.body.note || ''
             const payment_method = req.body.payment_method
             const delivery_information = req.body.delivery
-            const status = payment_method === 'bank' ? 0 : 1 
+            const status = payment_method === 'bank' ? 0 : 2 
 
             const checkValidator = this.validatorBodyMenuOnline(menus, payment_method, delivery_information)
             if (checkValidator !== true) return next(createError(StatusCode.BadRequest_400, checkValidator))
@@ -218,13 +218,13 @@ class OrderOnlineService {
 
             if (!orderId || !status) return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin để cập nhật'))
 
-            if (status != 3 && status != 4) return next(createError(StatusCode.BadRequest_400, 'Trạng thái không hợp lệ'))
+            if (status != 2 && status != 3 && status != 4) return next(createError(StatusCode.BadRequest_400, 'Trạng thái không hợp lệ'))
 
             const order = await OrderOnline.findOne({ _id: orderId })
 
             if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy đơn hàng'))
 
-            if (order.status != 2 && order.status != 3) return next(createError(StatusCode.BadRequest_400, 'Trạng thái hiện tại của đơn hàng không hợp lệ'))
+            if (order.status != 1 && order.status != 2 && order.status != 3) return next(createError(StatusCode.BadRequest_400, 'Trạng thái hiện tại của đơn hàng không hợp lệ'))
 
             order.status = status 
 

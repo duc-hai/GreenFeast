@@ -83,7 +83,7 @@ const handleDataPayment = async message => {
         const order = await Order.findOne({ _id: message.data?.orderId, status: false })
         if (order) closeTable(message)
         else {
-            const updatedOrder = await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 1 }, { returnDocument: 'after' })
+            const updatedOrder = await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 2 }, { returnDocument: 'after' })
 
             producer.sendQueueStatistics('online', updatedOrder)
         }
