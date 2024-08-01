@@ -222,6 +222,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27020 #27018 is port of service in Docker (not localhost)
       - DB_HOST=paymentDB # orderDB is service's name
+      - vnp_ReturnUrl=https://greenfeast.space/payment/vnpay_return
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5005:5005 #The first 5005 is your port local, the second 5005 is the port on docker container
