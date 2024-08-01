@@ -1,9 +1,8 @@
 const StatusOrderEnums = {
-    0: 'cancel',
-    1: 'prepare',
-    2: 'shipping',
-    3: 'customer_reject',
-    4: 'done'
+    4: 'Đang giao hàng',
+    5: 'Đã giao hàng',
+    6: 'Đã hủy',
+    7: 'Trả món/Hoàn tiền'
 }
 
 module.exports = StatusOrderEnums

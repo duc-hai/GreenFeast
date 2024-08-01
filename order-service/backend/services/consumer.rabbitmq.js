@@ -4,6 +4,7 @@ const Order = require('../models/order')
 const OrderOnline = require('../models/online_order')
 const Area = require('../models/area')
 const producer = require('./producer.rabbitmq')
+const StatusOnlineOrder = require('../enums/status.online.order')
 
 const receiveQueue = async () => {
     const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
@@ -276,6 +277,56 @@ const handleAddDataPromotion = async (message) => {
     }
 }
 
+const receiveQueueTms = async () => {
+    const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
+    // const amqpUrl = `amqp://${process.env.AMQP_SERVER_URL_HOST}:${process.env.AMQP_SERVER_URL_PORT}`
+    try {
+        //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
+        const connect = await amqplib.connect(amqpUrl)
+
+        console.log('Connect sucessfully with RabbitMQ')
+
+        //Create channel
+        const channel = await connect.createChannel()
+
+        const queueName = 'order-tms' //If not set, it will generate automatically
+        
+        //Create queue
+        await channel.assertQueue(queueName, {
+            durable: true, //Important. If it is 'false', then when the server is reset (reset container) or the crash app (services) in rabbit mq, the message will be lost. Set to 'true', the message will still exist -> Demonstrates the persistence of the message queue
+        })
+
+        //Receive data from queue
+        //Buffer is a binary form of data, faster than regular objects, supports encoding
+        await channel.consume(queueName, msg => {
+            // console.log(`Message: ${msg.content.toString()}` )
+            handleDataTms(msg.content.toString())
+        }, {
+            noAck: true //The parameter is true or false to respond when receiving a message. For example, if set to false, when receiving a message the status will be unreceived. If run the app again, it will continue processing
+            //Confirm whether the message has been received
+        })
+    }
+    catch (err) {
+        console.error(`Connection string: ${amqpUrl}`)
+        console.error(`Rabbit MQ is error with message: ${err.message}`)
+    }
+}
+
+const handleDataTms = async(data) => {
+    try {
+        data = JSON.parse(data)
+
+        const orderOnline = await OrderOnline.findOneAndUpdate({ _id: data.orderId }, { status: data.status, delivery_notes: data.note || '' }, { returnDocument: 'after' })
+
+        producer.sendQueueNotification(orderOnline.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${orderOnline._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`)
+
+        producer.sendQueueNotification(null, 'Đơn hàng đã cập nhật', `Đơn hàng trực tuyến ${orderOnline._id} đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`, '', 1)
+    }
+    catch (err) {
+        console.error(`Error occured at consumer handleDataTms: ${err.message}`)
+    }
+}
+
 module.exports = {
-    receiveQueue, receiveQueuePayment
+    receiveQueue, receiveQueuePayment, receiveQueueTms
 }

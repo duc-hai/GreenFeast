@@ -36,7 +36,8 @@ const onlineOrder = new Schema (
             _id: { type: String },
             name: { type: String }
         },
-        is_rating: { type: Boolean, default: false }
+        is_rating: { type: Boolean, default: false },
+        delivery_notes: { type: String }
     }, {
         collection: 'online_orders'
     }

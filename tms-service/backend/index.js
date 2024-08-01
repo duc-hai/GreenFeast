@@ -11,8 +11,8 @@ database.connect()
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))
 
+app.use('/tms/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use('/tms', routerTms)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 const HOST = process.env.HOST || '0.0.0.0' || 'localhost'
 const PORT = process.env.PORT || 5010

@@ -10,6 +10,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm run swagger
+
 COPY . .
 # the first dot is the path of the current directory where the Dockerfile is located
 # the second dot is the path of the directory containing the source code in docker, which is the "workdir" above

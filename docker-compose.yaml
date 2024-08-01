@@ -300,6 +300,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
       - DB_HOST=tmsDB # orderDB is service's name
+      - API_GATEWAY_URL=apigateway:3000/api/tms
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5010:5010 #The first 5010 is your port local, the second 5010 is the port on docker container
