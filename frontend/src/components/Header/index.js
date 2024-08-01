@@ -400,7 +400,7 @@ const Header = () => {
               </Select>
             </div>
             <div className="flex flex-col w-[48%] gap-2">
-              <span className="font">Chọn bàn</span>
+              <span className="font">Chọn bàn </span>
               <Select
                 disabled={tableList?.length === 0}
                 name="gender"
@@ -411,12 +411,11 @@ const Header = () => {
                 }}
               >
                 {tableList?.map((item) => {
-                  if (item.status === 0)
-                    return (
-                      <Select.Option key={item.key} value={item.label}>
-                        {item.label}
-                      </Select.Option>
-                    );
+                  return (
+                    <Select.Option key={item.key} value={item.label}>
+                      {item.label}
+                    </Select.Option>
+                  );
                 })}
               </Select>
             </div>
@@ -441,7 +440,7 @@ const Header = () => {
 
             {us?.role === "customer" ? (
               <div className="flex items-center gap-8">
-                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
+                <Link to="/scan-qr" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
 
@@ -459,7 +458,7 @@ const Header = () => {
                     Quản lý
                   </Link>
                 )}
-                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
+                <Link to="/scan-qr" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
                 <Link to="/order-online" style={{ fontSize: 18 }}>

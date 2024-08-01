@@ -37,11 +37,14 @@ export const createOrderOnline = (data) => {
 };
 
 export const getQR = (tableId) => {
-  return ApiOrderService.get(`/admin/create-qr?table=${tableId}`);
+  return ApiOrderService.get(`admin/order/create-qr?table=${tableId}`);
 };
 
 export const getTableByArea = (areaId) => {
   return ApiOrderService.get(`/admin/order/tables/${areaId}`);
+};
+export const getTableAll = (id) => {
+  return ApiOrderService.get(`/admin/table/get-tables?area_id=${id}`);
 };
 
 export const viewDetailOrder = (id) => {
@@ -65,6 +68,10 @@ export const getOrderHistoryDetailAtRestaurant = (id) => {
 
 export const getOrderHistoryListAdmin = (param) => {
   return ApiOrderService.get(`admin/order/online/history-list?${param}`);
+};
+
+export const postUpdateStatus = (data) => {
+  return ApiOrderService.post(`admin/order/online/update-status`, data);
 };
 
 export const getOrderHistoryDetailAdmin = (id) => {

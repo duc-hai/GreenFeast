@@ -12,6 +12,7 @@ import CheckTokenOrder from "./pages/Order/CheckTokenOrder";
 import GoogleCallback from "./pages/AuthGoogle/GoogleCallBack";
 import HistoryUserTab from "./pages/OrderHistory/HistoryUser";
 import WaitPayment from "./pages/OrderOnline/WaitPayment";
+import QR from "./components/QRCode/QR";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="/scan-qr" element={<QR />} />
           <Route path="/google" element={<GoogleCallback />} />
           <Route path="/order/at-restaurant">
             <Route path="" element={<OrderAtRestaurant />} />
