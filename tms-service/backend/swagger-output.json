@@ -5,7 +5,7 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:3000/api/tms",
+  "host": "https://greenfeast.space/api/tms",
   "basePath": "/",
   "tags": [
     {
