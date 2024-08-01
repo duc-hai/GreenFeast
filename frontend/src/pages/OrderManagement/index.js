@@ -16,7 +16,7 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import "./index.css";
-import { getAllArea } from "../../Services/ManagementServiceAPI";
+import { getAllArea, getTable } from "../../Services/ManagementServiceAPI";
 import {
   applyPromotion,
   closeTable,
@@ -79,7 +79,7 @@ const OrderManagement = () => {
   }, []);
   const fetchData = async (id) => {
     try {
-      const res = await getTableByArea(id);
+      const res = await getTable(id);
       setListData(res.data);
     } catch (error) {
       console.log(error);
@@ -240,7 +240,7 @@ const OrderManagement = () => {
         <div>
           <div className="mt-4">
             <span className="text-lg px-4 font-medium">
-              Chọn khu vực hiển thị 1
+              Chọn khu vực hiển thị
             </span>
             <select
               className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"

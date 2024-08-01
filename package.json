@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "npm install -g concurrently",
     "host": " hostname -I",
-
     "apigateway": "cd ./api-gateway/backend/ && npm run start",
     "management": "cd ./management-service/backend/ && npm run start:hotreload",
     "notification": "cd ./notification-service/backend/ && npm run start",
@@ -15,7 +14,6 @@
     "payment": "cd ./payment-service/backend/ && npm run start",
     "tms": "cd ./tms-service/backend/ && npm run start",
     "statistics": "cd ./statistics-service/backend/ && npm run start",
-
     "apigateway:install": "cd ./api-gateway/backend/ && npm install",
     "management:install": "cd ./management-service/backend/ && npm install",
     "notification:install": "cd ./notification-service/backend/ && npm install",
@@ -23,16 +21,17 @@
     "payment:install": "cd ./payment-service/backend/ && npm install",
     "tms:install": "cd ./tms-service/backend/ && npm install",
     "statistics:install": "cd ./statistics-service/backend/ && npm install",
-
     "rabbitmq": "docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management",
     "redis": "docker run --name redis -p 6379:6379 -it redis/redis-stack-server:latest",
     "install": "concurrently \"npm run apigateway:install\" \"npm run management:install\" \"npm run notification:install\" \"npm run order:install\" \"npm run payment:install\" \"npm run tms:install\" \"npm run statistics:install\"",
-
     "all": "concurrently \"npm run apigateway\" \"npm run management\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\" \"npm run statistics\"",
     "all:docker": "concurrently \"npm run apigateway\" \"npm run management\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\" \"npm run rabbitmq\" \"npm run redis\" \"npm run statistics\"",
     "all:express": "concurrently \"npm run apigateway\" \"npm run notification\" \"npm run order\" \"npm run payment\" \"npm run tms\" \"npm run statistics\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "html5-qrcode": "^2.3.8"
+  }
 }
