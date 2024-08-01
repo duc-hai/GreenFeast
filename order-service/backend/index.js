@@ -11,6 +11,7 @@ database.connect()
 //producer.sendQueue('') //If app close or crash, connection will be closed automatic
 setTimeout(() => consumer.receiveQueue(), 0)
 setTimeout(() => consumer.receiveQueuePayment(), 0)
+setTimeout(() => consumer.receiveQueueTms(), 0)
 
 app.use(express.urlencoded({ limit: '50mb', extended: true}))
 app.use(express.json({ limit: '50mb' }))

@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const StatusCodeEnum = require('../enums/http.status.code')
 const StatusOrder = require('../enums/status.order')
 const generateKey = require('../helpers/generate.key')
+const producer = require('./producer.rabbitmq')
 
 class TmsService {
     registerOrder = async (req, res, next) => {
@@ -67,7 +68,7 @@ class TmsService {
             /*  
                 #swagger.parameters['body'] = {
                     in: 'body',
-                    description: 'Body information includes status (where 0 is cancel, 1 is prepare, 2 is shipping, 3 is customer reject, 4 is done), order_id is order code, delivery_notes is note',
+                    description: 'Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền, order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng',
                     schema: {
                         status: 4, 
                         order_id: "666458f9d8f8927ab0cbf5f4", 
@@ -93,14 +94,15 @@ class TmsService {
             */
             const { status, order_id, delivery_notes } = req.body
             const statusOrderList = Object.keys(StatusOrder)
-
-            if (!statusOrderList.includes(status))
+            if (!statusOrderList.includes(status.toString()))
                 return next([StatusCodeEnum.BadRequest_400, 'error', `Status is not valid`])
 
             await Order.updateOne({ _id: order_id, isDeleted: false, isActive: true }, {
                 status: status,
                 delivery_notes: delivery_notes
             })
+
+            producer.sendQueueOrderUpdate(order_id, status, delivery_notes || '')
 
             return res.status(StatusCodeEnum.OK_200).json({
                 status: 'success',

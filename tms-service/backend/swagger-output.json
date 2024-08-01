@@ -25,6 +25,79 @@
     }
   },
   "paths": {
+    "/update-status-order": {
+      "post": {
+        "tags": [
+          "Tms"
+        ],
+        "summary": "Update delivery status",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền, order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 4
+                },
+                "order_id": {
+                  "type": "string",
+                  "example": "666458f9d8f8927ab0cbf5f4"
+                },
+                "delivery_notes": {
+                  "type": "string",
+                  "example": "Giao hang thanh cong"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "update status order successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Status is not valid"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/register-tms": {
       "post": {
         "tags": [
@@ -92,79 +165,6 @@
                 "message": {
                   "type": "string",
                   "example": "some errors"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/update-status-order": {
-      "post": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Update delivery status",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Body information includes status (where 0 is cancel, 1 is prepare, 2 is shipping, 3 is customer reject, 4 is done), order_id is order code, delivery_notes is note",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 4
-                },
-                "order_id": {
-                  "type": "string",
-                  "example": "666458f9d8f8927ab0cbf5f4"
-                },
-                "delivery_notes": {
-                  "type": "string",
-                  "example": "Giao hang thanh cong"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "update status order successfully"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "error"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Status is not valid"
                 }
               },
               "xml": {
