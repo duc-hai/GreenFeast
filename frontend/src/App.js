@@ -10,6 +10,9 @@ import OrderHistory from "./pages/OrderHistory";
 import OrderAtRestaurant from "./pages/Order/OrderAtRestaurant";
 import CheckTokenOrder from "./pages/Order/CheckTokenOrder";
 import GoogleCallback from "./pages/AuthGoogle/GoogleCallBack";
+import HistoryUserTab from "./pages/OrderHistory/HistoryUser";
+import WaitPayment from "./pages/OrderOnline/WaitPayment";
+
 function App() {
   return (
     <>
@@ -26,7 +29,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           {/* <Route path="/order" element={<Order />} /> */}
           <Route path="/order-online" element={<OrderOnline />} />
-          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/order-history" element={<HistoryUserTab />} />
+          <Route path="/payment/vnpay_return" element={<WaitPayment />} />
           <Route path="/*" element={<DefaultLayout />} />
         </Routes>
 

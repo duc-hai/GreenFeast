@@ -1,4 +1,13 @@
-import { Button, Input, Modal, Select, Spin, Table, message } from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  Pagination,
+  Select,
+  Spin,
+  Table,
+  message,
+} from "antd";
 import { Menu } from "antd";
 import "./index.css";
 import { useEffect, useState } from "react";
@@ -8,6 +17,7 @@ import {
   getCategoryOrder,
   getMenuByCategory,
   getMenuBySearch,
+  getMenuList,
   getMenuRecommend,
   getPromotion,
   postPayment,
@@ -21,6 +31,8 @@ import {
   getListWard,
   postShipFee,
 } from "../../Services/AddressApi";
+import RatingMenu from "./RatingMenu";
+import { useNavigate } from "react-router-dom";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -32,6 +44,7 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const OrderOnline = () => {
+  const navigate = useNavigate();
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
   const [getArea, setGetArea] = useState([]);
@@ -53,6 +66,14 @@ const OrderOnline = () => {
   const [listPromotion, setListPromotion] = useState([]);
 
   const [promotionId, setPromotionID] = useState(null);
+  const [isRating, setIsRating] = useState({ data: null, isOpen: false });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    size: 10,
+    total: 0,
+    isShow: false,
+  });
+
   const convertOption = (dataOption, keyValue, keyLabel) => {
     let valueOptions = [...dataOption]?.map((item) => ({
       value: Number(item[keyValue]),
@@ -91,13 +112,21 @@ const OrderOnline = () => {
   };
   // api thanh toan
   const fetchPayment = async (data) => {
+    localStorage.setItem("dataBody", JSON.stringify(data));
     try {
       const res = await postPayment(data);
       console.log(res);
+      localStorage.setItem("res", JSON.stringify(res));
       if (res?.status === "success" && !!res?.data?.vnpUrl) {
-        message.success("Thanh toán thành công");
-        window.open(res?.data?.vnpUrl, "_blank");
-        window.location.reload();
+        message.success("Chuyển hướng đến trang thanh toán");
+        // navigate("/payment/vnpay_return");
+        window.open(res?.data?.vnpUrl, "_self");
+
+        console.log(data);
+        // localStorage.setItem("rating", JSON.stringify(isRating));
+        // setIsRating((pre) => ({ ...pre, isOpen: true }));
+        //rating
+        // window.location.reload();
       }
     } catch (err) {
       console.log(err);
@@ -260,7 +289,14 @@ const OrderOnline = () => {
               key: "recommend",
               icon: undefined,
               children: undefined,
-              label: "Đề xuất ",
+              label: "Đề xuất",
+              type: undefined,
+            },
+            {
+              key: "all",
+              icon: undefined,
+              children: undefined,
+              label: "Tất cả",
               type: undefined,
             },
           ],
@@ -275,12 +311,30 @@ const OrderOnline = () => {
   };
 
   const fetchMenuReCommend = async () => {
+    setLoading(true);
     try {
       const res = await getMenuRecommend();
+      setListMenu(res.data);
       console.log(res);
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
+  };
+  const fetchMenuList = async (page, size) => {
+    setLoading(true);
+    try {
+      const res = await getMenuList(page, size);
+      console.log(res?.paginationResult?.totalItems);
+      await setPagination((pre) => ({
+        ...pre,
+        total: res?.paginationResult?.totalItems,
+      }));
+      setListMenu(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
   };
 
   const convertPercentToNumber = () => {
@@ -336,9 +390,12 @@ const OrderOnline = () => {
   }, [user]);
 
   const onClick = (e) => {
-    console.log("click ", e);
     if (e?.key === "recommend") {
       //call api recommend
+      fetchMenuReCommend();
+    } else if (e?.key === "all") {
+      fetchMenuList(1, pagination.size);
+      setPagination((pre) => ({ ...pre, isShow: true }));
     } else fetchDataByCate(e?.key);
   };
 
@@ -420,6 +477,28 @@ const OrderOnline = () => {
       });
       let dataBody = { orderId: res?.orderId, amount: res?.total };
       if (payment_method === "bank") {
+        localStorage.setItem(
+          "rating",
+          JSON.stringify({
+            orderId: res?.orderId,
+            order: order?.map((item) => ({
+              menuId: item.id,
+              comment: "",
+              rating: 0,
+            })),
+          })
+        );
+        setIsRating((pre) => ({
+          ...pre,
+          data: {
+            orderId: res?.orderId,
+            order: order?.map((item) => ({
+              menuId: item.id,
+              comment: "",
+              rating: 0,
+            })),
+          },
+        }));
         await fetchPayment(dataBody);
       }
       // if (res?.data?.length > 0) {
@@ -434,10 +513,16 @@ const OrderOnline = () => {
     }
     setLoading(false);
   };
-
+  const onShowSizeChange = (current, pageSize) => {
+    fetchMenuList(current, pageSize);
+    setPagination((pre) => ({ ...pre, page: current, size: pageSize }));
+  };
   return (
     <>
       <Header />
+      {isRating?.isOpen && (
+        <RatingMenu data={isRating.data} isOpen={isRating.isOpen} />
+      )}
       <Spin spinning={loading}>
         <Modal
           title="Xác nhận đặt món"
@@ -669,6 +754,15 @@ const OrderOnline = () => {
                 />
               </div>
             </div>
+            <div>
+              {!loading && pagination.isShow && (
+                <Pagination
+                  defaultCurrent={pagination.page}
+                  total={Number(pagination.total) || 0}
+                  onChange={onShowSizeChange}
+                />
+              )}
+            </div>
             <div className="row">
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (
@@ -791,6 +885,7 @@ const OrderOnline = () => {
             </div>
           </div>
         </div>
+        <div></div>
       </Spin>
     </>
   );

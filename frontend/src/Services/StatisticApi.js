@@ -14,3 +14,12 @@ export const getStatisticCustomer = (from, to) => {
 export const getStatisticArea = (from, to) => {
   return StatisticService.get(`statistics/area?from=${from}&to=${to}`);
 };
+
+export const getStatisticPayment = (from, to) => {
+  return StatisticService.get(
+    `statistics/payment-method?from=${from}&to=${to}`
+  );
+};
+export const getStatisticCustomerMethod = (form) => {
+  return StatisticService.get(`statistics/customer?form=${form}`);
+};

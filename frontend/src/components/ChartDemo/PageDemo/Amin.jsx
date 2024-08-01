@@ -6,6 +6,8 @@ import RevenueChart from "./RevenueChart";
 import CustomerChart from "./CustomerChar";
 import MenuChart from "./MenuChart";
 import '../style/AdminStyle.css'
+import PaymentChart from "./PaymentChart";
+import CustomerMethodChart from "./CustomerMethodChart";
 const AdminDemo =() => {
     const [choseOption, setChoseOption] = useState(1);
     const handleSelect = (value) => {
@@ -15,13 +17,15 @@ const AdminDemo =() => {
       <div className="container-admin">
         <Select
           defaultValue={1}
-          style={{ width: 120 }}
+          style={{ width: 200 }}
           onChange={(e) => handleSelect(e)}
           options={[
             { value: 1, label: "Doanh thu" },
             { value: 2, label: "Lượt khách" },
             { value: 3, label: "Khu vực" },
             { value: 4, label: "Món ăn" },
+            { value: 5, label: "Phương thức thanh toán" },
+            { value: 6, label: "Khách hàng" },
           ]}
         />
         <div className="box-admin">
@@ -35,6 +39,8 @@ const AdminDemo =() => {
             {choseOption === 2 && <CustomerChart />}
             {choseOption === 3 && <AreaChart />}
             {choseOption === 4 && <MenuChart />}
+            {choseOption === 5 && <PaymentChart />}
+            {choseOption === 6 && <CustomerMethodChart/>}
           </div>
         </div>
       </div>

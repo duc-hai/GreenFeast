@@ -27,6 +27,9 @@ import {
   viewDetailOrder,
 } from "../../Services/OrderAPI";
 import dayjs from "dayjs";
+import HistoryOnline from "./HistoryAtRestaurant";
+import HistoryAtRestaurant from "./HistoryAtRestaurant";
+import HistoryOrderAdmin from "./HistoryOrderAdmin";
 const OrderManagement = () => {
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
@@ -39,7 +42,7 @@ const OrderManagement = () => {
   const [tableSlug, setTableSlug] = useState("");
   const [exportBuill, setExportBuill] = useState("");
   const [dataPromotion, setDataPromotion] = useState([{}]);
-
+  const [tab, setTab] = useState(false);
   const fetchPromotion = async () => {
     try {
       const res = await getPromotion();
@@ -220,33 +223,53 @@ const OrderManagement = () => {
           Quản lý order
         </div>
       </div>
-      <div className="mt-4">
-        <span className="text-lg px-4 font-medium">Chọn khu vực hiển thị</span>
-        <select
-          className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
-          onChange={(e) => {
-            fetchData(e.target.value);
-            setArea(e.target.value);
-          }}
+      <div className="flex gap-1 mt-2">
+        <Button
+          type={!tab ? "primary" : "dashed"}
+          onClick={() => setTab(false)}
         >
-          {valueArea?.length > 0 &&
-            valueArea?.map((item) => (
-              <option value={item.id}>{item.name}</option>
-            ))}
-        </select>
+          Nhà hàng
+        </Button>
+        <Button type={tab ? "primary" : "dashed"} onClick={() => setTab(true)}>
+          Online
+        </Button>
       </div>
-      <br />
-      <br />
-      <Table
-        columns={columns}
-        dataSource={
-          listData?.length > 0 &&
-          listData?.map((item, index) => {
-            return { ...item, key: index };
-          })
-        }
-        scroll={{ x: "max-content" }}
-      />
+      {tab ? (
+        <HistoryOrderAdmin />
+      ) : (
+        <div>
+          <div className="mt-4">
+            <span className="text-lg px-4 font-medium">
+              Chọn khu vực hiển thị 1
+            </span>
+            <select
+              className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
+              onChange={(e) => {
+                fetchData(e.target.value);
+                setArea(e.target.value);
+              }}
+            >
+              {valueArea?.length > 0 &&
+                valueArea?.map((item) => (
+                  <option value={item.id}>{item.name}</option>
+                ))}
+            </select>
+          </div>
+          <br />
+          <br />
+
+          <Table
+            columns={columns}
+            dataSource={
+              listData?.length > 0 &&
+              listData?.map((item, index) => {
+                return { ...item, key: index };
+              })
+            }
+            scroll={{ x: "max-content" }}
+          />
+        </div>
+      )}
 
       <div className="modal">
         <Modal

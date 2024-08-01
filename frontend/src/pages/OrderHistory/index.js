@@ -14,6 +14,7 @@ const OrderHistory = () => {
   const [detailHistory, setDetailHistory] = useState({});
   const [detailLoading, setDetailLoading] = useState(false);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
+  const [loading, setLoading] = useState(false);
   const columns = [
     {
       title: "STT",
@@ -46,6 +47,7 @@ const OrderHistory = () => {
   ];
 
   const fetchHistoryList = async () => {
+    setLoading(true);
     try {
       const res = await getHistoryList();
       console.log(res);
@@ -53,6 +55,7 @@ const OrderHistory = () => {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
   //detail
   const fetchHistoryDetail = async (id) => {
@@ -80,11 +83,13 @@ const OrderHistory = () => {
   }, []);
   return (
     <>
-      <Header />
-      <div className="m-3">
-        <span className="font-medium text-lg">Lịch sử đặt món</span>
-        <Table dataSource={listHistory} columns={columns} />;
-      </div>
+      {loading ? (
+        <Spin />
+      ) : (
+        <div className="m-3">
+          <Table dataSource={listHistory} columns={columns} />;
+        </div>
+      )}
       <Modal
         open={isOpenDetail}
         width={"1000px"}

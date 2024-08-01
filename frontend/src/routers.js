@@ -14,6 +14,7 @@ import OrderOnline from "./pages/OrderOnline";
 import BillKitchen from "./components/Print/BillKitchen/BillKitchen";
 import BillBar from "./components/Print/BillBar/BillBar";
 import GoogleCallback from "./pages/AuthGoogle/GoogleCallBack";
+import WaitPayment from "./pages/OrderOnline/WaitPayment";
 
 const routers = [
   {
@@ -77,8 +78,8 @@ const routers = [
   //     Conponent: () => <SanPham />
   // },
   {
-    path: "/auth-gg",
-    Conponent: () => <GoogleCallback />,
+    path: "/api/payment/vnpay_return",
+    Conponent: () => <WaitPayment />,
   },
   {
     path: "/*",

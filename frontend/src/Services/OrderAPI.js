@@ -8,6 +8,9 @@ export const fetchTableCategory = (id) => {
   return ApiOrderService.get(`/admin/order/tables/${id}`);
 };
 
+export const getReturnPayment = (url) => {
+  return ApiOrderService.get(`payment/vnpay_return${url}`);
+};
 export const getMenuByCategory = (id) => {
   return ApiOrderService.get(`/order/menu/get-by-category/${id}`);
 };
@@ -15,6 +18,16 @@ export const getMenuByCategory = (id) => {
 export const getMenuRecommend = () => {
   return ApiOrderService.get(`/recommend/menu`);
 };
+
+export const getMenuList = (page, size) => {
+  return ApiOrderService.get(
+    `/order/menu/get-list?page=${page}&perPage=${size}`
+  );
+};
+export const postOrderRating = (data) => {
+  return ApiOrderService.post(`order/rating`, data);
+};
+
 export const createOrder = (slug, data) => {
   return ApiOrderService.post(`/order/${slug}`, data);
 };
@@ -41,6 +54,21 @@ export const postPayment = (data) => {
 
 export const closeTable = (tableId, body) => {
   return ApiOrderService.post(`/admin/order/close/${tableId}`, body);
+};
+
+export const getOrderHistoryListAtRestaurant = () => {
+  return ApiOrderService.get(`/order/history-list`);
+};
+export const getOrderHistoryDetailAtRestaurant = (id) => {
+  return ApiOrderService.get(`/order/history-detail/${id}`);
+};
+
+export const getOrderHistoryListAdmin = (param) => {
+  return ApiOrderService.get(`admin/order/online/history-list?${param}`);
+};
+
+export const getOrderHistoryDetailAdmin = (id) => {
+  return ApiOrderService.get(`/admin/order/online/history/${id}`);
 };
 
 export const getPromotion = () => {

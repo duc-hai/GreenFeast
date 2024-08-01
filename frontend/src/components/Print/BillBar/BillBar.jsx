@@ -37,14 +37,14 @@ const BillBar =() => {
     },[pagination.page])
     const columns = [
     {
-        title: 'Tên phiếu in',
+        title: 'STT',
         dataIndex: 'name',
-        render: (text,record,index) => <p>{`Phiếu in ${index}`}</p>,
+        render: (text,record,index) => <p>{` ${index +1}`}</p>,
     },
     {
         title: 'Bàn',
-        dataIndex: 'age',
-        render: (text,record,index) => <p>{`Bàn ${index}`}</p>,
+        dataIndex: 'tableId',
+        render: (text,record,index) => <p>{text}</p>,
     },
     {
         title: 'Thời gian',
