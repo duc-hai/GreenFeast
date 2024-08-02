@@ -16,7 +16,7 @@ COPY . .
 
 #RUN npm run build-src
 
-RUN npm run swagger
+# RUN npm run swagger
 
 CMD ["npm", "run", "begin"]
 
