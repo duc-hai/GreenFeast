@@ -1,5 +1,5 @@
 const amqplib = require('amqplib')
-const amqpUrl = process.env.AMQP_SERVER_URL_DOCKER || process.env.AMQP_SERVER_URL_CLOUD
+const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
 
 const sendQueue = async (msg) => {
     try {
