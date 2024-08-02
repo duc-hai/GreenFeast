@@ -6,7 +6,7 @@ const doc = {
     title: 'My API for TMS Delivery',
     description: 'Description'
   },
-  schemes: ['http'],
+  schemes: ['https'],
   host: process.env.API_GATEWAY_URL,
   tags: [  
     {

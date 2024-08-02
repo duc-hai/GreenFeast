@@ -5,7 +5,7 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "https://greenfeast.space/api/tms",
+  "host": "greenfeast.space/api/tms",
   "basePath": "/",
   "tags": [
     {
@@ -14,7 +14,7 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "apiKeyAuth": {
