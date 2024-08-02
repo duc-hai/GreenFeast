@@ -5,6 +5,8 @@ const errorHandler = require('../middlewares/error.handler')
 
 router.post('/update-status-order', tmsService.updateStatusOrder)
 
+router.post('/api/new-order', tmsService.newOrder)
+
 router.post('/register-tms', tmsService.registerOrder)
 router.post('/get-token', tmsService.getToken)
 router.get('/get-order/:id', tmsService.getOrderById)

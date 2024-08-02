@@ -79,3 +79,8 @@
 [2024-08-02 04:06:30] 	OPTIONS /api/notification/get-notifications - [ipAddress: ::1 - deviceId: unknown - userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36]
 [2024-08-02 04:10:58] 	OPTIONS /api/admin/area/get-all - [ipAddress: ::1 - deviceId: unknown - userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36]
 [2024-08-02 04:10:58] 	OPTIONS /api/notification/get-notifications - [ipAddress: ::1 - deviceId: unknown - userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36]
+[2024-08-02 15:02:05] 	POST /api/admin/order/online/update-status - [body: {"orderId":"66a75d7501d3883d239c8b78","status":3}] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-08-02 15:02:13] 	POST /api/admin/auth/signin - [body: {"username":"0123456789","password":"123456"}] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-08-02 15:02:19] 	POST /api/admin/order/online/update-status - [body: {"orderId":"66a75d7501d3883d239c8b78","status":3}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-08-02 15:02:47] 	POST /api/admin/order/online/update-status - [body: {"orderId":"66ac7e2ba4128887d7a8e7d5","status":3}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]
+[2024-08-02 15:04:08] 	POST /api/admin/order/online/update-status - [body: {"orderId":"66ac7e2ba4128887d7a8e7d5","status":3}] -  [userid: 0123456789] - [ipAddress: ::1 - deviceId: unknown - userAgent: PostmanRuntime/7.40.0]

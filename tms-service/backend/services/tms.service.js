@@ -305,6 +305,30 @@ class TmsService {
             return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at getOrderList: ${err.message}`])
         }
     }
+
+    newOrder = async (req, res, next) => {
+        try {
+            // #swagger.tags = ['Tms']
+            // #swagger.summary = 'Receive new order'
+            // #swagger.description = 'Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước.'    
+            /*  
+                #swagger.parameters['body'] = {
+                    in: 'body',
+                    description: 'Thông tin đơn hàng mà nhà hàng cung cấp',
+                    schema: {
+                        "delivery_information":{"name":"Đức Hải","phone_number":"01231234","address":"Nguyễn Hữu Thọ","province":"Thành phố Hồ Chí Minh","district":"Quận 7","ward":"Phường Tân Phú","longitude":"106.7261695","latitude":"10.727068"},"order_person":{"_id":"0123456789","name":"Lưu Đức hải"},"_id":"66ac7e2ba4128887d7a8e7d5","menu_detail":[{"_id":1,"name":"Gỏi cuốn sốt đậu phộng","quantity":1,"price":90000},{"_id":3,"name":"Đậu hũ chiên giòn","quantity":1,"price":30000}],"subtotal":120000,"discount":24000,"surcharge":0,"shippingfee":15000,"note":"","total":111000,"time":"2024-08-02T06:33:32.196Z","payment_method":"bank","status":3,"is_rating":false,"__v":0
+                    }
+                } 
+            */
+            return res.status(StatusCodeEnum.OK_200).json({
+                status: 'success',
+                message: 'API này dùng để minh họa'
+            })
+        }
+        catch (err) {
+            return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at newOrder: ${err.message}`])
+        }
+    }
 }
 
 module.exports = new TmsService()

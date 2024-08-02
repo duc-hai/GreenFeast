@@ -103,6 +103,154 @@
         ]
       }
     },
+    "/api/new-order": {
+      "post": {
+        "tags": [
+          "Tms"
+        ],
+        "summary": "Receive new order",
+        "description": "Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Thông tin đơn hàng mà nhà hàng cung cấp",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "delivery_information": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Đức Hải"
+                    },
+                    "phone_number": {
+                      "type": "string",
+                      "example": "01231234"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Nguyễn Hữu Thọ"
+                    },
+                    "province": {
+                      "type": "string",
+                      "example": "Thành phố Hồ Chí Minh"
+                    },
+                    "district": {
+                      "type": "string",
+                      "example": "Quận 7"
+                    },
+                    "ward": {
+                      "type": "string",
+                      "example": "Phường Tân Phú"
+                    },
+                    "longitude": {
+                      "type": "string",
+                      "example": "106.7261695"
+                    },
+                    "latitude": {
+                      "type": "string",
+                      "example": "10.727068"
+                    }
+                  }
+                },
+                "order_person": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "0123456789"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Lưu Đức hải"
+                    }
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "66ac7e2ba4128887d7a8e7d5"
+                },
+                "menu_detail": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "number",
+                        "example": 3
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Đậu hũ chiên giòn"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 30000
+                      }
+                    }
+                  }
+                },
+                "subtotal": {
+                  "type": "number",
+                  "example": 120000
+                },
+                "discount": {
+                  "type": "number",
+                  "example": 24000
+                },
+                "surcharge": {
+                  "type": "number",
+                  "example": 0
+                },
+                "shippingfee": {
+                  "type": "number",
+                  "example": 15000
+                },
+                "note": {
+                  "type": "string",
+                  "example": ""
+                },
+                "total": {
+                  "type": "number",
+                  "example": 111000
+                },
+                "time": {
+                  "type": "string",
+                  "example": "2024-08-02T06:33:32.196Z"
+                },
+                "payment_method": {
+                  "type": "string",
+                  "example": "bank"
+                },
+                "status": {
+                  "type": "number",
+                  "example": 3
+                },
+                "is_rating": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/register-tms": {
       "post": {
         "tags": [

@@ -232,6 +232,9 @@ class OrderOnlineService {
 
             producer.sendQueueNotification(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`)
 
+            if (status == 3 || status == '3') //Ready order
+                producer.sendQueueTms(order)
+
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật trạng thái đơn hàng thành công' })
         }
         catch (err) {
