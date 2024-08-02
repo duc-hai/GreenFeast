@@ -62,6 +62,9 @@ class TmsService {
 
     updateStatusOrder = async (req, res, next) => {
         try {
+            // #swagger.security = [{
+            //     "apiKeyAuth": []
+            // }] 
             // #swagger.tags = ['Tms']
             // #swagger.summary = 'Update delivery status'
             // #swagger.description = ''
