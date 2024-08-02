@@ -129,7 +129,9 @@ exports.jwtTokenValidatorUser = async (req, res, next) => {
 
 exports.checkTokenTms = (req, res, next) => {
     try {
-        const token = getAccessToken(req)
+        let token = null
+        if (req.headers.authorization)
+            token = req.headers.authorization.indexOf(' ') >= 0 ? req.headers.authorization.split(' ')[1] : req.headers.authorization
         if (!token) 
             return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, vui lòng kiểm tra token'))
 
