@@ -15,7 +15,7 @@ router.use('/auth/google', googleRouter)
 router.use('/payment', forwardService.forwardRequestWithAlias('payment'))
 router.use('/recommend', jwtTokenGuard.jwtTokenValidatorBoth, recommendService.sendRequestToService)
 router.use('/statistics', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('statistics'))
-router.use('/tms', forwardService.forwardRequestWithAlias('tms'))
+router.use('/tms', jwtTokenGuard.checkTokenTms, forwardService.forwardRequestWithAlias('tms'))
 router.use('/notification', jwtTokenGuard.jwtTokenValidatorUser, forwardService.forwardRequestWithAlias('notification'))
 router.use('/admin', adminRouter) //Route restaurant side (admin restaurant, employees, ...)  
 router.use('/auth', authRouter) //Handle routes in customer

@@ -1,4 +1,5 @@
 const amqplib = require('amqplib')
+require('dotenv').config()
 const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
 
 const sendQueue = async (msg) => {

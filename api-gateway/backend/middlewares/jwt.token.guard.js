@@ -2,6 +2,7 @@ const createError = require('http-errors')
 const { verify } = require('jsonwebtoken')
 const StatusCode = require('../enums/http.status.code')
 const User = require('../models/user')
+const TmsInfor = require('../enums/tms.infor')
 
 const getAccessToken = (req) => {
     try {
@@ -121,6 +122,22 @@ exports.jwtTokenValidatorUser = async (req, res, next) => {
 
         return next()
     }   
+    catch (err) {
+        return next(createError(StatusCode.InternalServerError_500, err.message)) 
+    }
+}
+
+exports.checkTokenTms = (req, res, next) => {
+    try {
+        const token = getAccessToken(req)
+        if (!token) 
+            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, vui lòng kiểm tra token'))
+
+        if (token != TmsInfor.token) 
+            return next(createError(StatusCode.Unauthorized_401, 'Token không hợp lệ'))
+
+        return next()
+    }
     catch (err) {
         return next(createError(StatusCode.InternalServerError_500, err.message)) 
     }
