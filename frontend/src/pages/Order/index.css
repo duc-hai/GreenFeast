@@ -12,6 +12,10 @@
     min-height: 95vh;
 }
 
+.modalCustom {
+    width: 900px !important;
+   
+}
 .buton {
     height: 100px;
     z-index: 100;

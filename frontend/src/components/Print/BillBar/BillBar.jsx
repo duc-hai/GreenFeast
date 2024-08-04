@@ -49,7 +49,7 @@ const BillBar =() => {
     {
         title: 'Thời gian',
         dataIndex: 'createdAt',
-        render: (text,record,index) => <p>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</p>,
+        render: (text,record,index) => <p>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</p>,
     },
     {
         title: 'Hoạt động',

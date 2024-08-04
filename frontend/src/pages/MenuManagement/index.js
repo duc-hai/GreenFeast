@@ -17,6 +17,7 @@ import {
   Image,
   Popconfirm,
   Switch,
+  Rate,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./index.css";
@@ -29,49 +30,60 @@ import {
 } from "../../Services/ManagementServiceAPI";
 import axios from "axios";
 import Search from "antd/es/transfer/search";
+import { getMenuList } from "../../Services/OrderAPI";
 const TableManagement = () => {
   const [listCate, setListCate] = useState([]);
   const [image, setImage] = useState(null);
   const [getListMenu, setListMenu] = useState([]);
-  const [pagination, setPagination] = useState();
+  const [ishowPagination, setIsShowPagination] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    size: 10,
+  });
+  const [totalElement, setTotalElement] = useState(0);
   const [isEdit, setIsEdit] = useState(0);
   const [textSearch, setTextSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const onSearch = (e) => {
     setTextSearch(e.target.value);
   };
-  const fetchMenu = async (currentPage, eachPage) => {
+  const fetchMenu = async (page, size) => {
+    setLoading(true);
     try {
-      const res = await getMenu(currentPage, eachPage);
+      const res = await getMenuList(page, size);
       setListMenu(res.data);
-      setPagination(res.paginationResult);
+      setTotalElement(res?.paginationResult?.totalItems);
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   const fetchDataByKeywork = async (key) => {
     try {
       const res = await getMenuByKey(key);
       setListMenu(res.data);
+      setIsShowPagination(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchDataByKeywork(textSearch);
-    setPagination({
-      currentPage: 1,
-      eachPage: 10,
-    });
-  }, [textSearch]);
+  // useEffect(() => {
+  //   fetchDataByKeywork(textSearch);
+  // }, [textSearch]);
 
+  // useEffect(() => {
+  //   if (textSearch === "") {
+  //     fetchMenu();
+  //   }
+  // }, [textSearch]);
   useEffect(() => {
     if (textSearch === "") {
-      fetchMenu();
+      fetchMenu(pagination.page, pagination.size);
     }
-  }, [textSearch]);
+  }, [pagination]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -93,7 +105,7 @@ const TableManagement = () => {
     try {
       await deleteMn(record.id);
       message.success("Xóa món thành công");
-      fetchMenu();
+      setPagination((pre) => ({ ...pre, page: 1, size: 10 }));
     } catch (error) {
       console.log(error);
       message.error("Xóa món thất bại");
@@ -127,7 +139,17 @@ const TableManagement = () => {
         <Image width={60} className="object-cover aspect-square" src={img} />
       ),
     },
-
+    {
+      title: "Đánh giá",
+      dataIndex: "rating_average",
+      key: "rating_average",
+      render: (text, record) => (
+        <span className="flex items-center gap-1">
+          <Rate value={Number(text)} disabled allowHalf />
+          {`(${record?.rating_count})`}
+        </span>
+      ),
+    },
     {
       title: "Hoạt động",
       render: (_, record) => (
@@ -166,8 +188,6 @@ const TableManagement = () => {
       ),
     },
   ];
-
-  console.log(pagination);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -228,6 +248,12 @@ const TableManagement = () => {
       message.error("Thất bại");
     }
   };
+
+  const onChangePagination = (page, size) => {
+    console.log(page);
+    console.log(size);
+    setPagination((pre) => ({ ...pre, page: page, size: size }));
+  };
   const [form] = Form.useForm();
 
   return (
@@ -264,19 +290,13 @@ const TableManagement = () => {
         <Table
           columns={columns}
           dataSource={getListMenu}
+          loading={loading}
           scroll={{ x: "max-content" }}
           pagination={{
-            total: pagination?.totalItems,
-            pageSize: pagination?.eachPage,
-            current: pagination?.currentPage,
-            onChange: async (page, pageSize) => {
-              setPagination({
-                ...pagination,
-                currentPage: page,
-              });
-              console.log(page);
-              await fetchMenu(page, pageSize);
-            },
+            total: totalElement,
+            pageSize: pagination?.size,
+            current: pagination?.page,
+            onChange: (page, size) => onChangePagination(page, size),
           }}
         />
 

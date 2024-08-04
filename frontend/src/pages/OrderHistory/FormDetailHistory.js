@@ -51,7 +51,7 @@ const FormDetailHistory = ({ detailData }) => {
           {detailData?.subtotal}
         </Descriptions.Item>
         <Descriptions.Item label="Thời gian">
-          {dayjs(detailData?.subtotal).format("YYYY-MM-DD")}
+          {dayjs(detailData?.time).format("YYYY-MM-DD hh:mm:ss")}
         </Descriptions.Item>
       </Descriptions>
 

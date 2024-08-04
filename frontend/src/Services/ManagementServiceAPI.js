@@ -39,7 +39,7 @@ export const createTable = (body) => {
 };
 
 export const getTable = (id) => {
-  return ApiManagementService.get(`/table/get-tables?area_id=${id}`);
+  return ApiManagementService.get(`/order/tables/${id}`);
 };
 
 export const deleteTable = (body) => {
@@ -54,6 +54,9 @@ export const fetchFormPromotion = (id) => {
   return ApiManagementService.get(`/promotion/get-form-promotion`);
 };
 
+export const patchUpdateProcessStatus = (data) => {
+  return ApiManagementService.patch(`order/update/processing-status`, data);
+};
 export const getPromotion = () => {
   return ApiManagementService.get("/promotion/get-all");
 };

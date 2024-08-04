@@ -4,11 +4,34 @@ import {
   getOrderHistoryListAtRestaurant,
   postUpdateStatus,
 } from "../../Services/OrderAPI";
-import { Button, message, Popconfirm, Select, Spin, Steps, Table } from "antd";
-import { EditFilled } from "@ant-design/icons";
+import {
+  Button,
+  Menu,
+  message,
+  Popconfirm,
+  Select,
+  Spin,
+  Steps,
+  Table,
+} from "antd";
+import {
+  CheckCircleFilled,
+  CheckCircleOutlined,
+  ClockCircleFilled,
+  ClockCircleOutlined,
+  CloseCircleFilled,
+  ContactsFilled,
+  ContactsOutlined,
+  EditFilled,
+  IssuesCloseOutlined,
+  MailOutlined,
+  PauseCircleFilled,
+  UndoOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import DetailHistory from "./DetailHistory";
 import DetailHistoryAdmin from "./DetailHistoryAdmin";
+import { icons } from "antd/es/image/PreviewGroup";
 
 const optionStatus = [
   { value: 1, label: "Đang chờ xác nhận" },
@@ -22,7 +45,8 @@ const optionStatus = [
 const HistoryOrderAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState([]);
-  const [search, setSearch] = useState({ status: null, page: 1 });
+  const [search, setSearch] = useState({ status: null, page: null });
+  const [totalElement, setTotalElement] = useState(0);
   const [updateStatus, setUpdateStatus] = useState({
     orderId: null,
     status: null,
@@ -30,11 +54,14 @@ const HistoryOrderAdmin = () => {
   const fetchHistoryOderList = async () => {
     setLoading(true);
     try {
-      let param = `page=${search.page}`;
+      // let param = `page=${search.page}`;
+      let param = "";
+      if (search.page) param = `page=${search.page}`;
       if (search.status) param = `status=${search.status}&${param}`;
       const res = await getOrderHistoryListAdmin(param);
       console.log(res);
       setDataTable(res?.data);
+      if (!search.page) setTotalElement(res?.pagination?.totalItem);
     } catch (err) {
       console.log(err);
     }
@@ -106,7 +133,7 @@ const HistoryOrderAdmin = () => {
       title: "Thời gian",
       dataIndex: "time",
       render: (text) => (
-        <span>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</span>
+        <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
       ),
       align: "center",
     },
@@ -151,18 +178,78 @@ const HistoryOrderAdmin = () => {
       render: (text) => <DetailHistoryAdmin id={text} />,
     },
   ];
+
+  const items = [
+    { key: "all", label: "Tất cả" },
+    {
+      key: 1,
+      label: "Đang chờ xác nhận",
+      icon: <ContactsFilled style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 2,
+      label: "Đang chế biến",
+      icon: <PauseCircleFilled style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 3,
+      label: "Đơn hàng đã sẵn sàng",
+      icon: <CheckCircleFilled style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 4,
+      label: "Đang giao hàng",
+      icon: <ClockCircleFilled style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 5,
+      label: "Đã giao hàng",
+      icon: <IssuesCloseOutlined style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 6,
+      label: "Đã hủy",
+      icon: <CloseCircleFilled style={{ color: "#cccccc" }} />,
+    },
+    {
+      key: 7,
+      label: "Trả món/Hoàn tiền",
+      icon: <UndoOutlined style={{ color: "#cccccc" }} />,
+    },
+  ];
+
+  const onClickMenu = (e) => {
+    if (e === "all") {
+      setSearch((pre) => ({ ...pre, status: null }));
+    } else {
+      setSearch((pre) => ({ ...pre, status: e }));
+    }
+  };
   return (
     <div className="flex gap-2 flex-col">
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2 flex-col ">
         <span>Trạng thái :</span>
-        <Select
-          allowClear
-          options={[...optionStatus]}
-          className="w-40"
-          onChange={(e) => setSearch((pre) => ({ ...pre, status: e }))}
+        <Menu
+          onClick={(e) => onClickMenu(e?.key)}
+          mode="horizontal"
+          items={items}
+          className="flex justify-between"
         />
       </div>
-      {loading ? <Spin /> : <Table dataSource={dataTable} columns={columns} />}
+      {loading ? (
+        <Spin />
+      ) : (
+        <Table
+          dataSource={dataTable}
+          columns={columns}
+          pagination={{
+            total: totalElement,
+            current: search.page,
+            onChange: (page) =>
+              setSearch((pre) => ({ ...pre, page: page, status: null })),
+          }}
+        />
+      )}
     </div>
   );
 };

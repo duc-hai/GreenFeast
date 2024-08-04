@@ -5,6 +5,8 @@ import {
     Form,
     Input,
     Modal,
+    Pagination,
+    Rate,
     Row,
     Select,
     Space,
@@ -27,6 +29,8 @@ import {
     getCategoryOrder,
     getMenuByCategory,
     getMenuBySearch,
+    getMenuList,
+    getMenuRecommend,
     getPromotion,
     postPayment,
     printBill,
@@ -49,6 +53,7 @@ import Cookies from "js-cookie";
       type,
     };
   }
+ 
   const OrderAtRestaurant = () => {
     const [us, setUs] = useState({});
     const user = sessionStorage.getItem("user");
@@ -77,7 +82,12 @@ import Cookies from "js-cookie";
     const [isModalCloseTable, setIsModalCloseTable] = useState(false);
     const [loadingDetail,setLoadingDetail] =useState(false)
     const [optionPromotion, setOptionPromotion]=useState([])
-   
+    const [pagination, setPagination] = useState({
+      page: 1,
+      size: 10,
+      total: 0,
+      isShow: false,
+    });
     const handleOpenListOrderDetail =() => {
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
@@ -241,17 +251,64 @@ import Cookies from "js-cookie";
       setLoading(true);
       try {
         const res = await getCategoryOrder();
-        console.log(res);
-        setListDataCate(
-          res.data?.length > 0 &&
-            res.data?.map((item) => getItem(item?.name, item?._id))
-        );
+        console.log(res?.data);
+        if (res.data?.length > 0) {
+          let tempData = res.data?.map((item) => getItem(item?.name, item?._id));
+  
+          tempData = [
+            ...[
+              {
+                key: "recommend",
+                icon: undefined,
+                children: undefined,
+                label: "Đề xuất",
+                type: undefined,
+              },
+              {
+                key: "all",
+                icon: undefined,
+                children: undefined,
+                label: "Tất cả",
+                type: undefined,
+              },
+            ],
+            ...tempData,
+          ];
+          setListDataCate([...tempData]);
+        }
       } catch (error) {
         console.log(error);
       }
       setLoading(false);
     };
   
+    const fetchMenuReCommend = async () => {
+      setLoading(true);
+      try {
+        const res = await getMenuRecommend();
+        setListMenu(res.data);
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false);
+    };
+
+    const fetchMenuList = async (page, size) => {
+      setLoading(true);
+      try {
+        const res = await getMenuList(page, size);
+        console.log(res?.paginationResult?.totalItems);
+        await setPagination((pre) => ({
+          ...pre,
+          total: res?.paginationResult?.totalItems,
+        }));
+        setListMenu(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false);
+    };
     // useEffect(() => {
     //   if (!us) {
     //     message.error("Vui lòng đăng nhập");
@@ -277,8 +334,13 @@ import Cookies from "js-cookie";
     }, [user]);
   
     const onClick = (e) => {
-      console.log("click ", e);
-      fetchDataByCate(e.key);
+      if (e?.key === "recommend") {
+        //call api recommend
+        fetchMenuReCommend();
+      } else if (e?.key === "all") {
+        fetchMenuList(1, pagination.size);
+        setPagination((pre) => ({ ...pre, isShow: true }));
+      } else fetchDataByCate(e?.key);
     };
   
     const columnsOrder = [
@@ -388,6 +450,10 @@ import Cookies from "js-cookie";
           }, 0);
           return sum
     }
+    const onShowSizeChange = (current, pageSize) => {
+      fetchMenuList(current, pageSize);
+      setPagination((pre) => ({ ...pre, page: current, size: pageSize }));
+    };
     return (
     <>
     <Header/>
@@ -466,20 +532,32 @@ import Cookies from "js-cookie";
             </div>
           </Modal>
   
-          <div className="flex">
+          <div className="flex max-md:flex max-md:flex-col">
             <Menu
               onClick={onClick}
-              className="ant-menu-custom display-menu-1"
+              className="min-w-48 max-md:hidden"
               style={{
-                width: 256,
+                backgroundColor:'#E4E4D0',
+                
               }}
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
-              mode="inline"
+              mode="vertical"
               items={listDataCate}
             />
-  
-            <div className="content bg-[#d4e3d3]">
+            <Menu
+              onClick={onClick}
+              className="md:hidden max-md:flex max-md:flex-wrap "
+              style={{
+                backgroundColor:'#E4E4D0',
+                
+              }}
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+              mode="horizontal"
+              items={listDataCate}
+            />
+            <div style={{minHeight:"95vh"}} className="bg-[#d4e3d3] px-6 ">
               <div className="flex w-full justify-between items-end gap-3 py-3">
                 
                 <div className="flex flex-col w-20 gap-2">
@@ -494,18 +572,27 @@ import Cookies from "js-cookie";
                     style={{ width: 250 }}
                   />
                 </div>
+                
               </div>
-              <div className="row">
+              <div>
+              {!loading && pagination.isShow && (
+                <Pagination
+                  defaultCurrent={pagination.page}
+                  total={Number(pagination.total) || 0}
+                  onChange={onShowSizeChange}
+                />
+              )}
+            </div>
+              <div className="flex flex-wrap  gap-6 justify-between max-md:justify-center">
                 {getListMenu?.length > 0 &&
                   getListMenu?.map((item) => (
                     <div
-                      className="col-md-4 col-sm-12 "
-                      style={{ padding: 8 }}
+                    style={{ width: 430 }}
                       key={item._id}
                     >
-                      <div className="flex bgr-food bg-white">
+                      <div className="flex gap-3 flex-wrap bgr-food bg-white">
                         <div
-                          className="col-md-6 col-sm-12 cursor-pointer"
+                          className="w-40 cursor-pointer"
                           onClick={() => {
                             setIsModalOpenDetail(item);
                           }}
@@ -521,6 +608,11 @@ import Cookies from "js-cookie";
                           <p>
                             Giá: <strong>{item?.price} Đ</strong>
                           </p>
+                          <p className="flex items-center">
+                          <span>Đánh giá:</span>
+                          <Rate allowHalf value={item?.rating_average} />
+                          <span>{`(${item?.rating_count})`}</span>
+                        </p>
                           <p className="flex items-center gap-3">
                             <button
                               className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
@@ -626,8 +718,7 @@ import Cookies from "js-cookie";
         </Spin>
         <div className="modal">
         <Modal
-    style={{minWidth:"650px"}}
-          className="headerModal"
+          className="modalCustom max-lg:w-64"
           styles={{body:{height:"500px",overflowY:"auto",}}}
           title={`${
             orderDetail?.table ? `Mã bàn ${orderDetail?.table}` : "Bàn trống"

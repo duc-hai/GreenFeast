@@ -37,7 +37,12 @@ const QRScanner = () => {
   const handleNext = () => {
     setModalIsOpen(false);
     if (scannedUrl) {
-      window.location.href = scannedUrl;
+      let url = scannedUrl.replace(
+        "http://localhost:3000/",
+        "https://localhost:3001/"
+      );
+      console.log(url);
+      window.location.href = url;
     }
   };
   const handleClose = () => {
@@ -58,7 +63,13 @@ const QRScanner = () => {
           </Button>,
         ]}
       >
-        <p>URL: {scannedUrl}</p>
+        <p>
+          URL:{" "}
+          {scannedUrl.replace(
+            "http://localhost:3000/",
+            "https://localhost:3001/"
+          )}
+        </p>
       </Modal>
     </div>
   );

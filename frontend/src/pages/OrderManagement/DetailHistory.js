@@ -90,7 +90,7 @@ const DetailHistory = ({ id }) => {
               <p>
                 <span className="font-semibold">Thời gian :</span>
                 <span>
-                  {dayjs(dataDetail?.checkin).format("YYYY-MM-DD hh:mm:ss")}
+                  {dayjs(dataDetail?.checkin).format("YYYY-MM-DD HH:mm:ss")}
                 </span>
               </p>
             </div>

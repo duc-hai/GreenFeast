@@ -11,6 +11,7 @@ const WaitPayment = () => {
       console.log(queryString);
       localStorage.setItem("payment", JSON.stringify(queryString));
       navigate(`/order-history`);
+      // navigate(`/`);
     }
   }, [location]);
   return <p>Đang đợi thanh toán</p>;

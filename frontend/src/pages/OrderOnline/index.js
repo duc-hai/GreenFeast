@@ -3,6 +3,7 @@ import {
   Input,
   Modal,
   Pagination,
+  Rate,
   Select,
   Spin,
   Table,
@@ -281,7 +282,6 @@ const OrderOnline = () => {
       console.log(res?.data);
       if (res.data?.length > 0) {
         let tempData = res.data?.map((item) => getItem(item?.name, item?._id));
-        console.log(tempData);
 
         tempData = [
           ...[
@@ -526,11 +526,11 @@ const OrderOnline = () => {
       <Spin spinning={loading}>
         <Modal
           title="Xác nhận đặt món"
+          className="modalCustom max-lg:w-64"
           open={isModalOpen}
           onCancel={() => {
             setIsModalOpen(false);
           }}
-          width={900}
           footer={[
             <Button
               onClick={() => {
@@ -555,14 +555,14 @@ const OrderOnline = () => {
           <div className="">
             <span className="font-semibold text-base">Thông tin giao hàng</span>
             <div
-              className="grid gap-x-6 gap-y-3 grid-cols-2 mt-3"
-              style={{ gridTemplateColumns: "8fr 4fr" }}
+              className="md:grid md:gap-6 "
+              style={{ gridTemplateColumns: "8fr 4fr " }}
             >
               <div className="flex flex-col gap-1">
                 <span>Họ và tên:</span>
                 <input
                   placeholder="Nhập họ và tên"
-                  className="border none outline-none px-2 py-1 rounded-lg"
+                  className="border none outline-none px-2 py-1 rounded-lg "
                   onChange={(e) => {
                     setDelivery({ ...delivery, name: e.target.value });
                   }}
@@ -663,7 +663,7 @@ const OrderOnline = () => {
                   </span>
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <div className="flex flex-col gap-1">
                   <span>Loại thanh toán:</span>
                   <Select
@@ -708,7 +708,7 @@ const OrderOnline = () => {
           ]}
         >
           <div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center justify-between">
               <img
                 className="h-[130px] aspect-video object-cover"
                 alt="logo"
@@ -729,19 +729,29 @@ const OrderOnline = () => {
           </div>
         </Modal>
 
-        <div className="flex">
+        <div className="flex max-md:flex max-md:flex-col">
           <Menu
             onClick={onClick}
-            className="ant-menu-custom display-menu-1"
+            className="min-w-48 max-md:hidden"
             style={{
-              width: 256,
+              backgroundColor: "#E4E4D0",
             }}
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
-            mode="inline"
+            mode="vertical"
             items={listDataCate}
           />
-
+          <Menu
+            onClick={onClick}
+            className="md:hidden max-md:flex max-md:flex-wrap "
+            style={{
+              backgroundColor: "#E4E4D0",
+            }}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            mode="horizontal"
+            items={listDataCate}
+          />
           <div className="content bg-[#d4e3d3]">
             <div className="flex w-full justify-between items-end gap-3 py-3">
               <div></div>
@@ -763,17 +773,13 @@ const OrderOnline = () => {
                 />
               )}
             </div>
-            <div className="row">
+            <div className="flex flex-wrap  gap-6 justify-between max-md:justify-center">
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (
-                  <div
-                    className="col-md-4 col-sm-12 "
-                    style={{ padding: 8 }}
-                    key={item._id}
-                  >
-                    <div className="flex bgr-food bg-white">
+                  <div style={{ width: 430 }} key={item._id}>
+                    <div className="flex gap-3 flex-wrap bgr-food bg-white">
                       <div
-                        className="col-md-6 col-sm-12 cursor-pointer"
+                        className=" cursor-pointer w-40"
                         onClick={() => {
                           setIsModalOpenDetail(item);
                         }}
@@ -789,6 +795,13 @@ const OrderOnline = () => {
                         <p>
                           Giá: <strong>{item?.price} Đ</strong>
                         </p>
+
+                        <p className="flex items-center">
+                          <span>Đánh giá:</span>
+                          <Rate allowHalf value={item?.rating_average} />
+                          <span>{`(${item?.rating_count})`}</span>
+                        </p>
+
                         <p className="flex items-center gap-3">
                           <button
                             className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"

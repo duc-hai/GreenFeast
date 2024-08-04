@@ -5,6 +5,7 @@ import {
   Dropdown,
   Form,
   Input,
+  Menu,
   Modal,
   Row,
   Select,
@@ -12,7 +13,7 @@ import {
   message,
 } from "antd";
 import { Link, NavLink } from "react-router-dom";
-import { BellOutlined, UserOutlined } from "@ant-design/icons";
+import { BellOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { deleteCookie } from "./../../utils/Cookie";
@@ -22,7 +23,25 @@ import { getAllArea } from "../../Services/ManagementServiceAPI";
 import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
 import { verifyMail, verifyOtp } from "../../Services/Notification";
 import NotifyHeader from "./NotifyHeader";
-
+import io from "socket.io-client";
+import Cookies from "js-cookie";
+const items = [
+  {
+    label: <a href="https://www.antgroup.com">1st menu item</a>,
+    key: "0",
+  },
+  {
+    label: <a href="https://www.aliyun.com">2nd menu item</a>,
+    key: "1",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: "3rd menu item",
+    key: "3",
+  },
+];
 const Header = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
@@ -37,7 +56,9 @@ const Header = () => {
   const [tableList, setTableList] = useState([]);
   const [table, setTable] = useState();
   const [qr, setQR] = useState();
-
+  const [message, setMessage] = useState("");
+  const [socket, setSocket] = useState(null);
+  const token = Cookies.get("accessToken");
   const fetchQr = async (tableId) => {
     try {
       const res = await getQR(tableId);
@@ -51,6 +72,32 @@ const Header = () => {
       fetchQr(table);
     }
   }, [table]);
+
+  useEffect(() => {
+    console.log(token);
+    const socket = io("http://localhost:5020/notification", {
+      auth: {
+        token: token,
+      },
+    });
+    setSocket(socket);
+
+    // Kết nối với máy chủ WebSocket
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+
+    // Lắng nghe sự kiện 'message' từ máy chủ
+    socket.on("notification", (data) => {
+      setMessage(data);
+      alert("thanh cong 1");
+      console.log(data);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [token]);
+
   const fetchTable = async (id) => {
     try {
       const res = await fetchTableCategory(id);
@@ -146,6 +193,69 @@ const Header = () => {
       key: "2",
     },
   ];
+
+  const itemUser = [
+    {
+      label: (
+        <Link to="/scan-qr" style={{ fontSize: 18 }}>
+          Đặt món
+        </Link>
+      ),
+      key: "scan_qr",
+    },
+    {
+      label: (
+        <Link to="/order-online" style={{ fontSize: 18 }}>
+          Đặt món Online
+        </Link>
+      ),
+      key: "order-online",
+    },
+    {
+      label: (
+        <Link to="/order-history" style={{ fontSize: 18 }}>
+          Lịch sử đặt món
+        </Link>
+      ),
+      key: "/order-history",
+    },
+  ];
+
+  const itemAdmin = [
+    {
+      label: (
+        <Link to="/menu-management" style={{ fontSize: 18 }}>
+          Quản lý
+        </Link>
+      ),
+      key: "menu-management",
+    },
+    {
+      label: (
+        <Link to="/scan-qr" style={{ fontSize: 18 }}>
+          Đặt món
+        </Link>
+      ),
+      key: "scan_qr",
+    },
+    {
+      label: (
+        <Link to="/order-online" style={{ fontSize: 18 }}>
+          Đặt món Online
+        </Link>
+      ),
+      key: "order-online",
+    },
+    {
+      label: (
+        <Link to="/admin-chart" style={{ fontSize: 18 }}>
+          Báo cáo kinh doanh
+        </Link>
+      ),
+      key: "admin-chart",
+    },
+  ];
+
   const onFinish = async () => {
     const values = form.getFieldsValue();
 
@@ -170,6 +280,11 @@ const Header = () => {
     }
   };
 
+  const checkRole = (value, role) => {
+    if (role === "customer") return itemUser;
+    if (value) return itemAdmin;
+    return itemAdmin?.filter((item, index) => index !== 0);
+  };
   return (
     <div>
       <Modal
@@ -428,8 +543,8 @@ const Header = () => {
           )}
         </div>
       </Modal>
-      <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between">
-        <div className="flex items-center">
+      <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between ">
+        <div className="flex items-center max-lg:hidden">
           <Link to="/">
             <img className="img-hd" alt="logo" src={"../logo.png"} />
           </Link>
@@ -473,7 +588,18 @@ const Header = () => {
             )}
           </div>
         </div>
-        <div className="flex gap-6">
+        <div className="lg:hidden">
+          <Dropdown
+            trigger={["click"]}
+            menu={{
+              items: checkRole(us, us?.role),
+            }}
+          >
+            <MenuOutlined />
+          </Dropdown>
+        </div>
+
+        <div className="flex gap-6 ">
           {us?.full_name ? (
             <>
               <div className="flex items-center gap-4">

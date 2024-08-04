@@ -106,7 +106,7 @@ const DetailHistoryAdmin = ({ id }) => {
                 {dataDetail?.note}
               </Descriptions.Item>
               <Descriptions.Item label="Thời gian">
-                {dayjs(dataDetail?.time).format("YYYY-MM-DD hh:mm:ss")}
+                {dayjs(dataDetail?.time).format("YYYY-MM-DD HH:mm:ss")}
               </Descriptions.Item>
               <Descriptions.Item label="Trạng thái ">
                 {dataDetail?.status}

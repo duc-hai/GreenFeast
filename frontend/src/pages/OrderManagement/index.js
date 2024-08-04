@@ -9,6 +9,7 @@ import {
   Col,
   Input,
   Select,
+  Spin,
 } from "antd";
 import {
   ArrowRightOutlined,
@@ -27,9 +28,9 @@ import {
   viewDetailOrder,
 } from "../../Services/OrderAPI";
 import dayjs from "dayjs";
-import HistoryOnline from "./HistoryAtRestaurant";
-import HistoryAtRestaurant from "./HistoryAtRestaurant";
 import HistoryOrderAdmin from "./HistoryOrderAdmin";
+import ListMeal from "./ListMeal";
+
 const OrderManagement = () => {
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
@@ -41,7 +42,9 @@ const OrderManagement = () => {
   const [isModalCloseTable, setIsModalCloseTable] = useState(false);
   const [tableSlug, setTableSlug] = useState("");
   const [exportBuill, setExportBuill] = useState("");
+  const [loading, setLoading] = useState(false);
   const [dataPromotion, setDataPromotion] = useState([{}]);
+
   const [tab, setTab] = useState(false);
   const fetchPromotion = async () => {
     try {
@@ -56,7 +59,13 @@ const OrderManagement = () => {
     fetchPromotion();
   }, []);
 
+  const checkStatus = (value) => {
+    if (value === 0) return "Trống";
+    if (value === 1) return "Có người";
+    return "Đặt trước";
+  };
   const fetchDataOrderDetail = async (id) => {
+    setLoading(true);
     try {
       const res = await viewDetailOrder(id);
       const resBill = await printBill(id);
@@ -65,6 +74,7 @@ const OrderManagement = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   useEffect(() => {
     const fetchArea = async () => {
@@ -108,7 +118,7 @@ const OrderManagement = () => {
       dataIndex: "status",
       key: "status",
       render: (text, record) => {
-        return record.status === 0 ? "Trống" : "Có người";
+        return checkStatus(text);
       },
       align: "center",
     },
@@ -183,7 +193,6 @@ const OrderManagement = () => {
       title: "Ghi chú",
       dataIndex: "note",
       key: "note",
-
       align: "center",
     },
   ];
@@ -498,6 +507,7 @@ const OrderManagement = () => {
       <div className="modal">
         <Modal
           className="headerModal"
+          width={1000}
           title={`${
             orderDetail?.table ? `Mã bàn ${orderDetail?.table}` : "Bàn trống"
           } `}
@@ -525,7 +535,9 @@ const OrderManagement = () => {
           ]}
           bodyStyle={{ height: "1280" }}
         >
-          {orderDetail?.order_detail?.length ? (
+          {loading ? (
+            <Spin />
+          ) : orderDetail?.order_detail?.length ? (
             <div className="flex flex-col gap-4">
               {orderDetail?.order_detail.map((item) => (
                 <div className="ant_body">
@@ -554,8 +566,8 @@ const OrderManagement = () => {
                       </span>
                     </span>
                   </div>
-                  <p className="py-2 font-semibold">Danh sách món</p>
-                  <Table
+                  <p className="py-2 font-semibold">Danh1 sách món </p>
+                  {/* <Table
                     columns={columnorder}
                     pagination={false}
                     dataSource={
@@ -566,6 +578,17 @@ const OrderManagement = () => {
                       })
                     }
                     scroll={{ x: "max-content" }}
+                  /> */}
+                  <ListMeal
+                    orderId={orderDetail?._id}
+                    orderDetailId={item?._id}
+                    data={
+                      orderDetail?.order_detail?.length > 0 &&
+                      item?.menu?.length > 0 &&
+                      item.menu.map((item, index) => {
+                        return { ...item, key: index };
+                      })
+                    }
                   />
                 </div>
               ))}

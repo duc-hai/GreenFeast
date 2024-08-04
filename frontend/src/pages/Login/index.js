@@ -6,9 +6,9 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.css";
 import { loginAdmin, loginUser } from "../../Services/AuthAPI";
 import { setCookie } from "../../utils/Cookie";
-import { GoogleOutlined } from "@ant-design/icons";
+
 import AuthGoogle from "../AuthGoogle/AuthoGoogle";
-import Cookies from "js-cookie";
+import io from "socket.io-client";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -20,9 +20,12 @@ const Login = () => {
       let response;
       if (isAdmin) {
         response = await loginAdmin(values);
+
+        console.log(response);
         navigate("/menu-management");
       } else {
         response = await loginUser(values);
+
         navigate("/order");
       }
       setCookie(

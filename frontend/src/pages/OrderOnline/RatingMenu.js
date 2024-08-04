@@ -23,12 +23,15 @@ const RatingMenu = ({ data, isOpen }) => {
     setLoading(true);
     try {
       const res = await postOrderRating(data);
+      console.log(res);
       if (res?.status === "success") {
         message.success("Đánh giá đơn hàng thành công");
+      } else {
+        message.error("Đánh  giá đơn hàng thất bại");
       }
     } catch (err) {
       console.log(err);
-      message.success("Đánh giá đơn hàng thành công");
+      message.error("Đánh  giá đơn hàng thất bại");
     }
     setLoading(false);
   };
