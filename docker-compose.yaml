@@ -41,6 +41,7 @@ services:
       - REDIS_PORT=6379
       - GOOGLE_REDIRECT_URI=https://greenfeast.space/api/auth/google/callback
       - RECOMMEND_SERVICE_URL=http://recommend:5090
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container
@@ -60,6 +61,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
       - DB_HOST=notificationDB # orderDB is service's name
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5020:5020 #The first 5020 is your port local, the second 5020 is the port on docker container
@@ -121,6 +123,7 @@ services:
       - DB_PORT=3306 #3306 is port of service in Docker (not localhost)
       - DB_HOST=managementDB # managementDB is service's name
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -164,6 +167,7 @@ services:
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=https://greenfeast.space
       - FRONT_END_URL_QRCODE=https://greenfeast.space
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5000:5000 #The first 5000 is your port local, the second 5000 is the port on docker container
@@ -223,6 +227,7 @@ services:
       - DB_PORT=27020 #27018 is port of service in Docker (not localhost)
       - DB_HOST=paymentDB # orderDB is service's name
       - vnp_ReturnUrl=https://greenfeast.space/payment/vnpay_return
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5005:5005 #The first 5005 is your port local, the second 5005 is the port on docker container
@@ -262,6 +267,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27021 #27018 is port of service in Docker (not localhost)
       - DB_HOST=statisticsDB # orderDB is service's name
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5030:5030 #The first 5030 is your port local, the second 5030 is the port on docker container
@@ -301,6 +307,7 @@ services:
       - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
       - DB_HOST=tmsDB # orderDB is service's name
       - API_GATEWAY_URL=https://greenfeast.space/api/tms
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5010:5010 #The first 5010 is your port local, the second 5010 is the port on docker container
