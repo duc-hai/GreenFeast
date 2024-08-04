@@ -58,6 +58,7 @@ const Header = () => {
   const [qr, setQR] = useState();
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
+
   const token = Cookies.get("accessToken");
   const fetchQr = async (tableId) => {
     try {
@@ -75,7 +76,7 @@ const Header = () => {
 
   useEffect(() => {
     console.log(token);
-    const socket = io("http://localhost:5020/notification", {
+    const socket = io("http://localhost:5020", {
       auth: {
         token: token,
       },

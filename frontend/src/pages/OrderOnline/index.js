@@ -206,10 +206,8 @@ const OrderOnline = () => {
   };
   ////////
   useEffect(() => {
-    if (!!delivery?.province?.value) {
-      fetchDataDistrict(delivery?.province?.value);
-    }
-  }, [delivery?.province?.value]);
+    fetchDataDistrict(79);
+  }, []);
 
   useEffect(() => {
     if (!!delivery?.district?.value) {
@@ -448,7 +446,6 @@ const OrderOnline = () => {
       !delivery.name ||
       !delivery.phone_number ||
       !delivery?.address ||
-      !delivery?.province ||
       !delivery?.district ||
       !delivery?.ward
     ) {
@@ -459,7 +456,7 @@ const OrderOnline = () => {
     try {
       let tempDelivery = {
         ...delivery,
-        province: delivery?.province?.label,
+        province: "Thành phố Hồ Chí Minh",
         district: delivery?.district?.label,
         ward: delivery?.ward?.label,
       };
@@ -581,13 +578,13 @@ const OrderOnline = () => {
               <div className="flex flex-col gap-1">
                 <span>Địa chỉ nhận hàng:</span>
                 <div className="grid grid-cols-3 gap-1">
-                  <Select
+                  {/* <Select
                     placeholder="Chọn tỉnh"
                     options={optionsProvince}
                     showSearch
                     value={delivery?.province?.value || null}
                     onChange={(e, option) => handleChangeProvince(option)}
-                  />
+                  /> */}
                   <Select
                     placeholder="Chọn huyện"
                     options={optionsDistrict}
