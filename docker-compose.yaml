@@ -97,11 +97,6 @@ services:
     build: 
       context: ./frontend
       dockerfile: Dockerfile
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
     environment:
       - REACT_APP_API=http://apigateway:3000
     ports:
@@ -324,23 +319,18 @@ services:
     networks:
       - greenfeast
 
-  recommend:
-    container_name: recommend
-    build: 
-      context: ./recommend-service/backend
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
-    ports:
-      - 5090:5090
-    expose:
-      - 5090
-    networks:
-      - greenfeast
+  # recommend:
+  #   container_name: recommend
+  #   build: 
+  #     context: ./recommend-service/backend
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5090:5090
+  #   expose:
+  #     - 5090
+  #   networks:
+  #     - greenfeast
 
   # tmsDB:
   #   container_name: tmsDB
