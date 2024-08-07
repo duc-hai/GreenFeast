@@ -68,8 +68,8 @@ services:
       # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
     expose:
       - 5020
-    depends_on: 
-      - apigateway
+    # depends_on: 
+    #   - apigateway
       # - rabbitmq #Start after rabbit mq run
     networks:
       - order-network
@@ -110,8 +110,8 @@ services:
     networks:
       - apigateway-network
       - greenfeast
-    depends_on:
-      - notification
+    # depends_on:
+    #   - notification
     expose:
       - 80
 
