@@ -25,7 +25,7 @@ services:
     build:
       context: ./api-gateway/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
       - DB_HOST=apiGatewayDB # database is service's name
@@ -57,7 +57,7 @@ services:
     build:
       context: ./notification-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
       - DB_HOST=notificationDB # orderDB is service's name
@@ -97,6 +97,7 @@ services:
     build: 
       context: ./frontend
       dockerfile: Dockerfile
+    restart: always
     environment:
       - REACT_APP_API=http://apigateway:3000
     ports:
@@ -118,7 +119,7 @@ services:
     build:
       context: ./management-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=3306 #3306 is port of service in Docker (not localhost)
       - DB_HOST=managementDB # managementDB is service's name
@@ -158,7 +159,7 @@ services:
     build:
       context: ./order-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27018 #27018 is port of service in Docker (not localhost)
       - DB_HOST=orderDB # orderDB is service's name
@@ -222,7 +223,7 @@ services:
     build:
       context: ./payment-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27020 #27018 is port of service in Docker (not localhost)
       - DB_HOST=paymentDB # orderDB is service's name
@@ -263,7 +264,7 @@ services:
     build:
       context: ./statistics-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27021 #27018 is port of service in Docker (not localhost)
       - DB_HOST=statisticsDB # orderDB is service's name
@@ -302,7 +303,7 @@ services:
     build:
       context: ./tms-service/backend #path to source backend (local)
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
       - DB_HOST=tmsDB # orderDB is service's name
