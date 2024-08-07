@@ -320,6 +320,7 @@ services:
       - statistics
     networks:
       - greenfeast
+      
 
   recommend:
     container_name: recommend
