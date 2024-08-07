@@ -321,18 +321,20 @@ services:
     networks:
       - greenfeast
 
-  # recommend:
-  #   container_name: recommend
-  #   build: 
-  #     context: ./recommend-service/backend
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5090:5090
-  #   expose:
-  #     - 5090
-  #   networks:
-  #     - greenfeast
+  recommend:
+    container_name: recommend
+    build: 
+      context: ./recommend-service/backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 5090:5090
+    depends_on:
+      - tms
+    expose:
+      - 5090
+    networks:
+      - greenfeast
 
   # tmsDB:
   #   container_name: tmsDB
