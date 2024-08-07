@@ -92,27 +92,27 @@ services:
   #     - apigateway-network
   #     - greenfeast
 
-  nginxreact: 
-    container_name: nginxreact
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
-    environment:
-      - REACT_APP_API=http://apigateway:3000
-    ports:
-      - 80:80
-    volumes: #override interface nginx default #copy file, folder from local computer to docker
-      #../../frontend/build is path to front end source code (folder build)
-      #/usr/share/nginx/html is path to interface nginx default 
-      - ./frontend/default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - apigateway-network
-      - greenfeast
-    # depends_on:
-    #   - apigateway
-    expose:
-      - 80
+  # nginxreact: 
+  #   container_name: nginxreact
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   environment:
+  #     - REACT_APP_API=http://apigateway:3000
+  #   ports:
+  #     - 80:80
+  #   volumes: #override interface nginx default #copy file, folder from local computer to docker
+  #     #../../frontend/build is path to front end source code (folder build)
+  #     #/usr/share/nginx/html is path to interface nginx default 
+  #     - ./frontend/default.conf:/etc/nginx/conf.d/default.conf
+  #   networks:
+  #     - apigateway-network
+  #     - greenfeast
+  #   # depends_on:
+  #   #   - apigateway
+  #   expose:
+  #     - 80
 
   management: #name of service
     container_name: management
