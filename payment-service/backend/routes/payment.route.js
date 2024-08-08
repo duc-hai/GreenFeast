@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const request = require('request')
 const paymentService = require('../services/payment.service')
 const errorHandler = require('../middlewares/error.handler')
 
@@ -58,6 +59,8 @@ router.post('/querydr', function (req, res, next) {
         body: dataObj
             }, function (error, response, body){
                 console.log(response);
+                console.log(body);
+                console.log(error);
             });
 
 });
