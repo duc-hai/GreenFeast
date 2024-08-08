@@ -11,6 +11,7 @@ router.post('/querydr', function (req, res, next) {
     let date = new Date();
 
     let crypto = require("crypto");
+    const moment = require('moment');
     
     let vnp_TmnCode = process.env.vnp_TmnCode
     let secretKey = process.env.vnp_HashSecret
