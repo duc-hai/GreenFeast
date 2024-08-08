@@ -4,6 +4,7 @@ import { Spin, Table } from "antd";
 import { EditFilled } from "@ant-design/icons";
 import dayjs from "dayjs";
 import DetailHistory from "./DetailHistory";
+import RatingMenu from "../OrderOnline/RatingMenu";
 
 const HistoryAtRestaurant = () => {
   const [loading, setLoading] = useState(false);
@@ -55,7 +56,14 @@ const HistoryAtRestaurant = () => {
       title: "Hoạt động",
       dataIndex: "_id",
       align: "center",
-      render: (text) => <DetailHistory id={text} />,
+      render: (text, record) => (
+        <div className="flex justify-center items-center gap-3">
+          {!record?.is_rating && (
+            <RatingMenu id={text} disabled={record?.is_rating} />
+          )}
+          <DetailHistory id={text} />
+        </div>
+      ),
     },
   ];
   return (

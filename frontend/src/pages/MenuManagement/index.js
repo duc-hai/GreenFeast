@@ -31,6 +31,7 @@ import {
 import axios from "axios";
 import Search from "antd/es/transfer/search";
 import { getMenuList } from "../../Services/OrderAPI";
+import ListRating from "./ListRating";
 const TableManagement = () => {
   const [listCate, setListCate] = useState([]);
   const [image, setImage] = useState(null);
@@ -147,6 +148,7 @@ const TableManagement = () => {
         <span className="flex items-center gap-1">
           <Rate value={Number(text)} disabled allowHalf />
           {`(${record?.rating_count})`}
+          <ListRating id={record?._id} />
         </span>
       ),
     },
