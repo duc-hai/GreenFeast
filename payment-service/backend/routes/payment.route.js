@@ -10,12 +10,11 @@ router.post('/querydr', function (req, res, next) {
     process.env.TZ = 'Asia/Ho_Chi_Minh';
     let date = new Date();
 
-    let config = require('config');
     let crypto = require("crypto");
     
-    let vnp_TmnCode = config.get('vnp_TmnCode');
-    let secretKey = config.get('vnp_HashSecret');
-    let vnp_Api = config.get('vnp_Api');
+    let vnp_TmnCode = process.env.vnp_TmnCode
+    let secretKey = process.env.vnp_HashSecret
+    let vnp_Api = process.env.vnp_Api
     
     let vnp_TxnRef = req.body.orderId;
     let vnp_TransactionDate = req.body.transDate;

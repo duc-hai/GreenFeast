@@ -6,7 +6,6 @@ const ResponseCodeVNPay = require('../enums/response.code.vnpay')
 const Transfer = require('../models/transfer')
 const mongoose = require('mongoose')
 const producer = require('../services/producer.service')
-const convertStringDate = require('../helpers/convert.string.date')
 
 class PaymentService {
     createPaymentUrl = (req, res, next) => {
