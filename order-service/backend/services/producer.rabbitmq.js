@@ -28,6 +28,9 @@ const sendQueueNotification = async (userId, title, message, link = '', broadcas
             expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
+
+        await channel.close()
+        await connect.close()
     }
     catch (err) {
         console.error(`Rabbit MQ is error at sendQueueNotification with message: ${err.message}`)
@@ -77,6 +80,9 @@ const sendQueueStatistics = async (type, order) => {
             expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
+
+        await channel.close()
+        await connect.close()
     }
     catch (err) {
         console.error(`Rabbit MQ is error at sendQueueStatistics with message: ${err.message}`)
@@ -106,6 +112,9 @@ const sendQueueTms = async (data) => {
             expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
+
+        await channel.close()
+        await connect.close()
     }
     catch (err) {
         console.error(`Rabbit MQ is error at sendQueueTms with message: ${err.message}`)

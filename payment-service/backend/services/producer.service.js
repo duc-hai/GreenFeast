@@ -23,6 +23,9 @@ const sendQueue = async (msg) => {
             expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
+
+        await channel.close()
+        await connect.close()
     }
     catch (err) {
         console.error(`Rabbit MQ is error with message: ${err.message}`)

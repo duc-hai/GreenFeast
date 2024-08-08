@@ -12,7 +12,7 @@ const transferSchema = new Schema (
         order_id: { type: mongoose.Types.ObjectId },
         order_infor: { type: String },
         response_code: { type: String },
-        pay_time: { type: Date }
+        pay_time: { type: String }
     }, {
         timestamp: true,
         collection: 'transfers'
