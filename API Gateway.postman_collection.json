@@ -854,7 +854,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true,\r\n    \"text_email\": \"Nhận ngay giảm giá đến 20% toàn bộ món bánh canh, phở, hủ tiếu . Chương trình áp dụng từ 10/6/2024 đến 20/6/2024.\"\r\n    //start_at\r\n    //end_at\r\n}",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi đầu xuân 1\",\r\n    \"status\": true,\r\n    \"note\": \"Giảm 10% cho món chả giò, đặc sản ngày tết\",\r\n    \"form_promotion\": 2,\r\n    \"condition_apply\": 2,\r\n    \"description\": \"mô tả\",\r\n    \"promotion_value\": \"-10%\",\r\n    \"auto_apply\": true,\r\n    \"text_email\": \"Nhận ngay giảm giá đến 20% toàn bộ món bánh canh, phở, hủ tiếu . Chương trình áp dụng từ 10/6/2024 đến 20/6/2024.\"\r\n    //start_at\r\n    //end_at\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1322,9 +1322,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/admin/order/tables/1",
+							"raw": "https://greenfeast.space/api/admin/order/tables/1",
+							"protocol": "https",
 							"host": [
-								"{{url}}"
+								"greenfeast",
+								"space"
 							],
 							"path": [
 								"api",
@@ -1782,6 +1784,116 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Query payment history",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 603ae86f3f13c93272cf38a1ec6797c337ed58debe8a79d7791e95f1f2f6074f",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "https://web-nodejs-502070-wiolshzi6q-uc.a.run.app/",
+								"type": "text"
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"66b4ba0ceb3105e70019a835-1723120141181\",\r\n    \"transDate\": \"20240808192934\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/payment/querydr",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"querydr"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "-1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Return Payment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 603ae86f3f13c93272cf38a1ec6797c337ed58debe8a79d7791e95f1f2f6074f",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "https://web-nodejs-502070-wiolshzi6q-uc.a.run.app/",
+								"type": "text"
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"66b4ba0ceb3105e70019a835-1723120141181\",\r\n    \"transDate\": \"20240808192934\",\r\n    \"amount\": 6000,\r\n    \"transType\": \"03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/payment/return",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"return"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "-1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1832,7 +1944,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "093213213212",
+									"value": "0999999999",
 									"type": "text"
 								},
 								{
@@ -2289,7 +2401,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00",
+							"raw": "{{url}}/api/statistics/get-revenue?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00&form=all",
 							"host": [
 								"{{url}}"
 							],
@@ -2306,6 +2418,10 @@
 								{
 									"key": "to",
 									"value": "2024-10-07T00:00:00"
+								},
+								{
+									"key": "form",
+									"value": "all"
 								}
 							]
 						}
@@ -2360,6 +2476,60 @@
 								{
 									"key": "to",
 									"value": "2024-10-07T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/payment-method?from=2024-03-07T00:00:00&to=2024-10-07T00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"payment-method"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-03-07T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "2024-10-07T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/statistics/customer?form=online",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"statistics",
+								"customer"
+							],
+							"query": [
+								{
+									"key": "form",
+									"value": "online"
 								}
 							]
 						}
@@ -2615,7 +2785,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"orderId\": \"66a75d7501d3883d239c8b78\",\r\n    \"status\": 4\r\n}",
+							"raw": "{\r\n    \"orderId\": \"66ac7e2ba4128887d7a8e7d5\",\r\n    \"status\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

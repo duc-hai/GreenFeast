@@ -15,7 +15,7 @@ const tms = new Schema (
         isDeleted: { type: Boolean, default: false },
         isActive: { type: Boolean, default: true }
     }, {
-        timestamp: true,
+        timestamps: true,
         collection: 'tmss'
     }
 )

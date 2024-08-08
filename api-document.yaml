@@ -5117,7 +5117,164 @@ paths:
                     message: 
                       type: string
                       example: "Giao dịch không thành công do: Khách hàng hủy giao dịch"
-  
+                      
+  /payment/querydr:
+    post:
+      tags:
+        - payment
+      summary: Truy vấn kết quả giao dịch
+      description: "API này được sử dụng bởi nhà phát triển để truy vấn lại các kết quả giao dịch từ VNPay bằng mã giao dịch cũng như thời gian giao dịch. API này không hiển thị lên giao diện. Tài liệu: `https://sandbox.vnpayment.vn/apis/docs/truy-van-hoan-tien/querydr&refund.html`"
+      requestBody: 
+        description: "orderId là mã giao dịch (vnp_TxnRef), giống mã gửi sang VNPAY khi gửi yêu cầu thanh toán. transDate là thời gian ghi nhận giao dịch tại hệ thống của merchant tính theo GMT+7, định dạng: `yyyyMMddHHmmss`"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  orderId: 
+                    type: string
+                    example: 66b4ba0ceb3105e70019a835-1723120141181
+                  transDate: 
+                    type: string
+                    example: 20240808192934
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. Message sẽ trả thông báo truy vấn dựa trên mã và chi tiết mã mà VNPay cung cấp.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                      status: 
+                        type: string
+                        example: success
+                      message: 
+                        type: string
+                        example: Yêu cầu thành công
+                      data: 
+                        type: object
+                        properties: 
+                          vnp_ResponseId: 
+                            type: string
+                            example: 0db45449860b4605859c7e9794b34566
+                          vnp_Command: 
+                            type: string
+                            example: querydr
+                          vnp_ResponseCode: 
+                            type: string
+                            example: 00
+                          vnp_Message: 
+                            type: string
+                            example: QueryDR Success
+                          vnp_TmnCode: 
+                            type: string
+                            example: CVPSQQMS
+                          vnp_TxnRef: 
+                            type: string
+                            example: 66b4ba0ceb3105e70019a835-1723120141181
+                          vnp_Amount: 
+                            type: string
+                            example: 14050000
+                          vnp_OrderInfo: 
+                            type: string
+                            example: "Thanh toan cho ma GD:66b4ba0ceb3105e70019a835-1723120141181"
+                          vnp_BankCode: 
+                            type: string
+                            example: NCB
+                          vnp_PayDate: 
+                            type: string
+                            example: 20240808192934
+                          vnp_TransactionNo: 
+                            type: string
+                            example: 14549579
+                          vnp_TransactionType: 
+                            type: string
+                            example: 01
+                          vnp_TransactionStatus: 
+                            type: string
+                            example: 00
+                          vnp_SecureHash: 
+                            type: string
+                            example: 5d9698ca0280c7970926c9a6f05e5ff0c4ae5fff4c3c0b6f07cba89fc5d00f911a2fcb3aa3014aeddef2814b3e567bc3eb1219e8be242efb90762d595e3ccc45
+                            
+  /payment/return:
+    post:
+      tags:
+        - payment
+      summary: Tạo giao dịch hoàn tiền
+      description: "API này được sử dụng bởi nhà phát triển để gửi yêu cầu hoàn tiền cho giao dịch qua hệ thống Cổng thanh toán VNPAY. API này không hiển thị lên giao diện. Tài liệu: `https://sandbox.vnpayment.vn/apis/docs/truy-van-hoan-tien/querydr&refund.html`"
+      requestBody: 
+        description: "orderId là mã giao dịch (vnp_TxnRef), giống mã gửi sang VNPAY khi gửi yêu cầu thanh toán. transDate là thời gian ghi nhận giao dịch tại hệ thống của merchant tính theo GMT+7, định dạng: `yyyyMMddHHmmss`. Amount là số tiền hoàn trả lại cho khách hàng. Số tiền này nhỏ hơn hoặc bằng số tiền của giao dịch. transType là loại giao dịch tại hệ thống VNPAY: `02: Giao dịch hoàn trả toàn phần (vnp_TransactionType=02)`, `03: Giao dịch hoàn trả một phần (vnp_TransactionType=03)`"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                    orderId: 
+                      type: string
+                      example: 66b4ba0ceb3105e70019a835-1723120141181
+                    transDate: 
+                      type: string
+                      example: 20240808192934
+                    amount: 
+                      type: number
+                      example: 6000
+                    transType: 
+                      type: string
+                      example: "03"
+
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. Message sẽ trả thông báo truy vấn dựa trên mã và chi tiết mã mà VNPay cung cấp.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Các lỗi khác (lỗi còn lại không có trong danh sách mã lỗi đã liệt kê)
+                        data: 
+                          type: object
+                          properties: 
+                            vnp_ResponseId: 
+                              type: string
+                              example: b95f4830cbd4459483fb2b75c98599c4
+                            vnp_Command: 
+                              type: string
+                              example: refund
+                            vnp_ResponseCode: 
+                              type: string
+                              example: 99
+                            vnp_Message: 
+                              type: string
+                              example: Exception
+                            vnp_TmnCode: 
+                              type: string
+                              example: CVPSQQMS
+                            vnp_TxnRef: 
+                              type: string
+                              example: 66b4ba0ceb3105e70019a835-1723120141181
+                            vnp_Amount: 
+                              type: string
+                              example: 600000
+                            vnp_OrderInfo: 
+                              type: string
+                              example: "Hoan tien GD ma:66b4ba0ceb3105e70019a835-1723120141181"
+                            vnp_BankCode: 
+                              type: string
+                              example: NCB
+                            vnp_SecureHash: 
+                              type: string
+                              example: 171f480cce0283784f9398deafef757ec0556365e5585fc7b931c73e604fbf7d726e1b3a2be08a78d1d7bd220fe5f9959e5f402ea86fbf1c540007336a7f8e56
+
   /notification/num-notification:
     get:
       tags:

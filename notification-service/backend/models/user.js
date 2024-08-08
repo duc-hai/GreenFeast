@@ -8,7 +8,7 @@ const user = new Schema (
         email: { type: String, unique: true },
         user_type: { type: Number, default: 2}
     }, {
-        timestamp: true,
+        timestamps: true,
         collection: 'users'
     }
 )

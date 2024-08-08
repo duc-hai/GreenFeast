@@ -10,7 +10,7 @@ const notification = new Schema (
         isRead: { type: Boolean, default: false },
         link: { type: String, default: '' },
     }, {
-        timestamp: true,
+        timestamps: true,
         collection: 'notifications'
     }
 )

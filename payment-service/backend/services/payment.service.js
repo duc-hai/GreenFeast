@@ -6,6 +6,10 @@ const ResponseCodeVNPay = require('../enums/response.code.vnpay')
 const Transfer = require('../models/transfer')
 const mongoose = require('mongoose')
 const producer = require('../services/producer.service')
+const axios = require('axios')
+const ResponseQueryVNPay =  require('../enums/response.query.payment')
+const ResponseReturnVNPay = require('../enums/response.return.vnpay')
+const Refund = require('../models/refund')
 
 class PaymentService {
     createPaymentUrl = (req, res, next) => {
@@ -145,6 +149,155 @@ class PaymentService {
         }
     }
 
+    queryHistoryPayment = async (req, res, next) => {
+        try {
+            /*
+                {
+                    "orderId": "66b4ba0ceb3105e70019a835-1723120141181",
+                    "transDate": "20240808192934"
+                }
+            */
+            process.env.TZ = 'Asia/Ho_Chi_Minh'
+            let date = new Date()
+            let vnp_TmnCode = process.env.vnp_TmnCode
+            let secretKey = process.env.vnp_HashSecret
+            let vnp_Api = process.env.vnp_Api
+            
+            let vnp_TxnRef = req.body.orderId
+            let vnp_TransactionDate = req.body.transDate
+            
+            let vnp_RequestId =moment(date).format('HHmmss')
+            let vnp_Version = '2.1.0'
+            let vnp_Command = 'querydr'
+            let vnp_OrderInfo = 'Truy van GD ma:' + vnp_TxnRef
+            
+            let vnp_IpAddr = req.headers['x-forwarded-for'] ||
+                req.connection.remoteAddress ||
+                req.socket.remoteAddress ||
+                req.connection.socket.remoteAddress
+        
+            let currCode = 'VND'
+            let vnp_CreateDate = moment(date).format('YYYYMMDDHHmmss')
+            
+            let data = vnp_RequestId + "|" + vnp_Version + "|" + vnp_Command + "|" + vnp_TmnCode + "|" + vnp_TxnRef + "|" + vnp_TransactionDate + "|" + vnp_CreateDate + "|" + vnp_IpAddr + "|" + vnp_OrderInfo
+            
+            let hmac = crypto.createHmac("sha512", secretKey)
+            let vnp_SecureHash = hmac.update(Buffer.from(data, 'utf-8')).digest("hex") 
+            
+            let dataObj = {
+                'vnp_RequestId': vnp_RequestId,
+                'vnp_Version': vnp_Version,
+                'vnp_Command': vnp_Command,
+                'vnp_TmnCode': vnp_TmnCode,
+                'vnp_TxnRef': vnp_TxnRef,
+                'vnp_OrderInfo': vnp_OrderInfo,
+                'vnp_TransactionDate': vnp_TransactionDate,
+                'vnp_CreateDate': vnp_CreateDate,
+                'vnp_IpAddr': vnp_IpAddr,
+                'vnp_SecureHash': vnp_SecureHash
+            }
+            // /merchant_webapi/api/transaction
+            const response = await axios.post(vnp_Api, dataObj)
+            return res.status(200).json({
+                status: 'success',
+                message: ResponseQueryVNPay[response.data.vnp_ResponseCode || '99'],
+                data: response.data
+            })
+        }
+        catch (err) {
+            return next([500, 'error', `Error is occured at queryHistoryPayment: ${err.message}`])
+        }
+    }
+
+    returnPayment = async (req, res, next) => {
+        try {
+            process.env.TZ = 'Asia/Ho_Chi_Minh'
+            let date = new Date()
+           
+            let vnp_TmnCode = process.env.vnp_TmnCode
+            let secretKey = process.env.vnp_HashSecret
+            let vnp_Api = process.env.vnp_Api
+            
+            let vnp_TxnRef = req.body.orderId
+            let vnp_TransactionDate = req.body.transDate
+            let vnp_Amount = req.body.amount * 100
+            let vnp_TransactionType = req.body.transType
+
+            const userId = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))?._id
+            let vnp_CreateBy = userId || 'undefined' //req.body.user
+                    
+            let currCode = 'VND'
+            
+            let vnp_RequestId = moment(date).format('HHmmss')
+            let vnp_Version = '2.1.0'
+            let vnp_Command = 'refund'
+            let vnp_OrderInfo = 'Hoan tien GD ma:' + vnp_TxnRef
+                    
+            let vnp_IpAddr = req.headers['x-forwarded-for'] ||
+                req.connection.remoteAddress ||
+                req.socket.remoteAddress ||
+                req.connection.socket.remoteAddress
+            
+            let vnp_CreateDate = moment(date).format('YYYYMMDDHHmmss')
+            
+            let vnp_TransactionNo = '0'
+            
+            let data = vnp_RequestId + "|" + vnp_Version + "|" + vnp_Command + "|" + vnp_TmnCode + "|" + vnp_TransactionType + "|" + vnp_TxnRef + "|" + vnp_Amount + "|" + vnp_TransactionNo + "|" + vnp_TransactionDate + "|" + vnp_CreateBy + "|" + vnp_CreateDate + "|" + vnp_IpAddr + "|" + vnp_OrderInfo
+            let hmac = crypto.createHmac("sha512", secretKey)
+            let vnp_SecureHash = hmac.update(Buffer.from(data, 'utf-8')).digest("hex")
+            
+             let dataObj = {
+                'vnp_RequestId': vnp_RequestId,
+                'vnp_Version': vnp_Version,
+                'vnp_Command': vnp_Command,
+                'vnp_TmnCode': vnp_TmnCode,
+                'vnp_TransactionType': vnp_TransactionType,
+                'vnp_TxnRef': vnp_TxnRef,
+                'vnp_Amount': vnp_Amount,
+                'vnp_TransactionNo': vnp_TransactionNo,
+                'vnp_CreateBy': vnp_CreateBy,
+                'vnp_OrderInfo': vnp_OrderInfo,
+                'vnp_TransactionDate': vnp_TransactionDate,
+                'vnp_CreateDate': vnp_CreateDate,
+                'vnp_IpAddr': vnp_IpAddr,
+                'vnp_SecureHash': vnp_SecureHash
+            }
+            
+            const response = await axios.post(vnp_Api, dataObj)
+
+            if (response.data) this.storageReturnDatabase(response.data, userId)
+            
+            return res.status(200).json({
+                status: 'success',
+                message: ResponseReturnVNPay[response.data.vnp_ResponseCode || '99'],
+                data: response.data
+            })
+        }
+        catch (err) {
+            return next([500, 'error', `Error is occured at returnPayment: ${err.message}`])
+        }
+    }
+
+    storageReturnDatabase = async (data, userId) => {
+        try {
+            await new Refund({
+                _id: data.vnp_ResponseId,
+                response_code: `${data.vnp_ResponseCode}: ${ResponseReturnVNPay[data.vnp_ResponseCode || '99']}`,
+                response_message: data.vnp_Message,
+                tmn_code: data.vnp_TmnCode,
+                txn_ref: data.vnp_TxnRef,
+                amount: data.vnp_Amount,
+                content: data.vnp_OrderInfo,
+                bank_code: data.vnp_BankCode,
+                user_id: userId || ''
+            }).save()
+        }
+        catch (err) {
+            console.error(`Error at storageReturnDatabase: ${err.message}`)
+            return null
+        }
+    }
+
     saveToDatabase = async query => {
         try {
             //https://{domain}/ReturnUrl?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+thoi+gian%3A+2023-12-07+17%3A00%3A44&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=CTTVNP01&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=b6dababca5e07a2d8e32fdd3cf05c29cb426c721ae18e9589f7ad0e2db4b657c6e0e5cc8e271cf745162bcb100fdf2f64520554a6f5275bc4c5b5b3e57dc4b4b
@@ -162,7 +315,8 @@ class PaymentService {
                 order_id: orderId,
                 order_infor: query.vnp_OrderInfo,
                 response_code: query.vnp_ResponseCode,
-                pay_time: query.vnp_PayDate
+                pay_time: query.vnp_PayDate,
+                txn_ref: query.vnp_TxnRef
             }).save()
 
             producer.sendQueue({

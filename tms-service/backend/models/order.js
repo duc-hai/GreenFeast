@@ -27,7 +27,7 @@ const order = new Schema (
         status: { type: Number },
         delivery_notes: { type: String }
     }, {
-        timestamp: true,
+        timestamps: true,
         collection: 'orders'
     }
 )
