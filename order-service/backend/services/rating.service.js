@@ -123,12 +123,36 @@ class RatingService {
                 status: true
             })
             if (!menu) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món ăn')) 
-            const totalPage = menu.rating_pages 
-            let page = req.query.page || 1  
-            const reviewList = await Review.findOne({
+            const totalPage = menu.rating_pages
+            let page = req.query.page || 1
+            const pageToQuery = parseInt(totalPage - (page - 1))
+            let reviewList = await Review.findOne({
                 menu_id: menuId,
-                page: parseInt(totalPage - (page - 1))
+                page: pageToQuery
             })
+
+            //Check previous page
+            let reviewListPrevious = await Review.findOne({
+                menu_id: menuId,
+                page: pageToQuery - 1
+            }).lean()
+
+            if (reviewList.count !== 10 && reviewListPrevious) {
+                const newReviewList = reviewListPrevious.reviews.slice(-(10 - parseInt(reviewList.count.toString())))
+                reviewListPrevious.reviews = newReviewList
+                reviewList.reviews = [ ...reviewList.reviews, ...reviewListPrevious.reviews ]
+            }
+
+            // Check the next page
+            let reviewListNext = await Review.findOne({
+                menu_id: menuId,
+                page: pageToQuery + 1
+            }).lean()
+
+            if (reviewListNext && reviewListNext.count !== 10) {
+                const newReviewList = reviewListNext.reviews.slice(0, parseInt(reviewListNext.count.toString()))
+                reviewList.reviews = newReviewList
+            }
 
             let reviews = []
             if (reviewList) {
