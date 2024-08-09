@@ -9,3 +9,5 @@
 [2024-08-09 17:33:31] 	GET /api/order/view-rating/4?page=2 [status: 500 - message: Cannot access 'page' before initialization]
 [2024-08-09 17:34:49] 	GET /api/order/view-rating/4?page=2 [status: 500 - message: ]
 [2024-08-09 17:40:16] 	GET /api/order/view-rating/4?page=3 [status: 500 - message: Cannot read properties of null (reading 'count')]
+[2024-08-09 02:42:10] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-09 02:42:10] 	GET /api/order/print-bill/9c48d924-a481-493e-8bbe-6d866e89eb70 [status: 500 - message: Bàn chưa có khách] - userid: 0123456789

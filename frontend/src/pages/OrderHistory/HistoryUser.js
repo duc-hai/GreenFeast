@@ -15,7 +15,7 @@ const HistoryUserTab = () => {
   const fetchReturnPayment = async (data) => {
     try {
       const res = await getReturnPayment(data);
-
+      console.log(res);
       if (res?.status === "success") {
         message.success(res?.message);
         console.log(dataRating);
@@ -28,15 +28,19 @@ const HistoryUserTab = () => {
       console.log(err);
     }
   };
-  useEffect(() => {
-    if (payment) {
-      message.success("Thanh toán thành công");
-      fetchReturnPayment(payment);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (payment) {
+  //     fetchReturnPayment(payment);
+  //   }
+  // }, []);
+  const onChangeRating = () => {
+    console.log(isRating);
+    setIsRating((pre) => ({ ...pre, isOpen: true, data: dataRating }));
+  };
   return (
     <div className="flex flex-column gap-2">
       <Header />
+      <Button onClick={() => onChangeRating()}>Rating</Button>
       {isRating.data?.order.length > 0 && (
         <RatingMenu isOpen={isRating.isOpen} data={isRating.data} />
       )}

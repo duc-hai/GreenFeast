@@ -610,8 +610,8 @@ import Cookies from "js-cookie";
                           </p>
                           <p className="flex items-center">
                           <span>Đánh giá:</span>
-                          <Rate allowHalf value={item?.rating_average} />
-                          <span>{`(${item?.rating_count})`}</span>
+                          <Rate allowHalf value={item?.rating_average || 0} />
+                          <span>{`(${item?.rating_count || 0})`}</span>
                         </p>
                           <p className="flex items-center gap-3">
                             <button
