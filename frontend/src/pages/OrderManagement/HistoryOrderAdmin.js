@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 import DetailHistory from "./DetailHistory";
 import DetailHistoryAdmin from "./DetailHistoryAdmin";
 import { icons } from "antd/es/image/PreviewGroup";
+import RatingMenu from "../OrderOnline/RatingMenu";
 
 const optionStatus = [
   { value: 1, label: "Đang chờ xác nhận" },
@@ -61,7 +62,7 @@ const HistoryOrderAdmin = () => {
       const res = await getOrderHistoryListAdmin(param);
       console.log(res);
       setDataTable(res?.data);
-      if (!search.page) setTotalElement(res?.pagination?.totalItem);
+      setTotalElement(res?.pagination?.totalItem);
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +78,8 @@ const HistoryOrderAdmin = () => {
         const res = await postUpdateStatus(body);
         if (res?.status === "success") {
           message.success(res?.message);
-          fetchHistoryOderList();
+          await fetchHistoryOderList();
+
           setUpdateStatus((pre) => ({ ...pre, orderId: null, status: null }));
         } else {
           message.error(res?.message);
@@ -126,11 +128,19 @@ const HistoryOrderAdmin = () => {
     {
       title: "STT",
       dataIndex: "_id",
+      key: "_id",
       align: "center",
       render: (text, record, index) => <span>{index + 1}</span>,
     },
     {
+      title: "Mã đơn hàng",
+      dataIndex: "_id",
+      key: "_id",
+      align: "center",
+    },
+    {
       title: "Thời gian",
+      key: "time",
       dataIndex: "time",
       render: (text) => (
         <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
@@ -139,6 +149,7 @@ const HistoryOrderAdmin = () => {
     },
     {
       title: "Trạng thái",
+      key: "status",
       dataIndex: "status",
       align: "center",
       render: (text, record) => (
@@ -161,21 +172,24 @@ const HistoryOrderAdmin = () => {
     },
     {
       title: "Tổng tiền",
+      key: "total",
       dataIndex: "total",
       align: "center",
-    },
-    {
-      title: "Đánh giá",
-      dataIndex: "is_rating",
-      align: "center",
-      render: (text) => <span>{text ? "Có" : "Không"}</span>,
     },
 
     {
       title: "Hoạt động",
       dataIndex: "_id",
+      key: "_id",
       align: "center",
-      render: (text) => <DetailHistoryAdmin id={text} />,
+      render: (text, record) => (
+        <div className="flex justify-center items-center gap-3">
+          {!record?.is_rating && (
+            <RatingMenu id={text} disabled={record?.is_rating} />
+          )}
+          <DetailHistoryAdmin id={text} />
+        </div>
+      ),
     },
   ];
 
@@ -220,9 +234,9 @@ const HistoryOrderAdmin = () => {
 
   const onClickMenu = (e) => {
     if (e === "all") {
-      setSearch((pre) => ({ ...pre, status: null }));
+      setSearch((pre) => ({ ...pre, status: null, page: 1 }));
     } else {
-      setSearch((pre) => ({ ...pre, status: e }));
+      setSearch((pre) => ({ ...pre, status: e, page: 1 }));
     }
   };
   return (
@@ -240,7 +254,8 @@ const HistoryOrderAdmin = () => {
         <Spin />
       ) : (
         <Table
-          dataSource={dataTable}
+          dataSource={dataTable || []}
+          loading={loading}
           columns={columns}
           pagination={{
             total: totalElement,

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ProfileOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import FormDetailHistory from "./FormDetailHistory";
+import RatingMenu from "../OrderOnline/RatingMenu";
 
 const OrderHistory = () => {
   const [listHistory, setListHistory] = useState([]);
@@ -39,9 +40,14 @@ const OrderHistory = () => {
     },
     {
       title: "Thao tác",
-      dataIndex: "menu",
+      dataIndex: "_id",
       render: (text, record) => (
-        <ProfileOutlined onClick={() => handleOpenDetail(record?._id)} />
+        <div className="flex justify-center items-center gap-3">
+          {!record?.is_rating && (
+            <RatingMenu id={text} disabled={record?.is_rating} />
+          )}
+          <ProfileOutlined onClick={() => handleOpenDetail(record?._id)} />
+        </div>
       ),
     },
   ];

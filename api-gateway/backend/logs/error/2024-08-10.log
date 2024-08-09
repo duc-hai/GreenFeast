@@ -1,0 +1,110 @@
+[2024-08-10 00:07:42] 	GET /api/order/history-detail/66b6476d7ae15a4041ea0c44 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0123456789
+[2024-08-10 00:08:16] 	GET /api/order/history-detail/66b6476d7ae15a4041ea0c44 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0123456789
+[2024-08-10 00:08:48] 	POST /api/admin/order/online/update-status [status: 500 - message: Trạng thái không hợp lệ] - body: {"orderId":"66b5c63d54275909ed9f3fe4","status":5} - userid: 0123456789
+[2024-08-10 00:09:05] 	POST /api/admin/order/online/update-status [status: 500 - message: Trạng thái không hợp lệ] - body: {"orderId":"66b4e3cda48b1aa0a6acf3a8","status":5} - userid: 0123456789
+[2024-08-10 00:17:50] 	GET /api/order/history-detail/66afd961c8b9fa0b081e59d4 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0123456789
+[2024-08-10 00:18:09] 	GET /api/order/history-detail/66b6476d7ae15a4041ea0c44 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0123456789
+[2024-08-10 00:18:44] 	GET /api/order/history-detail/66b6476d7ae15a4041ea0c44 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0123456789
+[2024-08-10 00:22:35] 	GET /api/order/history-detail/undefined [status: 500 - message: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "Order"] - userid: 0372976121
+[2024-08-10 00:23:14] 	GET /api/order/history-detail/66b6476d7ae15a4041ea0c44 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0372976121
+[2024-08-10 00:23:29] 	GET /api/order/history-detail/66afd961c8b9fa0b081e59d4 [status: 500 - message: Mã đơn hàng không hợp lệ] - userid: 0372976121
+[2024-08-10 00:44:58] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:46:17] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:47:11] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:49:05] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:50:00] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:51:38] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:53:24] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:54:32] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:54:49] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:56:58] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:57:58] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:58:08] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 00:59:01] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:00:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:01:08] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:01:49] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:02:16] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:05:01] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:05:01] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:05:05] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:06:37] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:06:37] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:07:11] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:07:11] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:08:00] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:08:01] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:08:45] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:08:45] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:09:27] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:09:27] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:09:29] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:09:38] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:09:38] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:09:56] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:09:56] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:10:31] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:10:31] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:11:32] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:11:33] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:12:09] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:12:09] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:12:39] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:12:39] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:13:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:13:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:13:32] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:13:33] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:13:48] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:13:49] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:16:43] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:18:51] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:18:52] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:19:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:19:03] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:19:09] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:19:10] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:19:27] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:19:28] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:20:04] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:20:05] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:20:20] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:20:21] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:22:03] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:22:04] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:22:09] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:22:53] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:22:53] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:22:56] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:23:06] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:23:07] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:24:22] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:24:23] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:24:50] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:24:51] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:25:27] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:25:27] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:25:41] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:25:42] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:25:53] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:25:53] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:26:06] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:26:06] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:27:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:27:02] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:27:19] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:27:20] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:27:57] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:27:58] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:28:15] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:28:15] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:28:38] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:28:39] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:29:45] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:29:46] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:30:03] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:30:03] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:31:22] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:31:22] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121
+[2024-08-10 01:31:57] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0123456789
+[2024-08-10 01:31:57] 	GET /api/order/menu/search?keyword= [status: 500 - message: Thiếu từ khóa tìm kiếm] - userid: 0372976121

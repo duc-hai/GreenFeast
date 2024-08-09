@@ -40,7 +40,7 @@ const HistoryUserTab = () => {
   return (
     <div className="flex flex-column gap-2">
       <Header />
-      <Button onClick={() => onChangeRating()}>Rating</Button>
+
       {isRating.data?.order.length > 0 && (
         <RatingMenu isOpen={isRating.isOpen} data={isRating.data} />
       )}
