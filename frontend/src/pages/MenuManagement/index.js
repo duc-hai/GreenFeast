@@ -115,8 +115,8 @@ const TableManagement = () => {
   const columns = [
     {
       title: "Mã món",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
       render: (itemId) => <span className="font-semibold">{itemId}</span>,
     },
     {

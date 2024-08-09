@@ -58,6 +58,7 @@ const Header = () => {
   const [qr, setQR] = useState();
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   const token = Cookies.get("accessToken");
   const fetchQr = async (tableId) => {
@@ -76,28 +77,23 @@ const Header = () => {
 
   useEffect(() => {
     console.log(token);
-    const socket = io("http://localhost:5020", {
-      auth: {
-        token: token,
+    // Connect to the Socket.IO server
+    const newSocket = io("http://localhost:5020/notification", {
+      withCredentials: true,
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
       },
     });
-    setSocket(socket);
 
-    // Kết nối với máy chủ WebSocket
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server");
+    newSocket.on("connect_error", (err) => {
+      console.error("Connection error:", err.message);
+      // Handle the error, maybe redirect to login or show a message
     });
 
-    // Lắng nghe sự kiện 'message' từ máy chủ
-    socket.on("notification", (data) => {
-      setMessage(data);
-      alert("thanh cong 1");
-      console.log(data);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [token]);
+    setSocket(newSocket);
+
+    return () => newSocket.close();
+  }, []);
 
   const fetchTable = async (id) => {
     try {

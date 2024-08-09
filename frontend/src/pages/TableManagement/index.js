@@ -24,6 +24,7 @@ const MenuManagement = () => {
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
   const [dataDelete, setDataDelete] = useState([]);
+  const [choseItem, setChoseItem] = useState(0);
   useEffect(() => {
     const fetchArea = async () => {
       try {
@@ -39,6 +40,7 @@ const MenuManagement = () => {
     try {
       const res = await getTable(id);
       setListData(res.data);
+      setChoseItem(id);
     } catch (error) {
       console.log(error);
     }
@@ -52,8 +54,8 @@ const MenuManagement = () => {
   const columns = [
     {
       title: "Mã bàn",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
     },
     // {
     //   title: "Tên bàn",
@@ -64,6 +66,7 @@ const MenuManagement = () => {
       title: "Khu vực (tầng)",
       dataIndex: "area_id",
       key: "area_id",
+      render: () => <p>{valueArea[choseItem - 1].name}</p>,
     },
 
     {
@@ -184,7 +187,9 @@ const MenuManagement = () => {
         >
           {valueArea?.length > 0 &&
             valueArea?.map((item) => (
-              <option value={item.id}>{item.name}</option>
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
             ))}
         </select>
       </div>

@@ -2,3 +2,5 @@ node_modules
 build/node_modules
 build/*
 !build/index.js
+logs/error/*
+logs/info/*

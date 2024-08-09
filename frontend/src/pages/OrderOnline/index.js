@@ -75,6 +75,7 @@ const OrderOnline = () => {
     isShow: false,
   });
 
+  const [tab, setTab] = useState(1);
   const convertOption = (dataOption, keyValue, keyLabel) => {
     let valueOptions = [...dataOption]?.map((item) => ({
       value: Number(item[keyValue]),
@@ -514,6 +515,13 @@ const OrderOnline = () => {
     fetchMenuList(current, pageSize);
     setPagination((pre) => ({ ...pre, page: current, size: pageSize }));
   };
+
+  const handleNextTab = () => {
+    setTab((pre) => Number(pre) + 1);
+  };
+  const handleBack = () => {
+    setTab((pre) => pre - 1);
+  };
   return (
     <>
       <Header />
@@ -529,160 +537,184 @@ const OrderOnline = () => {
             setIsModalOpen(false);
           }}
           footer={[
-            <Button
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-              type="text"
-            >
-              Hủy
-            </Button>,
-            <Button type="primary" onClick={handleOrder} loading={loading}>
-              Đặt món
-            </Button>,
+            <div className="flex justify-between items-center">
+              <Button type="text" onClick={handleBack} disabled={tab === 1}>
+                Quay lại
+              </Button>
+              {tab === 3 ? (
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      setIsModalOpen(false);
+                    }}
+                    type="text"
+                  >
+                    Hủy
+                  </Button>
+                  ,
+                  <Button
+                    type="primary"
+                    onClick={handleOrder}
+                    loading={loading}
+                  >
+                    Đặt món
+                  </Button>
+                </div>
+              ) : (
+                <Button type="primary" onClick={handleNextTab}>
+                  Tiếp
+                </Button>
+              )}
+            </div>,
           ]}
         >
-          <div className="py-3">
-            <Table
-              columns={columnsOrder}
-              dataSource={order}
-              pagination={false}
-            />
-          </div>
+          {tab === 1 && (
+            <div className="py-3">
+              <Table
+                columns={columnsOrder}
+                dataSource={order}
+                pagination={false}
+              />
+            </div>
+          )}
           <div className="">
-            <span className="font-semibold text-base">Thông tin giao hàng</span>
-            <div
-              className="md:grid md:gap-6 "
-              style={{ gridTemplateColumns: "8fr 4fr " }}
-            >
-              <div className="flex flex-col gap-1">
-                <span>Họ và tên:</span>
-                <input
-                  placeholder="Nhập họ và tên"
-                  className="border none outline-none px-2 py-1 rounded-lg "
-                  onChange={(e) => {
-                    setDelivery({ ...delivery, name: e.target.value });
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <span>Số điện thoại:</span>
-                <input
-                  placeholder="Nhập số điện thoại"
-                  className="border none outline-none px-2 py-1 rounded-lg"
-                  onChange={(e) => {
-                    setDelivery({ ...delivery, phone_number: e.target.value });
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <span>Địa chỉ nhận hàng:</span>
-                <div className="grid grid-cols-3 gap-1">
-                  {/* <Select
-                    placeholder="Chọn tỉnh"
-                    options={optionsProvince}
-                    showSearch
-                    value={delivery?.province?.value || null}
-                    onChange={(e, option) => handleChangeProvince(option)}
-                  /> */}
-                  <Select
-                    placeholder="Chọn huyện"
-                    options={optionsDistrict}
-                    value={delivery?.district?.value || null}
-                    showSearch
-                    onChange={(e, option) =>
-                      setDelivery((pre) => ({
-                        ...pre,
-                        district: option,
-                        ward: "",
-                      }))
-                    }
-                  />
-                  <Select
-                    placeholder="Chọn xã"
-                    options={optionsWard}
-                    value={delivery?.ward?.value || null}
-                    showSearch
-                    onChange={(e, option) => handleChangWard(option)}
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-1">
-                  <input
-                    onChange={(e) =>
-                      setDelivery((pre) => ({
-                        ...pre,
-                        address: e.target.value,
-                      }))
-                    }
-                    placeholder="Nhập địa chỉ chi tiết"
-                    className="border none outline-none px-2 py-1 rounded-lg"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-col-1 gap-2">
+            {tab === 2 && (
+              <div>
+                <span className="font-semibold text-base">
+                  Thông tin giao hàng
+                </span>
                 <div className="flex flex-col gap-1">
-                  <span>Ghi chú:</span>
+                  <span>Họ và tên:</span>
                   <input
-                    placeholder="Nhập Ghi chú"
-                    className="border none outline-none px-2 py-1 rounded-lg"
+                    placeholder="Nhập họ và tên"
+                    className="border none outline-none px-2 py-1 rounded-lg "
                     onChange={(e) => {
-                      setNote(e.target.value);
+                      setDelivery({ ...delivery, name: e.target.value });
                     }}
                   />
                 </div>
-                <p className="grid grid-cols-2 gap-1">
-                  <span>Tiền món ăn 1:</span>
-                  <span className="font-semibold">
-                    {handleMoneyOrder(order).toLocaleString()} VNĐ
-                  </span>
-                </p>
-                <p className="grid grid-cols-2 gap-1">
-                  <span>Phí ship :</span>
-                  <span className="font-semibold">
-                    {shipFee.toLocaleString()} VNĐ
-                  </span>{" "}
-                </p>
-                <p className="grid grid-cols-2 gap-1">
-                  <span>Khuyến mãi :</span>
-                  <span className="font-semibold">
-                    {handlePromotion(order).toLocaleString()} VNĐ
-                  </span>{" "}
-                </p>
-                <p className="grid grid-cols-2 gap-1">
-                  <span>Tổng tiền:</span>
-                  <span className="font-semibold text-red-600">
-                    {(
-                      shipFee +
-                      handleMoneyOrder(order) -
-                      handlePromotion(order)
-                    ).toLocaleString()}{" "}
-                    VNĐ
-                  </span>
-                </p>
-              </div>
-              <div className="flex gap-2 flex-wrap">
                 <div className="flex flex-col gap-1">
-                  <span>Loại thanh toán:</span>
-                  <Select
-                    defaultValue="bank"
-                    style={{ width: 320 }}
-                    onChange={handleChange}
-                    options={[
-                      { value: "bank", label: "Thanh toán online" },
-                      { value: "cod", label: "Thanh toán khi nhận hàng" },
-                    ]}
+                  <span>Số điện thoại:</span>
+                  <input
+                    placeholder="Nhập số điện thoại"
+                    className="border none outline-none px-2 py-1 rounded-lg"
+                    onChange={(e) => {
+                      setDelivery({
+                        ...delivery,
+                        phone_number: e.target.value,
+                      });
+                    }}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span>Khuyến mãi</span>
-                  <Select
-                    style={{ width: 200 }}
-                    options={convertOptionPromotion(listPromotion) || []}
-                    onChange={(e) => setPromotionID(e)}
-                  />
+                  <span>Địa chỉ nhận hàng:</span>
+                  <div className="grid grid-cols-3 gap-1">
+                    <Select
+                      placeholder="Chọn huyện"
+                      options={optionsDistrict}
+                      value={delivery?.district?.value || null}
+                      showSearch
+                      onChange={(e, option) =>
+                        setDelivery((pre) => ({
+                          ...pre,
+                          district: option,
+                          ward: "",
+                        }))
+                      }
+                    />
+                    <Select
+                      placeholder="Chọn xã"
+                      options={optionsWard}
+                      value={delivery?.ward?.value || null}
+                      showSearch
+                      onChange={(e, option) => handleChangWard(option)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-1">
+                    <input
+                      onChange={(e) =>
+                        setDelivery((pre) => ({
+                          ...pre,
+                          address: e.target.value,
+                        }))
+                      }
+                      placeholder="Nhập địa chỉ chi tiết"
+                      className="border none outline-none px-2 py-1 rounded-lg"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {tab === 3 && (
+              <div
+                className="md:grid md:gap-6 "
+                style={{ gridTemplateColumns: "8fr 4fr " }}
+              >
+                <div className="grid grid-col-1 gap-2">
+                  <div className="flex flex-col gap-1">
+                    <span>Ghi chú:</span>
+                    <input
+                      placeholder="Nhập Ghi chú"
+                      className="border none outline-none px-2 py-1 rounded-lg"
+                      onChange={(e) => {
+                        setNote(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <p className="grid grid-cols-2 gap-1">
+                    <span>Tiền món ăn:</span>
+                    <span className="font-semibold">
+                      {handleMoneyOrder(order).toLocaleString()} VNĐ
+                    </span>
+                  </p>
+                  <p className="grid grid-cols-2 gap-1">
+                    <span>Phí ship :</span>
+                    <span className="font-semibold">
+                      {shipFee.toLocaleString()} VNĐ
+                    </span>{" "}
+                  </p>
+                  <p className="grid grid-cols-2 gap-1">
+                    <span>Khuyến mãi :</span>
+                    <span className="font-semibold">
+                      {handlePromotion(order).toLocaleString()} VNĐ
+                    </span>{" "}
+                  </p>
+                  <p className="grid grid-cols-2 gap-1">
+                    <span>Tổng tiền:</span>
+                    <span className="font-semibold text-red-600">
+                      {(
+                        shipFee +
+                        handleMoneyOrder(order) -
+                        handlePromotion(order)
+                      ).toLocaleString()}{" "}
+                      VNĐ
+                    </span>
+                  </p>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  <div className="flex flex-col gap-1">
+                    <span>Loại thanh toán:</span>
+                    <Select
+                      defaultValue="bank"
+                      style={{ width: 320 }}
+                      onChange={handleChange}
+                      options={[
+                        { value: "bank", label: "Thanh toán online" },
+                        { value: "cod", label: "Thanh toán khi nhận hàng" },
+                      ]}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span>Khuyến mãi</span>
+                    <Select
+                      style={{ width: 200 }}
+                      options={convertOptionPromotion(listPromotion) || []}
+                      onChange={(e) => setPromotionID(e)}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </Modal>
 
@@ -726,7 +758,7 @@ const OrderOnline = () => {
           </div>
         </Modal>
 
-        <div className="flex max-md:flex max-md:flex-col">
+        <div className="flex max-sm:flex max-sm:flex-col">
           <Menu
             onClick={onClick}
             className="min-w-48 max-md:hidden"
@@ -740,7 +772,7 @@ const OrderOnline = () => {
           />
           <Menu
             onClick={onClick}
-            className="md:hidden max-md:flex max-md:flex-wrap "
+            className="sm:hidden max-sm:flex max-sm:flex-wrap "
             style={{
               backgroundColor: "#E4E4D0",
             }}
@@ -749,7 +781,7 @@ const OrderOnline = () => {
             mode="horizontal"
             items={listDataCate}
           />
-          <div className="content bg-[#d4e3d3]">
+          <div className="lg: px-4 max-sm:p-2 bg-[#d4e3d3]">
             <div className="flex w-full justify-between items-end gap-3 py-3">
               <div></div>
               <div>
@@ -770,11 +802,14 @@ const OrderOnline = () => {
                 />
               )}
             </div>
-            <div className="flex flex-wrap  gap-6 justify-between max-md:justify-center">
+            <div className="flex flex-wrap  gap-6  justify-center ">
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (
-                  <div style={{ width: 430 }} key={item._id}>
-                    <div className="flex gap-3 flex-wrap bgr-food bg-white">
+                  <div
+                    key={item._id}
+                    className="flex-1 basis-96 lg:grow-0 shrink"
+                  >
+                    <div className="flex gap-3 flex-wrap bgr-food bg-white ">
                       <div
                         className=" cursor-pointer w-40"
                         onClick={() => {
@@ -794,7 +829,6 @@ const OrderOnline = () => {
                         </p>
 
                         <p className="flex items-center">
-                          <span>Đánh giá:</span>
                           <Rate allowHalf value={item?.rating_average || 0} />
                           <span>{`(${item?.rating_count || 0})`}</span>
                         </p>

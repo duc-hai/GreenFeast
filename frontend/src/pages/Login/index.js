@@ -26,7 +26,7 @@ const Login = () => {
       } else {
         response = await loginUser(values);
 
-        navigate("/order");
+        navigate("/");
       }
       setCookie(
         "refreshToken",
@@ -57,7 +57,7 @@ const Login = () => {
   useEffect(() => {
     const user = sessionStorage.getItem("user");
     if (user) {
-      navigate("/order");
+      navigate("/");
     }
   }, []);
   return (
