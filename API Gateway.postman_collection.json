@@ -2317,6 +2317,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update status order",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "b894da48ca4a08da60c8301d9af79885864887e74126af2b557a52ac6841ef5c",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": 5,\r\n  \"order_id\": \"66b4ba0ceb3105e70019a835\",\r\n  \"delivery_notes\": \"Giao hang thanh cong\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/tms/update-status-order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tms",
+								"update-status-order"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

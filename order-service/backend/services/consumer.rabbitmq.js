@@ -113,6 +113,8 @@ const closeTable = async message => {
             { $set: { 'table_list.$.status': 0 } }
         )
 
+        producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updateOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
+
         producer.sendQueueStatistics('offline', updateOrder)
     }
     catch (err) {
@@ -318,9 +320,11 @@ const handleDataTms = async(data) => {
 
         const orderOnline = await OrderOnline.findOneAndUpdate({ _id: data.orderId }, { status: data.status, delivery_notes: data.note || '' }, { returnDocument: 'after' })
 
-        producer.sendQueueNotification(orderOnline.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${orderOnline._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`)
+        producer.sendQueueNotification(orderOnline.order_person?._id, 'Cập nhật trạng thái vận chuyển!', `Đơn hàng ${orderOnline._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`)
 
-        producer.sendQueueNotification(null, 'Đơn hàng đã cập nhật', `Đơn hàng trực tuyến ${orderOnline._id} đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`, '', 1)
+        producer.sendQueueNotification(null, 'Cập nhật trạng thái vận chuyển!', `Trạng thái giao hàng của đơn hàng ${orderOnline._id} đã cập nhật thành ${StatusOnlineOrder[orderOnline.status]}`, '', 1)
+
+        producer.sendQueueStatusOrder(orderOnline._id, StatusOnlineOrder[orderOnline.status], orderOnline.order_person?._id)
     }
     catch (err) {
         console.error(`Error occured at consumer handleDataTms: ${err.message}`)

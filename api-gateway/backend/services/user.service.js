@@ -95,7 +95,8 @@ class UserService {
 
             producer.sendQueue('gateway-notification', {
                 userId: username,
-                user_type: 2
+                user_type: 2,
+                role: 'customer'
             })
 
             return res.status(StatusCode.OK_200).json({
@@ -190,7 +191,8 @@ class UserService {
 
             producer.sendQueue('gateway-notification', {
                 userId: username,
-                user_type: 1
+                user_type: 1,
+                role: role
             })
 
             return res.status(StatusCode.OK_200).json({
@@ -380,7 +382,8 @@ class UserService {
 
             producer.sendQueue('gateway-notification', {
                 userId: username,
-                user_type: 2
+                user_type: 2,
+                role: 'customer'
             })
 
             return newUser 

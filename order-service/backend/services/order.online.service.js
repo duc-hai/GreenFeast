@@ -230,7 +230,7 @@ class OrderOnlineService {
 
             await order.save()
 
-            producer.sendQueueNotification(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`)
+            producer.sendQueueNotification(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`) 
 
             if (status == 3 || status == '3') //Ready order
                 producer.sendQueueTms(order)

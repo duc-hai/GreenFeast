@@ -73,7 +73,7 @@ class TmsService {
                     in: 'body',
                     description: 'Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền, order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng',
                     schema: {
-                        status: 4, 
+                        status: 5, 
                         order_id: "666458f9d8f8927ab0cbf5f4", 
                         delivery_notes: "Giao hang thanh cong"
                     }

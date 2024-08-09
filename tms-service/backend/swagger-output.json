@@ -42,7 +42,7 @@
               "properties": {
                 "status": {
                   "type": "number",
-                  "example": 4
+                  "example": 5
                 },
                 "order_id": {
                   "type": "string",

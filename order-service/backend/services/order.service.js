@@ -168,6 +168,7 @@ class OrderService {
             this.sendPrinterFood(order, getOrderLatest)
             this.sendPrinterBaverage(order, getOrderLatest) 
 
+            //Send to role
             producer.sendQueueNotification(null, 'Đơn hàng mới tại nhà hàng', `Món ăn vừa được đặt tại bàn ${table._id}`, '', 1)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt món thành công' })
