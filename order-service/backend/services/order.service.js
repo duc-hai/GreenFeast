@@ -55,7 +55,8 @@ class OrderService {
             const menu = menuData[i]
             const menuFromDB = await Menu.findOne({ _id: menu._id, status: true })
             if (!menuFromDB) 
-                return next(createError(StatusCode.BadRequest_400, `Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`))
+                throw new Error(`Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`)
+                // return next(createError(StatusCode.BadRequest_400, `Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`))
             if (menuFromDB?.discount_price)
                 menuData[i].price = menuFromDB?.discount_price
             else
@@ -802,6 +803,89 @@ class OrderService {
                 message: 'Lấy lịch sử đặt món thành công',
                 data: orderDetail
             })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    orderMenuByEmployee = async (req, res, next) => {
+        try {
+            const tableId = req.body.table
+            const menus = req.body.menu
+
+            const area = await Area.findOne({ 'table_list._id': tableId })
+            if (!area) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy bàn hợp lệ'))
+
+            const menuData = await this.getMenuInforFromDB(menus)
+
+            const subtotalPrice = menuData.reduce((accumulator, value) => accumulator + value.price * value.quantity, 0)
+
+            let user = { full_name: 'Khách' } //initial by default
+
+            if (req.headers['user-infor-header']) {
+                const userInfor = this.getUserInfor(req.headers['user-infor-header'])
+                user.full_name = userInfor.full_name
+                user._id = userInfor._id
+            }
+
+            const table = area?.table_list.find(table => table._id === tableId)
+
+            let getOrderLatest
+            let order 
+
+            //Table is available and don't have any menu
+            if (table?.status == 0) {
+                //Set table is served
+                await Area.findOneAndUpdate(
+                    { 'table_list._id': tableId },
+                    { $set: { 'table_list.$.status': 1 } }
+                )
+                order = await new Order ({
+                    order_detail: [
+                        {
+                            menu: menuData,
+                            time: new Date(),
+                            order_person: {
+                                _id: user._id,
+                                name: user.full_name
+                            }
+                        }
+                    ],
+                    subtotal: subtotalPrice,
+                    table: table._id,
+                    checkin: new Date(),
+                    status: false, //Unpaid
+                }).save()
+
+                getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
+            }
+            //Table is served, this's means we need to add menu the n time
+            else if (table?.status == 1) {
+                order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
+
+                if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
+
+                order?.order_detail.push({
+                    menu: menuData,
+                    time: new Date(),
+                    order_person: {
+                        _id: user._id,
+                        name: user.full_name
+                    }        
+                })
+
+                order.subtotal = order.subtotal + subtotalPrice
+
+                await order.save()
+
+                getOrderLatest = order?.order_detail[order?.order_detail.length - 1] //Get latest times of order
+            }
+            
+            this.sendPrinterFood(order, getOrderLatest)
+            this.sendPrinterBaverage(order, getOrderLatest) 
+
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt món thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

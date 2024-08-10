@@ -5026,6 +5026,63 @@ paths:
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
             
+  /admin/order/menu-employee:
+    post:
+      tags:
+        - order
+      summary: Đặt món tại nhà hàng (cho nhân viên)
+      description: "Tại trang quản lý order, nhân viên có thể bấm vào bàn và đặt món cho bàn đó. API này tương tự như đặt món."
+      requestBody: 
+        description: "Thông tin của bàn và menu. Format của menu giống như API đặt món của khách hàng."
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  table: 
+                    type: string
+                    example: A10
+                  menu: 
+                    type: array
+                    items: 
+                      type: object
+                      properties: 
+                        _id: 
+                          type: string
+                          example: 4
+                        quantity: 
+                          type: number
+                          example: 3
+                        note: 
+                          type: string
+                          example: Không hành
+                    example: [
+                        {
+                          _id: 4,
+                          quantity: 3,
+                          note: Không hành
+                        }
+                    ]
+      
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                          status: 
+                            type: string
+                            example: success
+                          message: 
+                            type: string
+                            example: Đặt món thành công
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+            
   /payment/create-payment-url:
     post:
       tags:

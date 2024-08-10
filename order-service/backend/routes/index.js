@@ -52,6 +52,8 @@ router.post('/rating', validation.checkValidationRating(), ratingService.ratingM
 router.get('/history-list', orderService.historyOrderListCustomer)
 router.get('/history-detail/:id', orderService.historyOrderDetailCustomer)
 
+router.post('/order/menu-employee', orderService.orderMenuByEmployee)
+
 router.post('/:tableSlug', orderService.orderMenu)
 router.use('/', errorHandler.catchNotFoundError)
 router.use('/', errorHandler.errorHandle)

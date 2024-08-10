@@ -1,25 +1,5 @@
 version: '3.8'
 services:
-  # rabbitmq:
-  #   image: rabbitmq:3.12-management
-  #   container_name: rabbitmq
-  #   ports:
-  #     - "5672:5672"  # Default port to communicate with RabbitMQ
-  #     - "15672:15672"  # Interface management of RabbitMQ
-  #   volumes:
-  #     - rabbitmq_data:/var/lib/rabbitmq  # Folder storage data of RabbitMQ
-  #   restart: unless-stopped
-  #   networks:
-  #     - greenfeast
-
-  # redis:
-  #   image: redis:latest
-  #   container_name: redis
-  #   environment:
-  #     - ALLOW_EMPTY_PASSWORD=yes
-  #   ports:
-  #     - 6379:6379
-  
   apigateway: #name of service
     container_name: apigateway
     build:
@@ -30,7 +10,7 @@ services:
       - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
       - DB_HOST=apiGatewayDB # database is service's name
       # - FRONT_END_URL=http://localhost
-      - FRONT_END_URL=https://greenfeast.space
+      - FRONT_END_URL=http://localhost
       - ORDER_SERVICE_URL=http://order:5000
       - NOTIFICATION_SERVICE_URL=http://notification:5020
       - PAYMENT_SERVICE_URL=http://payment:5005
@@ -39,9 +19,8 @@ services:
       - STATISTICS_SERVICE_URL=http://statistics:5030
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - GOOGLE_REDIRECT_URI=https://greenfeast.space/api/auth/google/callback
+      - GOOGLE_REDIRECT_URI=http://localhost/api/auth/google/callback
       - RECOMMEND_SERVICE_URL=http://recommend:5090
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container
@@ -61,7 +40,6 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27019 #27018 is port of service in Docker (not localhost)
       - DB_HOST=notificationDB # orderDB is service's name
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5020:5020 #The first 5020 is your port local, the second 5020 is the port on docker container
@@ -75,32 +53,14 @@ services:
       - order-network
       - greenfeast
 
-  # apiGatewayDB:
-  #   container_name: apiGatewayDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: api-gateway
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27017:27017
-  #   expose: 
-  #     - 27017 #This service will open port 27017 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata6:/data/db
-  #   networks:
-  #     - apigateway-network
-  #     - greenfeast
-
   nginxreact: 
     container_name: nginxreact
     build: 
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: DockerfileDev
     restart: always
-    environment:
-      - REACT_APP_API=http://apigateway:3000
+    # environment:
+    #   - REACT_APP_API=http://localhost
     ports:
       - 80:80
     volumes: #override interface nginx default #copy file, folder from local computer to docker
@@ -125,7 +85,6 @@ services:
       - DB_PORT=3306 #3306 is port of service in Docker (not localhost)
       - DB_HOST=managementDB # managementDB is service's name
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
 
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -167,9 +126,8 @@ services:
       - AMQP_SERVER_URL_HOST=rabbitmq #rabbitmq is service's name of rabbit mq
       - AMQP_SERVER_URL_PORT=5672
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
-      - API_GATEWAY_URL=https://greenfeast.space
-      - FRONT_END_URL_QRCODE=https://greenfeast.space
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      - API_GATEWAY_URL=http://localhost
+      - FRONT_END_URL_QRCODE=http://localhost
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5000:5000 #The first 5000 is your port local, the second 5000 is the port on docker container
@@ -182,43 +140,6 @@ services:
       - order-network
       - greenfeast
 
-  # orderDB:
-  #   container_name: orderDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: order
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27018:27018
-  #   command: mongod --port 27018 # !Important. This will change default port in mongo
-  #   expose: 
-  #     - 27018 #This service will open port 27018 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata7:/data/db2
-  #   networks:
-  #     - order-network
-  #     - greenfeast
-
-  # notificationDB:
-  #   container_name: notificationDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: notification
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27019:27019
-  #   command: mongod --port 27019 # !Important. This will change default port in mongo
-  #   expose: 
-  #     - 27019 #This service will open port 27019 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata9:/data/db2
-  #   networks:
-  #     - greenfeast
-
   payment: #name of service
     container_name: payment
     build:
@@ -228,8 +149,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27020 #27018 is port of service in Docker (not localhost)
       - DB_HOST=paymentDB # orderDB is service's name
-      - vnp_ReturnUrl=https://greenfeast.space/payment/vnpay_return
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      - vnp_ReturnUrl=http://localhost/payment/vnpay_return
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5005:5005 #The first 5005 is your port local, the second 5005 is the port on docker container
@@ -242,24 +162,6 @@ services:
       - order-network
       - greenfeast
 
-  # paymentDB:
-  #   container_name: paymentDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: payment
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27020:27020
-  #   command: mongod --port 27020 # !Important. This will change default port in mongo
-  #   expose: 
-  #     - 27020 #This service will open port 27020 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata10:/data/db2
-  #   networks:
-  #     - greenfeast
-
   statistics: #name of service
     container_name: statistics
     build:
@@ -269,7 +171,6 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27021 #27018 is port of service in Docker (not localhost)
       - DB_HOST=statisticsDB # orderDB is service's name
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5030:5030 #The first 5030 is your port local, the second 5030 is the port on docker container
@@ -281,24 +182,6 @@ services:
     networks:
       - greenfeast
 
-  # statisticsDB:
-  #   container_name: statisticsDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: statistics
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27021:27021
-  #   command: mongod --port 27021 # !Important. This will change default port in mongo
-  #   expose: 
-  #     - 27021 #This service will open port 27021 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata11:/data/db2
-  #   networks:
-  #     - greenfeast
-
   tms: #name of service
     container_name: tms
     build:
@@ -308,8 +191,7 @@ services:
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
       - DB_HOST=tmsDB # orderDB is service's name
-      - API_GATEWAY_URL=https://greenfeast.space/api/tms
-      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      - API_GATEWAY_URL=http://localhost/api/tms
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5010:5010 #The first 5010 is your port local, the second 5010 is the port on docker container
@@ -321,7 +203,6 @@ services:
     networks:
       - greenfeast
       
-
   recommend:
     container_name: recommend
     build: 
@@ -337,34 +218,6 @@ services:
     networks:
       - greenfeast
 
-  # tmsDB:
-  #   container_name: tmsDB
-  #   image: mongo:6-jammy #image means pull image from Docker hub, while build is source in local
-  #   restart: always
-  #   environment: 
-  #     MONGO_INITDB_DATABASE: tms
-  #     #MONGO_INITDB_ROOT_USERNAME: root
-  #     #MONGO_INITDB_ROOT_PASSWORD: password
-  #   ports:
-  #     - 27022:27022
-  #   command: mongod --port 27022 # !Important. This will change default port in mongo
-  #   expose: 
-  #     - 27022 #This service will open port 27022 so that other containers can communicate
-  #   volumes: # save data after container is deleted
-  #     - dbdata12:/data/db2
-  #   networks:
-  #     - greenfeast
-
-# volumes:
-#   dbdata6:
-#   dbdata7:
-#   dbdata8:
-#   rabbitmq_data:
-#   dbdata9:
-#   dbdata10:
-#   dbdata11:
-#   dbdata12:
-
 networks:
   apigateway-network:
     driver: bridge
@@ -374,7 +227,7 @@ networks:
   order-network:
     driver: bridge
 
-#         docker compose -p greenfeast up -d --build
+#     docker compose -f docker-compose-develop.yaml -p greenfeast up -d --build
 
 #up is build file (run container), d is detach, after install with be auto exit, --build is force build image again (for cicd)
 #then open "Log" in container backend to see work log
