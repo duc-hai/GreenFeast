@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+ENV REACT_APP_API=https://greenfeast.space
+
 #For server EC2
 RUN export NODE_OPTIONS="--max_old_space_size=4096"  && npm run build
 
