@@ -744,17 +744,18 @@ class OrderService {
             const menuItem = orderDetail.menu.find(item => item._id === menuId)
 
             if (!menuItem) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món ăn để hủy')) 
-
                 
             orderDetail.menu = orderDetail.menu.filter(item => item._id !== menuId)
                 
-            const { price, quantity } = menuItem
+            const { price, quantity, name } = menuItem
             const newSubtotal = order.subtotal - (price * quantity)
 
             order.subtotal = newSubtotal
             order.total = order.total - newSubtotal
 
             await order.save()
+
+            producer.sendQueueNotification(null, 'Món ăn vừa được hủy', `Món ăn ${name} tại bàn ${order.table} vừa được hủy`, '', 1)
             
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Hủy món thành công' })
         }

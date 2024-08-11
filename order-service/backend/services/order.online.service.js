@@ -149,7 +149,14 @@ class OrderOnlineService {
             const shippingFee = calculateShippingFee(distance)
 
             const totalOrder = subtotalPrice + shippingFee - discount
-            if (totalOrder > 500000 && status === 2) status = 1
+
+            //Check validate order to decide to processing or wating confirm
+            if (totalOrder > 400000 && status === 2) status = 1
+            else if (status === 2) {
+                menuList.forEach(menu => {
+                    if (menu.quantity >= 5) status = 1 
+                })
+            }
             
             const order = await new OrderOnline({
                 menu_detail: menuList,

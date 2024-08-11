@@ -3,7 +3,7 @@ const router = express.Router()
 const forwardService = require('../services/forward.microservices')
 const jwtTokenGuard = require('../middlewares/jwt.token.guard')
 
-router.get('/menu/get-list', jwtTokenGuard.jwtTokenValidatorCustomer, forwardService.forwardRequestWithAlias('order'))
+router.get('/menu/get-list', jwtTokenGuard.jwtTokenValidatorBoth, forwardService.forwardRequestWithAlias('order'))
 router.get('/menu/get-by-category/:id', jwtTokenGuard.jwtTokenValidatorCustomer, forwardService.forwardRequestWithAlias('order'))
 router.get('/category/get-all', forwardService.forwardRequestWithAlias('order'))
 router.get('/menu/search', forwardService.forwardRequestWithAlias('order'))

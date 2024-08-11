@@ -6,15 +6,28 @@ const StatusCode = require('../enums/http.status.code')
 
 class MenuService {
     async getAllMenu(req, res, next) {
+        const page = req.query.page || 1
+        const perPage = req.query.perPage || 10
         try {
-            const page = req.query.page || 1
-            const perPage = req.query.perPage || 10
-
             const skip = (perPage * page) - perPage //In first page, skip 0 index
+            let user_type = 2 //Customer by default
 
-            const menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
+            if (req.headers['user-infor-header']) {
+                const user = JSON.parse(decodeURIComponent(req.headers['user-infor-header']))
+                user_type = user.user_type || 2
+            }
 
-            const total = await Menu.countDocuments({ status: true })
+            let menus, total
+            if (user_type == 1) {
+                //Restaurant side, show full menu
+                menus = await Menu.find().sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
+                total = await Menu.countDocuments()
+            }
+            else {
+                //Customer side, hidden menus with status is false
+                menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
+                total = await Menu.countDocuments({ status: true })
+            }
 
             const paginationResult = {
                 currentPage: page,
