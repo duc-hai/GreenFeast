@@ -104,7 +104,7 @@ const TableManagement = () => {
   };
   const deleteMenu = async (record) => {
     try {
-      await deleteMn(record.id);
+      await deleteMn(record._id);
       message.success("Xóa món thành công");
       setPagination((pre) => ({ ...pre, page: 1, size: 10 }));
     } catch (error) {
@@ -177,8 +177,8 @@ const TableManagement = () => {
             className="bg-slate-500"
             onClick={async () => {
               try {
-                await updateMenu(record.id, { status: !record?.status });
-                fetchMenu();
+                await updateMenu(record._id, { status: !record?.status });
+                fetchMenu(1, 10);
                 message.success("Cập nhật trạng thái thành công");
               } catch (error) {
                 console.log(error);

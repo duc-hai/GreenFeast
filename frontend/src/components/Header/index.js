@@ -537,11 +537,11 @@ const Header = () => {
                 <Link to="/order-online" style={{ fontSize: 18 }}>
                   Đặt món online
                 </Link>
-                {/* {user?.role === "Manager" && ( */}
-                <Link to="/admin-chart" style={{ fontSize: 18 }}>
-                  Báo cáo kinh doanh
-                </Link>
-                {/* )} */}
+                {us?.role === "admin" && (
+                  <Link to="/admin-chart" style={{ fontSize: 18 }}>
+                    Báo cáo kinh doanh
+                  </Link>
+                )}
               </div>
             )}
           </div>

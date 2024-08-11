@@ -92,14 +92,23 @@ import Cookies from "js-cookie";
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
     }
+    const fetchBill =async(id) => {
+      setLoadingDetail(true)
+      try {
+        const resBill = await printBill(id);
+        setExportBuill(resBill.data);
+      }
+      catch (error) {
+        console.log(error);
+      }
+      setLoadingDetail(false)
+    }
   const fetchDataOrderDetail = async (id) => {
     setLoadingDetail(true)
     try {
       const res = await viewDetailOrder(id);
-      const resBill = await printBill(id);
-      setExportBuill(resBill.data);
-      setOrderDetail(res.data);
       setNameTable(res?.data?.table)
+      setOrderDetail(res.data);
       setTableSlug(id)
     } catch (error) {
       console.log(error);
@@ -163,22 +172,22 @@ import Cookies from "js-cookie";
 
   //////////////////////////////////
 
-    const fetchTable = async (id) => {
-      try {
-        const res = await fetchTableCategory(id);
-        setTableList(
-          res.data?.map((item) => {
-            return {
-              key: item.slug,
-              label: item._id,
-              status: item.status,
-            };
-          })
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const fetchTable = async (id) => {
+    //   try {
+    //     const res = await fetchTableCategory(id);
+    //     setTableList(
+    //       res.data?.map((item) => {
+    //         return {
+    //           key: item.slug,
+    //           label: item._id,
+    //           status: item.status,
+    //         };
+    //       })
+    //     );
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
   
     const fetchDataByKeywork = async (key) => {
       try {
@@ -193,33 +202,34 @@ import Cookies from "js-cookie";
       fetchDataByKeywork(textSearch);
     }, [textSearch]);
   
+    // useEffect(() => {
+    //   if (area) {
+    //     fetchTable(area);
+    //   }
+    // }, [area]);
     useEffect(() => {
-      if (area) {
-        fetchTable(area);
-      }
-    }, [area]);
-    useEffect(() => {
-      const fetchArea = async () => {
-        try {
-          const res = await getAllArea();
-          // const res = await getAllAreaOrder();
-          setGetArea(
-            res.data?.map((item) => {
-              return {
-                key: item.id,
-                label: item.name,
-              };
-            })
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      // const fetchArea = async () => {
+      //   try {
+      //     const res = await getAllArea();
+      //     // const res = await getAllAreaOrder();
+      //     setGetArea(
+      //       res.data?.map((item) => {
+      //         return {
+      //           key: item.id,
+      //           label: item.name,
+      //         };
+      //       })
+      //     );
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // };
       if(!!tableSlugId){
           Promise.all([
-              fetchArea(),
+              // fetchArea(),
               fetchPromotion(),
-              fetchDataOrderDetail(tableSlugId)
+              fetchDataOrderDetail(tableSlugId),
+              fetchBill(tableSlugId)
           ])
       }
       else {
@@ -337,10 +347,14 @@ import Cookies from "js-cookie";
       if (e?.key === "recommend") {
         //call api recommend
         fetchMenuReCommend();
+        setPagination((pre) => ({ ...pre, isShow: false }));
       } else if (e?.key === "all") {
         fetchMenuList(1, pagination.size);
         setPagination((pre) => ({ ...pre, isShow: true }));
-      } else fetchDataByCate(e?.key);
+      } else{
+        setPagination((pre) => ({ ...pre, isShow: false }));
+        fetchDataByCate(e?.key);
+      } 
     };
   
     const columnsOrder = [
@@ -434,7 +448,7 @@ import Cookies from "js-cookie";
         if (res?.data?.length > 0) {
           res.data?.map((item) => window.open(item, "_blank"));
         }
-        window.location.reload();
+        // window.location.reload();
         message.success("Đặt món thành công");
         setIsModalOpen(false);
       } catch (error) {
@@ -583,14 +597,13 @@ import Cookies from "js-cookie";
                 />
               )}
             </div>
-              <div className="flex flex-wrap  gap-6 justify-between max-md:justify-center">
-                {getListMenu?.length > 0 &&
+            <div className="flex flex-wrap  gap-6  justify-between ">                {getListMenu?.length > 0 &&
                   getListMenu?.map((item) => (
                     <div
-                    style={{ width: 430 }}
-                      key={item._id}
+                     key={item._id}
+                    className="flex-1 basis-96 lg:grow-0 shrink"
                     >
-                      <div className="flex gap-3 flex-wrap bgr-food bg-white">
+                      <div  className="flex gap-3 flex-wrap bgr-food bg-white max-sm:justify-center">
                         <div
                           className="w-40 cursor-pointer"
                           onClick={() => {
@@ -598,18 +611,20 @@ import Cookies from "js-cookie";
                           }}
                         >
                           <img
-                            className="h-[130px] aspect-video object-cover"
-                            alt="logo"
-                            src={item.image}
-                          />
+                          className="w-32 h-32 aspect-video object-cover"
+                          alt="logo"
+                          src={item.image}
+                        />
                         </div>
                         <div className="flex flex-col gap-3">
-                          <span>{item?.name}</span>
+                        <span className="max-sm:max-w-32 max-sm:whitespace-nowrap max-sm:overflow-hidden max-sm:text-ellipsis">
+                          {item?.name}
+                        </span>
                           <p>
                             Giá: <strong>{item?.price} Đ</strong>
                           </p>
                           <p className="flex items-center">
-                          <span>Đánh giá:</span>
+                          
                           <Rate allowHalf value={item?.rating_average || 0} />
                           <span>{`(${item?.rating_count || 0})`}</span>
                         </p>
@@ -811,9 +826,9 @@ import Cookies from "js-cookie";
                     // onChange={onGenderChange}
                     allowClear
                   >
-                    <Select.Option key={1} value={"Tiền mặt"}>
+                    {/* <Select.Option key={1} value={"Tiền mặt"}>
                       Tiền mặt
-                    </Select.Option>
+                    </Select.Option> */}
                     <Select.Option key={2} value={"Bank"}>
                       Bank
                     </Select.Option>
@@ -840,6 +855,7 @@ import Cookies from "js-cookie";
                         if (res.status === "success") {
                           message.success(res.message);
                           fetchDataOrderDetail(tableSlug);
+                          fetchBill(tableSlug)
                         }
                       } catch (error) {
                         console.log(error);

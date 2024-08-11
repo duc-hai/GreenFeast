@@ -1,7 +1,9 @@
 import StatisticService from "./client/StatisticService";
 
-export const getStatisticRevenue = (from, to) => {
-  return StatisticService.get(`statistics/get-revenue?from=${from}&to=${to}`);
+export const getStatisticRevenue = (from, to, form) => {
+  return StatisticService.get(
+    `statistics/get-revenue?from=${from}&to=${to}&form=${form}`
+  );
 };
 
 export const getStatisticMenu = (from, to) => {

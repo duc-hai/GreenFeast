@@ -2,22 +2,28 @@ import React, { useEffect, useState } from "react";
 import DatePickerDemo, { currentDate, dateFormat, previousMonthDate } from "../ChartItem/DatePickerDemo";
 import BarChartDemo from "../ChartItem/BarChartDemo";
 import { getStatisticRevenue } from "../../../Services/StatisticApi";
-import { message } from "antd";
+import { message, Select } from "antd";
 
 
 const RevenueChart = () => {
 
   const [dataChart,setDataChart] = useState([])
-  const [dataSearch, setDataSearch] = useState([previousMonthDate.format(dateFormat),currentDate.format(dateFormat)])
+  // const [dataSearch, setDataSearch] = useState(
+  //   [previousMonthDate.format(dateFormat),currentDate.format(dateFormat)])
+  const [dataSearch, setDataSearch] = useState({
+    form:"online",
+    from:previousMonthDate.format(dateFormat),
+    to:currentDate.format(dateFormat)
+  })
 
   const onChangeDate =(date, dateString) => {
-    setDataSearch(dateString)
+    setDataSearch(pre => ({...pre,from:dateString[0],to:dateString[1]}))
   }
 
-  const fetchDataChart =async(from, to) => {
+  const fetchDataChart =async(from, to,form) => {
     try {
 
-      const res = await getStatisticRevenue(`${from}T00%3A00%3A00`,`${to}T00%3A00%3A00`);
+      const res = await getStatisticRevenue(`${from}T00%3A00%3A00`,`${to}T00%3A00%3A00`,form);
       setDataChart(res?.data || [])
     }
     catch(error){
@@ -26,22 +32,27 @@ const RevenueChart = () => {
   }
 
   useEffect(() => {
-    fetchDataChart(dataSearch[0],dataSearch[1])
+    fetchDataChart(dataSearch.from,dataSearch.to,dataSearch.form)
   },[dataSearch])
 
   return (
     <div>
       <div
-        style={{
-          display: "flex",
-          justifyContent: "end",
-          padding: "10px",
-          alignItems: "center",
-          gap: "16px",
-        }}
+       className="flex justify-end gap-6"
+       
       >
-        <p>Chọn thời gian</p>
+        <div className="flex items-center gap-4">
+        <p>Phương thức </p>
+        <Select value={dataSearch.form} className="w-32" onChange={(e)=> setDataSearch(pre => ({...pre,form:e}))} options={[
+         { value:"online", label:"Trực tuyến"},
+         { value:"offline", label:"Nhà hàng"}
+        ]}/>
+        </div>
+        <div className="flex items-center gap-4">
+
+        <p>Chọn thời gian </p>
         <DatePickerDemo onChange={onChangeDate}/>
+        </div>
       </div>
       <BarChartDemo
         color="#ea2e3c"
