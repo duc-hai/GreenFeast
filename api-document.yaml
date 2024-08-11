@@ -3637,7 +3637,7 @@ paths:
       summary: Cập nhật tình trạng lên món
       description: "Chức năng này sẽ giành cho bộ phận tiếp thực. Bộ phận này chịu trách nhiệm lên món cho khách hàng cũng như cập nhật để xác định bàn nào đã lên món, bàn nào chưa. "
       requestBody: 
-        description: "Muốn cập nhật tình trạng, phải xem được danh sách món đã đặt của bàn đó để thao tác. Từ đó, có được các thông tin như mã hóa đơn (orderId), mã lần đặt món (order_detail[i]._id), mã của tên món muốn cập nhật và trạng thái của món đó (status). Status gồm 0: đang chế biến, 1: đã lên món, 2: đã hủy"
+        description: "Muốn cập nhật tình trạng, phải xem được danh sách món đã đặt của bàn đó để thao tác. Từ đó, có được các thông tin như mã hóa đơn (orderId), mã lần đặt món (order_detail[i]._id), mã của tên món muốn cập nhật và trạng thái của món đó (status). Status gồm 0: đang chế biến, 1: đã lên món. **Update 11/8:** Thêm một nút cập nhật trạng thái cho toàn bộ lần đặt món đó, tức là menuId sẽ là tùy chọn (có hay không cũng được), lúc này chỉ gửi orderId, orderDetailId và status, hệ thống sẽ cập nhật toàn bộ món của lần đặt đó cho nhanh. **Ngoài ra,** bỏ trạng thái số 2 đi, chỉ có 0 và 1 (đang chế biến và đã lên món). API hủy sẽ được tách riêng ra vì quyền của 2 API này khác nhau. Vì chỉ có 2 trạng thái nên không cần drop box chọn trạng thái, mà chỉ có 1 nút cập nhật trạng thái thôi, nếu đang 0 thì status cập nhật là 1, và ngược lại."
         content: 
           application/json:
             schema:
@@ -3671,6 +3671,57 @@ paths:
                     message: 
                       type: string
                       example: Cập nhật tình trạng lên món thành công
+        '400':
+          description: "Lỗi"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Lỗi nào đó
+  
+  /admin/order/delete/order-menu:
+    patch:
+      tags:
+        - order
+      summary: Hủy món trong 1 bàn
+      description: "Chức năng này chỉ dành cho quản lý nhà hàng để hủy món trong 1 bàn"
+      requestBody: 
+        description: "Các tham số truyền vào body tương tự như cập nhật tình trạng món"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                  orderId: 
+                    type: string
+                    example: 665b387197d50736338330d6
+                  orderDetailId: 
+                    type: string
+                    example: 665b387197d50736338330d7
+                  menuId: 
+                    type: number
+                    example: 4
+        required: true
+      responses:
+        '200':
+          description: Hủy món thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: success
+                    message: 
+                      type: string
+                      example: Hủy món thành công
         '400':
           description: "Lỗi"
           content:

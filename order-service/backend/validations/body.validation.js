@@ -12,15 +12,16 @@ const validatorUpdateProcessingStatus = () => [
         .notEmpty().withMessage('Mã đặt món không được để trống')
         .isMongoId().withMessage('Mã đặt món không hợp lệ'),
 
-    check('menuId')
-        .exists().withMessage('Vui lòng nhập mã món')
-        .notEmpty().withMessage('Mã món không được để trống')
-        .isNumeric().withMessage('Mã món không hợp lệ (số)'),
+    // check('menuId')
+    //     .exists().withMessage('Vui lòng nhập mã món')
+    //     .notEmpty().withMessage('Mã món không được để trống')
+    //     .isNumeric().withMessage('Mã món không hợp lệ (số)'),
 
     check('status')
         .exists().withMessage('Vui lòng nhập trạng thái lên món')
         .notEmpty().withMessage('Trạng thái lên món không được để trống')
-        .isNumeric().withMessage('Trạng thái lên món không hợp lệ'),    
+        .isNumeric().withMessage('Trạng thái lên món không hợp lệ')
+        .isIn([0, 1]).withMessage('Trạng thái không hợp lệ')
 ]
 
 const checkValidationRating = () => [

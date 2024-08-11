@@ -82,7 +82,9 @@ router.get('/order/create-qr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, ac
 router.get('/order/history', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 router.get('/order/history/print-bill', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('createAny', 'revenue'), forwardService.forwardRequestWithAlias('order'))
 
-router.patch('/order/update/processing-status', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('order'))
+router.patch('/order/update/processing-status', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'order'), forwardService.forwardRequestWithAlias('order'))
+
+router.patch('/order/delete/order-menu', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('deleteAny', 'order'), forwardService.forwardRequestWithAlias('order'))
 
 //Lấy danh sách bàn theo mã khu vực, phân quyền chỉ cho nhân viên xem
 router.get('/order/tables/:id', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('order'))

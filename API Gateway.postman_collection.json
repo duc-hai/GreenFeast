@@ -1368,6 +1368,35 @@
 					"response": []
 				},
 				{
+					"name": "Order Employee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table\": \"A10\",\r\n    \"menu\": [\r\n        {\r\n            \"_id\": \"4\",\r\n            \"quantity\": 3,\r\n            \"note\": \"Không hành\"\r\n        },\r\n        {\r\n            \"_id\": \"19\",\r\n            \"quantity\": 2,\r\n            \"note\": \"Không hẹ\"\r\n        },\r\n        {\r\n            \"_id\": \"32\",\r\n            \"quantity\": 1,\r\n            \"note\": \"Ít ngọt\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/order/menu-employee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"menu-employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get order",
 					"request": {
 						"method": "GET",
@@ -1510,7 +1539,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/order/verify-slug/1",
+							"raw": "{{url}}/api/order/verify-slug/d476bef1-23bf-4d81-8786-9f93268a72c8",
 							"host": [
 								"{{url}}"
 							],
@@ -1518,7 +1547,7 @@
 								"api",
 								"order",
 								"verify-slug",
-								"1"
+								"d476bef1-23bf-4d81-8786-9f93268a72c8"
 							]
 						}
 					},
@@ -1603,7 +1632,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"orderId\": \"665b387197d50736338330d6\",\r\n    \"orderDetailId\": \"665b387197d50736338330d7\",\r\n    \"menuId\": 4,\r\n    \"status\": 1\r\n}",
+							"raw": "{\r\n    \"orderId\": \"66941b5e4e595538b94682e2\",\r\n    \"orderDetailId\": \"66941b5e4e595538b94682e3\",\r\n    // \"menuId\": 4,\r\n    \"status\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1621,6 +1650,36 @@
 								"order",
 								"update",
 								"processing-status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete menu in order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"669424a24e595538b9468440\",\r\n    \"orderDetailId\": \"669424a24e595538b9468441\",\r\n    \"menuId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/admin/order/delete/order-menu",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"order",
+								"delete",
+								"order-menu"
 							]
 						}
 					},

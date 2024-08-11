@@ -45,6 +45,8 @@ router.get('/order/get-revenue', orderService.getRevenueByDay)
 router.get('/order/history', orderService.historyOrder)
 router.get('/order/history/print-bill', orderService.printerBillAgain)
 router.patch('/order/update/processing-status', validation.validatorUpdateProcessingStatus(), orderService.updateProcessingStatus)
+router.patch('/order/delete/order-menu', orderService.deleteMenuOrder)
+
 router.post('/apply-promotion', orderService.applyPromotion)
 router.post('/order/menu/detail', menuService.getMenuDetail)
 router.post('/rating', validation.checkValidationRating(), ratingService.ratingMenu)

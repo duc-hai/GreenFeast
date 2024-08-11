@@ -693,28 +693,70 @@ class OrderService {
 
             const order = await Order.findOne({ _id: orderId, status: false })
 
-            if (!order)
-                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ')) 
+            if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ')) 
 
             const orderDetail = order.order_detail.find(value => {
                 return value._id == orderDetailId
             })
 
-            if (!orderDetail)
-                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã đặt món hợp lệ')) 
+            if (!orderDetail) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã đặt món hợp lệ')) 
 
-            const menu = orderDetail.menu.find(value => {
-                return value._id == menuId
-            })
-
-            if (!menu)
-                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã món hợp lệ')) 
-
-            menu.processing_status = status
+            if (menuId) {
+                const menu = orderDetail.menu.find(value => {
+                    return value._id == menuId
+                })
+    
+                if (!menu) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã món hợp lệ')) 
+    
+                menu.processing_status = status
+            }
+            else {
+                orderDetail.menu.forEach(value => {
+                    value.processing_status = status
+                })
+            }
 
             await order.save()
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật tình trạng lên món thành công' })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    deleteMenuOrder = async (req, res, next) => {
+        const { orderId, orderDetailId, menuId } = req.body
+
+        try {
+            const order = await Order.findOne({ _id: orderId, status: false })
+
+            if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ')) 
+
+            const orderDetail = order.order_detail.find(value => {
+                return value._id == orderDetailId
+            })
+
+            if (!orderDetail) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã đặt món hợp lệ')) 
+
+            if (!menuId) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn để hủy'))
+
+            const menuItem = orderDetail.menu.find(item => item._id === menuId)
+
+            if (!menuItem) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món ăn để hủy')) 
+
+                
+            orderDetail.menu = orderDetail.menu.filter(item => item._id !== menuId)
+                
+            const { price, quantity } = menuItem
+            const newSubtotal = order.subtotal - (price * quantity)
+
+            order.subtotal = newSubtotal
+            order.total = order.total - newSubtotal
+
+            await order.save()
+            
+            return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Hủy món thành công' })
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

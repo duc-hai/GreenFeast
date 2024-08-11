@@ -70,10 +70,10 @@
         "resource": "order",
         "name": "Quản lý đặt món",
         "actions": [
-            { "name": "Xem danh sách bàn, món", "slug": "read:any" },
-            { "name": "Đặt món, tạo QR", "slug": "create:any" },
-            { "name": "Chuyển bàn", "slug": "update:any" },
-            { "name": "Đóng bàn", "slug": "delete:any" }
+            { "name": "Xem danh sách bàn, món, cập nhật lên món", "slug": "read:any" },
+            { "name": "Đặt món, tạo QR, Chuyển bàn", "slug": "create:any" },
+            { "name": "Đóng bàn", "slug": "update:any" },
+            { "name": "Hủy món", "slug": "delete:any" }
         ]
     },
     {
