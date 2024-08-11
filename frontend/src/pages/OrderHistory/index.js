@@ -9,6 +9,7 @@ import { ProfileOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import FormDetailHistory from "./FormDetailHistory";
 import RatingMenu from "../OrderOnline/RatingMenu";
+import RatingOnline from "../OrderOnline/RatingOnline";
 
 const OrderHistory = () => {
   const [listHistory, setListHistory] = useState([]);
@@ -43,8 +44,8 @@ const OrderHistory = () => {
       dataIndex: "_id",
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
-          {!record?.is_rating && (
-            <RatingMenu id={text} disabled={record?.is_rating} />
+          {!record?.is_rating && record?.status === "Đã giao hàng" && (
+            <RatingOnline id={text} disabled={record?.is_rating} />
           )}
           <ProfileOutlined onClick={() => handleOpenDetail(record?._id)} />
         </div>
