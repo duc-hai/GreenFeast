@@ -5044,9 +5044,9 @@ paths:
       tags:
         - order
       summary: Cập nhật trạng thái đơn hàng
-      description: "Như đã trình bày ở API xem danh sách đơn hàng online, có tất cả là 7 trạng thái của 1 đơn hàng. Trong đó, trạng thái 1 là Chờ xác nhận, cái này hệ thống tự động xử lý. Trạng thái 2 là đang chế biến, với các order ở trạng thái này sẽ có nút cập nhật sang trạng thái tiếp theo là Đơn hàng đã sẵn sàng (status: 3). Tiếp tục, trạng thái Đơn hàng đã sẵn sàng sẽ có nút để cập nhật sang trạng thái Đang giao hàng (status: 4). Còn lại các trạng thái giao hàng thành công hay thất bại sẽ do đơn vị vận chuyển cập nhật. Admin chỉ chuyển từ trạng thái từ 2 -> 3 và 3 -> 4. Trong tương lai nếu xử lý đơn hàng phức tạp hơn thì mở rộng sau."
+      description: "Như đã trình bày ở API xem danh sách đơn hàng online, có tất cả là 7 trạng thái của 1 đơn hàng. Trong đó, trạng thái 1 là Chờ xác nhận, cái này hệ thống tự động xử lý. Trạng thái 2 là đang chế biến, với các order ở trạng thái này sẽ có nút cập nhật sang trạng thái tiếp theo là Đơn hàng đã sẵn sàng (status: 3). Tiếp tục, trạng thái Đơn hàng đã sẵn sàng sẽ có nút để cập nhật sang trạng thái Đang giao hàng (status: 4). Còn lại các trạng thái giao hàng thành công hay thất bại sẽ do đơn vị vận chuyển cập nhật. Admin chỉ chuyển từ trạng thái từ 1 -> 2 (hoặc 6), 2 -> 3 và 3 -> 4. Trong tương lai nếu xử lý đơn hàng phức tạp hơn thì mở rộng sau."
       requestBody: 
-        description: "Thông tin của orderId và status là trạng thái muốn cập nhật, nếu order đang ở status là 2 thì có thể chuyển sang 3 hoặc 4, còn đang ở trạng thái 3 thì chỉ chuyển sang 4. Vì thế, status trong body chỉ có thể là 3 hoặc 4"
+        description: "Thông tin của orderId và status là trạng thái muốn cập nhật, nếu order đang ở status là 1 thì có thể chuyển sang 2 hoặc 6, 2 thì có thể chuyển sang 3 hoặc 4, còn đang ở trạng thái 3 thì chỉ chuyển sang 4. Vì thế, status trong body chỉ có thể là 2, 3, 4, 6"
         content: 
           application/json:
             schema:

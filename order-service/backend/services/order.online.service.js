@@ -8,6 +8,7 @@ const calculateDistance = require('../helpers/calculate.distance')
 const Promotion = require('../models/promotion')
 const orderService = require('./order.service')
 const producer = require('./producer.rabbitmq')
+const checkValidPhoneNumber = require('../helpers/check.valid.phonenumber')
 
 class OrderOnlineService {
     validatorBodyMenuOnline = (menus, payment_method, delivery_information) => {
@@ -91,10 +92,12 @@ class OrderOnlineService {
             const note = req.body.note || ''
             const payment_method = req.body.payment_method
             const delivery_information = req.body.delivery
-            const status = payment_method === 'bank' ? 0 : 2 
-
+            let status = payment_method === 'bank' ? 0 : 2 
+            
             const checkValidator = this.validatorBodyMenuOnline(menus, payment_method, delivery_information)
             if (checkValidator !== true) return next(createError(StatusCode.BadRequest_400, checkValidator))
+            if (!checkValidPhoneNumber(delivery_information.phone_number)) 
+                return next(createError(StatusCode.BadRequest_400, 'Số điện thoại đặt hàng không hợp lệ'))
 
             const menuList = await this.getInformationMenuList(menus)
 
@@ -144,6 +147,9 @@ class OrderOnlineService {
             if (distance > MAXIMUM_DISTANCE)
                 return next(createError(StatusCode.BadRequest_400, `Khoảng cách giao hàng cách nhà hàng ${distance}, chúng tôi chỉ nhận giao hàng trong phạm vi ${MAXIMUM_DISTANCE} km`))
             const shippingFee = calculateShippingFee(distance)
+
+            const totalOrder = subtotalPrice + shippingFee - discount
+            if (totalOrder > 500000 && status === 2) status = 1
             
             const order = await new OrderOnline({
                 menu_detail: menuList,
@@ -152,18 +158,21 @@ class OrderOnlineService {
                 delivery_information: delivery_information,
                 subtotal: subtotalPrice,
                 shippingfee: shippingFee,
-                total: subtotalPrice + shippingFee - discount,
+                total: totalOrder,
                 order_person: user,
                 status: status,
                 discount: discount
             }).save()
 
-            if (payment_method === 'cod') {
+            if (payment_method === 'cod' && status !== 1) {
                 orderService.sendPrinterOrderOnline(order)
                 producer.sendQueueStatistics('online', order)
-            }
 
-            producer.sendQueueNotification(null, 'Đơn hàng mới tại website nhà hàng', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
+                producer.sendQueueNotification(null, 'Đơn hàng mới tại website nhà hàng', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
+            }
+            else if(payment_method === 'cod' && status === 1) {
+                producer.sendQueueNotification(null, 'Đơn hàng mới cần xác nhận', `Bạn có đơn hàng trực tuyến mới với mã ${order._id.toString()} từ khách hàng qua website nhà hàng`, '', 1)
+            }
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đặt đơn hàng thành công', orderId: order._id.toString(), total: order.total })
         }
@@ -218,7 +227,7 @@ class OrderOnlineService {
 
             if (!orderId || !status) return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin để cập nhật'))
 
-            if (status != 2 && status != 3 && status != 4) return next(createError(StatusCode.BadRequest_400, 'Trạng thái không hợp lệ'))
+            if (status != 2 && status != 3 && status != 4 && status != 6) return next(createError(StatusCode.BadRequest_400, 'Trạng thái không hợp lệ'))
 
             const order = await OrderOnline.findOne({ _id: orderId })
 
@@ -232,7 +241,10 @@ class OrderOnlineService {
 
             producer.sendQueueNotification(order.order_person?._id, 'Trạng thái đơn hàng đã cập nhật!', `Đơn hàng ${order._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[order.status]}`) 
 
-            if (status == 3 || status == '3') //Ready order
+            if (status == 2) 
+                orderService.sendPrinterOrderOnline(order)
+
+            if (status == 3) //Ready order
                 producer.sendQueueTms(order)
 
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Cập nhật trạng thái đơn hàng thành công' })

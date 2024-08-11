@@ -75,8 +75,7 @@ class UserService {
             const { username, password, full_name, ...rest } = req.body || null 
 
             //Check validation inputs
-            if (checkValidation(req) !== null)      
-                return next(createError(StatusCode.BadRequest_400, checkValidation(req)))      
+            if (checkValidation(req) !== null) return next(createError(StatusCode.BadRequest_400, checkValidation(req)))      
 
             const checkDuplicateUsername = await User.findOne({ _id: username, user_type : 2, status: true })
           
@@ -183,7 +182,7 @@ class UserService {
             const employee = { position, experience }
 
             //Password will be hash in mongoose's middleware
-            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee })    
+            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true })    
             newUser = await newUser.save()
 
             if (!newUser)
