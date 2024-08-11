@@ -23,25 +23,7 @@ import { getAllArea } from "../../Services/ManagementServiceAPI";
 import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
 import { verifyMail, verifyOtp } from "../../Services/Notification";
 import NotifyHeader from "./NotifyHeader";
-import io from "socket.io-client";
-import Cookies from "js-cookie";
-const items = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
-  },
-];
+
 const Header = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
@@ -60,7 +42,6 @@ const Header = () => {
   const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
-  const token = Cookies.get("accessToken");
   const fetchQr = async (tableId) => {
     try {
       const res = await getQR(tableId);
@@ -74,26 +55,6 @@ const Header = () => {
       fetchQr(table);
     }
   }, [table]);
-
-  useEffect(() => {
-    console.log(token);
-    // Connect to the Socket.IO server
-    const newSocket = io("http://localhost:5020/notification", {
-      withCredentials: true,
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    newSocket.on("connect_error", (err) => {
-      console.error("Connection error:", err.message);
-      // Handle the error, maybe redirect to login or show a message
-    });
-
-    setSocket(newSocket);
-
-    return () => newSocket.close();
-  }, []);
 
   const fetchTable = async (id) => {
     try {

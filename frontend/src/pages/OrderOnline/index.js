@@ -504,6 +504,7 @@ const OrderOnline = () => {
       // }
 
       message.success("Đặt món thành công");
+      window.reload();
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);

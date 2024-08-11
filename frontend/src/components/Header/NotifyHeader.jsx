@@ -2,8 +2,8 @@ import { BellOutlined } from "@ant-design/icons"
 import {  Popover } from "antd"
 import { useEffect, useState } from "react"
 import { fetchDataNotifi, getQuantityNotifi } from "../../Services/Notification"
-
-
+import Cookies from "js-cookie";
+import io from "socket.io-client";
   
 const NotifyContent =({data}) => {
     return (
@@ -22,7 +22,30 @@ const NotifyHeader =() => {
   const [data,setData] = useState([])
   const [qualityNotify, setQualityNotify]=useState(0)
   const [loading,setLoading]=useState(false)
+  const [socket, setSocket] = useState(null);
+  const [numberNotify, setNumberNotify] =useState(false)
+  const token = Cookies.get("accessToken");
+  useEffect(() => {
+    console.log(token);
+    // Connect to the Socket.IO server
+    const newSocket = io("http://localhost:5020/notification", {
+      auth: {
+        token: token,
+      },
+    });
+    newSocket.on("notification", (message) => {
+      console.log("Message received:", message);
+      setNumberNotify(pre => !pre)
+    });
+    newSocket.on("connect_error", (err) => {
+      console.error("Connection error:", err.message);
+      // Handle the error, maybe redirect to login or show a message
+    });
 
+    setSocket(newSocket);
+
+    return () => newSocket.close();
+  }, []);
     const handleClick=() => {
         setIsOpen(pre =>!pre)
     }
@@ -51,7 +74,7 @@ const NotifyHeader =() => {
       ])
     
     
-    },[])
+    },[numberNotify])
 return (
  
 
