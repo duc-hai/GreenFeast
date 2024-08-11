@@ -20,6 +20,7 @@ import {
   getAllArea,
   updateArea,
 } from "../../Services/ManagementServiceAPI";
+import dayjs from "dayjs";
 const AreaManagement = () => {
   const [form] = Form.useForm();
   const [listData, setListData] = useState([]);
@@ -46,6 +47,16 @@ const AreaManagement = () => {
     fetchData();
   }, []);
 
+  const handleCheckRole = (listColumns) => {
+    let user = JSON.parse(sessionStorage.getItem("user"));
+    if (user?.role !== "admin") {
+      let listNew = [...listColumns].filter(
+        (item, index) => index < listColumns?.length - 1
+      );
+      return listNew;
+    }
+    return listColumns;
+  };
   const columns = [
     {
       title: "Mã khu vực",
@@ -62,12 +73,19 @@ const AreaManagement = () => {
       dataIndex: "description",
       key: "description",
     },
+    // {
+    //   title: "Giảm giá",
+    //   dataIndex: "price_percentage",
+    //   key: "price_percentage",
+    // },
     {
-      title: "Giảm giá",
-      dataIndex: "price_percentage",
-      key: "price_percentage",
+      title: "Thời gian ",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text) => (
+        <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      ),
     },
-
     {
       title: "Thao tác",
       render: (_, record) => (
@@ -168,7 +186,8 @@ const AreaManagement = () => {
       <br />
       <br />
       <Table
-        columns={columns}
+        bordered
+        columns={handleCheckRole(columns)}
         dataSource={listData}
         pagination={false}
         scroll={{ x: "max-content" }}

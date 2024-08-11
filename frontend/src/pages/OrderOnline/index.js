@@ -504,7 +504,7 @@ const OrderOnline = () => {
       // }
 
       message.success("Đặt món thành công");
-      window.reload();
+
       setIsModalOpen(false);
     } catch (error) {
       console.log(error);
@@ -803,28 +803,30 @@ const OrderOnline = () => {
                 />
               )}
             </div>
-            <div className="flex flex-wrap  gap-6  justify-center ">
+            <div className="flex flex-wrap  gap-6  justify-between ">
               {getListMenu?.length > 0 &&
                 getListMenu?.map((item) => (
                   <div
                     key={item._id}
                     className="flex-1 basis-96 lg:grow-0 shrink"
                   >
-                    <div className="flex gap-3 flex-wrap bgr-food bg-white ">
+                    <div className="flex gap-3 flex-wrap bgr-food bg-white max-sm:justify-center">
                       <div
-                        className=" cursor-pointer w-40"
+                        className=" cursor-pointer w-40 "
                         onClick={() => {
                           setIsModalOpenDetail(item);
                         }}
                       >
                         <img
-                          className="h-[130px] aspect-video object-cover"
+                          className="w-32 h-32 aspect-video object-cover"
                           alt="logo"
                           src={item.image}
                         />
                       </div>
                       <div className="flex flex-col gap-3">
-                        <span>{item?.name}</span>
+                        <span className="max-sm:max-w-32 max-sm:whitespace-nowrap max-sm:overflow-hidden max-sm:text-ellipsis">
+                          {item?.name}
+                        </span>
                         <p>
                           Giá: <strong>{item?.price} Đ</strong>
                         </p>
