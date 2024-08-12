@@ -30,8 +30,11 @@ import {
 import dayjs from "dayjs";
 import HistoryOrderAdmin from "./HistoryOrderAdmin";
 import ListMeal from "./ListMeal";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const OrderManagement = () => {
+  const navigate = useNavigate();
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
   const [area, setArea] = useState("");
@@ -76,6 +79,7 @@ const OrderManagement = () => {
     }
     setLoading(false);
   };
+
   useEffect(() => {
     const fetchArea = async () => {
       try {
@@ -106,6 +110,10 @@ const OrderManagement = () => {
     }
   }, [area, valueArea]);
 
+  const handleOrderEmployee = (slugId) => {
+    Cookies.set("tableSlug", slugId);
+    navigate("/order/at-restaurant");
+  };
   const columns = [
     {
       title: "Mã bàn",
@@ -159,6 +167,12 @@ const OrderManagement = () => {
               >
                 <ArrowRightOutlined style={{ fontSize: "18px" }} />
               </span>
+              <Button
+                type="primary"
+                onClick={() => handleOrderEmployee(record?.slug)}
+              >
+                Nhân viên
+              </Button>
             </p>
           );
         }
@@ -226,13 +240,13 @@ const OrderManagement = () => {
   const [form1] = Form.useForm();
 
   return (
-    <div className="content-component">
+    <div className="content-component  flex-1">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Quản lý order
         </div>
       </div>
-      <div className="flex gap-1 mt-2">
+      <div className="flex gap-1 mt-1">
         <Button
           type={!tab ? "primary" : "dashed"}
           onClick={() => setTab(false)}
@@ -247,7 +261,7 @@ const OrderManagement = () => {
         <HistoryOrderAdmin />
       ) : (
         <div>
-          <div className="mt-4">
+          <div className="mt-2">
             <span className="text-lg px-4 font-medium">
               Chọn khu vực hiển thị
             </span>
@@ -265,7 +279,6 @@ const OrderManagement = () => {
             </select>
           </div>
           <br />
-          <br />
 
           <Table
             columns={columns}
@@ -275,7 +288,7 @@ const OrderManagement = () => {
                 return { ...item, key: index };
               })
             }
-            scroll={{ x: "max-content" }}
+            scroll={{ y: "calc(100vh - 400px)" }}
           />
         </div>
       )}
@@ -566,7 +579,7 @@ const OrderManagement = () => {
                       </span>
                     </span>
                   </div>
-                  <p className="py-2 font-semibold">Danh1 sách món </p>
+                  <p className="py-2 font-semibold">Danh sách món </p>
                   {/* <Table
                     columns={columnorder}
                     pagination={false}
@@ -580,6 +593,8 @@ const OrderManagement = () => {
                     scroll={{ x: "max-content" }}
                   /> */}
                   <ListMeal
+                    setIsOpen={setIsModalOpen}
+                    total={orderDetail?.total}
                     orderId={orderDetail?._id}
                     orderDetailId={item?._id}
                     data={

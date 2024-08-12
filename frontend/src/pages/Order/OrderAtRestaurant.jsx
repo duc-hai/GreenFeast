@@ -470,7 +470,9 @@ import Cookies from "js-cookie";
     };
     return (
     <>
-    <Header/>
+    <div className="mt-24">
+        <Header />
+      </div>
     {tableSlugId ?  
       <>
 
@@ -549,7 +551,7 @@ import Cookies from "js-cookie";
           <div className="flex max-md:flex max-md:flex-col">
             <Menu
               onClick={onClick}
-              className="min-w-48 max-md:hidden"
+              className="w-48 h-full max-md:hidden fixed top-24"
               style={{
                 backgroundColor:'#E4E4D0',
                 
@@ -571,8 +573,8 @@ import Cookies from "js-cookie";
               mode="horizontal"
               items={listDataCate}
             />
-            <div style={{minHeight:"95vh"}} className="bg-[#d4e3d3] px-6 ">
-              <div className="flex w-full justify-between items-end gap-3 py-3">
+            <div  className="h-full lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48">
+              <div className="flex justify-between items-end gap-3 py-3">
                 
                 <div className="flex flex-col w-20 gap-2">
                   <span className="font">Tên bàn </span>
@@ -597,15 +599,15 @@ import Cookies from "js-cookie";
                 />
               )}
             </div>
-            <div className="flex flex-wrap  gap-6  justify-between ">                {getListMenu?.length > 0 &&
+            <div className="flex flex-wrap  gap-6 justify-center">                {getListMenu?.length > 0 &&
                   getListMenu?.map((item) => (
                     <div
                      key={item._id}
-                    className="flex-1 basis-96 lg:grow-0 shrink"
+                    className="flex-1 min-w-[340px] lg:grow-0 shrink content-start"
                     >
-                      <div  className="flex gap-3 flex-wrap bgr-food bg-white max-sm:justify-center">
+                      <div  className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
                         <div
-                          className="w-40 cursor-pointer"
+                          className=" cursor-pointer"
                           onClick={() => {
                             setIsModalOpenDetail(item);
                           }}
@@ -617,7 +619,7 @@ import Cookies from "js-cookie";
                         />
                         </div>
                         <div className="flex flex-col gap-3">
-                        <span className="max-sm:max-w-32 max-sm:whitespace-nowrap max-sm:overflow-hidden max-sm:text-ellipsis">
+                        <span className="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis">
                           {item?.name}
                         </span>
                           <p>
@@ -830,7 +832,7 @@ import Cookies from "js-cookie";
                       Tiền mặt
                     </Select.Option> */}
                     <Select.Option key={2} value={"Bank"}>
-                      Bank
+                      Chuyển khoản
                     </Select.Option>
                   </Select>
                 </Form.Item>

@@ -18,25 +18,29 @@ const NotifyProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("accessToken");
   useEffect(() => {
-    console.log(token);
-    // Connect to the Socket.IO server
-    const newSocket = io("http://localhost:5020/notification", {
-      auth: {
-        token: token,
-      },
-    });
-    newSocket.on("notification", (message) => {
-      console.log("Message received:", message);
-      setNumberNotify((pre) => !pre);
-    });
-    newSocket.on("connect_error", (err) => {
-      console.error("Connection error:", err.message);
-      // Handle the error, maybe redirect to login or show a message
-    });
+    let user = JSON.parse(sessionStorage.getItem("user"));
+    if (user?.id) {
+      console.log(token);
+      // Connect to the Socket.IO server
+      const newSocket = io("http://localhost:5020/notification", {
+        auth: {
+          token: token,
+        },
+      });
 
-    setSocket(newSocket);
+      newSocket.on("notification", (message) => {
+        console.log("Message received:", message);
+        setNumberNotify((pre) => !pre);
+      });
+      newSocket.on("connect_error", (err) => {
+        console.error("Connection error:", err.message);
+        // Handle the error, maybe redirect to login or show a message
+      });
 
-    return () => newSocket.close();
+      setSocket(newSocket);
+
+      return () => newSocket.close();
+    }
   }, []);
 
   const fetchQualityNotify = async () => {

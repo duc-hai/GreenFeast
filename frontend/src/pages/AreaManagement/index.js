@@ -163,7 +163,10 @@ const AreaManagement = () => {
   };
 
   return (
-    <div className="content-component">
+    <div
+      className="content-component flex-1 "
+      style={{ minHeight: "calc(100vh - 100px)" }}
+    >
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Quản khu vực

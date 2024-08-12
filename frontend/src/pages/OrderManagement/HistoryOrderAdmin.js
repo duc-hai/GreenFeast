@@ -20,8 +20,11 @@ import {
   ClockCircleFilled,
   ClockCircleOutlined,
   CloseCircleFilled,
+  CloseCircleOutlined,
+  CloseOutlined,
   ContactsFilled,
   ContactsOutlined,
+  DeleteFilled,
   EditFilled,
   IssuesCloseOutlined,
   MailOutlined,
@@ -73,8 +76,8 @@ const HistoryOrderAdmin = () => {
     setLoading(true);
     try {
       console.log(updateStatus);
-      if (updateStatus.status < 7) {
-        let body = { ...updateStatus, status: updateStatus.status + 1 };
+      if (updateStatus.status <= 7) {
+        let body = { ...updateStatus, status: updateStatus.status };
         const res = await postUpdateStatus(body);
         if (res?.status === "success") {
           message.success(res?.message);
@@ -104,7 +107,14 @@ const HistoryOrderAdmin = () => {
     setUpdateStatus((pre) => ({
       ...pre,
       orderId: record?._id,
-      status: tempStatus?.value,
+      status: tempStatus?.value + 1,
+    }));
+  };
+  const handleCancelShipment = (record) => {
+    setUpdateStatus((pre) => ({
+      ...pre,
+      orderId: record?._id,
+      status: 6,
     }));
   };
 
@@ -167,6 +177,20 @@ const HistoryOrderAdmin = () => {
               onClick={() => handleChoseItem(record)}
             />
           </Popconfirm>
+          {text === optionStatus[0].label && (
+            <Popconfirm
+              title="Cập nhật trạng thái hủy đơn hàng?"
+              okText="Cập nhật"
+              cancelText="Đóng"
+              onConfirm={handleUpdateStatus}
+              description={"Đơn hàng sẽ bị hủy nếu bạn xác nhận"}
+            >
+              <CloseOutlined
+                className="text-red-600"
+                onClick={() => handleCancelShipment(record)}
+              />
+            </Popconfirm>
+          )}
         </div>
       ),
     },
@@ -184,9 +208,6 @@ const HistoryOrderAdmin = () => {
       align: "center",
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
-          {!record?.is_rating && (
-            <RatingMenu id={text} disabled={record?.is_rating} />
-          )}
           <DetailHistoryAdmin id={text} />
         </div>
       ),
@@ -242,7 +263,7 @@ const HistoryOrderAdmin = () => {
   return (
     <div className="flex gap-2 flex-col">
       <div className="flex gap-2 mt-2 flex-col ">
-        <span>Trạng thái :</span>
+        {/* <span>Trạng thái :</span> */}
         <Menu
           onClick={(e) => onClickMenu(e?.key)}
           mode="horizontal"
@@ -257,6 +278,7 @@ const HistoryOrderAdmin = () => {
           dataSource={dataTable || []}
           loading={loading}
           columns={columns}
+          scroll={{ y: "calc(100vh - 410px)" }}
           pagination={{
             total: totalElement,
             current: search.page,

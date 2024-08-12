@@ -117,18 +117,21 @@ const TableManagement = () => {
       title: "Mã món",
       dataIndex: "_id",
       key: "_id",
+      width: "90px",
       render: (itemId) => <span className="font-semibold">{itemId}</span>,
     },
     {
       title: "Tên món",
       dataIndex: "name",
       key: "name ",
+      width: "200px",
       render: (code) => <span className="font-semibold">{code}</span>,
     },
     {
       title: "Giá",
       dataIndex: "price",
       key: "price",
+      width: "100px",
       render: (price) => <span className="font-semibold">{price}</span>,
     },
 
@@ -136,6 +139,7 @@ const TableManagement = () => {
       title: "Hình ảnh",
       dataIndex: "image",
       key: "image",
+      width: "100px",
       render: (img) => (
         <Image width={60} className="object-cover aspect-square" src={img} />
       ),
@@ -144,6 +148,7 @@ const TableManagement = () => {
       title: "Đánh giá",
       dataIndex: "rating_average",
       key: "rating_average",
+      width: "250px",
       render: (text, record) => (
         <span className="flex items-center gap-1">
           <Rate value={Number(text)} disabled allowHalf />
@@ -154,6 +159,7 @@ const TableManagement = () => {
     },
     {
       title: "Hoạt động",
+      width: "200px",
       render: (_, record) => (
         <Space size="middle">
           <button onClick={() => editMenu(record)}>
@@ -260,7 +266,7 @@ const TableManagement = () => {
 
   return (
     <>
-      <div className="content-component">
+      <div className="content-component" style={{ width: "fit-content" }}>
         <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
           <div className="text-xl font-semibold pl-2 text-white">
             Quản lý thực đơn
@@ -293,7 +299,7 @@ const TableManagement = () => {
           columns={columns}
           dataSource={getListMenu}
           loading={loading}
-          scroll={{ x: "max-content" }}
+          scroll={{ y: "calc(100vh - 400px)" }}
           pagination={{
             total: totalElement,
             pageSize: pagination?.size,

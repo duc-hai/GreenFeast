@@ -89,7 +89,7 @@ const HistoryOrder = () => {
   ];
 
   return (
-    <div className="content-component">
+    <div className="content-component flex-1">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Lịch sử order
@@ -105,7 +105,7 @@ const HistoryOrder = () => {
           return { ...item, key: index };
         })}
         pagination={false}
-        scroll={{ x: "max-content" }}
+        scroll={{ y: "calc(100vh - 320px)" }}
       />
     </div>
   );

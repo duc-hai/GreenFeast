@@ -218,7 +218,7 @@ const OrderManagement = () => {
     <div className="content-component">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
-          Quản lý order
+          Quản lý order 1
         </div>
       </div>
       <div className="mt-4">

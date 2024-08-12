@@ -44,7 +44,7 @@ const RevenueChart = () => {
         <div className="flex items-center gap-4">
         <p>Phương thức </p>
         <Select value={dataSearch.form} className="w-32" onChange={(e)=> setDataSearch(pre => ({...pre,form:e}))} options={[
-         { value:"online", label:"Trực tuyến"},
+         { value:"online", label:"Online"},
          { value:"offline", label:"Nhà hàng"}
         ]}/>
         </div>

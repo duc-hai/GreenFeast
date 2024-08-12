@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, notification, Spin } from "antd";
+import { Button, Checkbox, Form, Input, Modal, notification, Spin } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -44,11 +44,18 @@ const Login = () => {
         description: "Đăng nhập thành công",
         icon: <CloseOutlined style={{ color: "green" }} />,
       });
+      if (!response?.data?.data?.isVerifyEmail) {
+        notification.open({
+          message: "Xác thực email",
+          description:
+            "Vui lòng xác thực email để bảo mật tài khoản và nhận các thông báo từ website",
+        });
+      }
     } catch (error) {
       notification.open({
         message: "Đăng nhập thất bại",
         description: "Đăng nhập thất bại",
-        icon: <CloseOutlined style={{ color: "red" }} />,
+        icon: <CloseOutlined style={{ color: "green" }} />,
       });
     }
     setIsLoading(false);

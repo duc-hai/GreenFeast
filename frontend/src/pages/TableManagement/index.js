@@ -139,8 +139,11 @@ const MenuManagement = () => {
   const [form] = Form.useForm();
   console.log(dataDelete);
   return (
-    <div className="content-component">
-      <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
+    <div
+      className="content-component "
+      style={{ maxWidth: "calc(100vw - 250px)", flex: 1 }}
+    >
+      <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm ">
         <div className="text-xl font-semibold pl-2 text-white">Quản lý bàn</div>
         <div>
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
@@ -206,7 +209,7 @@ const MenuManagement = () => {
             return { ...item, key: index };
           })
         }
-        scroll={{ x: "max-content" }}
+        scroll={{ y: "calc(100vh - 400px)" }}
       />
 
       <div className="modal">

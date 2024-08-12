@@ -247,7 +247,9 @@ const Order = () => {
 
   return (
     <>
-      <Header />
+      <div className="mt-24">
+        <Header />
+      </div>
       <Spin spinning={loading}>
         <Modal
           title="Xác nhận đặt món"
@@ -322,7 +324,7 @@ const Order = () => {
         <div className="flex">
           <Menu
             onClick={onClick}
-            className="ant-menu-custom display-menu-1"
+            className="min-w-48 max-md:hidden fixed top-24"
             style={{
               width: 256,
             }}
@@ -332,7 +334,7 @@ const Order = () => {
             items={listDataCate}
           />
 
-          <div className="content bg-[#d4e3d3]">
+          <div className="lg: px-4 max-sm:p-2 bg-[#d4e3d3] ml-24">
             <div className="flex w-full justify-between items-end gap-3 py-3">
               <div className="flex flex-col w-[48%] gap-2">
                 <span className="font">Chọn tầng</span>

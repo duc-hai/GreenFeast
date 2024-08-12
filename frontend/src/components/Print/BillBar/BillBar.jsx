@@ -61,7 +61,7 @@ const BillBar =() => {
     },
     ];
     return (
-        <div className="content-component">
+        <div className="content-component flex-1">
         <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
             <div className="text-xl font-semibold pl-2 text-white">
             Quản phiếu in pha chế 
@@ -79,7 +79,7 @@ const BillBar =() => {
                 onChange: (page,pageSize) => handleChangePage(page)
             }}
             
-            scroll={{ x: "max-content" }}
+            scroll={{ y: "calc(100vh - 340px)" }}
         />
         </div>
     )
