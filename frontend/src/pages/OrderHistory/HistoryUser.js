@@ -38,13 +38,13 @@ const HistoryUserTab = () => {
     setIsRating((pre) => ({ ...pre, isOpen: true, data: dataRating }));
   };
   return (
-    <div className="flex flex-column gap-2">
+    <div className="flex flex-column gap-2 mt-5">
       <Header />
 
       {isRating.data?.order.length > 0 && (
         <RatingMenu isOpen={isRating.isOpen} data={isRating.data} />
       )}
-      <div className="flex  gap-2">
+      <div className="flex  gap-2 mt-5">
         <Button
           onClick={() => setTab(false)}
           type={!tab ? "primary" : "dashed"}
