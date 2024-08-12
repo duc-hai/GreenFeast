@@ -127,17 +127,14 @@ exports.jwtTokenValidatorUser = async (req, res, next) => {
     }
 }
 
-exports.checkTokenTms = (req, res, next) => {
+exports.checkTokenTms = async (req, res, next) => {
     try {
         let token = null
         if (req.headers.authorization)
             token = req.headers.authorization.indexOf(' ') >= 0 ? req.headers.authorization.split(' ')[1] : req.headers.authorization
-        if (!token) 
-            return next(createError(StatusCode.Unauthorized_401, 'Không thể xác thực, vui lòng kiểm tra token'))
-
-        if (token != TmsInfor.token) 
-            return next(createError(StatusCode.Unauthorized_401, 'Token không hợp lệ'))
-
+        if (!token) return next(createError(StatusCode.Unauthorized_401, 'Can not authenticate, please check the token'))
+        const verified = await verify(token, process.env.TMS_ACCESS_SECRET || '')
+        if (!verified)  return next(createError(StatusCode.Unauthorized_401, 'Can not authenticate token'))
         return next()
     }
     catch (err) {

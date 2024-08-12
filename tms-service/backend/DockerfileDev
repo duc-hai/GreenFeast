@@ -14,8 +14,7 @@ COPY . .
 # the first dot is the path of the current directory where the Dockerfile is located
 # the second dot is the path of the directory containing the source code in docker, which is the "workdir" above
 
-ENV SWAGGER_SCHEMES=https
-ENV API_GATEWAY_URL=greenfeast.space/api/tms
+#RUN npm run build-src
 
 RUN npm run swagger
 

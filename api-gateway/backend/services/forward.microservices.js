@@ -174,6 +174,13 @@ class CallMicroservices {
 
         return formData
     }
+
+    simulateReceiveNewOrderTms = (req, res, next) => {
+        return res.status(200).json({
+            statusCode: 200,
+            message: 'The shipping unit has received the order',
+        })
+    }
 }
 
 module.exports = new CallMicroservices()

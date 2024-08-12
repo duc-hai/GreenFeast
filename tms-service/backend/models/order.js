@@ -13,6 +13,7 @@ const order = new Schema (
         ],
         shipping_fee: { type: Number },
         note: { type: String },
+        total: { type: Number },
         payment_method: { type: String },
         delivery_information: {
             name: { type: String },
@@ -21,11 +22,10 @@ const order = new Schema (
             ward: { type: String },
             street: { type: String }
         },
-        content: { type: String },
-        distance: { type: String },
         cod_amount: { type: Number },
         status: { type: Number },
-        delivery_notes: { type: String }
+        delivery_notes: { type: String, default: '' },
+        send_tms: { type: Boolean, default: false }
     }, {
         timestamps: true,
         collection: 'orders'

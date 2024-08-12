@@ -16,6 +16,7 @@ const generateOtp = require('../helpers/generate.otp')
 const producer = require('./producer.rabbitmq')
 const clientRedis = require('../config/connect.redis')
 const passport = require('passport')
+const checkLogin = require('../helpers/check.login')
 
 class UserService {
     //For both client and admin (1 for admin, 2 for customer)
@@ -436,6 +437,54 @@ class UserService {
                 //     }
                 // })
             })(req, res, next)
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    loginTmsAccount = async (req, res, next) => {
+        try {
+            const { username, password } = req.body || null
+
+            if (checkLogin.checkLoginTms(username, password, process.env.TMS_USERNAME, process.env.TMS_PASSWORD) === false)  return next(createError(StatusCode.BadRequest_400, 'Username or password is not correct'))
+
+            const accessToken = await jwt.sign({ username: username }, process.env.TMS_ACCESS_SECRET || '', { algorithm: 'HS256', expiresIn: '10h' })
+            const refreshToken = await jwt.sign({ username: username }, process.env.TMS_REFRESH_SECRET || '', { algorithm: 'HS256', expiresIn: '720h' })
+            
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Login successfully',
+                data: {
+                    access_token: accessToken,
+                    refresh_token: refreshToken
+                }
+            })
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    getTokenFromRefresh = async (req, res, next) => {
+        try {
+            if (!req.body.refresh_token) return next(createError(StatusCode.BadRequest_400, 'Refresh token is empty'))
+
+            const decodeRefreshToken = await verify(req.body.refresh_token, process.env.TMS_REFRESH_SECRET || '')
+
+            if (!decodeRefreshToken) return next(createError(StatusCode.BadRequest_400, 'Refresh token is not valid or expired'))
+
+            const username = decodeRefreshToken.username
+
+            if (!username) return next(createError(StatusCode.BadRequest_400, 'Error occured when decoded token'))
+
+            const accessToken = jwt.sign({ username: username }, process.env.TMS_ACCESS_SECRET || '', { algorithm: 'HS256', expiresIn: '10h' })
+                
+            return res.status(StatusCode.OK_200).json({
+                status: 'success',
+                message: 'Get new access token successfully',
+                token: accessToken,
+            })   
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 

@@ -3,15 +3,23 @@ require('dotenv').config()
 
 const doc = {
   info: {
-    title: 'My API for TMS Delivery',
+    title: 'Tài liệu API cho đơn vị vận chuyển',
     description: 'Description'
   },
-  schemes: ['https'],
+  schemes: [process.env.SWAGGER_SCHEMES],
   host: process.env.API_GATEWAY_URL,
   tags: [  
     {
-      "name": "Tms",
-      "description": "Endpoints related to user as well as account operations"
+      "name": "Auth",
+      "description": "Xác thực tài khoản và lấy API Key"
+    },
+    {
+      "name": "Receive Order",
+      "description": "Đơn vị vận chuyển sẽ cấu hình đường dẫn API để nhận thông tin đơn hàng từ nhà hàng"
+    },
+    {
+      "name": "Order",
+      "description": "Thao tác với thông tin của đơn hàng"
     }
   ],
   securityDefinitions: {

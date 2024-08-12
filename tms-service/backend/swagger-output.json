@@ -1,20 +1,28 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API for TMS Delivery",
+    "title": "Tài liệu API cho đơn vị vận chuyển",
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "greenfeast.space/api/tms",
+  "host": "localhost:3000/api/tms",
   "basePath": "/",
   "tags": [
     {
-      "name": "Tms",
-      "description": "Endpoints related to user as well as account operations"
+      "name": "Auth",
+      "description": "Xác thực tài khoản và lấy API Key"
+    },
+    {
+      "name": "Receive Order",
+      "description": "Đơn vị vận chuyển sẽ cấu hình đường dẫn API để nhận thông tin đơn hàng từ nhà hàng"
+    },
+    {
+      "name": "Order",
+      "description": "Thao tác với thông tin của đơn hàng"
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "apiKeyAuth": {
@@ -25,10 +33,268 @@
     }
   },
   "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Lấy token để xác thực với hệ thống",
+        "description": "Sử dụng username và password được cung cấp bởi hệ thống và đăng nhập, kết quả sẽ trả về một cặp khóa gồm access token (chính là API key) và Refresh token. API Key sẽ có thời hạn truy cập trong 10 tiếng, nếu hết hạn có thể dùng refresh token để lấy lại token mới để sử dụng.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Some informations about account",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "tmsforshipping"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "secretpasswordfortms"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjM0OTE2NDR9.7AIJZ_W-BHMDzV7-SfsIx6SP-15pNY8jAO2LwS4xF2k"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjYwNDc2NDR9.gWXzwQbsJAIpvVXVWy_0KAo2WGDpdE9wh-Oa7UCmubo"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Lỗi nếu đăng nhập không thành công. Status code sẽ bao gồm 400 hoặc 500 nếu lỗi và 200 nếu thành công.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Username or password is not correct"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/new-token": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Lấy token mới từ refresh token",
+        "description": "Sử dụng refresh token để lấy API Key mới",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Some informations about account",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refresh_token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjYwNDc2NDR9.gWXzwQbsJAIpvVXVWy_0KAo2WGDpdE9wh-Oa7UCmubo"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Get new access token successfully"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjYwLCJleHAiOjE3MjM0OTE2NjB9.j_COyZelJt1kRivI2uy5S-2iXZI3nyfDXcxnrg0iSik"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Lỗi nếu token sai. Status code sẽ bao gồm 400 hoặc 500 nếu lỗi và 200 nếu thành công.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "invalid signature"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/new-order": {
+      "post": {
+        "tags": [
+          "Receive Order"
+        ],
+        "summary": "Receive new order",
+        "description": "Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước và nhà hàng sẽ gọi đến API này khi có đơn hàng mới.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Thông tin đơn hàng mà nhà hàng cung cấp. Trong đó, _id là mã đơn hàng.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "menu_detail": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Chả giò"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 3
+                      }
+                    }
+                  }
+                },
+                "shipping_fee": {
+                  "type": "number",
+                  "example": 26500
+                },
+                "note": {
+                  "type": "string",
+                  "example": "Không có"
+                },
+                "payment_method": {
+                  "type": "string",
+                  "example": "Thanh toán khi nhận hàng"
+                },
+                "delivery_information": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Đức Hải"
+                    },
+                    "phone_number": {
+                      "type": "string",
+                      "example": "0123459634"
+                    },
+                    "district": {
+                      "type": "string",
+                      "example": "Quận 1"
+                    },
+                    "ward": {
+                      "type": "string",
+                      "example": "Phường Bến Nghé"
+                    },
+                    "street": {
+                      "type": "string",
+                      "example": "11 Tôn Đức Thắng"
+                    }
+                  }
+                },
+                "delivery_notes": {
+                  "type": "string",
+                  "example": ""
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "66b9ff46f24cf10d49099eab"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công. Đơn vị vận chuyển phải cấu hình phản hồi với mã phản hồi 200 (statusCode) nếu thành công và các mã lỗi khác để nhà hàng xác nhận thông tin rằng đơn vị vận chuyển đã nhận đơn hàng.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "receive order successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/update-status-order": {
       "post": {
         "tags": [
-          "Tms"
+          "Order"
         ],
         "summary": "Update delivery status",
         "description": "",
@@ -101,593 +367,6 @@
             "apiKeyAuth": []
           }
         ]
-      }
-    },
-    "/api/new-order": {
-      "post": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Receive new order",
-        "description": "Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Thông tin đơn hàng mà nhà hàng cung cấp",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "delivery_information": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "Đức Hải"
-                    },
-                    "phone_number": {
-                      "type": "string",
-                      "example": "01231234"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "Nguyễn Hữu Thọ"
-                    },
-                    "province": {
-                      "type": "string",
-                      "example": "Thành phố Hồ Chí Minh"
-                    },
-                    "district": {
-                      "type": "string",
-                      "example": "Quận 7"
-                    },
-                    "ward": {
-                      "type": "string",
-                      "example": "Phường Tân Phú"
-                    },
-                    "longitude": {
-                      "type": "string",
-                      "example": "106.7261695"
-                    },
-                    "latitude": {
-                      "type": "string",
-                      "example": "10.727068"
-                    }
-                  }
-                },
-                "order_person": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "example": "0123456789"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Lưu Đức hải"
-                    }
-                  }
-                },
-                "_id": {
-                  "type": "string",
-                  "example": "66ac7e2ba4128887d7a8e7d5"
-                },
-                "menu_detail": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "number",
-                        "example": 3
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "Đậu hũ chiên giòn"
-                      },
-                      "quantity": {
-                        "type": "number",
-                        "example": 1
-                      },
-                      "price": {
-                        "type": "number",
-                        "example": 30000
-                      }
-                    }
-                  }
-                },
-                "subtotal": {
-                  "type": "number",
-                  "example": 120000
-                },
-                "discount": {
-                  "type": "number",
-                  "example": 24000
-                },
-                "surcharge": {
-                  "type": "number",
-                  "example": 0
-                },
-                "shippingfee": {
-                  "type": "number",
-                  "example": 15000
-                },
-                "note": {
-                  "type": "string",
-                  "example": ""
-                },
-                "total": {
-                  "type": "number",
-                  "example": 111000
-                },
-                "time": {
-                  "type": "string",
-                  "example": "2024-08-02T06:33:32.196Z"
-                },
-                "payment_method": {
-                  "type": "string",
-                  "example": "bank"
-                },
-                "status": {
-                  "type": "number",
-                  "example": 3
-                },
-                "is_rating": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "__v": {
-                  "type": "number",
-                  "example": 0
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/register-tms": {
-      "post": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Create account tms to get order when it created",
-        "description": "Create account to get access token as well as website know which tms is perform",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Some informations about order",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string",
-                  "example": "duchai"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "123456"
-                },
-                "main_url": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                },
-                "sub_url": {
-                  "type": "string",
-                  "example": "http://localhost:4000"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "created account tms successfully"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "some errors"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-token": {
-      "post": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Get access token to authorize api",
-        "description": "Get token base on username ",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Some informations about account",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string",
-                  "example": "duchai"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "123456"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "get token successfully"
-                },
-                "data": {
-                  "type": "string",
-                  "example": "59495f06d24d6f1a9ada811eed0ae74d"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "some errors"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-order/{id}": {
-      "get": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Get order information by id",
-        "description": "Get order information by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Order id",
-            "schema": {
-              "type": "string",
-              "example": "665fe8ccc5a09967910db414"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "get order successfully"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "delivery_information": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "Jane Smith"
-                        },
-                        "phone_number": {
-                          "type": "string",
-                          "example": "0987654321"
-                        },
-                        "district": {
-                          "type": "string",
-                          "example": "District 3"
-                        },
-                        "ward": {
-                          "type": "string",
-                          "example": "Ward 5"
-                        },
-                        "street": {
-                          "type": "string",
-                          "example": "5678 Maple Avenue"
-                        }
-                      }
-                    },
-                    "_id": {
-                      "type": "string",
-                      "example": "666458f9d8f8927ab0cbf5f4"
-                    },
-                    "menu_detail": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "type": "number",
-                            "example": 3
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Chocolate Cake"
-                          },
-                          "quantity": {
-                            "type": "number",
-                            "example": 3
-                          }
-                        }
-                      }
-                    },
-                    "shipping_fee": {
-                      "type": "number",
-                      "example": 20
-                    },
-                    "note": {
-                      "type": "string",
-                      "example": "Ring the doorbell twice"
-                    },
-                    "payment_method": {
-                      "type": "string",
-                      "example": "Cash"
-                    },
-                    "content": {
-                      "type": "string",
-                      "example": "Birthday celebration order"
-                    },
-                    "distance": {
-                      "type": "string",
-                      "example": "3 km"
-                    },
-                    "cod_amount": {
-                      "type": "number",
-                      "example": 150
-                    },
-                    "status": {
-                      "type": "number",
-                      "example": 0
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "some errors"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/order-list": {
-      "get": {
-        "tags": [
-          "Tms"
-        ],
-        "summary": "Get order list",
-        "description": "Get order list",
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Order id",
-            "schema": {
-              "type": "string",
-              "example": "665fe8ccc5a09967910db414"
-            },
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "get order successfully"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "delivery_information": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string",
-                            "example": "Jane Smith"
-                          },
-                          "phone_number": {
-                            "type": "string",
-                            "example": "0987654321"
-                          },
-                          "district": {
-                            "type": "string",
-                            "example": "District 3"
-                          },
-                          "ward": {
-                            "type": "string",
-                            "example": "Ward 5"
-                          },
-                          "street": {
-                            "type": "string",
-                            "example": "5678 Maple Avenue"
-                          }
-                        }
-                      },
-                      "_id": {
-                        "type": "string",
-                        "example": "666458f9d8f8927ab0cbf5f4"
-                      },
-                      "menu_detail": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "number",
-                              "example": 3
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "Chocolate Cake"
-                            },
-                            "quantity": {
-                              "type": "number",
-                              "example": 3
-                            }
-                          }
-                        }
-                      },
-                      "shipping_fee": {
-                        "type": "number",
-                        "example": 20
-                      },
-                      "note": {
-                        "type": "string",
-                        "example": "Ring the doorbell twice"
-                      },
-                      "payment_method": {
-                        "type": "string",
-                        "example": "Cash"
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "Birthday celebration order"
-                      },
-                      "distance": {
-                        "type": "string",
-                        "example": "3 km"
-                      },
-                      "cod_amount": {
-                        "type": "number",
-                        "example": 150
-                      },
-                      "status": {
-                        "type": "number",
-                        "example": 0
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "some errors"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
       }
     }
   }

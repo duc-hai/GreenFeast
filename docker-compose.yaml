@@ -310,6 +310,7 @@ services:
       - DB_HOST=tmsDB # orderDB is service's name
       - API_GATEWAY_URL=https://greenfeast.space/api/tms
       - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      - TMS_NEW_ORDER_URL=https://greenfeast.space/api/simulate-tms
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5010:5010 #The first 5010 is your port local, the second 5010 is the port on docker container

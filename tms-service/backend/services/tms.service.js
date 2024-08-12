@@ -9,63 +9,12 @@ const generateKey = require('../helpers/generate.key')
 const producer = require('./producer.rabbitmq')
 
 class TmsService {
-    registerOrder = async (req, res, next) => {
-        try {
-            // #swagger.tags = ['Tms']
-            // #swagger.summary = 'Create account tms to get order when it created'
-            // #swagger.description = 'Create account to get access token as well as website know which tms is perform'
-            /*  
-                #swagger.parameters['body'] = {
-                    in: 'body',
-                    description: 'Some informations about order',
-                    schema: {
-                        "username": "duchai",
-                        "password": "123456",
-                        "main_url": "http://localhost:3000",
-                        "sub_url": "http://localhost:4000"
-                    }
-                } 
-
-                #swagger.responses[201] = {
-                    description: 'Successfully',
-                    schema: {
-                        status: 'success',
-                        message: 'created account tms successfully'
-                    }
-                }
-
-                #swagger.responses[500] = {
-                    description: 'Error',
-                    schema: {
-                        status: 'success',
-                        message: 'some errors'
-                    }
-                }
-            */
-
-            //Body validator
-            const { username, password, main_url, sub_url } = req.body
-
-            await new Tms({
-                username, password, main_url, sub_url, access_token: generateKey.generateKey(16)
-            }).save()
-
-            return res.status(StatusCodeEnum.Created_201).json({
-                status: 'success',
-                message: 'created account tms successfully'
-            })
-        }
-        catch (err) {
-            return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at sendOrder: ${err.message}`])
-        }
-    }
-
     updateStatusOrder = async (req, res, next) => {
         try {
             /* #swagger.security = [{
                 "apiKeyAuth": []
             }] */
-            // #swagger.tags = ['Tms']
+            // #swagger.tags = ['Order']
             // #swagger.summary = 'Update delivery status'
             // #swagger.description = ''
             /*  
@@ -117,46 +66,89 @@ class TmsService {
         }
     }
 
-    getToken = async (req, res, next) => {
-        // #swagger.tags = ['Tms']
-        // #swagger.summary = 'Get access token to authorize api'
-        // #swagger.description = 'Get token base on username '    
+    login = async (req, res, next) => {
+        try {
+            // #swagger.tags = ['Auth']
+            // #swagger.summary = 'Lấy token để xác thực với hệ thống'
+            // #swagger.description = 'Sử dụng username và password được cung cấp bởi hệ thống và đăng nhập, kết quả sẽ trả về một cặp khóa gồm access token (chính là API key) và Refresh token. API Key sẽ có thời hạn truy cập trong 10 tiếng, nếu hết hạn có thể dùng refresh token để lấy lại token mới để sử dụng.'    
             /*  
                 #swagger.parameters['body'] = {
                     in: 'body',
                     description: 'Some informations about account',
                     schema: {
-                        "username": "duchai",
-                        "password": "123456",
+                        "username": "tmsforshipping",
+                        "password": "secretpasswordfortms"
                     }
                 } 
 
                 #swagger.responses[200] = {
                     description: 'Successfully',
                     schema: {
-                        status: 'success',
-                        message: 'get token successfully',
-                        data: '59495f06d24d6f1a9ada811eed0ae74d'
+                        "status": "success",
+                        "message": "Login successfully",
+                        "data": {
+                            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjM0OTE2NDR9.7AIJZ_W-BHMDzV7-SfsIx6SP-15pNY8jAO2LwS4xF2k",
+                            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjYwNDc2NDR9.gWXzwQbsJAIpvVXVWy_0KAo2WGDpdE9wh-Oa7UCmubo"
+                        }
                     }
                 }
 
-                #swagger.responses[500] = {
-                    description: 'Error',
+                #swagger.responses[400] = {
+                    description: 'Lỗi nếu đăng nhập không thành công. Status code sẽ bao gồm 400 hoặc 500 nếu lỗi và 200 nếu thành công.',
                     schema: {
-                        status: 'success',
-                        message: 'some errors'
+                        "status": "error",
+                        "message": "Username or password is not correct"
                     }
                 }
             */
-        try {
-            return res.status(StatusCodeEnum.OK_200).json({
-                status: 'success',
-                message: 'get token successfully',
-                data: 'token'
+            return res.status(StatusCodeEnum.InternalServerError_500).json({
+                status: 'error',
+                message: 'This API for test'
             })
         }
         catch (err) {
-            return next([StatusCodeEnum.InternalServerError_500, 'error', `Error is occured at getToken: ${err.message}`])
+            return next([StatusCodeEnum.InternalServerError_500, 'error', `Error: ${err.message}`])
+        }
+    }
+
+    refreshToken = async (req, res, next) => {
+        try {
+            // #swagger.tags = ['Auth']
+            // #swagger.summary = 'Lấy token mới từ refresh token'
+            // #swagger.description = 'Sử dụng refresh token để lấy API Key mới'    
+            /*  
+                #swagger.parameters['body'] = {
+                    in: 'body',
+                    description: 'Some informations about account',
+                    schema: {
+                        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjQ0LCJleHAiOjE3MjYwNDc2NDR9.gWXzwQbsJAIpvVXVWy_0KAo2WGDpdE9wh-Oa7UCmubo"
+                    }
+                } 
+
+                #swagger.responses[200] = {
+                    description: 'Successfully',
+                    schema: {
+                        "status": "success",
+                        "message": "Get new access token successfully",
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRtc2ZvcnNoaXBwaW5nIiwiaWF0IjoxNzIzNDU1NjYwLCJleHAiOjE3MjM0OTE2NjB9.j_COyZelJt1kRivI2uy5S-2iXZI3nyfDXcxnrg0iSik"
+                    }
+                }
+
+                #swagger.responses[400] = {
+                    description: 'Lỗi nếu token sai. Status code sẽ bao gồm 400 hoặc 500 nếu lỗi và 200 nếu thành công.',
+                    schema: {
+                        "status": "error",
+                        "message": "invalid signature"
+                    }
+                }
+            */
+            return res.status(StatusCodeEnum.InternalServerError_500).json({
+                status: 'error',
+                message: 'This API for test'
+            })
+        }
+        catch (err) {
+            return next([StatusCodeEnum.InternalServerError_500, 'error', `Error: ${err.message}`])
         }
     }
 
@@ -308,17 +300,37 @@ class TmsService {
 
     newOrder = async (req, res, next) => {
         try {
-            // #swagger.tags = ['Tms']
+            // #swagger.tags = ['Receive Order']
             // #swagger.summary = 'Receive new order'
-            // #swagger.description = 'Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước.'    
+            // #swagger.description = 'Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước và nhà hàng sẽ gọi đến API này khi có đơn hàng mới.'    
             /*  
                 #swagger.parameters['body'] = {
                     in: 'body',
-                    description: 'Thông tin đơn hàng mà nhà hàng cung cấp',
+                    description: 'Thông tin đơn hàng mà nhà hàng cung cấp. Trong đó, _id là mã đơn hàng.',
                     schema: {
-                        "delivery_information":{"name":"Đức Hải","phone_number":"01231234","address":"Nguyễn Hữu Thọ","province":"Thành phố Hồ Chí Minh","district":"Quận 7","ward":"Phường Tân Phú","longitude":"106.7261695","latitude":"10.727068"},"order_person":{"_id":"0123456789","name":"Lưu Đức hải"},"_id":"66ac7e2ba4128887d7a8e7d5","menu_detail":[{"_id":1,"name":"Gỏi cuốn sốt đậu phộng","quantity":1,"price":90000},{"_id":3,"name":"Đậu hũ chiên giòn","quantity":1,"price":30000}],"subtotal":120000,"discount":24000,"surcharge":0,"shippingfee":15000,"note":"","total":111000,"time":"2024-08-02T06:33:32.196Z","payment_method":"bank","status":3,"is_rating":false,"__v":0
+                        menu_detail: [ { _id: 2, name: "Chả giò", quantity: 3 } ],
+                        shipping_fee: 26500,
+                        note: "Không có",
+                        payment_method: "Thanh toán khi nhận hàng",
+                        delivery_information: {
+                            name: "Đức Hải",
+                            phone_number: "0123459634",
+                            district: "Quận 1",
+                            ward: "Phường Bến Nghé",
+                            street: "11 Tôn Đức Thắng"
+                        },
+                        delivery_notes: "",
+                        _id: "66b9ff46f24cf10d49099eab",
                     }
                 } 
+
+                #swagger.responses[200] = {
+                    description: 'Thành công. Đơn vị vận chuyển phải cấu hình phản hồi với mã phản hồi 200 (statusCode) nếu thành công và các mã lỗi khác để nhà hàng xác nhận thông tin rằng đơn vị vận chuyển đã nhận đơn hàng.',
+                    schema: {
+                        statusCode: 200, 
+                        message: 'The shipping unit has received the order'
+                    }
+                }
             */
             return res.status(StatusCodeEnum.OK_200).json({
                 status: 'success',

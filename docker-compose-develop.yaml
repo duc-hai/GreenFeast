@@ -186,7 +186,7 @@ services:
     container_name: tms
     build:
       context: ./tms-service/backend #path to source backend (local)
-      dockerfile: Dockerfile
+      dockerfile: DockerfileDev
     restart: always
     environment: #override enviroment variable  (.env file)
       - DB_PORT=27022 #27018 is port of service in Docker (not localhost)
