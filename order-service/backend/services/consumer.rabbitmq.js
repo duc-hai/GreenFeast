@@ -86,7 +86,7 @@ const handleDataPayment = async message => {
         else {
             const updatedOrder = await OrderOnline.findOneAndUpdate({ _id: message.data?.orderId, status: 0 }, { status: 2 }, { returnDocument: 'after' })
 
-            producer.sendQueueStatistics('online', updatedOrder)
+            // producer.sendQueueStatistics('online', updatedOrder)
         }
     }
     catch (err) {
@@ -317,18 +317,37 @@ const receiveQueueTms = async () => {
 const handleDataTms = async(data) => {
     try {
         data = JSON.parse(data)
-
-        const orderOnline = await OrderOnline.findOneAndUpdate({ _id: data.orderId }, { status: data.status, delivery_notes: data.note || '' }, { returnDocument: 'after' })
-
-        producer.sendQueueNotification(orderOnline.order_person?._id, 'Cập nhật trạng thái vận chuyển!', `Đơn hàng ${orderOnline._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`)
-
-        producer.sendQueueNotification(null, 'Cập nhật trạng thái vận chuyển!', `Trạng thái giao hàng của đơn hàng ${orderOnline._id} đã cập nhật thành ${StatusOnlineOrder[orderOnline.status]}`, '', 1)
-
-        producer.sendQueueStatusOrder(orderOnline._id, StatusOnlineOrder[orderOnline.status], orderOnline.order_person?._id)
+        // console.log(data)
+        if (data.sendTms === true) await updateSendTms(data)
+        else await updateStatusOrder(data)
     }
     catch (err) {
         console.error(`Error occured at consumer handleDataTms: ${err.message}`)
     }
+}
+
+const updateSendTms = async data => {
+    const orderId = data.orderId
+    await OrderOnline.findOneAndUpdate({ _id: orderId }, { send_tms: true })
+}
+
+const updateStatusOrder = async data => {
+    let orderOnline
+
+    if (data.deliveryPerson) {
+        orderOnline = await OrderOnline.findOneAndUpdate({ _id: data.orderId }, { status: data.status, delivery_notes: data.note || '', delivery_person: data.deliveryPerson }, { returnDocument: 'after' })
+    }
+    else {
+        orderOnline = await OrderOnline.findOneAndUpdate({ _id: data.orderId }, { status: data.status, delivery_notes: data.note || '' }, { returnDocument: 'after' })
+    }
+
+    if (data.status == 5) producer.sendQueueStatistics('online', orderOnline)
+
+    producer.sendQueueNotification(orderOnline.order_person?._id, 'Cập nhật trạng thái vận chuyển!', `Đơn hàng ${orderOnline._id} của bạn đã cập nhật trạng thái thành ${StatusOnlineOrder[orderOnline.status]}`)
+
+    producer.sendQueueNotification(null, 'Cập nhật trạng thái vận chuyển!', `Trạng thái giao hàng của đơn hàng ${orderOnline._id} đã cập nhật thành ${StatusOnlineOrder[orderOnline.status]}`, '', 1)
+
+    producer.sendQueueStatusOrder(orderOnline._id, StatusOnlineOrder[orderOnline.status], orderOnline.order_person?._id)        
 }
 
 module.exports = {

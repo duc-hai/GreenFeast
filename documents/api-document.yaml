@@ -3926,7 +3926,8 @@ paths:
                               total: 380000,
                               time: "2024-07-07T02:57:51.923Z",
                               status: "Đã giao hàng",
-                              is_rating: false
+                              is_rating: false,
+                              send_tms: true
                             }
                         ]
    
@@ -3961,45 +3962,69 @@ paths:
           required: true
       responses:
         '200':
-            description: "Thành công. T**Updated on 29/7:** Cập nhật thêm thuộc tính is_rating là trạng thái đánh giá của đơn hàng, false là chưa đánh giá, hiện nút đánh giá cho người dùng nếu chưa đánh giá. Lưu ý là trạng thái phải là `Đã giao hàng` mới được đánh giá"
+            description: "Thành công. **Updated on 29/7:** Cập nhật thêm thuộc tính is_rating là trạng thái đánh giá của đơn hàng, false là chưa đánh giá, hiện nút đánh giá cho người dùng nếu chưa đánh giá. Lưu ý là trạng thái phải là `Đã giao hàng` mới được đánh giá"
             content:
               application/json:
                 schema:
                   type: object
                   properties: 
-                      status: 
-                        type: string
-                        example: success
-                      message: 
-                        type: string
-                        example: Lấy lịch sử đặt món thành công
-                      data: 
-                        type: object
-                        properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Lấy lịch sử đặt món thành công
+                        data: 
+                          type: object
+                          properties: 
                             delivery_information: 
                               type: object
                               properties: 
                                 name: 
                                   type: string
-                                  example: abv
+                                  example: Test Socket
                                 phone_number: 
                                   type: string
-                                  example: 023
+                                  example: 111
                                 address: 
                                   type: string
-                                  example: ddd
+                                  example: 1
+                                province: 
+                                  type: string
+                                  example: Thành phố Hồ Chí Minh
+                                district: 
+                                  type: string
+                                  example: Quận 1
+                                ward: 
+                                  type: string
+                                  example: Phường Bến Nghé
+                                longitude: 
+                                  type: string
+                                  example: 106.7032527
+                                latitude: 
+                                  type: string
+                                  example: 10.7801495
                             order_person: 
                               type: object
-                              properties: 
+                              properties:
                                 _id: 
                                   type: string
                                   example: 0123456789
                                 name: 
                                   type: string
                                   example: Lưu Đức Hải
+                            delivery_person: 
+                              type: object
+                              properties: 
+                                name: 
+                                  type: string
+                                  example: Nguyễn Văn A
+                                phone: 
+                                  type: string
+                                  example: 0329232212
                             _id: 
                               type: string
-                              example: 668ab1e913c23180e5cb8560
+                              example: 66b9d5cc890c47f1f77f2144
                             menu_detail: 
                               type: array
                               items: 
@@ -4018,74 +4043,49 @@ paths:
                                     type: number
                                     example: 80000
                               example: [
-                                {
-                                  _id: 2,
+                                  {
+                                    _id: 2,
                                   name: Chả giò,
                                   quantity: 3,
                                   price: 80000
-                                }
+                                  }
                               ]
                             subtotal: 
                               type: number
-                              example: 380000
+                              example: 240000
                             discount: 
                               type: number
-                              example: 0
+                              example: 48000
                             surcharge: 
                               type: number
                               example: 0
                             shippingfee: 
                               type: number
-                              example: 0
+                              example: 26500
                             note: 
                               type: string
-                              example: 
+                              example: 1
                             total: 
                               type: number
-                              example: 380000
+                              example: 218500
                             time: 
                               type: string
                               format: date-time
-                              example: 2024-07-07T02:57:51.923Z
+                              example: 2024-08-11T08:19:51.972Z
                             payment_method: 
                               type: string
                               example: cod
                             status: 
                               type: string
-                              example: "Đang chờ giao hàng"
-                        example: 
-                            {
-                              delivery_information: 
-                              {
-                                name: abv,
-                                phone_number: 023,
-                                address: ddd
-                              },
-                              order_person: 
-                                {
-                                  _id: 0123456789,
-                                  name: Lưu Đức Hải
-                                },
-                              _id: 668ab1e913c23180e5cb8560,
-                              menu_detail: [
-                                  {
-                                    _id: 2,
-                                    name: Chả giò,
-                                    quantity: 3,
-                                    price: 80000,
-                                  }
-                              ],
-                              subtotal: 380000,
-                              discount: 0,
-                              surcharge: 0,
-                              shippingfee: 0,
-                              note: "Ghi chú",
-                              total: 380000,
-                              time: "2024-07-07T02:57:51.923Z",
-                              payment_method: cod,
-                              status: "Đã giao hàng",
-                              is_rating: true
-                            }
+                              example: Đang giao hàng
+                            is_rating: 
+                              type: boolean
+                            send_tms: 
+                              type: boolean
+                            delivery_notes: 
+                              type: string
+                              example: Giao hang thanh cong
+
                         
    
 
@@ -5133,6 +5133,42 @@ paths:
                             example: Đặt món thành công
         '400':
             description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message." 
+  
+  /tms/resend-order:
+    post:
+      tags:
+        - order
+      summary: Gửi lại đơn hàng cho đơn vị vận chuyển
+      description: "Tại response của danh sách đơn hàng online, có trả về một tham số là send_tms với dạng boolean. False tức là đơn hàng đã xảy ra lỗi khi gửi cho đơn vị vận chuyển, true là đã gửi. Điều này đảm bảo kiểm tra rằng đơn hàng có được gửi đến bên thứ ba (vì là bên thứ 3 nên không kiểm soát được lúc nào sập hay không). Nếu send_tms là false thì hiển thị nút gửi lại đơn hàng đó cho đơn vị vận chuyển. Lưu ý rằng chỉ có trạng thái đang là Đơn hàng đã sẵn sàng thì mới hiển thị send_tms và nút gửi lại nếu false."
+      requestBody: 
+        description: "Thông tin order"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties: 
+                          orderId: 
+                            type: string
+                            example: 66b9d5cc890c47f1f77f2144
+        required: true
+
+      responses:
+        '200':
+            description: Thành công. 
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                            status: 
+                              type: string
+                              example: success
+                            message: 
+                              type: string
+                              example: Gửi lại đơn hàng thành công
+
+        '400':
+            description: "Lỗi xử lý tương tự các trường hợp API phía trên. Lấy status và message. Nếu vẫn không gửi lại được tức hệ thống vận chuyển bên kia bị lỗi, và quản lý nhà hàng phải liên hệ lại với bên vận chuyển để fix trường hợp này." 
             
   /payment/create-payment-url:
     post:

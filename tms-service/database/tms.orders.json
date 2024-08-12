@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "66ba07a1364a99b635712c21"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 3
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "1",
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Test Socket",
+    "phone_number": "111",
+    "district": "Quận 1",
+    "ward": "Phường Bến Nghé",
+    "street": "1"
+  },
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-12T13:01:21.812Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-12T13:01:21.934Z"
+  },
+  "__v": 0
+}]

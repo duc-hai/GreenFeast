@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Tài liệu API cho đơn vị vận chuyển",
-    "description": "Description",
+    "description": "Đây là tài liệu API sử dụng cho đơn vị vận chuyển các đơn hàng tại nhà hàng. Nhà hàng chỉ sử dụng một đơn vị vận chuyển duy nhất để giao các đơn hàng đến thực khách. Để bắt đầu sử dụng, vui lòng liên hệ với quản lý nhà hàng để được cấp tài khoản, mật khẩu và cấu hình endpoint API nhận đơn hàng từ nhà hàng.",
     "version": "1.0.0"
   },
   "host": "localhost:3000/api/tms",
@@ -189,7 +189,7 @@
         "tags": [
           "Receive Order"
         ],
-        "summary": "Receive new order",
+        "summary": "Nhận đơn hàng mới từ nhà hàng",
         "description": "Nhận đơn hàng mới đã sẵn sàng từ nhà hàng và shipper sẽ đến lấy hàng. Đơn vị vận chuyển sẽ cấu hình API này để nhận thông tin đơn hàng từ nhà hàng, đường dẫn đến API đã được cấu hình từ trước và nhà hàng sẽ gọi đến API này khi có đơn hàng mới.",
         "parameters": [
           {
@@ -263,6 +263,18 @@
                 "_id": {
                   "type": "string",
                   "example": "66b9ff46f24cf10d49099eab"
+                },
+                "cod_amount": {
+                  "type": "number",
+                  "example": 218500
+                },
+                "status": {
+                  "type": "number",
+                  "example": 3
+                },
+                "total": {
+                  "type": "number",
+                  "example": 218500
                 }
               }
             }
@@ -274,13 +286,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
+                "statusCode": {
+                  "type": "number",
+                  "example": 200
                 },
                 "message": {
                   "type": "string",
-                  "example": "receive order successfully"
+                  "example": "The shipping unit has received the order"
                 }
               },
               "xml": {
@@ -291,24 +303,300 @@
         }
       }
     },
+    "/get-order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Lấy danh sách đơn hàng theo trạng thái",
+        "description": "Đơn vị vận chuyển sẽ lấy được thông tin các đơn hàng tại các trạng thái khác nhau để hiển thị cũng như đối chiếu với dữ liệu của đơn hàng vận chuyển thực tế.",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Các trạng thái của đơn hàng. Bao gồm: 3: Đơn hàng đã sẵn sàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền. Nếu không truyền tham số này thì mặc định là lấy tất cả đơn hàng ở tất cả trạng thái.",
+            "type": "number",
+            "enum": [
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "required": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Số trang của danh sách muốn hiển thị. Mỗi trang sẽ có 10 đơn hàng, nếu không truyền tham số này thì mặc định số trang là 1.",
+            "type": "number",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công. Send_tms là trạng thái của đơn hàng đó đã được gửi cho đơn vị vận chuyển chưa. Pagination là kết quả phân trang, thông tin của đơn hàng là data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Get orders successfully"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "66ba1a9a76e2eff6a203e532"
+                      },
+                      "shipping_fee": {
+                        "type": "number",
+                        "example": 26500
+                      },
+                      "total": {
+                        "type": "number",
+                        "example": 218500
+                      },
+                      "cod_amount": {
+                        "type": "number",
+                        "example": 218500
+                      },
+                      "status": {
+                        "type": "number",
+                        "example": 3
+                      },
+                      "send_tms": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024-08-12T14:22:18.574Z"
+                      }
+                    }
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "currentPage": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "totalItems": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "pagesize": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "totalPage": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/detail-order/{id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Lấy chi tiết của đơn hàng",
+        "description": "Lấy chi tiết của đơn hàng dựa trên mã đơn hàng",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "66ba1a9a76e2eff6a203e532"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Get order detail successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "delivery_information": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Test Socket"
+                        },
+                        "phone_number": {
+                          "type": "string",
+                          "example": "111"
+                        },
+                        "district": {
+                          "type": "string",
+                          "example": "Quận 1"
+                        },
+                        "ward": {
+                          "type": "string",
+                          "example": "Phường Bến Nghé"
+                        },
+                        "street": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "66ba1a9a76e2eff6a203e532"
+                    },
+                    "menu_detail": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Chả giò"
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 3
+                          }
+                        }
+                      }
+                    },
+                    "shipping_fee": {
+                      "type": "number",
+                      "example": 26500
+                    },
+                    "note": {
+                      "type": "string",
+                      "example": "1"
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 218500
+                    },
+                    "payment_method": {
+                      "type": "string",
+                      "example": "Thanh toán khi nhận hàng"
+                    },
+                    "cod_amount": {
+                      "type": "number",
+                      "example": 218500
+                    },
+                    "status": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "delivery_notes": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "send_tms": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-08-12T14:22:18.574Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Lỗi không tìm thấy đơn hàng.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Order not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/update-status-order": {
       "post": {
         "tags": [
           "Order"
         ],
-        "summary": "Update delivery status",
+        "summary": "Cập nhật trạng thái đơn hàng",
         "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền, order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng",
+            "description": "Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền. Order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng. Lưu ý rằng chỉ cập nhật được đơn hàng với trạng thái hiện tại là Đã sẵn sàng hoặc Đang giao hàng. Đối với trạng thái đang giao hàng, yêu cầu đơn vị vận chuyển cung cấp thông tin người giao hàng.",
             "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "number",
-                  "example": 5
+                  "enum": [
+                    4,
+                    5,
+                    6,
+                    7
+                  ]
                 },
                 "order_id": {
                   "type": "string",
@@ -317,6 +605,19 @@
                 "delivery_notes": {
                   "type": "string",
                   "example": "Giao hang thanh cong"
+                },
+                "delivery_person": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Nguyễn Văn A"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "0329232212"
+                    }
+                  }
                 }
               }
             }
@@ -334,7 +635,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "update status order successfully"
+                  "example": "Update status order successfully"
                 }
               },
               "xml": {

@@ -37,7 +37,12 @@ const onlineOrder = new Schema (
             name: { type: String }
         },
         is_rating: { type: Boolean, default: false },
-        delivery_notes: { type: String }
+        delivery_notes: { type: String },
+        send_tms: { type: Boolean, default: false },
+        delivery_person: {
+            name: { type: String },
+            phone: { type: String }
+        }
     }, {
         collection: 'online_orders'
     }

@@ -25,7 +25,11 @@ const order = new Schema (
         cod_amount: { type: Number },
         status: { type: Number },
         delivery_notes: { type: String, default: '' },
-        send_tms: { type: Boolean, default: false }
+        send_tms: { type: Boolean, default: false },
+        delivery_person: {
+            name: { type: String },
+            phone: { type: String }
+        }
     }, {
         timestamps: true,
         collection: 'orders'

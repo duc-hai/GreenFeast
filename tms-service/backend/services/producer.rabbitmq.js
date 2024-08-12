@@ -2,9 +2,9 @@ const amqplib = require('amqplib')
 require('dotenv').config()
 const amqpUrl = process.env.AMQP_SERVER_URL_CLOUD || process.env.AMQP_SERVER_URL_DOCKER 
 
-const sendQueueOrderUpdate = async (orderId, status, note) => {
+const sendQueueOrderUpdate = async (orderId, status, note, deliveryPerson, sendTms = false) => {
     try {
-        const msg = { orderId, status, note }
+        const msg = { orderId, status, note, deliveryPerson, sendTms }
 
         //Create connection to AMQB Server (as well as Rabbit MQ Broker instance)
         const connect = await amqplib.connect(amqpUrl)

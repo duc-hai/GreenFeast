@@ -4,7 +4,7 @@ require('dotenv').config()
 const doc = {
   info: {
     title: 'Tài liệu API cho đơn vị vận chuyển',
-    description: 'Description'
+    description: 'Đây là tài liệu API sử dụng cho đơn vị vận chuyển các đơn hàng tại nhà hàng. Nhà hàng chỉ sử dụng một đơn vị vận chuyển duy nhất để giao các đơn hàng đến thực khách. Để bắt đầu sử dụng, vui lòng liên hệ với quản lý nhà hàng để được cấp tài khoản, mật khẩu và cấu hình endpoint API nhận đơn hàng từ nhà hàng.'
   },
   schemes: [process.env.SWAGGER_SCHEMES],
   host: process.env.API_GATEWAY_URL,

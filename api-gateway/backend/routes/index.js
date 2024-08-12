@@ -18,6 +18,7 @@ router.post('/payment/return', jwtTokenGuard.jwtTokenValidatorRestaurantSide, fo
 router.use('/payment', forwardService.forwardRequestWithAlias('payment'))
 router.use('/recommend', jwtTokenGuard.jwtTokenValidatorBoth, recommendService.sendRequestToService)
 router.use('/statistics', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('statistics'))
+router.post('/tms/resend-order', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('tms'))
 router.post('/tms/login', authRouter)
 router.post('/tms/new-token', authRouter)
 router.use('/tms', jwtTokenGuard.checkTokenTms, forwardService.forwardRequestWithAlias('tms'))

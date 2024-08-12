@@ -1,6 +1,7 @@
 const amqplib = require('amqplib')
 const axios = require('axios')
 const Order = require('../models/order')
+const producer = require('./producer.rabbitmq')
 require('dotenv').config()
 
 const receiveQueueNewOrder = async () => {
@@ -57,14 +58,20 @@ const handleNewOrder = async data => {
 }
 
 const sendNewOrderToTms = async order => {
+    // console.log(order)
     const response = await axios.post(process.env.TMS_NEW_ORDER_URL, order)
     // console.log('Response:', response)
     // console.log('Response:', response.data)
-    if (response.data?.statusCode == 200 || response.status == 200)
-        await Order.findOneAndUpdate({ _id: order._id}, { send_tms: true })
+    if (response.data?.statusCode == 200 || response.status == 200) {
+        const newOrder = await Order.findOneAndUpdate({ _id: order._id}, { send_tms: true })
+        await producer.sendQueueOrderUpdate(newOrder._id, null, null, null, true)
+        return true
+    }
+    return false
 }
 
 const storageNewOrderData = async data => {
+    // console.log(data)
     if (!data) return null
     try {
         const menuDetail = data.menu_detail.map(menu => {
@@ -72,6 +79,7 @@ const storageNewOrderData = async data => {
         })
 
         const order = await new Order({
+            _id: data._id,
             menu_detail: menuDetail,
             shipping_fee: data.shippingfee,
             note: data.note,
@@ -82,10 +90,10 @@ const storageNewOrderData = async data => {
                 district: data.delivery_information.district,
                 ward: data.delivery_information.ward,
                 street: data.delivery_information.address,
-                total: data.toal,
-                cod_amount: data.payment_method == 'cod' ? data.total : 0,
-                status: data.status
-            }
+            },
+            total: data.total,
+            cod_amount: data.payment_method == 'cod' ? data.total : 0,
+            status: data.status
         }).save()
 
         return order
@@ -97,4 +105,5 @@ const storageNewOrderData = async data => {
 
 module.exports = {
     receiveQueueNewOrder, 
+    sendNewOrderToTms
 }
