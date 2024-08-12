@@ -57,6 +57,9 @@ export const fetchFormPromotion = (id) => {
 export const patchUpdateProcessStatus = (data) => {
   return ApiManagementService.patch(`order/update/processing-status`, data);
 };
+export const deleteUpdateProcessStatus = (data) => {
+  return ApiManagementService.patch(`order/delete/order-menu`, data);
+};
 export const getPromotion = () => {
   return ApiManagementService.get("/promotion/get-all");
 };

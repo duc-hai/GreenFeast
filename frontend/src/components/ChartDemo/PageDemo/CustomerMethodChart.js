@@ -52,7 +52,7 @@ const CustomerMethodChart = () => {
           onChange={(e) => setDataSearch(e)}
           value={dataSearch}
           options={[
-            { value: "online", label: "Trực tuyến" },
+            { value: "online", label: "Online" },
             { value: "offline", label: "Nhà hàng" },
           ]}
         />

@@ -241,7 +241,7 @@ const Header = () => {
   const checkRole = (value, role) => {
     if (role === "customer") return itemUser;
     if (value) return itemAdmin;
-    return itemAdmin?.filter((item, index) => index !== 0);
+    return itemUser?.filter((item, index) => index === 0);
   };
   return (
     <div>
@@ -501,7 +501,7 @@ const Header = () => {
           )}
         </div>
       </Modal>
-      <nav className="navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between ">
+      <nav className=" fixed top-0 left-0 w-full z-10 h-24 navbar navbar-expand-lg navbar-light bg-memu custom flex items-center justify-between  ">
         <div className="flex items-center max-lg:hidden">
           <Link to="/">
             <img className="img-hd" alt="logo" src={"../logo.png"} />
@@ -534,9 +534,11 @@ const Header = () => {
                 <Link to="/scan-qr" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
+
                 <Link to="/order-online" style={{ fontSize: 18 }}>
                   Đặt món online
                 </Link>
+
                 {us?.role === "admin" && (
                   <Link to="/admin-chart" style={{ fontSize: 18 }}>
                     Báo cáo kinh doanh

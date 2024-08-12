@@ -72,7 +72,23 @@ const DefaultLayout = () => {
     if (routes) {
       result = routes.map((item, index) => {
         return (
-          <Route key={index} path={item.path} element={item.Conponent()} />
+          <Route
+            key={index}
+            path={item.path}
+            element={
+              <div
+                className="mt-24 "
+                style={{
+                  marginLeft: "257px",
+                  display: "flex",
+                  width: "100%",
+                  height: "calc(100vh - 100px)",
+                }}
+              >
+                {item.Conponent()}
+              </div>
+            }
+          />
         );
       });
     }
@@ -85,9 +101,9 @@ const DefaultLayout = () => {
   return (
     <>
       <Header />
-      <div className="content-body">
+      <div className="content-body ">
         <Menu
-          className="ant-menu-custom-2 display-menu-1"
+          className="ant-menu-custom-2 display-menu-1 fixed top-24 left-0 w-48"
           onClick={onClick}
           style={{
             width: 256,
@@ -101,8 +117,13 @@ const DefaultLayout = () => {
         <Routes>{showContentMenu(routers)}</Routes>
       </div>
       <div
-        class="card-footer text-center"
-        style={{ backgroundColor: "#5C9F67", color: "#fff" }}
+        class="card-footer text-center fixed bottom-0 left-0  "
+        style={{
+          backgroundColor: "#5C9F67",
+          color: "#fff",
+          marginLeft: "257px",
+          width: "100%",
+        }}
       >
         @Copyright
       </div>

@@ -1,13 +1,19 @@
 import "./index.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/Header";
+import { Button, Form, Input, message, Modal, Row } from "antd";
+import { verifyMail, verifyOtp } from "../../Services/Notification";
 
 const Homepage = () => {
   const user = sessionStorage.getItem("user");
-
+  const [code, setCode] = useState("");
+  const [us, setUs] = useState(JSON.parse(user));
   useEffect(() => {}, [user]);
   // const dataGoogle = JSON.parse(decodeURIComponent(infoUser));
-
+  const [isModalOpenEmail, setIsModalOpenEmail] = useState(
+    !!us && !us?.isVerifyEmail ? true : false
+  );
+  const [email, setEmail] = useState("");
   return (
     <>
       <Header />
@@ -158,6 +164,123 @@ const Homepage = () => {
           @Copyright
         </div>
       </div>
+      <Modal
+        className="headerModal"
+        title="Xác thực mail"
+        open={isModalOpenEmail}
+        onCancel={() => {
+          setIsModalOpenEmail(false);
+        }}
+        footer={[
+          <Button
+            key="back"
+            danger
+            onClick={() => {
+              setIsModalOpenEmail(false);
+            }}
+          >
+            ĐÓNG
+          </Button>,
+          // <Button
+          //   type="primary"
+          //   // loading={loading}
+          //   form="form"
+          //   name="form"
+          //   onClick={() => {
+          //     setIsModalOpenEmail(false);
+          //   }}
+          // >
+          //   Xác nhận
+          // </Button>,
+        ]}
+        bodyStyle={{ height: "1280" }}
+      >
+        <div className="ant_body">
+          <Form layout="vertical">
+            <Row>
+              <div className="grid grid-cols-5 items-center gap-3 w-full">
+                <div className="col-span-4">
+                  <Form.Item label="Email" name="email">
+                    <Input
+                      placeholder="Nhập địa chỉ email"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div className="translate-y-[3px]">
+                  <Button
+                    type="text"
+                    onClick={async () => {
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                      try {
+                        if (!email) {
+                          message.error("Vui lòng nhập email");
+                          return;
+                        }
+
+                        if (!emailRegex.test(email)) {
+                          message.error("Email không đúng định dạng");
+                          return;
+                        }
+                        await verifyMail({ email: email });
+                        message.success("Đã gửi mã xác nhận");
+                      } catch (e) {
+                        console.log(e);
+                        message.error("Đã có lỗi xảy ra");
+                      }
+                    }}
+                  >
+                    Gửi mã
+                  </Button>
+                </div>
+              </div>
+              <div className="grid grid-cols-5 items-center gap-3 w-full">
+                <div className="col-span-4">
+                  <Form.Item label="Nhập mã xác nhận" name="otpcode">
+                    <Input
+                      placeholder="Nhập mã xác nhận gửi về mail"
+                      onChange={(e) => {
+                        setCode(e.target.value);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div className="translate-y-[3px]">
+                  <Button
+                    type="text"
+                    onClick={async () => {
+                      try {
+                        if (!code) {
+                          message.error("Vui lòng nhập code");
+                          return;
+                        }
+                        await verifyOtp({ otp: code, userId: us?._id });
+                        message.success("Xác thực thành công");
+                        setUs({ ...us, email: email });
+                        localStorage.setItem(
+                          "user",
+                          JSON.stringify({ ...us, email: email })
+                        );
+                        setIsModalOpenEmail(false);
+                      } catch (e) {
+                        console.log(e);
+                        message.error("Mã xác thực không đúng");
+                      }
+                    }}
+                  >
+                    Xác nhận
+                  </Button>
+                </div>
+              </div>
+            </Row>
+          </Form>
+        </div>
+      </Modal>
     </>
   );
 };
