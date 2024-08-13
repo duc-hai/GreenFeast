@@ -120,7 +120,7 @@ class RatingService {
             if (!menuId) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã món ăn')) 
             const menu = await Menu.findOne({
                 _id: menuId,
-                status: true
+                // status: true
             })
             if (!menu) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy món ăn')) 
             const totalPage = menu.rating_pages

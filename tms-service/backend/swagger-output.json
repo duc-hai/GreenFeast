@@ -314,7 +314,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "Các trạng thái của đơn hàng. Bao gồm: 3: Đơn hàng đã sẵn sàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền. Nếu không truyền tham số này thì mặc định là lấy tất cả đơn hàng ở tất cả trạng thái.",
+            "description": "Các trạng thái của đơn hàng. Bao gồm: 3: Đơn hàng đã sẵn sàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy, 7: Giao không thành công. Nếu không truyền tham số này thì mặc định là lấy tất cả đơn hàng ở tất cả trạng thái.",
             "type": "number",
             "enum": [
               3,
@@ -585,7 +585,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Trả món/Hoàn tiền. Order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng. Lưu ý rằng chỉ cập nhật được đơn hàng với trạng thái hiện tại là Đã sẵn sàng hoặc Đang giao hàng. Đối với trạng thái đang giao hàng, yêu cầu đơn vị vận chuyển cung cấp thông tin người giao hàng.",
+            "description": "Thông tin trong body bao gồm trạng thái của đơn hàng, 4: Đang giao hàng, 5: Đã giao hàng, 6: Đã hủy (Giao không thành công), 7: Giao không thành công. Order_id là mã vận đơn, delivery_notes is ghi chú khi giao hàng. Lưu ý rằng chỉ cập nhật được đơn hàng với trạng thái hiện tại là Đã sẵn sàng hoặc Đang giao hàng. Đối với trạng thái đang giao hàng, yêu cầu đơn vị vận chuyển cung cấp thông tin người giao hàng.",
             "schema": {
               "type": "object",
               "properties": {
@@ -655,6 +655,94 @@
                 "message": {
                   "type": "string",
                   "example": "Status is not valid"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/query-return": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Truy vấn số tiền thu hộ và đối chiếu để gửi lại tiền đơn hàng cho nhà hàng",
+        "description": "Mỗi ngày, đơn vị vận chuyển sẽ giao hàng đến khách hàng. Đến cuối ngày, đơn vị vận chuyển sẽ đối chiếu số tiền nhận được từ đơn hàng (với phương thức thanh toán khi nhận hàng - cod) với API thống kê này của nhà hàng. Nếu trùng khớp, đơn vị vận chuyển sẽ trừ đi tiền ship và gửi lại số tiền thực nhận của đơn hàng cho bên nhà hàng. Cách tính như sau: lấy tổng giá trị đơn hàng trong ngày (phương thức cod), trừ đi tổng số tiền ship (của cả cod và bank), sẽ ra số tiền mà đơn vị vận chuyển phải gửi lại cho nhà hàng trong ngày hôm đó. Hệ thống này chỉ thống kê số tiền, không quản lý các hóa đơn chuyển tiền từ đơn vị vận chuyển. Lưu ý rằng chỉ áp dụng cho các đơn hàng giao hàng thành công, nếu đơn hàng giao không thành công thì shipper hoàn trả đơn về cho nhà hàng và nhà hàng chịu phí đơn hàng đó cũng như phí ship sẽ do đơn vị vận chuyển chịu.",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Thông tin của ngày muốn truy vấn. Định dạng là yyyy-mm-dd. Nếu không truyền thông tin này thì mặc định lấy của ngày hôm nay",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "2024-08-13"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công. Total là tổng số tiền thu hộ (bao gồm cả ship). Shippingfee là số tiền ship (bao gồm cả cod và bank). Count là số lượng đơn hàng đã giao thành công trong ngày. Return là số tiền mà đơn vị vận chuyển phải gửi lại cho nhà hàng trong ngày hôm đó. Cách tính là lấy tổng số tiền thu hộ trừ đi phí ship của ngày hôm đó.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Query return amount successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "example": 218500
+                    },
+                    "shippingfee": {
+                      "type": "number",
+                      "example": 26500
+                    },
+                    "count": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "return": {
+                      "type": "number",
+                      "example": 192000
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Lỗi sai định dạng ngày.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Format date is not valid"
                 }
               },
               "xml": {

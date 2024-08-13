@@ -4604,7 +4604,7 @@ paths:
                 4: Đang giao hàng,
                 5: Đã giao hàng,
                 6: Đã hủy
-                7: Trả món/Hoàn tiền"
+                7: Giao không thành công"
           schema:
             type: number
             example: 4
@@ -6017,3 +6017,59 @@ paths:
                       message:
                         type: string
                         example: Lỗi cũng phải bắt đầu từ đâu đó
+                        
+  /statistics/query-return:  
+    get:
+        tags:
+          - statistics
+        summary: Thống kê số tiền thu hộ của đơn vị vận chuyển
+        description: "Trong báo cáo kinh doanh, thêm một phần nữa là thống kê số tiền thu hộ của đơn vị vận chuyển. Mỗi ngày, đơn vị vận chuyển sẽ giao hàng đến khách hàng. Đến cuối ngày, đơn vị vận chuyển sẽ đối chiếu số tiền nhận được từ đơn hàng (với phương thức thanh toán khi nhận hàng - cod) với API thống kê này của nhà hàng. Nếu trùng khớp, đơn vị vận chuyển sẽ trừ đi tiền ship và gửi lại số tiền thực nhận của đơn hàng cho bên nhà hàng. Cách tính như sau: lấy tổng giá trị đơn hàng trong ngày (phương thức cod), trừ đi tổng số tiền ship (của cả cod và bank), sẽ ra số tiền mà đơn vị vận chuyển phải gửi lại cho nhà hàng trong ngày hôm đó. Hệ thống này chỉ thống kê số tiền, không quản lý các hóa đơn chuyển tiền từ đơn vị vận chuyển. Lưu ý rằng chỉ áp dụng cho các đơn hàng giao hàng thành công, nếu đơn hàng giao không thành công thì shipper hoàn trả đơn về cho nhà hàng và nhà hàng chịu phí đơn hàng đó cũng như phí ship sẽ do đơn vị vận chuyển chịu. API này hiển thị dạng bảng hoặc nội dung chớ dùng biểu đồ không được đâu."
+        parameters:
+          - in: query
+            name: date
+            description: Thông tin của ngày muốn truy vấn. Định dạng là `yyyy-mm-dd`. Nếu không truyền thông tin này thì mặc định lấy của ngày hôm nay
+            schema:
+              type: string
+              example: "2024-08-13"
+        responses:
+          '200':
+              description: "Thành công. Total là tổng số tiền thu hộ (bao gồm cả ship). Shippingfee là số tiền ship (bao gồm cả cod và bank). Count là số lượng đơn hàng đã giao thành công trong ngày. Return là số tiền mà đơn vị vận chuyển phải gửi lại cho nhà hàng trong ngày hôm đó. Cách tính là lấy tổng số tiền thu hộ trừ đi phí ship của ngày hôm đó."
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                        status: 
+                          type: string
+                          example: success
+                        message: 
+                          type: string
+                          example: Query return amount successfully
+                        data: 
+                          type: object
+                          properties: 
+                            total: 
+                              type: number
+                              example: 218500
+                            shippingfee: 
+                              type: number
+                              example: 26500
+                            count: 
+                              type: number
+                              example: 1
+                            return: 
+                              type: number
+                              example: 192000
+          '400':
+              description: "Lỗi"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties: 
+                      status:
+                        type: string
+                        example: error
+                      message:
+                        type: string
+                        example: Format date is not valid

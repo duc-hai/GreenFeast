@@ -16,8 +16,7 @@ class CallMicroservices {
         try {
             const envServiceUrl = process.env[envOfServivces[alias]]
 
-            if (!envServiceUrl)
-                return next(createError(StatusCode.InternalServerError_500, 'Không tìm thấy đường dẫn dịch vụ hợp lệ !')) 
+            if (!envServiceUrl) return next(createError(StatusCode.InternalServerError_500, 'Không tìm thấy đường dẫn dịch vụ hợp lệ !')) 
 
             //Need to format right res
             res.set({ 'content-type': 'application/json; charset=utf-8' })

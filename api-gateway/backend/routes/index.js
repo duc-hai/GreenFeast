@@ -12,6 +12,7 @@ const router = express.Router()
 const accessControl = require('../middlewares/access.control')
 
 router.post('/simulate-tms', forwardService.simulateReceiveNewOrderTms)
+router.get('/statistics/query-return', jwtTokenGuard.jwtTokenValidatorRestaurantSide, accessControl.grantAccess('readAny', 'revenue'), forwardService.forwardRequestWithAlias('tms'))
 router.use('/auth/google', googleRouter)
 router.post('/payment/querydr', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('payment'))
 router.post('/payment/return', jwtTokenGuard.jwtTokenValidatorRestaurantSide, forwardService.forwardRequestWithAlias('payment'))

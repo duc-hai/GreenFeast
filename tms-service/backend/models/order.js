@@ -22,7 +22,7 @@ const order = new Schema (
             ward: { type: String },
             street: { type: String }
         },
-        cod_amount: { type: Number },
+        cod_amount: { type: Number, default: 0 },
         status: { type: Number },
         delivery_notes: { type: String, default: '' },
         send_tms: { type: Boolean, default: false },

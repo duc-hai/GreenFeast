@@ -15,10 +15,12 @@ app.use(express.json({ limit: '50mb' }))
 consumer.receiveQueueNewOrder()
 app.use('/tms/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use('/tms', routerTms)
+app.use('/', routerTms)
 
 const HOST = process.env.HOST || '0.0.0.0' || 'localhost'
 const PORT = process.env.PORT || 5010
 
 app.listen(PORT, () => {
     console.log(`Tms service is running at http://${HOST}:${PORT}`)
+    console.log(`Tms document is available at http://${HOST}:${PORT}/tms/docs`)
 })

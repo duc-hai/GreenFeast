@@ -48,7 +48,7 @@ app.use(authenMiddleware.jwtTokenValidatorBoth, (req, res, next) => {
         let userId = ''
         if (req.body && Object.keys(req.body).length !== 0) bodyInfor = ` - [body: ${JSON.stringify(req.body)}]`
         if (req.user) userId = ` [userid: ${req.user._id}] - `
-        const ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+        const ipaddress = req.headers['x-forwarded-for'] || req.ip || req.socket.remoteAddress || 'unknown'
         const deviceId = req.headers['device-id'] || 'unknown'
         const userAgent = req.headers['user-agent'] || 'unknown'
         logger.loggerInfo.info(`${req.method} ${req.originalUrl}${bodyInfor} - ${userId}[ipAddress: ${ipaddress} - deviceId: ${deviceId} - userAgent: ${userAgent}]`)
