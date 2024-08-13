@@ -126,6 +126,7 @@ class OrderService {
                         }
                     ],
                     subtotal: subtotalPrice,
+                    total: subtotalPrice,
                     table: table._id,
                     checkin: new Date(),
                     status: false, //Unpaid
@@ -159,7 +160,10 @@ class OrderService {
                     }        
                 })
 
-                order.subtotal = order.subtotal + subtotalPrice
+                const newSubTotalPrice = order.subtotal + subtotalPrice
+
+                order.subtotal = newSubTotalPrice
+                order.total = newSubTotalPrice + order.surcharge - order.discount
 
                 await order.save()
 
@@ -898,6 +902,7 @@ class OrderService {
                     subtotal: subtotalPrice,
                     table: table._id,
                     checkin: new Date(),
+                    total: subtotalPrice,
                     status: false, //Unpaid
                 }).save()
 
@@ -918,7 +923,10 @@ class OrderService {
                     }        
                 })
 
-                order.subtotal = order.subtotal + subtotalPrice
+                const newSubTotalPrice = order.subtotal + subtotalPrice
+
+                order.subtotal = newSubTotalPrice
+                order.total = newSubTotalPrice + order.surcharge - order.discount
 
                 await order.save()
 

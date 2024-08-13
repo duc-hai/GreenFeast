@@ -24,11 +24,11 @@ const order = new Schema (
                 } 
             }
         ],
-        subtotal: { type: Number },
+        subtotal: { type: Number, default: 0 },
         discount: { type: Number, default: 0 },
         surcharge: { type: Number, default: 0 },
         note: { type: String },
-        total: { type: Number },
+        total: { type: Number, default: 0 },
         table: { type: String },
         checkin: { type: Date },
         checkout: { type: Date },
