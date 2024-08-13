@@ -73,11 +73,17 @@
         {
             "date": 1723484764450,
             "name": "logs\\error\\2024-08-13.log",
-            "hash": "dc02647bbd7e3eede241a7b8e65f61b685e64d4295e48e90f4c0c13dde4a25da"},
+            "hash": "dc02647bbd7e3eede241a7b8e65f61b685e64d4295e48e90f4c0c13dde4a25da"
+        },
         {
             "date": 1723482035001,
             "name": "logs\\error\\2024-08-13.log",
             "hash": "ea37e264d41345c5dcbeaed4d9989a9237070a7a14ef93f0f3dcf0066bdf67e6"
+        },
+        {
+            "date": 1723568408692,
+            "name": "logs\\error\\2024-08-14.log",
+            "hash": "a7aca5e53ec37d3425e4f2c00bea9ebc12927d3c1607d234e5b9e3708a616c8a"
         }
     ],
     "hashType": "sha256"

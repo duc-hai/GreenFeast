@@ -66,9 +66,73 @@ class OrderService {
         return menuData
     }
 
+    createNewOrder = async (table, tableSlug, menuData, user, userId, userName, subtotalPrice) => {
+        //Set table is served
+        await Area.findOneAndUpdate(
+            { 'table_list.slug': tableSlug },
+            { $set: { 'table_list.$.status': 1 } }
+        )
+        const order = await new Order ({
+            order_detail: [
+                {
+                    menu: menuData,
+                    time: new Date(),
+                    order_person: {
+                        _id: user._id,
+                        name: user.full_name
+                    }
+                }
+            ],
+            subtotal: subtotalPrice,
+            total: subtotalPrice,
+            table: table._id,
+            checkin: new Date(),
+            status: false, //Unpaid
+            order_person: {
+                _id: userId,
+                name: userName
+            }
+        }).save()
+
+        const getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
+
+        return { order, getOrderLatest }
+    }
+
+    addMenuToExistOrder = async (table, menuData, user, userId, userName, subtotalPrice) => {
+        const order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
+        if (!order) throw new Error('Không tìm thấy order trước đó')
+
+        if (!order.order_person?._id || !order.order_person?._id == '') {
+            order.order_person = {
+                _id: userId,
+                name: userName
+            }
+        }
+
+        order?.order_detail.push({
+            menu: menuData,
+            time: new Date(),
+            order_person: {
+                _id: user._id,
+                name: user.full_name
+            }        
+        })
+
+        const newSubTotalPrice = order.subtotal + subtotalPrice
+
+        order.subtotal = newSubTotalPrice
+        order.total = newSubTotalPrice + order.surcharge - order.discount
+
+        await order.save()
+
+        const getOrderLatest = order?.order_detail[order?.order_detail.length - 1] //Get latest times of order
+        return { order, getOrderLatest }
+    }
+
     orderMenu = async(req, res, next) => {
+        const tableSlug = req.params.tableSlug
         try {
-            const tableSlug = req.params.tableSlug
             /*
                 [
                     {
@@ -80,9 +144,7 @@ class OrderService {
                 ]
             */
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
-
-            if (!area)
-                return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đặt món không hợp lệ'))
+            if (!area) return next(createError(StatusCode.BadRequest_400, 'Đường dẫn đặt món không hợp lệ'))
 
             const menuData = await this.getMenuInforFromDB(req.body)
 
@@ -103,71 +165,18 @@ class OrderService {
             }
 
             const table = area?.table_list.find(table => table.slug === tableSlug)
-
-            let getOrderLatest
-            let order 
-
+            let getOrderLatest, order 
             //Table is available and don't have any menu
             if (table?.status == 0) {
-                //Set table is served
-                await Area.findOneAndUpdate(
-                    { 'table_list.slug': tableSlug },
-                    { $set: { 'table_list.$.status': 1 } }
-                )
-                order = await new Order ({
-                    order_detail: [
-                        {
-                            menu: menuData,
-                            time: new Date(),
-                            order_person: {
-                                _id: user._id,
-                                name: user.full_name
-                            }
-                        }
-                    ],
-                    subtotal: subtotalPrice,
-                    total: subtotalPrice,
-                    table: table._id,
-                    checkin: new Date(),
-                    status: false, //Unpaid
-                    order_person: {
-                        _id: userId,
-                        name: userName
-                    }
-                }).save()
-
-                getOrderLatest = order?.order_detail[0] //Get latest times of order, this is first time then i get 0 index
+                const createOrder = await this.createNewOrder(table, tableSlug, menuData, user, userId, userName, subtotalPrice)
+                getOrderLatest = createOrder.getOrderLatest
+                order = createOrder.order
             }
             //Table is served, this's means we need to add menu the n time
             else if (table?.status == 1) {
-                order = await Order.findOne({ table: table._id, status: false }).select({ __v: 0 })
-
-                if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy order trước đó'))
-
-                if (!order.order_person?._id || !order.order_person?._id == '') {
-                    order.order_person = {
-                        _id: userId,
-                        name: userName
-                    }
-                }
-
-                order?.order_detail.push({
-                    menu: menuData,
-                    time: new Date(),
-                    order_person: {
-                        _id: user._id,
-                        name: user.full_name
-                    }        
-                })
-
-                const newSubTotalPrice = order.subtotal + subtotalPrice
-
-                order.subtotal = newSubTotalPrice
-                order.total = newSubTotalPrice + order.surcharge - order.discount
-
-                await order.save()
-
-                getOrderLatest = order?.order_detail[order?.order_detail.length - 1] //Get latest times of order
+                const addMenuToOrder = await this.addMenuToExistOrder(table, menuData, user, userId, userName, subtotalPrice)
+                getOrderLatest = addMenuToOrder.getOrderLatest
+                order = addMenuToOrder.order
             }
             
             this.sendPrinterFood(order, getOrderLatest)
@@ -308,13 +317,13 @@ class OrderService {
     //
     async getPromotions(req, res, next) {
         try {   
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const today = new Date()
+            today.setHours(0, 0, 0, 0)
             const promotions = await Promotion.find({ 
                 status: true,
                 start_at: { $lte: today },
                 end_at: { $gte: today }
-            }).sort({ _id: -1 }).lean();
+            }).sort({ _id: -1 }).lean()
 
             return res.status(200).json({
                 status: 'success',
