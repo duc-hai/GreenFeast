@@ -94,6 +94,7 @@ const Header = () => {
         console.log(error);
       }
     };
+
     fetchArea();
   }, []);
 

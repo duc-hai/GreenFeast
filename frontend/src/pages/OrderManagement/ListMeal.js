@@ -1,4 +1,4 @@
-import { Button, message, Select, Spin, Table } from "antd";
+import { Button, Checkbox, message, Select, Spin, Table } from "antd";
 import { useState } from "react";
 import {
   deleteUpdateProcessStatus,
@@ -16,9 +16,17 @@ const optionUpDateStatus = [
   },
 ];
 
-const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
+const ListMeal = ({
+  id,
+  data,
+  orderId,
+  orderDetailId,
+  total,
+  setTriggerData,
+}) => {
   const [loading, setLoading] = useState(false);
-
+  const [dataTable, setDataTable] = useState(data);
+  const [status, setStatus] = useState(null);
   const updateStatus = (orderStatus) => {
     fetchUpdateProcessStatus(orderStatus);
   };
@@ -40,7 +48,11 @@ const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
         message.error(res?.message);
       } else {
         message.success("Cập nhật trạng thái thành công");
-        setIsOpen((pre) => !pre);
+        setTriggerData((pre) => ({
+          ...pre,
+          id: id,
+          open: !pre.open,
+        }));
       }
     } catch (err) {
       console.log(err);
@@ -57,8 +69,13 @@ const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
       if (res?.status === "error") {
         message.error(res?.message);
       } else {
+        setTriggerData((pre) => ({
+          ...pre,
+          id: id,
+          open: !pre.open,
+        }));
         message.success("Cập nhật trạng thái thành công");
-        setIsOpen((pre) => !pre);
+        // setTriggerData((pre) => !pre);
       }
     } catch (err) {
       console.log(err);
@@ -67,6 +84,17 @@ const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
     setLoading(false);
   };
 
+  const handleUpdateAll = (data) => {
+    fetchUpdateProcessStatus(data);
+  };
+
+  const checkStatus = (value, idStatus) => {
+    if (value) {
+      setStatus(idStatus);
+    } else {
+      setStatus(null);
+    }
+  };
   const columnOrder = [
     {
       title: "Tên món",
@@ -139,7 +167,7 @@ const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
                 <Button
                   type="link"
                   onClick={() => deleteUpdateStatus(record)}
-                  disabled={!(total >= 500000 || total * -1 >= 500000)}
+                  // disabled={!(total >= 500000 || total * -1 >= 500000)}
                 >
                   Hủy
                 </Button>
@@ -152,12 +180,48 @@ const ListMeal = ({ data, orderId, orderDetailId, total, setIsOpen }) => {
     },
   ];
   return (
-    <Table
-      columns={columnOrder}
-      pagination={false}
-      dataSource={data}
-      scroll={{ x: "max-content" }}
-    />
+    <div>
+      {data.length > 0 && (
+        <div>
+          <div className="flex items-center gap-6">
+            <Button
+              type="text"
+              onClick={() =>
+                handleUpdateAll({
+                  orderId: orderId,
+                  orderDetailId: orderDetailId,
+                  status: status,
+                })
+              }
+            >
+              Cập nhật tất cả{" "}
+            </Button>
+            <div className="flex gap-4">
+              <div className="flex flex-col justify-center items-center">
+                <p>Đang chế biến</p>
+                <Checkbox
+                  checked={!!(status === 0)}
+                  onChange={(e) => checkStatus(e.target.checked, 0)}
+                />
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <p>Đã lên món</p>
+                <Checkbox
+                  checked={!!(status === 1)}
+                  onChange={(e) => checkStatus(e.target.checked, 1)}
+                />
+              </div>
+            </div>
+          </div>
+          <Table
+            columns={columnOrder}
+            pagination={false}
+            dataSource={data}
+            scroll={{ x: "max-content" }}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -69,6 +69,7 @@ import Cookies from "js-cookie";
     const [loading, setLoading] = useState(false);
     const [textSearch, setTextSearch] = useState("");
     const tableSlugId =Cookies.get("tableSlug");
+    const nameTableCheck =Cookies.get("nameTable");
     const onSearch = (e) => {
       setTextSearch(e.target.value);
     };
@@ -124,7 +125,10 @@ import Cookies from "js-cookie";
       if(res?.status ==='success' && (!!res?.data?.vnpUrl)){
 
         message.success('Thanh toán thành công')
-        window.open(res?.data?.vnpUrl,'_blank')
+        // window.open(res?.data?.vnpUrl,'_blank')
+        Cookies.remove('tableSlug');
+            Cookies.remove('nameTable');
+        window.open(res?.data?.vnpUrl,'_self')
       }
     }
     catch(err){
@@ -142,7 +146,7 @@ import Cookies from "js-cookie";
     try {
       if (values.payment_method === undefined) {
         message.error("Vui lòng chọn loại thanh toán");
-        return;
+        return; 
       }
       await closeTable(tableSlug, values);
       await fetchData(area);
@@ -152,7 +156,8 @@ import Cookies from "js-cookie";
       message.success("Đóng bàn thành công");
     } catch (error) {
       console.log(error);
-      message.error("Đóng bàn thất bại");
+      console.log(error)
+      message.error(error?.response?.data?.message);
     }
     fetchData(area);
     setIsModalCloseTable(false);
@@ -199,7 +204,9 @@ import Cookies from "js-cookie";
     };
   
     useEffect(() => {
-      fetchDataByKeywork(textSearch);
+      if (textSearch?.length > 0) {
+        fetchDataByKeywork(textSearch);
+      }
     }, [textSearch]);
   
     // useEffect(() => {
@@ -352,7 +359,7 @@ import Cookies from "js-cookie";
         fetchMenuList(1, pagination.size);
         setPagination((pre) => ({ ...pre, isShow: true }));
       } else{
-        setPagination((pre) => ({ ...pre, isShow: false }));
+        setPagination((pre) => ({ ...pre,page:1 ,isShow: false }));
         fetchDataByCate(e?.key);
       } 
     };
@@ -573,161 +580,164 @@ import Cookies from "js-cookie";
               mode="horizontal"
               items={listDataCate}
             />
-            <div  className="h-full lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48">
-              <div className="flex justify-between items-end gap-3 py-3">
-                
-                <div className="flex flex-col w-20 gap-2">
-                  <span className="font">Tên bàn </span>
-                  <Input value={nameTable}disabled/>
+            <div  className="w-full bg-[#d4e3d3] flex"
+              style={{ minHeight: "100vh" }}>
+
+              <div  className="h-full lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48 flex-1">
+                <div className="flex justify-between items-end gap-3 py-3 ">
+                  <div className="flex flex-col w-20 gap-2">
+                    <span className="font">Tên bàn </span>
+                    <Input value={nameTable || nameTableCheck}disabled/>
+                  </div>
+                  <div>
+                    <Search
+                      placeholder="Tìm kiếm ..."
+                      allowClear
+                      onChange={onSearch}
+                      style={{ width: 250 }}
+                    />
+                  </div>
+                  
                 </div>
                 <div>
-                  <Search
-                    placeholder="Tìm kiếm ..."
-                    allowClear
-                    onChange={onSearch}
-                    style={{ width: 250 }}
+                {!loading && pagination.isShow && (
+                  <Pagination
+                    defaultCurrent={pagination.page}
+                    total={Number(pagination.total) || 0}
+                    onChange={onShowSizeChange}
                   />
-                </div>
-                
+                )}
               </div>
-              <div>
-              {!loading && pagination.isShow && (
-                <Pagination
-                  defaultCurrent={pagination.page}
-                  total={Number(pagination.total) || 0}
-                  onChange={onShowSizeChange}
-                />
-              )}
-            </div>
-            <div className="flex flex-wrap  gap-6 justify-center">                {getListMenu?.length > 0 &&
-                  getListMenu?.map((item) => (
-                    <div
-                     key={item._id}
-                    className="flex-1 min-w-[340px] lg:grow-0 shrink content-start"
-                    >
-                      <div  className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
-                        <div
-                          className=" cursor-pointer"
-                          onClick={() => {
-                            setIsModalOpenDetail(item);
-                          }}
-                        >
-                          <img
-                          className="w-32 h-32 aspect-video object-cover"
-                          alt="logo"
-                          src={item.image}
-                        />
-                        </div>
-                        <div className="flex flex-col gap-3">
-                        <span className="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis">
-                          {item?.name}
-                        </span>
-                          <p>
-                            Giá: <strong>{item?.price} Đ</strong>
+              <div className="flex flex-wrap  gap-6 justify-center">                {getListMenu?.length > 0 &&
+                    getListMenu?.map((item) => (
+                      <div
+                      key={item._id}
+                      className="flex-1 min-w-[340px] lg:grow-0 shrink content-start"
+                      >
+                        <div  className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
+                          <div
+                            className=" cursor-pointer"
+                            onClick={() => {
+                              setIsModalOpenDetail(item);
+                            }}
+                          >
+                            <img
+                            className="w-32 h-32 aspect-video object-cover"
+                            alt="logo"
+                            src={item.image}
+                          />
+                          </div>
+                          <div className="flex flex-col gap-3">
+                          <span className="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {item?.name}
+                          </span>
+                            <p>
+                              Giá: <strong>{item?.price} Đ</strong>
+                            </p>
+                            <p className="flex items-center">
+                            
+                            <Rate allowHalf value={item?.rating_average || 0} />
+                            <span>{`(${item?.rating_count || 0})`}</span>
                           </p>
-                          <p className="flex items-center">
-                          
-                          <Rate allowHalf value={item?.rating_average || 0} />
-                          <span>{`(${item?.rating_count || 0})`}</span>
-                        </p>
-                          <p className="flex items-center gap-3">
-                            <button
-                              className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
-                              onClick={() => {
-                                setOrder((preOrder) => {
-                                  const index = preOrder.findIndex(
-                                    (i) => i.id === item._id
-                                  );
-                                  if (index === -1) {
-                                    return [
-                                      ...preOrder,
-                                      {
-                                        key: item._id,
-                                        id: item._id,
-                                        quantity: 1,
-                                        price: item.price,
-                                        name: item.name,
-                                      },
-                                    ];
-                                  }
-                                  if (preOrder[index].quantity === 0) {
-                                    message.error("Số lượng không hợp lệ");
-                                    preOrder[index].quantity = 0;
-                                  } else {
-                                    preOrder[index].quantity -= 1;
-                                  }
-                                  return [...preOrder];
-                                });
-                              }}
-                            >
-                              -
-                            </button>
-                            <span style={{ padding: "0px 8px" }}>
-                              {order?.find((i) => i.id === item._id)?.quantity ||
-                                0}
-                            </span>
-                            <button
-                              className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
-                              onClick={() => {
-                                setOrder((preOrder) => {
-                                  const index = preOrder.findIndex(
-                                    (i) => i.id === item._id
-                                  );
-                                  if (index === -1) {
-                                    return [
-                                      ...preOrder,
-                                      {
-                                        key: item._id,
-                                        id: item._id,
-                                        quantity: 1,
-                                        price: item.price,
-                                        name: item.name,
-                                      },
-                                    ];
-                                  }
-                                  preOrder[index].quantity += 1;
-                                  return [...preOrder];
-                                });
-                              }}
-                            >
-                              +
-                            </button>
-                          </p>
+                            <p className="flex items-center gap-3">
+                              <button
+                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                onClick={() => {
+                                  setOrder((preOrder) => {
+                                    const index = preOrder.findIndex(
+                                      (i) => i.id === item._id
+                                    );
+                                    if (index === -1) {
+                                      return [
+                                        ...preOrder,
+                                        {
+                                          key: item._id,
+                                          id: item._id,
+                                          quantity: 1,
+                                          price: item.price,
+                                          name: item.name,
+                                        },
+                                      ];
+                                    }
+                                    if (preOrder[index].quantity === 0) {
+                                      message.error("Số lượng không hợp lệ");
+                                      preOrder[index].quantity = 0;
+                                    } else {
+                                      preOrder[index].quantity -= 1;
+                                    }
+                                    return [...preOrder];
+                                  });
+                                }}
+                              >
+                                -
+                              </button>
+                              <span style={{ padding: "0px 8px" }}>
+                                {order?.find((i) => i.id === item._id)?.quantity ||
+                                  0}
+                              </span>
+                              <button
+                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                onClick={() => {
+                                  setOrder((preOrder) => {
+                                    const index = preOrder.findIndex(
+                                      (i) => i.id === item._id
+                                    );
+                                    if (index === -1) {
+                                      return [
+                                        ...preOrder,
+                                        {
+                                          key: item._id,
+                                          id: item._id,
+                                          quantity: 1,
+                                          price: item.price,
+                                          name: item.name,
+                                        },
+                                      ];
+                                    }
+                                    preOrder[index].quantity += 1;
+                                    return [...preOrder];
+                                  });
+                                }}
+                              >
+                                +
+                              </button>
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-              </div>
-              <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
-                <span className="font-medium text-xl">
-                  Tổng tiền :{" "}
-                  {order?.length > 0
-                    ? order
-                        ?.reduce((a, b) => a + b.price * b.quantity, 0)
-                        .toLocaleString()
-                    : 0}
-                  đ
-                </span>
-                <div className="grid gap-4 grid-cols-2">
-                    <Button onClick={()=> handleOpenListOrderDetail()}  
-                    className="h-[40px] w-[140px] bg-white">
-                        Xem lại danh sách
-                    </Button>
-                <Button
-                  type="primary"
-                  className="h-[40px] w-[140px]"
-                  onClick={() => {
-                    setOrder(order?.filter((item) => item.quantity > 0));
-                    if (order?.length === 0 || !order) {
-                      message.error("Vui lòng chọn món");
-                      return;
-                    } else {
-                      setIsModalOpen(true);
-                    }
-                  }}
-                >
-                  Đặt món
-                </Button>
+                    ))}
+                </div>
+                <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
+                  <span className="font-medium text-xl">
+                    Tổng tiền :{" "}
+                    {order?.length > 0
+                      ? order
+                          ?.reduce((a, b) => a + b.price * b.quantity, 0)
+                          .toLocaleString()
+                      : 0}
+                    đ
+                  </span>
+                  <div className="grid gap-4 grid-cols-2">
+                      <Button onClick={()=> handleOpenListOrderDetail()}  
+                      className="h-[40px] w-[140px] bg-white">
+                          Xem lại danh sách
+                      </Button>
+                  <Button
+                    type="primary"
+                    className="h-[40px] w-[140px]"
+                    onClick={() => {
+                      setOrder(order?.filter((item) => item.quantity > 0));
+                      if (order?.length === 0 || !order) {
+                        message.error("Vui lòng chọn món");
+                        return;
+                      } else {
+                        setIsModalOpen(true);
+                      }
+                    }}
+                  >
+                    Đặt món
+                  </Button>
+                  </div>
                 </div>
               </div>
             </div>

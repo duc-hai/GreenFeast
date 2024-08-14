@@ -44,11 +44,12 @@ const OrderManagement = () => {
   const [tableId, setTableId] = useState("");
   const [isModalCloseTable, setIsModalCloseTable] = useState(false);
   const [tableSlug, setTableSlug] = useState("");
-  const [exportBuill, setExportBuill] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [dataPromotion, setDataPromotion] = useState([{}]);
-
+  const [triggerData, setTriggerData] = useState({ id: null, open: false });
   const [tab, setTab] = useState(false);
+
   const fetchPromotion = async () => {
     try {
       const res = await getPromotion();
@@ -58,6 +59,9 @@ const OrderManagement = () => {
     }
   };
 
+  useEffect(() => {
+    if (triggerData.id) fetchDataOrderDetail(triggerData.id);
+  }, [triggerData.open]);
   useEffect(() => {
     fetchPromotion();
   }, []);
@@ -71,8 +75,8 @@ const OrderManagement = () => {
     setLoading(true);
     try {
       const res = await viewDetailOrder(id);
-      const resBill = await printBill(id);
-      setExportBuill(resBill.data);
+      // const resBill = await printBill(id);
+      // setExportBuill(resBill.data);
       setOrderDetail(res.data);
     } catch (error) {
       console.log(error);
@@ -80,6 +84,27 @@ const OrderManagement = () => {
     setLoading(false);
   };
 
+  const fetchBillDetail = async (id) => {
+    setLoading(true);
+    try {
+      const resBill = await printBill(id);
+      if (resBill?.status === "success") {
+        // setExportBuill(resBill.data);
+
+        window.open(resBill.data, "_blank");
+
+        message.success("In hóa đơn thành công");
+      } else {
+        message.error("In hóa đơn thất bại");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  const hanlePrintBill = (id) => {
+    fetchBillDetail(id);
+  };
   useEffect(() => {
     const fetchArea = async () => {
       try {
@@ -226,9 +251,9 @@ const OrderManagement = () => {
         message.error("Vui lòng chọn loại thanh toán");
         return;
       }
+      message.success("Đóng bàn thành công");
       await closeTable(tableSlug, values);
       await fetchData(area);
-      message.success("Đóng bàn thành công");
     } catch (error) {
       console.log(error);
       message.error("Đóng bàn thất bại");
@@ -238,7 +263,10 @@ const OrderManagement = () => {
   };
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
-
+  const checkOrderMenu = (data) => {
+    let check = data.find((item) => item.menu.length > 0);
+    return !!check;
+  };
   return (
     <div className="content-component  flex-1">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -391,7 +419,7 @@ const OrderManagement = () => {
           bodyStyle={{ height: "1280" }}
         >
           <Form layout="vertical" form={form} name="form">
-            {orderDetail?.order_detail?.length ? (
+            {orderDetail?.order_detail?.length > 0 ? (
               orderDetail?.order_detail.map((item) => (
                 <div className="ant_body">
                   <div className="flex flex-col gap-1">
@@ -528,14 +556,16 @@ const OrderManagement = () => {
           onCancel={handleCancel}
           footer={[
             <Button
-              onClick={() => {
-                handleCancel();
-              }}
+              // onClick={() => {
+              //   handleCancel();
+              // }}
+              onClick={() => hanlePrintBill(tableSlug)}
               type="text"
             >
-              <a href={exportBuill} target="_blank" className="no-underline">
+              Xuất khóa đơn
+              {/* <a href={exportBuill} target="_blank" className="no-underline">
                 Xuất khóa đơn
-              </a>
+              </a> */}
             </Button>,
             <Button
               onClick={() => {
@@ -551,36 +581,41 @@ const OrderManagement = () => {
           {loading ? (
             <Spin />
           ) : orderDetail?.order_detail?.length ? (
-            <div className="flex flex-col gap-4">
-              {orderDetail?.order_detail.map((item) => (
-                <div className="ant_body">
-                  <div className="flex flex-col gap-1">
-                    <span>
-                      Thời gian đặt:{"  "}
-                      <span className="font-semibold">
-                        {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
-                      </span>
-                    </span>
-                    <span>
-                      Giảm giá:{" "}
-                      <span className="font-semibold">
-                        {" "}
-                        {orderDetail?.discount > 0
-                          ? `${orderDetail?.discount.toLocaleString()} VNĐ`
-                          : "Không giảm giá"}
-                      </span>
-                    </span>
-                    <span>
-                      Người đặt:{" "}
-                      <span className="font-semibold">
-                        {" "}
-                        {orderDetail?.order_detail?.length > 0 &&
-                          item?.order_person?.name}{" "}
-                      </span>
-                    </span>
-                  </div>
-                  <p className="py-2 font-semibold">Danh sách món </p>
-                  {/* <Table
+            <div
+              className="flex flex-col gap-4"
+              style={{ maxHeight: "60vh", overflowY: "auto" }}
+            >
+              {orderDetail?.order_detail.map(
+                (item) =>
+                  item?.menu?.length > 0 && (
+                    <div className="ant_body">
+                      <div className="flex flex-col gap-1">
+                        <span>
+                          Thời gian đặt:{"  "}
+                          <span className="font-semibold">
+                            {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                          </span>
+                        </span>
+                        <span>
+                          Giảm giá:{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {orderDetail?.discount > 0
+                              ? `${orderDetail?.discount.toLocaleString()} VNĐ`
+                              : "Không giảm giá"}
+                          </span>
+                        </span>
+                        <span>
+                          Người đặt:{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {orderDetail?.order_detail?.length > 0 &&
+                              item?.order_person?.name}{" "}
+                          </span>
+                        </span>
+                      </div>
+                      <p className="py-2 font-semibold">Danh sách món </p>
+                      {/* <Table
                     columns={columnorder}
                     pagination={false}
                     dataSource={
@@ -592,21 +627,26 @@ const OrderManagement = () => {
                     }
                     scroll={{ x: "max-content" }}
                   /> */}
-                  <ListMeal
-                    setIsOpen={setIsModalOpen}
-                    total={orderDetail?.total}
-                    orderId={orderDetail?._id}
-                    orderDetailId={item?._id}
-                    data={
-                      orderDetail?.order_detail?.length > 0 &&
-                      item?.menu?.length > 0 &&
-                      item.menu.map((item, index) => {
-                        return { ...item, key: index };
-                      })
-                    }
-                  />
-                </div>
-              ))}
+                      <ListMeal
+                        id={tableSlug}
+                        setTriggerData={setTriggerData}
+                        total={orderDetail?.total}
+                        orderId={orderDetail?._id}
+                        orderDetailId={item?._id}
+                        data={
+                          orderDetail?.order_detail?.length > 0 &&
+                          item?.menu?.length > 0 &&
+                          item.menu.map((item, index) => {
+                            return { ...item, key: index };
+                          })
+                        }
+                      />
+                    </div>
+                  )
+              )}
+              {!checkOrderMenu(orderDetail?.order_detail) && (
+                <p>Bàn này chưa được đặt món!</p>
+              )}
               <p className=" flex gap-2 mt-3">
                 <span>Tổng giá:</span>
                 <span className="font-semibold text-green-700">

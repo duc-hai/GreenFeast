@@ -30,6 +30,7 @@ const CheckTokenOrder =() => {
             // navigate("/order/at-restaurant")
             message.success(res?.message || "Đã tìm thấy bàn hợp lệ")
             Cookies.set('tableSlug', token);
+            Cookies.set('nameTable', res?.data?._id);
            }
            console.log(res)
         }
