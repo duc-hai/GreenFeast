@@ -229,7 +229,7 @@ const TableManagement = () => {
           return { ...item, key: index };
         })}
         pagination={false}
-        scroll={{ y: "calc(100vh - 500px)" }}
+        scroll={{ y: "calc(100vh - 300px)" }}
       />
 
       <div className="modal">

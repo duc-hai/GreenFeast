@@ -77,7 +77,7 @@ const DetailHistory = ({ id }) => {
         {loading ? (
           <Spin />
         ) : (
-          <div className="flex flex-column  gap-2">
+          <div className="flex flex-column  gap-2 max-h-96 overflow-auto">
             <div>
               <p>
                 <span className="font-semibold">Bàn :</span>
@@ -95,19 +95,24 @@ const DetailHistory = ({ id }) => {
               </p>
             </div>
             <div className="flex flex-column  gap-2">
-              {dataDetail?.order_detail?.map((item) => (
-                <div>
-                  <p className="font-semibold">{item?.order_person?.name}</p>
-                  <div>
-                    <p className="font-semibold">Chi tiết món ăn</p>
-                    <Table
-                      columns={columns}
-                      dataSource={item?.menu}
-                      pagination={false}
-                    />
-                  </div>
-                </div>
-              ))}
+              {dataDetail?.order_detail?.map(
+                (item) =>
+                  item?.menu.length > 0 && (
+                    <div>
+                      <p className="font-semibold">
+                        {item?.order_person?.name}
+                      </p>
+                      <div>
+                        <p className="font-semibold">Chi tiết món ăn</p>
+                        <Table
+                          columns={columns}
+                          dataSource={item?.menu}
+                          pagination={false}
+                        />
+                      </div>
+                    </div>
+                  )
+              )}
             </div>
           </div>
         )}

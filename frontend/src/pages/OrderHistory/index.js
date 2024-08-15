@@ -89,12 +89,16 @@ const OrderHistory = () => {
     fetchHistoryList();
   }, []);
   return (
-    <>
+    <div className="m-3">
       {loading ? (
         <Spin />
       ) : (
-        <div className="m-3">
-          <Table dataSource={listHistory} columns={columns} />;
+        <div>
+          <Table
+            dataSource={listHistory}
+            columns={columns}
+            scroll={{ y: "calc(100vh - 300px)" }}
+          />
         </div>
       )}
       <Modal
@@ -113,7 +117,7 @@ const OrderHistory = () => {
           <FormDetailHistory detailData={detailHistory} />
         )}
       </Modal>
-    </>
+    </div>
   );
 };
 export default OrderHistory;

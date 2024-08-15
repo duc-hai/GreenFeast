@@ -68,7 +68,15 @@ const HistoryAtRestaurant = () => {
   ];
   return (
     <div>
-      {loading ? <Spin /> : <Table dataSource={dataTable} columns={columns} />}
+      {loading ? (
+        <Spin />
+      ) : (
+        <Table
+          dataSource={dataTable}
+          columns={columns}
+          scroll={{ y: "calc(100vh - 300px)" }}
+        />
+      )}
     </div>
   );
 };

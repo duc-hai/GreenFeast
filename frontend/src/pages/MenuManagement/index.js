@@ -299,7 +299,7 @@ const TableManagement = () => {
           columns={columns}
           dataSource={getListMenu}
           loading={loading}
-          scroll={{ y: "calc(100vh - 400px)" }}
+          scroll={{ y: "calc(100vh - 380px)" }}
           pagination={{
             total: totalElement,
             pageSize: pagination?.size,

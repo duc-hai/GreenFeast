@@ -783,7 +783,7 @@ import Cookies from "js-cookie";
           <Form layout="vertical" form={form} name="form">
             {orderDetail?.order_detail?.length ? (
             orderDetail?.order_detail?.map(item => (
-
+              item?.menu?.length > 0 &&
               <div className="ant_body" style={{margin:'0px 10px'}}>
                 <div className="flex flex-col gap-1">
                   <span>

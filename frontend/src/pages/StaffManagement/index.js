@@ -180,7 +180,7 @@ const AreaManagement = () => {
         columns={columns}
         dataSource={listDataEmployee}
         pagination={false}
-        scroll={{ x: "max-content" }}
+        scroll={{ y: "calc(100vh - 300px)" }}
       />
 
       <div className="modal">
