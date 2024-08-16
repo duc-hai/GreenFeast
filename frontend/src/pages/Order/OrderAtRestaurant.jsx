@@ -89,6 +89,7 @@ import Cookies from "js-cookie";
       total: 0,
       isShow: false,
     });
+    const [sumMoney,setSumMoney]=useState(0)
     const handleOpenListOrderDetail =() => {
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
@@ -110,6 +111,7 @@ import Cookies from "js-cookie";
       const res = await viewDetailOrder(id);
       setNameTable(res?.data?.table)
       setOrderDetail(res.data);
+      setSumMoney(res?.data?.total)
       setTableSlug(id)
     } catch (error) {
       console.log(error);
@@ -148,8 +150,8 @@ import Cookies from "js-cookie";
         message.error("Vui lòng chọn loại thanh toán");
         return; 
       }
-      await closeTable(tableSlug, values);
-      await fetchData(area);
+      // await closeTable(tableSlug, values);
+      // await fetchData(area);
       let dataBody={orderId:orderDetail?._id,amount:orderDetail?.subtotal}
      
        await fetchPayment(dataBody)
@@ -159,7 +161,7 @@ import Cookies from "js-cookie";
       console.log(error)
       message.error(error?.response?.data?.message);
     }
-    fetchData(area);
+    // fetchData(area);
     setIsModalCloseTable(false);
   };
 
@@ -240,7 +242,7 @@ import Cookies from "js-cookie";
           ])
       }
       else {
-        window.location.replace('/')
+        window.location.replace('/scan-qr')
         message.error("Mã đặt bàn không hợp lệ, vui lòng quét lại QR")
       }
     }, []);
@@ -375,11 +377,18 @@ import Cookies from "js-cookie";
         title: "Giá",
         dataIndex: "price",
         key: "price",
+        render: (text, record) => <span>{(text).toLocaleString()}đ</span>,
       },
       {
         title: "Số lượng",
         dataIndex: "quantity",
         key: "quantity",
+      },
+      {
+        title: "Tổng tiền",
+        dataIndex: "quantity",
+        key: "quantity",
+        render: (text, record) => <span>{(record.price * record.quantity).toLocaleString()}đ</span>,
       },
       {
         title: "Ghi chú (Nếu có)",
@@ -414,11 +423,18 @@ import Cookies from "js-cookie";
           title: "Giá",
           dataIndex: "price",
           key: "price",
+          render: (text, record) => <span>{(text).toLocaleString()}đ</span>,
         },
         {
           title: "Số lượng",
           dataIndex: "quantity",
           key: "quantity",
+        },
+        {
+          title: "Tổng tiền",
+          dataIndex: "quantity",
+          key: "quantity",
+          render: (text, record) => <span>{(record.price * record.quantity).toLocaleString()}đ</span>,
         },
         {
           title: "Ghi chú (Nếu có)",
@@ -467,7 +483,7 @@ import Cookies from "js-cookie";
     const handleSum =(dataPrice) => {
 
         const sum = dataPrice.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue.price;
+            return accumulator + currentValue.price* currentValue.quantity;
           }, 0);
           return sum
     }
@@ -711,10 +727,10 @@ import Cookies from "js-cookie";
                   <span className="font-medium text-xl">
                     Tổng tiền :{" "}
                     {order?.length > 0
-                      ? order
-                          ?.reduce((a, b) => a + b.price * b.quantity, 0)
+                      ? (order
+                          ?.reduce((a, b) => a + b.price * b.quantity, 0)+sumMoney)
                           .toLocaleString()
-                      : 0}
+                      : (0 + sumMoney).toLocaleString()}
                     đ
                   </span>
                   <div className="grid gap-4 grid-cols-2">
@@ -768,7 +784,7 @@ import Cookies from "js-cookie";
               name="form"
               onClick={onFinish}
             >
-              Thanh toán 
+              Thanh toán
             </Button>,
           ]}
           bodyStyle={{ height: "1280" }}

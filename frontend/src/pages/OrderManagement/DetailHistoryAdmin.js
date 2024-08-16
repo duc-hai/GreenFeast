@@ -93,9 +93,7 @@ const DetailHistoryAdmin = ({ id }) => {
               <Descriptions.Item label="Địa chỉ" span={3}>
                 {`${dataDetail?.delivery_information?.address}, ${dataDetail?.delivery_information?.ward},  ${dataDetail?.delivery_information?.district},  ${dataDetail?.delivery_information?.province}`}
               </Descriptions.Item>
-              <Descriptions.Item label="Người vận chuyển" span={3}>
-                {dataDetail?.delivery_person?.name}
-              </Descriptions.Item>
+
               <Descriptions.Item label="Người đặt">
                 {dataDetail?.order_person?.name}
               </Descriptions.Item>
@@ -113,6 +111,12 @@ const DetailHistoryAdmin = ({ id }) => {
               </Descriptions.Item>
               <Descriptions.Item label="Trạng thái ">
                 {dataDetail?.status}
+              </Descriptions.Item>
+              <Descriptions.Item label="Người vận chuyển" span={2}>
+                {dataDetail?.delivery_person?.name}
+              </Descriptions.Item>
+              <Descriptions.Item label="Số điên thoại" span={2}>
+                {dataDetail?.delivery_person?.phone}
               </Descriptions.Item>
             </Descriptions>
             <div>

@@ -218,15 +218,23 @@ const OrderManagement = () => {
       dataIndex: "price",
       key: "price",
       align: "center",
-      render: (text, record) => {
-        return record.price?.toLocaleString("vi-VN", {});
-      },
+      render: (text, record) => (
+        <span>{record?.price?.toLocaleString()} đ</span>
+      ),
     },
     {
       title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
       align: "center",
+    },
+    {
+      title: "Tổng tiền",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (text, record) => (
+        <span>{(record.price * record.quantity).toLocaleString()} đ</span>
+      ),
     },
     {
       title: "Ghi chú",
@@ -266,6 +274,13 @@ const OrderManagement = () => {
   const checkOrderMenu = (data) => {
     let check = data.find((item) => item.menu.length > 0);
     return !!check;
+  };
+
+  const handleSum = (dataPrice) => {
+    const sum = dataPrice.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.price * currentValue.quantity;
+    }, 0);
+    return sum;
   };
   return (
     <div className="content-component  flex-1">
@@ -391,7 +406,8 @@ const OrderManagement = () => {
 
       <div className="modal">
         <Modal
-          className="headerModal"
+          className="headerModal "
+          width={800}
           title={`${
             orderDetail?.table ? `Mã bàn ${orderDetail?.table}` : "Bàn trống"
           } `}
@@ -418,7 +434,12 @@ const OrderManagement = () => {
           ]}
           bodyStyle={{ height: "1280" }}
         >
-          <Form layout="vertical" form={form} name="form">
+          <Form
+            layout="vertical"
+            form={form}
+            name="form"
+            className="max-h-96 overflow-auto"
+          >
             {orderDetail?.order_detail?.length > 0 ? (
               orderDetail?.order_detail.map((item) => (
                 <div className="ant_body">
@@ -459,9 +480,10 @@ const OrderManagement = () => {
                     scroll={{ x: "max-content" }}
                   />
                   <p className="justify-end flex gap-2 mt-3">
-                    <span>Tổng giá:</span>
+                    <span>Tổng giá 1:</span>
                     <span className="font-semibold text-green-700">
-                      {orderDetail?.subtotal?.toLocaleString("vi-VN", {})} VNĐ
+                      {handleSum([...item?.menu])?.toLocaleString("vi-VN", {})}{" "}
+                      VNĐ
                     </span>
                   </p>
                 </div>

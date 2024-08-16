@@ -23,7 +23,7 @@ import { getAllArea } from "../../Services/ManagementServiceAPI";
 import { fetchTableCategory, getQR } from "../../Services/OrderAPI";
 import { verifyMail, verifyOtp } from "../../Services/Notification";
 import NotifyHeader from "./NotifyHeader";
-
+import Cookies from "js-cookie";
 const Header = () => {
   const [us, setUs] = useState({});
   const user = sessionStorage.getItem("user");
@@ -41,7 +41,7 @@ const Header = () => {
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
-
+  const tableSlugId = Cookies.get("tableSlug");
   const fetchQr = async (tableId) => {
     try {
       const res = await getQR(tableId);
@@ -156,7 +156,7 @@ const Header = () => {
   const itemUser = [
     {
       label: (
-        <Link to="/scan-qr" style={{ fontSize: 18 }}>
+        <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
           Đặt món
         </Link>
       ),
@@ -191,7 +191,7 @@ const Header = () => {
     },
     {
       label: (
-        <Link to="/scan-qr" style={{ fontSize: 18 }}>
+        <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
           Đặt món
         </Link>
       ),
@@ -514,7 +514,7 @@ const Header = () => {
 
             {us?.role === "customer" ? (
               <div className="flex items-center gap-8">
-                <Link to="/scan-qr" style={{ fontSize: 18 }}>
+                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
 
@@ -532,7 +532,7 @@ const Header = () => {
                     Quản lý
                   </Link>
                 )}
-                <Link to="/scan-qr" style={{ fontSize: 18 }}>
+                <Link to="/order/at-restaurant" style={{ fontSize: 18 }}>
                   Đặt món
                 </Link>
 

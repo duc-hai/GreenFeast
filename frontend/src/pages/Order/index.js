@@ -191,6 +191,12 @@ const Order = () => {
       key: "quantity",
     },
     {
+      title: "Tổng tiền",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (text, record) => <span>{record.price * record.quantity}</span>,
+    },
+    {
       title: "Ghi chú (Nếu có)",
       dataIndex: "note",
       key: "note",

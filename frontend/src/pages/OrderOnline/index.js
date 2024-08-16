@@ -429,9 +429,9 @@ const OrderOnline = () => {
       render: (_, record) => (
         <Input
           placeholder="Ghi chú"
+          value={order.find((item) => item.id === record.id)?.note || ""}
           onChange={(e) => {
             setOrder((preOrder) => {
-              console.log(record);
               const index = preOrder.findIndex((i) => i.id === record.id);
               if (index === -1) {
                 return [...preOrder];
@@ -602,6 +602,7 @@ const OrderOnline = () => {
                       onChange={(e) => {
                         setDelivery({ ...delivery, name: e.target.value });
                       }}
+                      value={delivery?.name || ""}
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -615,6 +616,7 @@ const OrderOnline = () => {
                           phone_number: e.target.value,
                         });
                       }}
+                      value={delivery?.phone_number || ""}
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -649,6 +651,7 @@ const OrderOnline = () => {
                             address: e.target.value,
                           }))
                         }
+                        value={delivery?.address || ""}
                         placeholder="Nhập địa chỉ chi tiết"
                         className="border none outline-none px-2 py-1 rounded-lg"
                       />
@@ -667,6 +670,7 @@ const OrderOnline = () => {
                       <input
                         placeholder="Nhập Ghi chú"
                         className="border none outline-none px-2 py-1 rounded-lg"
+                        value={note}
                         onChange={(e) => {
                           setNote(e.target.value);
                         }}
@@ -721,6 +725,7 @@ const OrderOnline = () => {
                         style={{ width: 200 }}
                         options={convertOptionPromotion(listPromotion) || []}
                         onChange={(e) => setPromotionID(e)}
+                        value={promotionId}
                       />
                     </div>
                   </div>

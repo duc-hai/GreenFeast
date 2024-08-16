@@ -247,7 +247,8 @@ const HistoryOrderAdmin = () => {
       key: "total",
       dataIndex: "total",
       align: "center",
-      width: 100,
+      render: (text) => <span>{text.toLocaleString()} đ</span>,
+      width: 120,
     },
 
     {

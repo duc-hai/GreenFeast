@@ -77,31 +77,31 @@ const RevenusManagement = () => {
                 <p>
                   Doanh thu:
                   <span className="font-semibold">
-                    {value?.data?.revenue?.toLocaleString("vi-VN", {}) || 0}
+                    {(value?.data?.revenue || 0)?.toLocaleString()} VNĐ
                   </span>
                 </p>
                 <p>
                   Số lượng người:
                   <span className="font-semibold">
-                    {value?.data?.num_clients.toLocaleString("vi-VN", {}) || 0}
+                    {(value?.data?.num_clients || 0).toLocaleString()} VNĐ
                   </span>
                 </p>
                 <p>
                   Giảm giá:
                   <span className="font-semibold">
-                    {value?.data?.discount.toLocaleString("vi-VN", {}) || 0}
+                    {(value?.data?.discount || 0).toLocaleString()} VNĐ
                   </span>
                 </p>
                 <p>
                   Phụ phí:
                   <span className="font-semibold">
-                    {value?.data?.surcharge.toLocaleString("vi-VN", {}) || 0}
+                    {(value?.data?.surcharge || 0).toLocaleString()} VNĐ
                   </span>
                 </p>
                 <p>
                   Tổng hóa đơn:
                   <span className="font-semibold">
-                    {value?.data?.sum_menu.toLocaleString("vi-VN", {}) || 0}
+                    {(value?.data?.sum_menu || 0).toLocaleString()} VNĐ
                   </span>
                 </p>
               </div>
@@ -131,15 +131,21 @@ const RevenusManagement = () => {
               </p>
               <p className="flex gap-2">
                 <p className="min-w-28">Tổng tiền :</p>
-                <p className="font-semibold">{dataReturn?.total}</p>
+                <p className="font-semibold">
+                  {dataReturn?.total.toLocaleString()} VNĐ
+                </p>
               </p>
               <p className="flex gap-2">
                 <p className="min-w-28">Phí vận chuyển :</p>
-                <p className="font-semibold">{dataReturn?.shippingfee}</p>
+                <p className="font-semibold">
+                  {dataReturn?.shippingfee.toLocaleString()} VNĐ
+                </p>
               </p>
               <p className="flex gap-2">
                 <p className="min-w-28">Hoàn trả :</p>
-                <p className="font-semibold">{dataReturn?.return}</p>
+                <p className="font-semibold">
+                  {dataReturn?.return.toLocaleString()} VNĐ
+                </p>
               </p>
             </div>
           </div>
