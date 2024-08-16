@@ -111,7 +111,7 @@ import Cookies from "js-cookie";
       const res = await viewDetailOrder(id);
       setNameTable(res?.data?.table)
       setOrderDetail(res.data);
-      setSumMoney(res?.data?.total)
+      setSumMoney(res?.data?.subtotal || 0)
       setTableSlug(id)
     } catch (error) {
       console.log(error);
@@ -452,6 +452,7 @@ import Cookies from "js-cookie";
     const handleOrder = async () => {
       if (order?.length === 0 || !order) {
         message.error("Vui lòng chọn món");
+        
         return;
       }
       if (!tableSlug) {
@@ -473,6 +474,8 @@ import Cookies from "js-cookie";
         }
         // window.location.reload();
         message.success("Đặt món thành công");
+        setOrder([])
+        setSumMoney((order?.reduce((a, b) => a + b.price * b.quantity, 0) +sumMoney))
         setIsModalOpen(false);
       } catch (error) {
         console.log(error);
@@ -518,7 +521,7 @@ import Cookies from "js-cookie";
                 Hủy
               </Button>,
               <Button type="primary" onClick={handleOrder} loading={loading}>
-                Đặt món
+                Đặt món 1
               </Button>,
             ]}
           >
@@ -731,6 +734,8 @@ import Cookies from "js-cookie";
                           ?.reduce((a, b) => a + b.price * b.quantity, 0)+sumMoney)
                           .toLocaleString()
                       : (0 + sumMoney).toLocaleString()}
+                      {/* {(order?.reduce((a, b) => a + b.price * b.quantity, 0) +sumMoney)
+                          .toLocaleString()} */}
                     đ
                   </span>
                   <div className="grid gap-4 grid-cols-2">
@@ -913,8 +918,9 @@ import Cookies from "js-cookie";
             <p className="justify-end flex gap-2 mb-3">
               <span>Số tiền phải thanh toán:</span>
               <span className="font-semibold text-green-700">
-                {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
-                  orderDetail?.subtotal?.toLocaleString("vi-VN", {})}{" "}
+                {/* {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
+                  orderDetail?.subtotal?.toLocaleString("vi-VN", {})} */}
+                  {orderDetail?.subtotal?.toLocaleString("vi-VN", {})}
                 VNĐ
               </span>
             </p>

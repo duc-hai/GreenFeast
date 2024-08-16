@@ -69,6 +69,7 @@ const OrderOnline = () => {
   const [listPromotion, setListPromotion] = useState([]);
 
   const [promotionId, setPromotionID] = useState(null);
+
   const [isRating, setIsRating] = useState({ data: null, isOpen: false });
   const [pagination, setPagination] = useState({
     page: 1,
@@ -340,9 +341,9 @@ const OrderOnline = () => {
     setLoading(false);
   };
 
-  const convertPercentToNumber = () => {
-    let percentageString = "20%";
+  const convertPercentToNumber = (percentageString) => {
     let numberValue = parseFloat(percentageString.replace("%", ""));
+    if (numberValue < 0) return numberValue * -1;
     return numberValue;
   };
   const handleMoneyOrder = (dataOrder) => {
@@ -363,11 +364,15 @@ const OrderOnline = () => {
     }
     if (promotionId) {
       let tempDiscount = listPromotion.find((item) => item._id === promotionId);
+
       if (tempDiscount) {
-        discountPercent = convertPercentToNumber(tempDiscount?.promotion_value);
+        discountPercent =
+          convertPercentToNumber(tempDiscount?.promotion_value) +
+          discountPercent;
       }
     }
     disCountValue = value * (discountPercent / 100);
+
     return disCountValue;
   };
   // useEffect(() => {
