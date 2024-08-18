@@ -6,7 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ConfigProvider } from "antd";
-import NotifyProvider from "./components/ContextNotify/ContextNotify";
+import SocketProvider from "./context/SocketContext";
+
 window.store = store;
 
 const theme = {
@@ -21,11 +22,11 @@ const theme = {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ConfigProvider theme={theme}>
-    <Provider store={store}>
-      <NotifyProvider>
+    <SocketProvider>
+      <Provider store={store}>
         <App />
-      </NotifyProvider>
-    </Provider>
+      </Provider>
+    </SocketProvider>
   </ConfigProvider>
 );
 

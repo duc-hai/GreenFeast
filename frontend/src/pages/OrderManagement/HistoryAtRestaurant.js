@@ -26,8 +26,9 @@ const HistoryAtRestaurant = () => {
   const columns = [
     {
       title: "Tài khoản",
-      dataIndex: "user_id",
+      dataIndex: "order_person",
       align: "center",
+      render: (text) => <span>{text?.name}</span>,
     },
     {
       title: "Bàn",
@@ -38,11 +39,13 @@ const HistoryAtRestaurant = () => {
       title: "Giảm giá",
       dataIndex: "discount",
       align: "center",
+      render: (text) => <span>{text?.toLocaleString()} đ</span>,
     },
     {
       title: "Tổng tiền",
       dataIndex: "subtotal",
       align: "center",
+      render: (text) => <span>{text?.toLocaleString()} đ</span>,
     },
     {
       title: "Thời gian",
@@ -53,13 +56,17 @@ const HistoryAtRestaurant = () => {
       align: "center",
     },
     {
-      title: "Hoạt động",
+      title: "Hoạt động ",
       dataIndex: "_id",
       align: "center",
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
           {!record?.is_rating && (
-            <RatingMenu id={text} disabled={record?.is_rating} />
+            <RatingMenu
+              id={text}
+              disabled={record?.is_rating}
+              refetch={fetchHistoryOderList}
+            />
           )}
           <DetailHistory id={text} />
         </div>

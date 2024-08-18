@@ -132,19 +132,19 @@ const RevenusManagement = () => {
               <p className="flex gap-2">
                 <p className="min-w-28">Tổng tiền :</p>
                 <p className="font-semibold">
-                  {dataReturn?.total.toLocaleString()} VNĐ
+                  {dataReturn?.total?.toLocaleString()} VNĐ
                 </p>
               </p>
               <p className="flex gap-2">
                 <p className="min-w-28">Phí vận chuyển :</p>
                 <p className="font-semibold">
-                  {dataReturn?.shippingfee.toLocaleString()} VNĐ
+                  {dataReturn?.shippingfee?.toLocaleString()} VNĐ
                 </p>
               </p>
               <p className="flex gap-2">
                 <p className="min-w-28">Hoàn trả :</p>
                 <p className="font-semibold">
-                  {dataReturn?.return.toLocaleString()} VNĐ
+                  {dataReturn?.return?.toLocaleString()} VNĐ
                 </p>
               </p>
             </div>

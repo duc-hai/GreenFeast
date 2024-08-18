@@ -300,41 +300,45 @@ const OrderManagement = () => {
           Online
         </Button>
       </div>
-      {tab ? (
-        <HistoryOrderAdmin />
-      ) : (
-        <div>
-          <div className="mt-2">
-            <span className="text-lg px-4 font-medium">
-              Chọn khu vực hiển thị
-            </span>
-            <select
-              className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
-              onChange={(e) => {
-                fetchData(e.target.value);
-                setArea(e.target.value);
-              }}
-            >
-              {valueArea?.length > 0 &&
-                valueArea?.map((item) => (
-                  <option value={item.id}>{item.name}</option>
-                ))}
-            </select>
+      <div className=" flex">
+        {tab ? (
+          <div className="flex">
+            <HistoryOrderAdmin />
           </div>
-          <br />
+        ) : (
+          <div>
+            <div className="mt-2">
+              <span className="text-lg px-4 font-medium">
+                Chọn khu vực hiển thị
+              </span>
+              <select
+                className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
+                onChange={(e) => {
+                  fetchData(e.target.value);
+                  setArea(e.target.value);
+                }}
+              >
+                {valueArea?.length > 0 &&
+                  valueArea?.map((item) => (
+                    <option value={item.id}>{item.name}</option>
+                  ))}
+              </select>
+            </div>
+            <br />
 
-          <Table
-            columns={columns}
-            dataSource={
-              listData?.length > 0 &&
-              listData?.map((item, index) => {
-                return { ...item, key: index };
-              })
-            }
-            scroll={{ y: "calc(100vh - 400px)" }}
-          />
-        </div>
-      )}
+            <Table
+              columns={columns}
+              dataSource={
+                listData?.length > 0 &&
+                listData?.map((item, index) => {
+                  return { ...item, key: index };
+                })
+              }
+              scroll={{ y: "calc(100vh - 400px)" }}
+            />
+          </div>
+        )}
+      </div>
 
       <div className="modal">
         <Modal

@@ -45,7 +45,11 @@ const OrderHistory = () => {
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
           {!record?.is_rating && record?.status === "Đã giao hàng" && (
-            <RatingOnline id={text} disabled={record?.is_rating} />
+            <RatingOnline
+              id={text}
+              disabled={record?.is_rating}
+              refetch={fetchHistoryList}
+            />
           )}
           <ProfileOutlined onClick={() => handleOpenDetail(record?._id)} />
         </div>

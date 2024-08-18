@@ -37,7 +37,9 @@ import DetailHistory from "./DetailHistory";
 import DetailHistoryAdmin from "./DetailHistoryAdmin";
 import { icons } from "antd/es/image/PreviewGroup";
 import RatingMenu from "../OrderOnline/RatingMenu";
+import utc from "dayjs/plugin/utc";
 
+dayjs.extend(utc);
 const optionStatus = [
   { value: 1, label: "Đang chờ xác nhận" },
   { value: 2, label: "Đang chế biến" },
@@ -88,6 +90,7 @@ const HistoryOrderAdmin = () => {
       message.error("Cập nhật trạng thái gửi hàng thất bại");
       console.log(err);
     }
+    fetchHistoryOderList();
     setLoading(false);
   };
 
@@ -176,7 +179,9 @@ const HistoryOrderAdmin = () => {
       key: "time",
       dataIndex: "time",
       render: (text) => (
-        <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+        <span>
+          {dayjs.utc(text).utcOffset(7).format("YYYY-MM-DD HH:mm:ss")}
+        </span>
       ),
       align: "center",
     },
@@ -313,8 +318,10 @@ const HistoryOrderAdmin = () => {
   };
   return (
     <div className="flex gap-2 flex-col">
-      <div className="flex gap-2 mt-2 flex-col ">
-        {/* <span>Trạng thái :</span> */}
+      <div
+        className="flex gap-2 mt-2 flex-col "
+        style={{ maxWidth: "calc(100vw - 290px)" }}
+      >
         <Menu
           onClick={(e) => onClickMenu(e?.key)}
           mode="horizontal"
@@ -329,7 +336,7 @@ const HistoryOrderAdmin = () => {
           dataSource={dataTable || []}
           loading={loading}
           columns={columns}
-          scroll={{ y: "calc(100vh - 410px)" }}
+          scroll={{ y: "calc(100vh - 410px) ", x: "500px" }}
           pagination={{
             total: totalElement,
             current: search.page,

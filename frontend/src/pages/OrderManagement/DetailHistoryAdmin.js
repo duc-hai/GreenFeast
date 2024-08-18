@@ -87,7 +87,7 @@ const DetailHistoryAdmin = ({ id }) => {
               <Descriptions.Item label="Tên" span={2}>
                 {dataDetail?.delivery_information?.name}
               </Descriptions.Item>
-              <Descriptions.Item label="số điện thoại">
+              <Descriptions.Item label="Số điện thoại">
                 {dataDetail?.delivery_information?.phone_number}
               </Descriptions.Item>
               <Descriptions.Item label="Địa chỉ" span={3}>

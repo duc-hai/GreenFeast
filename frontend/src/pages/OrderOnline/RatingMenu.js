@@ -6,7 +6,7 @@ import {
 } from "../../Services/OrderAPI";
 import { EditFilled } from "@ant-design/icons";
 
-const RatingMenu = ({ id, disabled }) => {
+const RatingMenu = ({ id, disabled, refetch }) => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,6 +56,7 @@ const RatingMenu = ({ id, disabled }) => {
       console.log(res);
       if (res?.status === "success") {
         message.success("Đánh giá đơn hàng thành công");
+        refetch?.();
       } else {
         message.error("Đánh  giá đơn hàng thất bại");
       }
