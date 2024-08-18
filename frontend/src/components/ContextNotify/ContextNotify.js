@@ -65,9 +65,9 @@ const NotifyProvider = ({ children }) => {
     }
     setLoading(false);
   };
-  useEffect(() => {
-    Promise.all([fetchDataNotifyHeader(), fetchQualityNotify()]);
-  }, [numberNotify]);
+  // useEffect(() => {
+  //   Promise.all([fetchDataNotifyHeader(), fetchQualityNotify()]);
+  // }, [numberNotify]);
 
   return (
     <NotifyContext.Provider value={{ value, setValue }}>

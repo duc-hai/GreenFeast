@@ -79,7 +79,7 @@ const DetailHistoryAdmin = ({ id }) => {
         {loading ? (
           <Spin />
         ) : (
-          <div className="flex flex-column gap-1">
+          <div className="flex flex-column gap-1 max-h-96 overflow-auto">
             <p className="font-semibold bg-lime-700 text-white p-1">
               Chi tiết lịch sử đặt hàng
             </p>
@@ -87,12 +87,13 @@ const DetailHistoryAdmin = ({ id }) => {
               <Descriptions.Item label="Tên" span={2}>
                 {dataDetail?.delivery_information?.name}
               </Descriptions.Item>
-              <Descriptions.Item label="số điện thoại">
+              <Descriptions.Item label="Số điện thoại">
                 {dataDetail?.delivery_information?.phone_number}
               </Descriptions.Item>
               <Descriptions.Item label="Địa chỉ" span={3}>
                 {`${dataDetail?.delivery_information?.address}, ${dataDetail?.delivery_information?.ward},  ${dataDetail?.delivery_information?.district},  ${dataDetail?.delivery_information?.province}`}
               </Descriptions.Item>
+
               <Descriptions.Item label="Người đặt">
                 {dataDetail?.order_person?.name}
               </Descriptions.Item>
@@ -110,6 +111,12 @@ const DetailHistoryAdmin = ({ id }) => {
               </Descriptions.Item>
               <Descriptions.Item label="Trạng thái ">
                 {dataDetail?.status}
+              </Descriptions.Item>
+              <Descriptions.Item label="Người vận chuyển" span={2}>
+                {dataDetail?.delivery_person?.name}
+              </Descriptions.Item>
+              <Descriptions.Item label="Số điên thoại" span={2}>
+                {dataDetail?.delivery_person?.phone}
               </Descriptions.Item>
             </Descriptions>
             <div>

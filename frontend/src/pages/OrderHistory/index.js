@@ -45,7 +45,11 @@ const OrderHistory = () => {
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
           {!record?.is_rating && record?.status === "Đã giao hàng" && (
-            <RatingOnline id={text} disabled={record?.is_rating} />
+            <RatingOnline
+              id={text}
+              disabled={record?.is_rating}
+              refetch={fetchHistoryList}
+            />
           )}
           <ProfileOutlined onClick={() => handleOpenDetail(record?._id)} />
         </div>
@@ -89,12 +93,16 @@ const OrderHistory = () => {
     fetchHistoryList();
   }, []);
   return (
-    <>
+    <div className="m-3">
       {loading ? (
         <Spin />
       ) : (
-        <div className="m-3">
-          <Table dataSource={listHistory} columns={columns} />;
+        <div>
+          <Table
+            dataSource={listHistory}
+            columns={columns}
+            scroll={{ y: "calc(100vh - 300px)" }}
+          />
         </div>
       )}
       <Modal
@@ -113,7 +121,7 @@ const OrderHistory = () => {
           <FormDetailHistory detailData={detailHistory} />
         )}
       </Modal>
-    </>
+    </div>
   );
 };
 export default OrderHistory;

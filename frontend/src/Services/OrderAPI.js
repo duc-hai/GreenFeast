@@ -74,6 +74,9 @@ export const postUpdateStatus = (data) => {
   return ApiOrderService.post(`admin/order/online/update-status`, data);
 };
 
+export const postSendTMS = (data) => {
+  return ApiOrderService.post(`tms/resend-order`, data);
+};
 export const getOrderHistoryDetailAdmin = (id) => {
   return ApiOrderService.get(`/admin/order/online/history/${id}`);
 };
@@ -104,6 +107,9 @@ export const getRevenus = (start, to) => {
   );
 };
 
+export const getStatisticsQueryReturn = (date) => {
+  return ApiOrderService.get(`statistics/query-return?date=${date}`);
+};
 export const getMenuBySearch = (search) => {
   return ApiOrderService.get(`/order/menu/search?keyword=${search}`);
 };

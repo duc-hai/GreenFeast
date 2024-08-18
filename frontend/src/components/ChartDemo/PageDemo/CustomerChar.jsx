@@ -16,7 +16,7 @@ const CustomerChart = () => {
   const fetchDataChart =async(from, to) => {
     try {
 
-      const res = await getStatisticCustomer(`${from}T00%3A00%3A00`,`${to}T00%3A00%3A00`);
+      const res = await getStatisticCustomer(`${from}T05:00:00`,`${to}T23:59:59`);
       setDataChart(res?.data || [])
     }
     catch(error){

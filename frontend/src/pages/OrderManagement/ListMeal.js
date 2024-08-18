@@ -121,6 +121,14 @@ const ListMeal = ({
       align: "center",
     },
     {
+      title: "Tổng tiền",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (text, record) => (
+        <span>{(record.price * record.quantity).toLocaleString()}đ</span>
+      ),
+    },
+    {
       title: "Ghi chú",
       dataIndex: "note",
       key: "note",
@@ -218,6 +226,7 @@ const ListMeal = ({
             pagination={false}
             dataSource={data}
             scroll={{ x: "max-content" }}
+            // bordered
           />
         </div>
       )}

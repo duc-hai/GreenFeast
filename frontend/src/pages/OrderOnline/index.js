@@ -69,6 +69,7 @@ const OrderOnline = () => {
   const [listPromotion, setListPromotion] = useState([]);
 
   const [promotionId, setPromotionID] = useState(null);
+
   const [isRating, setIsRating] = useState({ data: null, isOpen: false });
   const [pagination, setPagination] = useState({
     page: 1,
@@ -340,9 +341,9 @@ const OrderOnline = () => {
     setLoading(false);
   };
 
-  const convertPercentToNumber = () => {
-    let percentageString = "20%";
+  const convertPercentToNumber = (percentageString) => {
     let numberValue = parseFloat(percentageString.replace("%", ""));
+    if (numberValue < 0) return numberValue * -1;
     return numberValue;
   };
   const handleMoneyOrder = (dataOrder) => {
@@ -363,11 +364,15 @@ const OrderOnline = () => {
     }
     if (promotionId) {
       let tempDiscount = listPromotion.find((item) => item._id === promotionId);
+
       if (tempDiscount) {
-        discountPercent = convertPercentToNumber(tempDiscount?.promotion_value);
+        discountPercent =
+          convertPercentToNumber(tempDiscount?.promotion_value) +
+          discountPercent;
       }
     }
     disCountValue = value * (discountPercent / 100);
+
     return disCountValue;
   };
   // useEffect(() => {
@@ -429,9 +434,9 @@ const OrderOnline = () => {
       render: (_, record) => (
         <Input
           placeholder="Ghi chú"
+          value={order.find((item) => item.id === record.id)?.note || ""}
           onChange={(e) => {
             setOrder((preOrder) => {
-              console.log(record);
               const index = preOrder.findIndex((i) => i.id === record.id);
               if (index === -1) {
                 return [...preOrder];
@@ -530,6 +535,18 @@ const OrderOnline = () => {
   const handleBack = () => {
     setTab((pre) => pre - 1);
   };
+
+  const handleCheckPromotion = (id) => {
+    // khuyen maix
+    const sumTemp = shipFee + handleMoneyOrder(order);
+    const promotionItem = listPromotion.find((item) => item._id === id);
+    if (promotionItem && promotionItem?.condition_apply < sumTemp) {
+      message.success("Áp dụng mã khuyến mãi thành công");
+      setPromotionID(id);
+    } else {
+      message.error("Bạn chưa đủ điều kiện áp dụng mã khuyến mãi này");
+    }
+  };
   return (
     <ProtectedRoute isAuth={us?._id}>
       <>
@@ -602,6 +619,7 @@ const OrderOnline = () => {
                       onChange={(e) => {
                         setDelivery({ ...delivery, name: e.target.value });
                       }}
+                      value={delivery?.name || ""}
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -615,6 +633,7 @@ const OrderOnline = () => {
                           phone_number: e.target.value,
                         });
                       }}
+                      value={delivery?.phone_number || ""}
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -649,6 +668,7 @@ const OrderOnline = () => {
                             address: e.target.value,
                           }))
                         }
+                        value={delivery?.address || ""}
                         placeholder="Nhập địa chỉ chi tiết"
                         className="border none outline-none px-2 py-1 rounded-lg"
                       />
@@ -667,6 +687,7 @@ const OrderOnline = () => {
                       <input
                         placeholder="Nhập Ghi chú"
                         className="border none outline-none px-2 py-1 rounded-lg"
+                        value={note}
                         onChange={(e) => {
                           setNote(e.target.value);
                         }}
@@ -720,7 +741,8 @@ const OrderOnline = () => {
                       <Select
                         style={{ width: 200 }}
                         options={convertOptionPromotion(listPromotion) || []}
-                        onChange={(e) => setPromotionID(e)}
+                        onChange={(e) => handleCheckPromotion(e)}
+                        value={promotionId}
                       />
                     </div>
                   </div>
@@ -826,7 +848,6 @@ const OrderOnline = () => {
                         className="flex-1 min-w-[340px] xl:grow-0 shrink "
                       >
                         <div className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
-                          {" "}
                           <div
                             className=" cursor-pointer "
                             onClick={() => {
@@ -839,12 +860,25 @@ const OrderOnline = () => {
                               src={item.image}
                             />
                           </div>
-                          <div className="flex flex-col gap-3">
+                          <div className="flex flex-col gap-3 justify-between">
                             <span className="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis">
                               {item?.name}
                             </span>
-                            <p>
-                              Giá: <strong>{item?.price} Đ</strong>
+                            <p className="flex gap-2">
+                              <span>Giá:</span>
+                              <span className="flex flex-col">
+                                <span
+                                  className={`font-semibold ${
+                                    !!item?.discount_price && "line-through"
+                                  }`}
+                                >
+                                  {item?.price.toLocaleString()} Đ
+                                </span>
+                                <span className="font-semibold text-red-500">
+                                  {item?.discount_price &&
+                                    `${item?.discount_price.toLocaleString()} Đ`}
+                                </span>
+                              </span>
                             </p>
 
                             <p className="flex items-center">

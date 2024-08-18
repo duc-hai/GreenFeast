@@ -218,15 +218,23 @@ const OrderManagement = () => {
       dataIndex: "price",
       key: "price",
       align: "center",
-      render: (text, record) => {
-        return record.price?.toLocaleString("vi-VN", {});
-      },
+      render: (text, record) => (
+        <span>{record?.price?.toLocaleString()} đ</span>
+      ),
     },
     {
       title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
       align: "center",
+    },
+    {
+      title: "Tổng tiền",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (text, record) => (
+        <span>{(record.price * record.quantity).toLocaleString()} đ</span>
+      ),
     },
     {
       title: "Ghi chú",
@@ -267,6 +275,13 @@ const OrderManagement = () => {
     let check = data.find((item) => item.menu.length > 0);
     return !!check;
   };
+
+  const handleSum = (dataPrice) => {
+    const sum = dataPrice.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.price * currentValue.quantity;
+    }, 0);
+    return sum;
+  };
   return (
     <div className="content-component  flex-1">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -285,41 +300,45 @@ const OrderManagement = () => {
           Online
         </Button>
       </div>
-      {tab ? (
-        <HistoryOrderAdmin />
-      ) : (
-        <div>
-          <div className="mt-2">
-            <span className="text-lg px-4 font-medium">
-              Chọn khu vực hiển thị
-            </span>
-            <select
-              className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
-              onChange={(e) => {
-                fetchData(e.target.value);
-                setArea(e.target.value);
-              }}
-            >
-              {valueArea?.length > 0 &&
-                valueArea?.map((item) => (
-                  <option value={item.id}>{item.name}</option>
-                ))}
-            </select>
+      <div className=" flex">
+        {tab ? (
+          <div className="flex">
+            <HistoryOrderAdmin />
           </div>
-          <br />
+        ) : (
+          <div>
+            <div className="mt-2">
+              <span className="text-lg px-4 font-medium">
+                Chọn khu vực hiển thị
+              </span>
+              <select
+                className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
+                onChange={(e) => {
+                  fetchData(e.target.value);
+                  setArea(e.target.value);
+                }}
+              >
+                {valueArea?.length > 0 &&
+                  valueArea?.map((item) => (
+                    <option value={item.id}>{item.name}</option>
+                  ))}
+              </select>
+            </div>
+            <br />
 
-          <Table
-            columns={columns}
-            dataSource={
-              listData?.length > 0 &&
-              listData?.map((item, index) => {
-                return { ...item, key: index };
-              })
-            }
-            scroll={{ y: "calc(100vh - 400px)" }}
-          />
-        </div>
-      )}
+            <Table
+              columns={columns}
+              dataSource={
+                listData?.length > 0 &&
+                listData?.map((item, index) => {
+                  return { ...item, key: index };
+                })
+              }
+              scroll={{ y: "calc(100vh - 400px)" }}
+            />
+          </div>
+        )}
+      </div>
 
       <div className="modal">
         <Modal
@@ -391,7 +410,8 @@ const OrderManagement = () => {
 
       <div className="modal">
         <Modal
-          className="headerModal"
+          className="headerModal "
+          width={800}
           title={`${
             orderDetail?.table ? `Mã bàn ${orderDetail?.table}` : "Bàn trống"
           } `}
@@ -418,54 +438,66 @@ const OrderManagement = () => {
           ]}
           bodyStyle={{ height: "1280" }}
         >
-          <Form layout="vertical" form={form} name="form">
+          <Form
+            layout="vertical"
+            form={form}
+            name="form"
+            className="max-h-96 overflow-auto"
+          >
             {orderDetail?.order_detail?.length > 0 ? (
-              orderDetail?.order_detail.map((item) => (
-                <div className="ant_body">
-                  <div className="flex flex-col gap-1">
-                    <span>
-                      Thời gian đặt:{"  "}
-                      <span className="font-semibold">
-                        {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
-                      </span>
-                    </span>
+              orderDetail?.order_detail.map(
+                (item) =>
+                  item.menu.length > 0 && (
+                    <div className="ant_body">
+                      <div className="flex flex-col gap-1">
+                        <span>
+                          Thời gian đặt:{"  "}
+                          <span className="font-semibold">
+                            {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                          </span>
+                        </span>
 
-                    <span>
-                      Người đặt:{" "}
-                      <span className="font-semibold">
-                        {" "}
-                        {orderDetail?.order_detail?.length > 0 &&
-                          item?.order_person?.name}{" "}
-                      </span>
-                    </span>
-                  </div>
-                  <p
-                    className="py-2 font-semibold"
-                    onClick={() => console.log(orderDetail)}
-                  >
-                    Danh sách món
-                  </p>
+                        <span>
+                          Người đặt:{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {orderDetail?.order_detail?.length > 0 &&
+                              item?.order_person?.name}{" "}
+                          </span>
+                        </span>
+                      </div>
+                      <p
+                        className="py-2 font-semibold"
+                        onClick={() => console.log(orderDetail)}
+                      >
+                        Danh sách món
+                      </p>
 
-                  <Table
-                    columns={columnorder}
-                    pagination={false}
-                    dataSource={
-                      orderDetail?.order_detail?.length > 0 &&
-                      item?.menu?.length > 0 &&
-                      item.menu.map((item, index) => {
-                        return { ...item, key: index };
-                      })
-                    }
-                    scroll={{ x: "max-content" }}
-                  />
-                  <p className="justify-end flex gap-2 mt-3">
-                    <span>Tổng giá:</span>
-                    <span className="font-semibold text-green-700">
-                      {orderDetail?.subtotal?.toLocaleString("vi-VN", {})} VNĐ
-                    </span>
-                  </p>
-                </div>
-              ))
+                      <Table
+                        columns={columnorder}
+                        pagination={false}
+                        dataSource={
+                          orderDetail?.order_detail?.length > 0 &&
+                          item?.menu?.length > 0 &&
+                          item.menu.map((item, index) => {
+                            return { ...item, key: index };
+                          })
+                        }
+                        scroll={{ x: "max-content" }}
+                      />
+                      <p className="justify-end flex gap-2 mt-3">
+                        <span>Tổng giá 1:</span>
+                        <span className="font-semibold text-green-700">
+                          {handleSum([...item?.menu])?.toLocaleString(
+                            "vi-VN",
+                            {}
+                          )}{" "}
+                          VNĐ
+                        </span>
+                      </p>
+                    </div>
+                  )
+              )
             ) : (
               <div>Bàn trống</div>
             )}
@@ -534,10 +566,11 @@ const OrderManagement = () => {
               </span>
             </p>
             <p className="justify-end flex gap-2 mb-3">
-              <span>Số tiền phải thanh toán:</span>
+              <span>Số tiền phải thanh toán 1:</span>
               <span className="font-semibold text-green-700">
-                {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
-                  orderDetail?.subtotal?.toLocaleString("vi-VN", {})}{" "}
+                {/* {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
+                  orderDetail?.subtotal?.toLocaleString("vi-VN", {})} */}
+                {orderDetail?.subtotal?.toLocaleString("vi-VN", {})}
                 VNĐ
               </span>
             </p>
@@ -641,6 +674,16 @@ const OrderManagement = () => {
                           })
                         }
                       />
+                      <p className="justify-end flex gap-2 mt-3">
+                        <span>Tổng giá:</span>
+                        <span className="font-semibold text-green-700">
+                          {handleSum([...item?.menu])?.toLocaleString(
+                            "vi-VN",
+                            {}
+                          )}{" "}
+                          VNĐ
+                        </span>
+                      </p>
                     </div>
                   )
               )}

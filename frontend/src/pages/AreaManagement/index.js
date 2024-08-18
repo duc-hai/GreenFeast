@@ -193,7 +193,7 @@ const AreaManagement = () => {
         columns={handleCheckRole(columns)}
         dataSource={listData}
         pagination={false}
-        scroll={{ x: "max-content" }}
+        scroll={{ y: "calc(100vh - 300px)" }}
       />
 
       <div className="modal">

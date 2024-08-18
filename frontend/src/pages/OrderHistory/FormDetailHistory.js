@@ -1,5 +1,6 @@
 import { Descriptions, Table } from "antd";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 
 const FormDetailHistory = ({ detailData }) => {
   const columns = [
@@ -21,20 +22,23 @@ const FormDetailHistory = ({ detailData }) => {
       dataIndex: "quantity",
     },
   ];
+  useEffect(() => {
+    console.log(detailData);
+  }, []);
   return (
     <div className="flex flex-col gap-5 max-h-96 overflow-auto">
       <Descriptions title="Thông tin giao hàng" bordered column={2}>
         <Descriptions.Item label="Địa chỉ" span={2}>
-          <span>{detailData?.delivery_information?.address} </span>,
-          <span>{detailData?.delivery_information?.ward} </span>,
-          <span>{detailData?.delivery_information?.district} </span>,
-          <span>{detailData?.delivery_information?.province} </span>
+          <span>{detailData?.delivery_information?.address}</span>,
+          <span> {detailData?.delivery_information?.ward}</span>,
+          <span> {detailData?.delivery_information?.district}</span>,
+          <span> {detailData?.delivery_information?.province}</span>
+        </Descriptions.Item>
+        <Descriptions.Item label="Người đặt hàng">
+          {detailData?.order_person?.name}
         </Descriptions.Item>
         <Descriptions.Item label="Số điện thoại">
           {detailData?.delivery_information?.phone_number}
-        </Descriptions.Item>
-        <Descriptions.Item label="Ngươi đặt hàng">
-          {detailData?.order_person?.name}
         </Descriptions.Item>
         <Descriptions.Item label="Phương thức thanh toán">
           {detailData?.payment_method === "code"
@@ -50,8 +54,13 @@ const FormDetailHistory = ({ detailData }) => {
         <Descriptions.Item label="Tiền đơn hàng">
           {detailData?.subtotal}
         </Descriptions.Item>
+        <Descriptions.Item label="Người vận chuyển">
+          {`${detailData?.delivery_person?.name || ""} ${
+            detailData?.delivery_person?.phone || ""
+          }`}
+        </Descriptions.Item>
         <Descriptions.Item label="Thời gian">
-          {dayjs(detailData?.time).format("YYYY-MM-DD hh:mm:ss")}
+          {dayjs(detailData?.time).format("YYYY-MM-DD HH:mm:ss")}
         </Descriptions.Item>
       </Descriptions>
 

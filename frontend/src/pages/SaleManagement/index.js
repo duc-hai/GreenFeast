@@ -251,7 +251,7 @@ const SaleManagement = () => {
           columns={columns}
           dataSource={listData}
           pagination={false}
-          scroll={{ y: "calc(100vh - 100px)" }}
+          scroll={{ y: "calc(100vh - 300px)" }}
         />
 
         <div className="modal">

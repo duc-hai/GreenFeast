@@ -77,10 +77,10 @@ const routers = [
   //     path: '/sanpham/:userID',
   //     Conponent: () => <SanPham />
   // },
-  {
-    path: "/api/payment/vnpay_return",
-    Conponent: () => <WaitPayment />,
-  },
+  // {
+  //   path: "/payment/vnpay_return",
+  //   Conponent: () => <WaitPayment />,
+  // },
   {
     path: "/*",
     Conponent: () => <ErrPage />,
