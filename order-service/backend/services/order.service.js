@@ -463,6 +463,8 @@ class OrderService {
                 { 'table_list.slug': tableSlug },
                 { $set: { 'table_list.$.status': 0 } }
             )
+
+            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updateOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
             
             producer.sendQueueStatistics('offline', updatedOrder)
 
