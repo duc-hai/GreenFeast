@@ -38,10 +38,7 @@ const Header = () => {
   const [tableList, setTableList] = useState([]);
   const [table, setTable] = useState();
   const [qr, setQR] = useState();
-  const [message, setMessage] = useState("");
-  const [socket, setSocket] = useState(null);
-  const [notifications, setNotifications] = useState([]);
-  const tableSlugId = Cookies.get("tableSlug");
+
   const fetchQr = async (tableId) => {
     try {
       const res = await getQR(tableId);
@@ -215,29 +212,71 @@ const Header = () => {
     },
   ];
 
-  const onFinish = async () => {
-    const values = form.getFieldsValue();
-
+  const fetchEditUserCustomer = async (value) => {
     try {
-      if (us.role === "customer") {
-        await editUserCustomer({
-          ...values,
-          birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
-        });
+      const res = await editUserCustomer(value);
+      if (res?.status === "success") {
         message.success("Cập nhật thông tin thành công");
+        handleCancel();
       } else {
-        await updateStaff({
-          ...values,
-          birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
-        });
-        message.success("Cập nhật thông tin thành công");
+        message.error("Cập nhật thông tin thất bại");
       }
-      handleCancel();
     } catch (error) {
       console.log(error);
       message.error(error.response.data.message);
     }
   };
+  const fetchUpdateStaff = async (value) => {
+    try {
+      const res = await updateStaff(value);
+      if (res?.status === "success") {
+        message.success("Cập nhật thông tin thành công");
+        handleCancel();
+      } else {
+        message.error("Cập nhật thông tin thất bại");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error(error.response.data.message);
+    }
+  };
+  const onFinish = () => {
+    const values = form.getFieldsValue();
+    if (us.role === "customer") {
+      fetchEditUserCustomer({
+        ...values,
+        birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
+      });
+    } else {
+      fetchUpdateStaff({
+        ...values,
+        birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
+      });
+    }
+  };
+  // const onFinish = async () => {
+  //   const values = form.getFieldsValue();
+
+  //   try {
+  //     if (us.role === "customer") {
+  //       await editUserCustomer({
+  //         ...values,
+  //         birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
+  //       });
+  //       message.success("Cập nhật thông tin thành công");
+  //     } else {
+  //       await updateStaff({
+  //         ...values,
+  //         birthday: dayjs(values.birthday).format("YYYY-MM-DD"),
+  //       });
+  //       message.success("Cập nhật thông tin thành công");
+  //     }
+  //     handleCancel();
+  //   } catch (error) {
+  //     console.log(error);
+  //     message.error(error.response.data.message);
+  //   }
+  // };
 
   const checkRole = (value, role) => {
     if (role === "customer") return itemUser;

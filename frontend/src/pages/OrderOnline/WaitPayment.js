@@ -34,6 +34,24 @@ const WaitPayment = () => {
     navigate(`/order-history`);
   };
 
+  const handleLogin = () => {
+    navigate(`/login`);
+  };
+  const handleCheckLogin = () => {
+    let user = JSON.parse(sessionStorage.getItem("user"));
+    if (user?._id) {
+      return (
+        <Button type="primary" key="consoleSuccess" onClick={handleNext}>
+          Chuyển tới lịch sử đặt hàng
+        </Button>
+      );
+    }
+    return (
+      <Button type="primary" key="co2" onClick={handleLogin}>
+        Vui lòng đăng nhập để xem lịch sử đặt hàng
+      </Button>
+    );
+  };
   return (
     <p>
       {loading ? (
@@ -44,27 +62,15 @@ const WaitPayment = () => {
             <Result
               status="success"
               title="Giao dịch thành công"
-              subTitle="Kính chúc quý khác có bữa ăn ngon miệng!"
-              extra={[
-                <Button
-                  type="primary"
-                  key="consoleSuccess"
-                  onClick={handleNext}
-                >
-                  Chuyển tới lịch sử đặt hàng
-                </Button>,
-              ]}
+              subTitle="Cảm ơn quý khách đã ủng hộ nhà hàng!"
+              extra={[handleCheckLogin()]}
             />
           ) : (
             <Result
               status="error"
               title="Giao dịch thất bai"
               subTitle="Vui lòng kiểm tra lại thanh toán!"
-              extra={[
-                <Button type="primary" key="consoleError" onClick={handleNext}>
-                  Chuyển tới lịch sử đặt hàng
-                </Button>,
-              ]}
+              extra={[handleCheckLogin()]}
             />
           )}
         </div>

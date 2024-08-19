@@ -28,6 +28,7 @@ class SocketIoService {
     try {
       if (!this.io) throw new Error("Socket instance not initialized");
       const socketId = this.users[userId];
+      console.log("id", socketId);
       if (socketId)
         this.io.to(socketId).emit("notification", { title, message });
       //if user is not connected, don't send notification

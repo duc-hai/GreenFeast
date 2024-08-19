@@ -63,9 +63,9 @@ const RevenusManagement = () => {
       <div className="flex gap-3">
         <Card title="Doanh thu" className="flex-1">
           <div className="bg-white p-3">
-            <div className="flex gap-3">
-              <span className="flex-1 min-w-14">Chọn ngày:</span>
-              <div className="w-[500px]">
+            <div className="flex gap-2 items-center">
+              <span className=" ">Chọn ngày: </span>
+              <div className="">
                 <RangePicker
                   onChange={onChange}
                   defaultValue={[dayjs(), dayjs()]}
@@ -74,35 +74,39 @@ const RevenusManagement = () => {
             </div>
             {value?.status === "success" ? (
               <div className="mt-3 flex flex-col gap-2">
-                <p>
-                  Doanh thu:
-                  <span className="font-semibold">
+                <p className="flex gap-2">
+                  <p className="min-w-28">Doanh thu:</p>
+                  <p className="font-semibold">
                     {(value?.data?.revenue || 0)?.toLocaleString()} VNĐ
-                  </span>
+                  </p>
                 </p>
-                <p>
-                  Số lượng người:
-                  <span className="font-semibold">
-                    {(value?.data?.num_clients || 0).toLocaleString()} VNĐ
-                  </span>
+
+                <p className="flex gap-2">
+                  <p className="min-w-28"> Số lượng người:</p>
+                  <p className="font-semibold">
+                    {(value?.data?.num_clients || 0).toLocaleString()}
+                  </p>
                 </p>
-                <p>
-                  Giảm giá:
-                  <span className="font-semibold">
+
+                <p className="flex gap-2">
+                  <p className="min-w-28"> Giảm giá:</p>
+                  <p className="font-semibold">
                     {(value?.data?.discount || 0).toLocaleString()} VNĐ
-                  </span>
+                  </p>
                 </p>
-                <p>
-                  Phụ phí:
-                  <span className="font-semibold">
+
+                <p className="flex gap-2">
+                  <p className="min-w-28">Phụ phí:</p>
+                  <p className="font-semibold">
                     {(value?.data?.surcharge || 0).toLocaleString()} VNĐ
-                  </span>
+                  </p>
                 </p>
-                <p>
-                  Tổng hóa đơn:
-                  <span className="font-semibold">
-                    {(value?.data?.sum_menu || 0).toLocaleString()} VNĐ
-                  </span>
+
+                <p className="flex gap-2">
+                  <p className="min-w-28"> Tổng hóa đơn:</p>
+                  <p className="font-semibold">
+                    {(value?.data?.sum_menu || 0).toLocaleString()}
+                  </p>
                 </p>
               </div>
             ) : (

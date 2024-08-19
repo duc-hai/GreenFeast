@@ -94,7 +94,7 @@ const Login = () => {
                 },
               ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Tên tài khoản" />
+              <Input prefix={<UserOutlined />} placeholder="Số điện thoại" />
             </Form.Item>
             <Form.Item
               name="password"

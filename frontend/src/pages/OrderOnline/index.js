@@ -7,6 +7,7 @@ import {
   Select,
   Spin,
   Table,
+  Tag,
   message,
 } from "antd";
 import { Menu } from "antd";
@@ -77,7 +78,7 @@ const OrderOnline = () => {
     total: 0,
     isShow: false,
   });
-
+  const [tagShow, setTagShow] = useState("Khai vị");
   const [tab, setTab] = useState(1);
   const convertOption = (dataOption, keyValue, keyLabel) => {
     let valueOptions = [...dataOption]?.map((item) => ({
@@ -125,7 +126,7 @@ const OrderOnline = () => {
       if (res?.status === "success" && !!res?.data?.vnpUrl) {
         message.success("Chuyển hướng đến trang thanh toán");
         // navigate("/payment/vnpay_return");
-        window.open(res?.data?.vnpUrl);
+        window.open(res?.data?.vnpUrl, "_self");
 
         console.log(data);
         // localStorage.setItem("rating", JSON.stringify(isRating));
@@ -398,6 +399,11 @@ const OrderOnline = () => {
   }, [user]);
 
   const onClick = (e) => {
+    setTagShow(
+      listDataCate.find(
+        (item) => item?.key === e?.key || item?.key === Number(e?.key)
+      )?.label
+    );
     if (e?.key === "recommend") {
       //call api recommend
       fetchMenuReCommend();
@@ -818,6 +824,9 @@ const OrderOnline = () => {
               className="w-full bg-[#d4e3d3] flex"
               style={{ minHeight: "100vh" }}
             >
+              <Tag className="fixed right-0 sm:hidden " color="volcano">
+                {tagShow}
+              </Tag>
               <div className="lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48 flex-1">
                 <div className="flex w-full justify-between items-end gap-3 py-3">
                   <div></div>

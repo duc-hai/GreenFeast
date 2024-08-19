@@ -19,7 +19,7 @@ const NotifyProvider = ({ children }) => {
   const token = Cookies.get("accessToken");
   useEffect(() => {
     let user = JSON.parse(sessionStorage.getItem("user"));
-    if (user?.id) {
+    if (user?._id) {
       console.log(token);
       // Connect to the Socket.IO server
       const newSocket = io("http://localhost:5020/notification", {

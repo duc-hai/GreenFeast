@@ -12,6 +12,7 @@ import {
     Space,
     Spin,
     Table,
+    Tag,
     message,
   } from "antd";
   import FoodComponent from "../../components/FoodCompoent";
@@ -90,6 +91,7 @@ import Cookies from "js-cookie";
       isShow: false,
     });
     const [sumMoney,setSumMoney]=useState(0)
+    const [tagShow,setTagShow] =useState('Khai vị')
     const handleOpenListOrderDetail =() => {
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
@@ -353,6 +355,9 @@ import Cookies from "js-cookie";
     }, [user]);
   
     const onClick = (e) => {
+  
+      setTagShow(listDataCate.find(item => item?.key === (e?.key) || (item?.key) === Number(e?.key))?.label)
+     
       if (e?.key === "recommend") {
         //call api recommend
         fetchMenuReCommend();
@@ -592,16 +597,19 @@ import Cookies from "js-cookie";
               className="md:hidden max-md:flex max-md:flex-wrap "
               style={{
                 backgroundColor:'#E4E4D0',
+               
                 
               }}
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
+              
               mode="horizontal"
               items={listDataCate}
             />
             <div  className="w-full bg-[#d4e3d3] flex"
               style={{ minHeight: "100vh" }}>
-
+              <Tag className="fixed right-0 sm:hidden " color="volcano">{tagShow}</Tag>
+              
               <div  className="h-full lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48 flex-1">
                 <div className="flex justify-between items-end gap-3 py-3 ">
                   <div className="flex flex-col w-20 gap-2">
@@ -650,8 +658,21 @@ import Cookies from "js-cookie";
                           <span className="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis">
                             {item?.name}
                           </span>
-                            <p>
-                              Giá: <strong>{item?.price} Đ</strong>
+                          <p className="flex gap-2">
+                              <span>Giá:</span>
+                              <span className="flex flex-col">
+                                <span
+                                  className={`font-semibold ${
+                                    !!item?.discount_price && "line-through"
+                                  }`}
+                                >
+                                  {item?.price.toLocaleString()} Đ
+                                </span>
+                                <span className="font-semibold text-red-500">
+                                  {item?.discount_price &&
+                                    `${item?.discount_price.toLocaleString()} Đ`}
+                                </span>
+                              </span>
                             </p>
                             <p className="flex items-center">
                             

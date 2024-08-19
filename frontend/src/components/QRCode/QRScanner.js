@@ -50,7 +50,7 @@ const QRScanner = () => {
   };
   return (
     <div>
-      <h1>Quest mã QR</h1>
+      <h1>Quét mã QR</h1>
       <div id="qr-reader" ref={qrCodeRef} style={{ width: "100%" }} />
       <Modal
         open={modalIsOpen}
