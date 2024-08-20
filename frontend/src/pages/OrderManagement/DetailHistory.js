@@ -33,6 +33,7 @@ const DetailHistory = ({ id }) => {
       dataIndex: "_id",
       align: "center",
       width: 50,
+      responsive: ["sm"],
       render: (text, _, index) => <span>{index + 1}</span>,
     },
     {
@@ -44,7 +45,7 @@ const DetailHistory = ({ id }) => {
       title: "Số lượng",
       dataIndex: "quantity",
       align: "center",
-      width: 80,
+      width: 100,
     },
     {
       title: "Giá tiền",
@@ -57,6 +58,7 @@ const DetailHistory = ({ id }) => {
       dataIndex: "note",
       width: 140,
       align: "center",
+      responsive: ["sm"],
     },
   ];
   return (

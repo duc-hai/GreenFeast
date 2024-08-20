@@ -29,6 +29,7 @@ const HistoryAtRestaurant = () => {
       dataIndex: "order_person",
       align: "center",
       render: (text) => <span>{text?.name}</span>,
+      responsive: ["sm"],
     },
     {
       title: "Bàn",
@@ -54,6 +55,7 @@ const HistoryAtRestaurant = () => {
         <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
       ),
       align: "center",
+      responsive: ["sm"],
     },
     {
       title: "Hoạt động ",

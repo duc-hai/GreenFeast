@@ -8,6 +8,7 @@ const FormDetailHistory = ({ detailData }) => {
       title: "STT",
       dataIndex: "_id",
       render: (text, record, index) => <p>{index + 1}</p>,
+      responsive: ["sm"],
     },
     {
       title: "Món ăn",
@@ -27,7 +28,11 @@ const FormDetailHistory = ({ detailData }) => {
   }, []);
   return (
     <div className="flex flex-col gap-5 max-h-96 overflow-auto">
-      <Descriptions title="Thông tin giao hàng" bordered column={2}>
+      <Descriptions
+        title="Thông tin giao hàng"
+        bordered
+        column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+      >
         <Descriptions.Item label="Địa chỉ" span={2}>
           <span>{detailData?.delivery_information?.address}</span>,
           <span> {detailData?.delivery_information?.ward}</span>,

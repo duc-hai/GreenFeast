@@ -128,7 +128,7 @@ import Cookies from "js-cookie";
       console.log(res)
       if(res?.status ==='success' && (!!res?.data?.vnpUrl)){
 
-        message.success('Thanh toán thành công')
+        // message.success('Thanh toán thành công')
         // window.open(res?.data?.vnpUrl,'_blank')
         Cookies.remove('tableSlug');
             Cookies.remove('nameTable');
@@ -388,6 +388,7 @@ import Cookies from "js-cookie";
         title: "Số lượng",
         dataIndex: "quantity",
         key: "quantity",
+        responsive: ["sm"],
       },
       {
         title: "Tổng tiền",
@@ -399,6 +400,7 @@ import Cookies from "js-cookie";
         title: "Ghi chú (Nếu có)",
         dataIndex: "note",
         key: "note",
+        responsive: ["md"],
         render: (_, record) => (
           <Input
             placeholder="Ghi chú"
@@ -419,7 +421,7 @@ import Cookies from "js-cookie";
     ];
     const columnsOrderOld = [
         {
-          title: "Tên món",
+          title: "Tên món ",
           dataIndex: "name",
           key: "name",
           render: (text) => <a>{text}</a>,
@@ -434,6 +436,7 @@ import Cookies from "js-cookie";
           title: "Số lượng",
           dataIndex: "quantity",
           key: "quantity",
+          responsive: ["sm"],
         },
         {
           title: "Tổng tiền",
@@ -445,6 +448,7 @@ import Cookies from "js-cookie";
           title: "Ghi chú (Nếu có)",
           dataIndex: "note",
           key: "note",
+          responsive: ["sm"],
           render: (_, record) => (
             <Input
               placeholder="Ghi chú"
@@ -526,7 +530,7 @@ import Cookies from "js-cookie";
                 Hủy
               </Button>,
               <Button type="primary" onClick={handleOrder} loading={loading}>
-                Đặt món 1
+                Đặt món 
               </Button>,
             ]}
           >
@@ -853,7 +857,7 @@ import Cookies from "js-cookie";
                       return { ...item, key: index };
                     })
                   }
-                  scroll={{ x: "max-content" }}
+                  
                 />
                 <p className="justify-end flex gap-2 mt-3">
                   <span>Giá:</span>

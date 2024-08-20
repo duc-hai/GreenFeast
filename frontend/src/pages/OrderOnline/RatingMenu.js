@@ -1,5 +1,5 @@
 import { Button, Form, Input, message, Modal, Rate } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getOrderHistoryDetailAtRestaurant,
   postOrderRating,
@@ -75,6 +75,9 @@ const RatingMenu = ({ id, disabled, refetch }) => {
     setIsOpen(true);
     fetchDetailHistory(id);
   };
+  useEffect(() => {
+    console.log(dataDetail);
+  }, []);
   return (
     <>
       <EditFilled

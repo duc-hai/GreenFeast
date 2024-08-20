@@ -22,12 +22,13 @@ const OrderHistory = () => {
       title: "STT",
       dataIndex: "time",
       render: (text, record, index) => <p>{index + 1}</p>,
+      responsive: ["sm"],
     },
     {
       title: "Ngày đặt món",
       dataIndex: "time",
       render: (text, record, index) => (
-        <p>{dayjs(text).format("YYYY-MM-DD")}</p>
+        <p>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</p>
       ),
     },
     {
@@ -38,6 +39,7 @@ const OrderHistory = () => {
     {
       title: "Trạng thái",
       dataIndex: "status",
+      responsive: ["sm"],
     },
     {
       title: "Thao tác",

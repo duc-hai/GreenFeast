@@ -144,13 +144,13 @@ const Homepage = () => {
         <div class="card-body" style={{ backgroundColor: "#ABC4AA" }}>
           <div className="w-[100%]">
             <div className="flex flex-col gap-4 justify-center items-center">
-              <p>
+              <p className="leading-7 text-center">
                 <strong>Số điện thoại:</strong> 0123456789
               </p>
-              <p>
+              <p className="leading-7 text-center">
                 <strong>Email:</strong> greenfeast@gmail.com
               </p>
-              <p>
+              <p className="leading-7 text-center">
                 <strong>Địa chỉ:</strong> 19 Nguyễn Hữu Thọ, Tân Phong, Quận 7,
                 Hồ Chí Minh, Việt Nam
               </p>

@@ -566,7 +566,7 @@ const OrderManagement = () => {
               </span>
             </p>
             <p className="justify-end flex gap-2 mb-3">
-              <span>Số tiền phải thanh toán 1:</span>
+              <span>Số tiền phải thanh toán:</span>
               <span className="font-semibold text-green-700">
                 {/* {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
                   orderDetail?.subtotal?.toLocaleString("vi-VN", {})} */}

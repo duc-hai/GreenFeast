@@ -52,6 +52,7 @@ const NotifyHeader =() => {
       };
     useEffect(()=> {
         socket.on('notification', (msg)=> {
+          console.log(msg)
           fetchDataNotifyHeader()
           fetchQualityNotify()
         })

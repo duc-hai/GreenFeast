@@ -281,7 +281,7 @@ const Header = () => {
   const checkRole = (value, role) => {
     if (role === "customer") return itemUser;
     if (value) return itemAdmin;
-    return itemUser?.filter((item, index) => index === 0);
+    return itemUser?.filter((item, index) => index !== 2);
   };
   return (
     <div>

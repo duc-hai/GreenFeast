@@ -434,9 +434,10 @@ const OrderOnline = () => {
       key: "quantity",
     },
     {
-      title: "Ghi chú (Nếu có)",
+      title: "Ghi chú",
       dataIndex: "note",
       key: "note",
+      responsive: ["sm"],
       render: (_, record) => (
         <Input
           placeholder="Ghi chú"
@@ -565,7 +566,7 @@ const OrderOnline = () => {
         <Spin spinning={loading}>
           <Modal
             title="Xác nhận đặt món"
-            className="modalCustom max-lg:w-64"
+            // className="modalCustom max-lg:w-64"
             open={isModalOpen}
             onCancel={() => {
               setIsModalOpen(false);
@@ -576,7 +577,7 @@ const OrderOnline = () => {
                   Quay lại
                 </Button>
                 {tab === 3 ? (
-                  <div className="flex gap-2">
+                  <div className="flex gap-1">
                     <Button
                       onClick={() => {
                         setIsModalOpen(false);
@@ -644,7 +645,7 @@ const OrderOnline = () => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span>Địa chỉ nhận hàng:</span>
-                    <div className="grid grid-cols-3 gap-1">
+                    <div className="flex gap-2 flex-col">
                       <Select
                         placeholder="Chọn huyện"
                         options={optionsDistrict}
@@ -683,10 +684,7 @@ const OrderOnline = () => {
                 </div>
               )}
               {tab === 3 && (
-                <div
-                  className="md:grid md:gap-6 "
-                  style={{ gridTemplateColumns: "8fr 4fr " }}
-                >
+                <div className="md:grid md:gap-6">
                   <div className="grid grid-col-1 gap-2">
                     <div className="flex flex-col gap-1">
                       <span>Ghi chú:</span>
@@ -730,11 +728,10 @@ const OrderOnline = () => {
                     </p>
                   </div>
                   <div className="flex gap-2 flex-wrap">
-                    <div className="flex flex-col gap-1">
+                    <div className="grid grid-cols-1 gap-1  w-full">
                       <span>Loại thanh toán:</span>
                       <Select
                         defaultValue="bank"
-                        style={{ width: 320 }}
                         onChange={handleChange}
                         options={[
                           { value: "bank", label: "Thanh toán online" },
@@ -742,10 +739,9 @@ const OrderOnline = () => {
                         ]}
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="grid grid-cols-1 gap-1  w-full">
                       <span>Khuyến mãi</span>
                       <Select
-                        style={{ width: 200 }}
                         options={convertOptionPromotion(listPromotion) || []}
                         onChange={(e) => handleCheckPromotion(e)}
                         value={promotionId}
