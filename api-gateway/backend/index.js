@@ -26,7 +26,7 @@ app.use(session({
 
 //Allow cross origin resource sharing
 app.use(cors({
-    origin: ['http://localhost', 'http://greenfeast.space', 'https://greenfeast.space', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:5010', 'https://petstore.swagger.io'], //Url we wish to allow to connect
+    origin: ['http://localhost', 'http://greenfeast.space', 'https://greenfeast.space', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:5010', 'https://petstore.swagger.io', 'http://localhost:8081'], //Url we wish to allow to connect
     preflightContinue: false,
     credentials: true, //true: website to include cookies in the requests sent, session
     optionsSuccessStatus: 200
