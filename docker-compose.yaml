@@ -52,6 +52,39 @@ services:
       - apigateway-network
       - greenfeast
 
+  
+  apigateway-mobile: #name of service
+    container_name: apigateway-mobile
+    build:
+      context: ./api-gateway-mobile/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: always
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27017 #27017 is port of service in Docker (not localhost)
+      - DB_HOST=apiGatewayDB # database is service's name
+      # - FRONT_END_URL=http://localhost
+      - FRONT_END_URL=https://greenfeast.space
+      - ORDER_SERVICE_URL=http://order:5000
+      - NOTIFICATION_SERVICE_URL=http://notification:5020
+      - PAYMENT_SERVICE_URL=http://payment:5005
+      - MANAGEMENT_SERVICE_URL=http://management:4000
+      - TMS_SERVICE_URL=http://tms:5010
+      - STATISTICS_SERVICE_URL=http://statistics:5030
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GOOGLE_REDIRECT_URI=https://greenfeast.space/api-mobile/auth/google/callback
+      - RECOMMEND_SERVICE_URL=http://recommend:5090
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 3003:3003 #The first 3000 is your port local, the second 3000 is the port on docker container
+      # Any packets sent to port 27017 on the local machine will be forwarded to port 27017 in the docker container
+    expose:
+      - 3003
+    networks:
+      - apigateway-network
+      - greenfeast
+
   notification: #name of service
     container_name: notification
     build:

@@ -1,0 +1,17 @@
+[
+    { "resource": "employee", "actions": [
+            "read:any",
+            "update:any",
+            "delete:any",
+            "create:any"
+        ]
+    },
+
+    { "resource": "menu", "actions": [
+            "read:any",
+            "update:any",
+            "delete:any",
+            "create:any"
+        ]
+    }
+]
