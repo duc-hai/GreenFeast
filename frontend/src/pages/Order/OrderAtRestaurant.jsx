@@ -19,7 +19,7 @@ import {
   import { UserOutlined } from "@ant-design/icons";
   import { Menu } from "antd";
   import "./index.css";
-  import { useEffect, useState } from "react";
+  import { useEffect, useRef, useState } from "react";
   import {
       applyPromotion,
       closeTable,
@@ -45,6 +45,8 @@ import {
   import Search from "antd/es/transfer/search";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
+
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -92,6 +94,21 @@ import Cookies from "js-cookie";
     });
     const [sumMoney,setSumMoney]=useState(0)
     const [tagShow,setTagShow] =useState('Khai vị')
+    const [currentRotate, setCurrentRotate] = useState(0);
+
+    const isDraggingRef = useRef(false);
+  
+    const onDrag = () => {
+      isDraggingRef.current = true;
+    };
+  
+    const onStop = () => {
+      if (!isDraggingRef.current) {
+        setCurrentRotate(currentRotate + 90);
+      }
+      isDraggingRef.current = false;
+    };
+  
     const handleOpenListOrderDetail =() => {
       setIsModalCloseTable(true)
       fetchDataOrderDetail(tableSlugId)
@@ -717,7 +734,7 @@ import Cookies from "js-cookie";
                                           key: item._id,
                                           id: item._id,
                                           quantity: 1,
-                                          price: item.price,
+                                          price:item?.discount_price|| item.price,
                                           name: item.name,
                                         },
                                       ];
@@ -752,7 +769,7 @@ import Cookies from "js-cookie";
                                           key: item._id,
                                           id: item._id,
                                           quantity: 1,
-                                          price: item.price,
+                                          price:item?.discount_price|| item.price,
                                           name: item.name,
                                         },
                                       ];
@@ -770,7 +787,10 @@ import Cookies from "js-cookie";
                       </div>
                     ))}
                 </div>
-                <div className="fixed right-[50px] bottom-0 min-w-[350px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
+                {/* <DragDropFree/> */}
+                <Draggable onStop={onStop} onDrag={onDrag} cancel=".no-drag">
+                 
+                <div draggable className="fixed right-[50px] bottom-0 min-w-[350px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
                   <span className="font-medium text-m">
                     Hóa đơn tạm tính :{" "}
                     {order?.length > 0
@@ -782,28 +802,29 @@ import Cookies from "js-cookie";
                           .toLocaleString()} */}
                     VNĐ
                   </span>
-                  <div className="grid gap-2 grid-cols-2">
+                  <div className="grid gap-2 grid-cols-2" >
                       <Button onClick={()=> handleOpenListOrderDetail()}  
-                      className="h-[40px] w-[140px] bg-white text-s">
+                      className="no-drag h-[40px] w-[140px] bg-white text-s">
                           Xem lại danh sách
                       </Button>
-                  <Button
-                    type="primary"
-                    className="h-[40px] w-[140px] text-s"
-                    onClick={() => {
-                      setOrder(order?.filter((item) => item.quantity > 0));
-                      if (order?.length === 0 || !order) {
-                        message.error("Vui lòng chọn món");
-                        return;
-                      } else {
-                        setIsModalOpen(true);
-                      }
-                    }}
-                  >
-                    Đặt món
-                  </Button>
+                      <Button
+                        type="primary"
+                        className="no-drag h-[40px] w-[140px] text-s"
+                        onClick={() => {
+                          setOrder(order?.filter((item) => item.quantity > 0));
+                          if (order?.length === 0 || !order) {
+                            message.error("Vui lòng chọn món");
+                            return;
+                          } else {
+                            setIsModalOpen(true);
+                          }
+                        }}
+                      >
+                        Đặt món
+                      </Button>
                   </div>
                 </div>
+                </Draggable>
               </div>
             </div>
           </div>

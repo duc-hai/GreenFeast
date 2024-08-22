@@ -82,17 +82,17 @@ const DetailHistory = ({ id }) => {
           <div className="flex flex-column  gap-2 max-h-96 overflow-auto">
             <div>
               <p>
-                <span className="font-semibold">Bàn : </span>
+                <span className="font-semibold">Bàn: </span>
                 <span>{dataDetail?.table}</span>
               </p>
               <p>
-                <span className="font-semibold">Thời gian vào : </span>
+                <span className="font-semibold">Thời gian vào: </span>
                 <span>
                   {dayjs(dataDetail?.checkin).format("YYYY-MM-DD HH:mm:ss")}
                 </span>
               </p>
               <p>
-                <span className="font-semibold">Thời gian vào : </span>
+                <span className="font-semibold">Thời gian vào: </span>
                 <span>
                   {dayjs(dataDetail?.checkout).format("YYYY-MM-DD HH:mm:ss")}
                 </span>
@@ -122,22 +122,22 @@ const DetailHistory = ({ id }) => {
               <div className="flex items-center gap-2">
                 <p className="font-semibold ">Tổng tiền :</p>
                 <p className="font-semibold">
-                  {dataDetail?.subtotal.toLocaleString()} Đ
+                  {dataDetail?.subtotal.toLocaleString()} VNĐ
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <p className="font-semibold ">Giảm giá :</p>
                 <p className="font-semibold text-green-600">
-                  {dataDetail?.discount?.toLocaleString()} Đ
+                  {dataDetail?.discount?.toLocaleString()} VNĐ
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <p className="font-semibold ">Số tiền phải thanh toán :</p>
                 <p className="font-semibold text-red-600">
                   {(
-                    dataDetail?.subtotal + dataDetail?.discount
+                    dataDetail?.subtotal - dataDetail?.discount
                   )?.toLocaleString()}{" "}
-                  Đ
+                  VNĐ
                 </p>
               </div>
               <div className="flex items-center gap-2">

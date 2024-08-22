@@ -229,14 +229,14 @@ const TableManagement = () => {
           formData.append("image", isEdit.image);
         }
         formData.append("menu_type", values.menu_type);
-        await axios.post(
-          `http://localhost:4000/menu/update/${isEdit?.id}`,
+        await axios.put(
+          `http://localhost:4000/menu/update/${isEdit?._id}`,
           formData
         );
 
         message.success("Cập nhật món ăn thành công");
         setIsModalOpen(false);
-        fetchMenu();
+        fetchMenu(1, 10);
       } else {
         const formData = new FormData();
         formData.append("name", values.name);
