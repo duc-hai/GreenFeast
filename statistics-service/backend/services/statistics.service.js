@@ -280,8 +280,8 @@ class StatisticsService {
             to = new Date(to)
 
             const payment_methods = [
-                { _id: 'Tiền mặt', name: 'Tiền mặt tại nhà hàng', type: 'offline' },
-                { _id: 'Transfer',name: 'Chuyển khoản tại nhà hàng', type: 'offline' },
+                { _id: 'cash', name: 'Tiền mặt tại nhà hàng', type: 'offline' },
+                { _id: 'transfer',name: 'Chuyển khoản tại nhà hàng', type: 'offline' },
                 { _id: 'cod', name: 'Thanh toán khi nhận hàng', type: 'online' },
                 { _id: 'bank', name: 'Thanh toán online trực tuyến', type: 'online'},
             ]

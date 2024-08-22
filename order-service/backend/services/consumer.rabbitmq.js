@@ -99,7 +99,7 @@ const closeTable = async message => {
         if (message.title !== 'payment') return null
         
         const updateOrder = await Order.findOneAndUpdate({ _id: message.data?.orderId, status: false }, {
-            payment_method: 'Transfer',
+            payment_method: 'transfer',
             status: true,
             checkout: new Date(),
             total: message.data?.amount,

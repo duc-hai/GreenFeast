@@ -436,6 +436,8 @@ class OrderService {
 
             const { note, payment_method } = req.body
 
+            if (payment_method !== 'cash' && payment_method !== 'transfer') return next(createError(StatusCode.BadRequest_400, 'Phương thức thanh toán không hợp lệ'))
+
             //Depending on whether you pay by cash or transfer, there is an appropriate way to handle it. For transfers, the table is automatically closed, for cash, you call this API. 
 
             const area = await Area.findOne({ 'table_list.slug': tableSlug })
@@ -464,7 +466,7 @@ class OrderService {
                 { $set: { 'table_list.$.status': 0 } }
             )
 
-            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updateOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
+            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updatedOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
             
             producer.sendQueueStatistics('offline', updatedOrder)
 
