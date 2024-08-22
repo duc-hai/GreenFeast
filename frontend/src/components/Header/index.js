@@ -100,6 +100,8 @@ const Header = () => {
   };
   const handleOk = () => {
     onFinish();
+
+    // đăng xuất
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -218,6 +220,7 @@ const Header = () => {
       if (res?.status === "success") {
         message.success("Cập nhật thông tin thành công");
         handleCancel();
+        handleLogout();
       } else {
         message.error("Cập nhật thông tin thất bại");
       }
@@ -232,6 +235,7 @@ const Header = () => {
       if (res?.status === "success") {
         message.success("Cập nhật thông tin thành công");
         handleCancel();
+        handleLogout();
       } else {
         message.error("Cập nhật thông tin thất bại");
       }

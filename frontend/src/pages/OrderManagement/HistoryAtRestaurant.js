@@ -40,7 +40,7 @@ const HistoryAtRestaurant = () => {
       title: "Giảm giá",
       dataIndex: "discount",
       align: "center",
-      render: (text) => <span>{text?.toLocaleString()} đ</span>,
+      render: (text) => <span>{text?.toLocaleString()} VNĐ</span>,
       responsive: ["sm"],
     },
     {
@@ -48,7 +48,9 @@ const HistoryAtRestaurant = () => {
       dataIndex: "subtotal",
       align: "center",
       render: (text, record) => (
-        <span>{(record?.subtotal + record?.discount)?.toLocaleString()} đ</span>
+        <span>
+          {(record?.subtotal - record?.discount)?.toLocaleString()} VNĐ
+        </span>
       ),
     },
     {

@@ -36,7 +36,7 @@ import {
 import RatingMenu from "./RatingMenu";
 import { useNavigate } from "react-router-dom";
 import ProtectedRoute from "../../components/ProtectedRoute/ProtectedRoute";
-
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -541,7 +541,10 @@ const OrderOnline = () => {
       //   res?.data?.map((item) => window.open(item, "_blank"));
       // }
       if (res?.status === "error") message.error(res.message);
-      else message.success("Đặt món thành công");
+      else {
+        setOrder([]);
+        message.success("Đặt món thành công");
+      }
 
       setIsModalOpen(false);
     } catch (error) {
@@ -812,12 +815,13 @@ const OrderOnline = () => {
             </div>
           </Modal>
 
-          <div className="flex max-sm:flex max-sm:flex-col bg-[#d4e3d3] h-full ">
+          <div className="flex max-sm:flex max-sm:flex-col bg-[#d4e3d3] h-full   ">
             <Menu
               onClick={onClick}
-              className="min-w-48 h-full max-md:hidden fixed top-24"
+              className="min-w-48 max-md:hidden fixed top-24 overflow-auto   "
               style={{
                 backgroundColor: "#E4E4D0",
+                height: "calc(100vh - 100px)",
               }}
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
@@ -842,7 +846,7 @@ const OrderOnline = () => {
               <Tag className="fixed right-0 sm:hidden " color="volcano">
                 {tagShow}
               </Tag>
-              <div className="lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48 flex-1">
+              <div className="lg: px-4 max-sm:p-2 bg-[#d4e3d3]  md:ml-48 flex-1 ">
                 <div className="flex w-full justify-between items-end gap-3 py-3">
                   <div></div>
                   <div>
@@ -864,7 +868,7 @@ const OrderOnline = () => {
                   )}
                 </div>
 
-                <div className="flex flex-wrap  gap-6 justify-center">
+                <div className="flex flex-wrap  gap-6 justify-center ">
                   {getListMenu?.length > 0 &&
                     getListMenu?.map((item) => (
                       <div
@@ -928,7 +932,8 @@ const OrderOnline = () => {
                                           key: item._id,
                                           id: item._id,
                                           quantity: 1,
-                                          price: item.price,
+                                          price:
+                                            item?.discount_price || item.price,
                                           name: item.name,
                                         },
                                       ];
@@ -963,7 +968,8 @@ const OrderOnline = () => {
                                           key: item._id,
                                           id: item._id,
                                           quantity: 1,
-                                          price: item.price,
+                                          price:
+                                            item?.discount_price || item.price,
                                           name: item.name,
                                         },
                                       ];
@@ -981,32 +987,34 @@ const OrderOnline = () => {
                       </div>
                     ))}
                 </div>
-                <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
-                  <span className="font-medium text-m">
-                    Hóa đơn tạm tính:{" "}
-                    {order?.length > 0
-                      ? order
-                          ?.reduce((a, b) => a + b.price * b.quantity, 0)
-                          .toLocaleString()
-                      : 0}
-                    VNĐ
-                  </span>
-                  <Button
-                    type="primary"
-                    className="h-[40px] w-[140px]"
-                    onClick={() => {
-                      setOrder(order?.filter((item) => item.quantity > 0));
-                      if (order?.length === 0 || !order) {
-                        message.error("Vui lòng chọn món");
-                        return;
-                      } else {
-                        setIsModalOpen(true);
-                      }
-                    }}
-                  >
-                    Đặt món
-                  </Button>
-                </div>
+                <Draggable cancel=".no-drag">
+                  <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
+                    <span className="font-medium text-m">
+                      Hóa đơn tạm tính:{" "}
+                      {order?.length > 0
+                        ? order
+                            ?.reduce((a, b) => a + b.price * b.quantity, 0)
+                            .toLocaleString()
+                        : 0}
+                      VNĐ
+                    </span>
+                    <Button
+                      type="primary"
+                      className="no-drag h-[40px] w-[140px]"
+                      onClick={() => {
+                        setOrder(order?.filter((item) => item.quantity > 0));
+                        if (order?.length === 0 || !order) {
+                          message.error("Vui lòng chọn món");
+                          return;
+                        } else {
+                          setIsModalOpen(true);
+                        }
+                      }}
+                    >
+                      Đặt món
+                    </Button>
+                  </div>
+                </Draggable>
               </div>
             </div>
           </div>

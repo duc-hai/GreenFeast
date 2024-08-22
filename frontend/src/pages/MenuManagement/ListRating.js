@@ -1,5 +1,5 @@
 import { EditFilled } from "@ant-design/icons";
-import { Button, message, Modal, Rate, Spin, Table } from "antd";
+import { Button, message, Modal, Rate, Result, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { getListRatingId } from "../../Services/ApiOrderHistory";
 import dayjs from "dayjs";
@@ -21,7 +21,7 @@ const ListRating = ({ id }) => {
           res?.message || "Lấy danh sách đánh giá món ăn thành công"
         );
       } else {
-        message.error(res?.message || "Lấy danh sách đánh giá món ăn thất bại");
+        message.error("Lấy danh sách đánh giá món ăn thất bại");
       }
     } catch (err) {
       console.log(err);
@@ -85,7 +85,7 @@ const ListRating = ({ id }) => {
       >
         {isLoading ? (
           <Spin />
-        ) : (
+        ) : data.length > 0 ? (
           <Table
             columns={columns}
             dataSource={data}
@@ -95,6 +95,11 @@ const ListRating = ({ id }) => {
               onChange: (page) => setPagination(page),
             }}
           />
+        ) : (
+          <Result
+            status="warning"
+            title="Món ăn chưa có đánh giá nào!"
+          ></Result>
         )}
       </Modal>
     </div>

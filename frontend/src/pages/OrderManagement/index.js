@@ -219,7 +219,7 @@ const OrderManagement = () => {
       key: "price",
       align: "center",
       render: (text, record) => (
-        <span>{record?.price?.toLocaleString()} đ</span>
+        <span>{record?.price?.toLocaleString()} VNĐ</span>
       ),
     },
     {
@@ -233,7 +233,7 @@ const OrderManagement = () => {
       dataIndex: "quantity",
       key: "quantity",
       render: (text, record) => (
-        <span>{(record.price * record.quantity).toLocaleString()} đ</span>
+        <span>{(record.price * record.quantity).toLocaleString()} VNĐ</span>
       ),
     },
     {
