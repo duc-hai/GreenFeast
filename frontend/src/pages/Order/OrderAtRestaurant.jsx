@@ -373,10 +373,29 @@ import Cookies from "js-cookie";
   
     const columnsOrder = [
       {
-        title: "Tên món",
+        title: "Tên món 1",
         dataIndex: "name",
         key: "name",
-        render: (text) => <a>{text}</a>,
+        render: (text,record) =>
+        <div className="flex flex-col justify-center items-center gap-1">
+
+          <a>{text}</a>
+          <Input
+          className="sm:hidden"
+            placeholder="Ghi chú"
+            onChange={(e) => {
+              setOrder((preOrder) => {
+                console.log(record);
+                const index = preOrder.findIndex((i) => i.id === record.id);
+                if (index === -1) {
+                  return [...preOrder];
+                }
+                preOrder[index].note = e.target.value;
+                return [...preOrder];
+              });
+            }}
+          />
+        </div> 
       },
       {
         title: "Giá",
@@ -397,7 +416,7 @@ import Cookies from "js-cookie";
         render: (text, record) => <span>{(record.price * record.quantity).toLocaleString()}đ</span>,
       },
       {
-        title: "Ghi chú (Nếu có)",
+        title: "Ghi chú",
         dataIndex: "note",
         key: "note",
         responsive: ["md"],
@@ -645,7 +664,7 @@ import Cookies from "js-cookie";
                       key={item._id}
                       className="flex-1 min-w-[340px] lg:grow-0 shrink content-start"
                       >
-                        <div  className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
+                        <div  className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center rounded-lg">
                           <div
                             className=" cursor-pointer"
                             onClick={() => {
@@ -653,7 +672,7 @@ import Cookies from "js-cookie";
                             }}
                           >
                             <img
-                            className="w-32 h-32 aspect-video object-cover"
+                            className="w-32 h-32 aspect-video object-cover rounded-lg"
                             alt="logo"
                             src={item.image}
                           />
@@ -670,11 +689,11 @@ import Cookies from "js-cookie";
                                     !!item?.discount_price && "line-through"
                                   }`}
                                 >
-                                  {item?.price.toLocaleString()} Đ
+                                  {item?.price.toLocaleString()} VNĐ
                                 </span>
                                 <span className="font-semibold text-red-500">
                                   {item?.discount_price &&
-                                    `${item?.discount_price.toLocaleString()} Đ`}
+                                    `${item?.discount_price.toLocaleString()} VNĐ`}
                                 </span>
                               </span>
                             </p>
@@ -683,9 +702,9 @@ import Cookies from "js-cookie";
                             <Rate allowHalf value={item?.rating_average || 0} />
                             <span>{`(${item?.rating_count || 0})`}</span>
                           </p>
-                            <p className="flex items-center gap-3">
+                            <p className="flex items-center gap-3 justify-center">
                               <button
-                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                className="bg-[#263A29] text-[#fff] w-6 h-6 flex items-center justify-center rounded-md"
                                 onClick={() => {
                                   setOrder((preOrder) => {
                                     const index = preOrder.findIndex(
@@ -720,7 +739,7 @@ import Cookies from "js-cookie";
                                   0}
                               </span>
                               <button
-                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                className="bg-[#263A29] text-[#fff] w-6 h-6 flex items-center justify-center rounded-md"
                                 onClick={() => {
                                   setOrder((preOrder) => {
                                     const index = preOrder.findIndex(
@@ -751,9 +770,9 @@ import Cookies from "js-cookie";
                       </div>
                     ))}
                 </div>
-                <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
-                  <span className="font-medium text-xl">
-                    Tổng tiền :{" "}
+                <div className="fixed right-[50px] bottom-0 min-w-[350px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
+                  <span className="font-medium text-m">
+                    Hóa đơn tạm tính :{" "}
                     {order?.length > 0
                       ? (order
                           ?.reduce((a, b) => a + b.price * b.quantity, 0)+sumMoney)
@@ -761,16 +780,16 @@ import Cookies from "js-cookie";
                       : (0 + sumMoney).toLocaleString()}
                       {/* {(order?.reduce((a, b) => a + b.price * b.quantity, 0) +sumMoney)
                           .toLocaleString()} */}
-                    đ
+                    VNĐ
                   </span>
-                  <div className="grid gap-4 grid-cols-2">
+                  <div className="grid gap-2 grid-cols-2">
                       <Button onClick={()=> handleOpenListOrderDetail()}  
-                      className="h-[40px] w-[140px] bg-white">
+                      className="h-[40px] w-[140px] bg-white text-s">
                           Xem lại danh sách
                       </Button>
                   <Button
                     type="primary"
-                    className="h-[40px] w-[140px]"
+                    className="h-[40px] w-[140px] text-s"
                     onClick={() => {
                       setOrder(order?.filter((item) => item.quantity > 0));
                       if (order?.length === 0 || !order) {

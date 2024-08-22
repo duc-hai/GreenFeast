@@ -20,7 +20,7 @@ const FoodComponent = (props) => {
         <div className="flex flex-col gap-3">
           <p>{name}</p>
           <p>
-            Giá: <strong>{price} Đ</strong>
+            Giá: <strong>{price} VNĐ</strong>
           </p>
           <p className="flex items-center gap-3">
             <button
