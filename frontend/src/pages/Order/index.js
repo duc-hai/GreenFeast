@@ -491,7 +491,7 @@ const Order = () => {
                       ?.reduce((a, b) => a + b.price * b.quantity, 0)
                       .toLocaleString()
                   : 0}
-                đ
+                VNĐ
               </span>
               <Button
                 type="primary"

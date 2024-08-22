@@ -421,7 +421,26 @@ const OrderOnline = () => {
       title: "Tên món",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => (
+        <div className="flex flex-col justify-center items-center gap-1">
+          <a>{text}</a>
+          <Input
+            className="sm:hidden"
+            placeholder="Ghi chú"
+            value={order.find((item) => item.id === record.id)?.note || ""}
+            onChange={(e) => {
+              setOrder((preOrder) => {
+                const index = preOrder.findIndex((i) => i.id === record.id);
+                if (index === -1) {
+                  return [...preOrder];
+                }
+                preOrder[index].note = e.target.value;
+                return [...preOrder];
+              });
+            }}
+          />
+        </div>
+      ),
     },
     {
       title: "Giá",
@@ -698,7 +717,7 @@ const OrderOnline = () => {
                       />
                     </div>
                     <p className="grid grid-cols-2 gap-1">
-                      <span>Tiền món ăn:</span>
+                      <span>Hóa đơn tạm tính:</span>
                       <span className="font-semibold">
                         {handleMoneyOrder(order).toLocaleString()} VNĐ
                       </span>
@@ -845,14 +864,14 @@ const OrderOnline = () => {
                   )}
                 </div>
 
-                <div className="flex flex-wrap  gap-6 justify-center ">
+                <div className="flex flex-wrap  gap-6 justify-center">
                   {getListMenu?.length > 0 &&
                     getListMenu?.map((item) => (
                       <div
                         key={item._id}
                         className="flex-1 min-w-[340px] xl:grow-0 shrink "
                       >
-                        <div className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center">
+                        <div className="flex gap-3 flex-wrap bgr-food bg-white max-[460px]::justify-center rounded-lg">
                           <div
                             className=" cursor-pointer "
                             onClick={() => {
@@ -860,7 +879,7 @@ const OrderOnline = () => {
                             }}
                           >
                             <img
-                              className="w-32 h-32 aspect-video object-cover"
+                              className="w-32 h-32 aspect-video object-cover rounded-lg"
                               alt="logo"
                               src={item.image}
                             />
@@ -877,11 +896,11 @@ const OrderOnline = () => {
                                     !!item?.discount_price && "line-through"
                                   }`}
                                 >
-                                  {item?.price.toLocaleString()} Đ
+                                  {item?.price.toLocaleString()} VNĐ
                                 </span>
                                 <span className="font-semibold text-red-500">
                                   {item?.discount_price &&
-                                    `${item?.discount_price.toLocaleString()} Đ`}
+                                    `${item?.discount_price.toLocaleString()} VNĐ`}
                                 </span>
                               </span>
                             </p>
@@ -894,9 +913,9 @@ const OrderOnline = () => {
                               <span>{`(${item?.rating_count || 0})`}</span>
                             </p>
 
-                            <p className="flex items-center gap-3">
+                            <p className="flex items-center gap-3 justify-center">
                               <button
-                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                className="bg-[#263A29] text-[#fff] w-6 h-6 flex items-center justify-center rounded-md"
                                 onClick={() => {
                                   setOrder((preOrder) => {
                                     const index = preOrder.findIndex(
@@ -931,7 +950,7 @@ const OrderOnline = () => {
                                   ?.quantity || 0}
                               </span>
                               <button
-                                className="bg-[#263A29] text-[#fff] w-5 h-5 flex items-center justify-center"
+                                className="bg-[#263A29] text-[#fff] w-6 h-6 flex items-center justify-center rounded-md"
                                 onClick={() => {
                                   setOrder((preOrder) => {
                                     const index = preOrder.findIndex(
@@ -962,15 +981,15 @@ const OrderOnline = () => {
                       </div>
                     ))}
                 </div>
-                <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5">
-                  <span className="font-medium text-xl">
-                    Tiền món ăn:{" "}
+                <div className="fixed right-[50px] bottom-0 min-w-[300px] flex items-center flex-col justify-center bg-[#e4e4d0] h-[150px] gap-5 rounded-lg">
+                  <span className="font-medium text-m">
+                    Hóa đơn tạm tính:{" "}
                     {order?.length > 0
                       ? order
                           ?.reduce((a, b) => a + b.price * b.quantity, 0)
                           .toLocaleString()
                       : 0}
-                    đ
+                    VNĐ
                   </span>
                   <Button
                     type="primary"

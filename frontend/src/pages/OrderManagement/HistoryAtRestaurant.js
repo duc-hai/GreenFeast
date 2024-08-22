@@ -41,12 +41,15 @@ const HistoryAtRestaurant = () => {
       dataIndex: "discount",
       align: "center",
       render: (text) => <span>{text?.toLocaleString()} đ</span>,
+      responsive: ["sm"],
     },
     {
       title: "Tổng tiền",
       dataIndex: "subtotal",
       align: "center",
-      render: (text) => <span>{text?.toLocaleString()} đ</span>,
+      render: (text, record) => (
+        <span>{(record?.subtotal + record?.discount)?.toLocaleString()} đ</span>
+      ),
     },
     {
       title: "Thời gian",
