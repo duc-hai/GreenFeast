@@ -5,5 +5,6 @@ module.exports = {
     'tms': 'TMS_SERVICE_URL',
     'notification': 'NOTIFICATION_SERVICE_URL',
     'statistics': 'STATISTICS_SERVICE_URL',
-    'recommend': 'RECOMMEND_SERVICE_URL'
+    'recommend': 'RECOMMEND_SERVICE_URL',
+    'order2': 'ORDER2_SERVICE_URL'
 }

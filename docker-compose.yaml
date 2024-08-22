@@ -37,6 +37,7 @@ services:
       - MANAGEMENT_SERVICE_URL=http://management:4000
       - TMS_SERVICE_URL=http://tms:5010
       - STATISTICS_SERVICE_URL=http://statistics:5030
+      - ORDER2_SERVICE_URL=http://order2:5001
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - GOOGLE_REDIRECT_URI=https://greenfeast.space/api/auth/google/callback
@@ -52,7 +53,6 @@ services:
       - apigateway-network
       - greenfeast
 
-  
   apigateway-mobile: #name of service
     container_name: apigateway-mobile
     build:
@@ -70,6 +70,7 @@ services:
       - MANAGEMENT_SERVICE_URL=http://management:4000
       - TMS_SERVICE_URL=http://tms:5010
       - STATISTICS_SERVICE_URL=http://statistics:5030
+      - ORDER2_SERVICE_URL=http://order2:5001
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - GOOGLE_REDIRECT_URI=https://greenfeast.space/api-mobile/auth/google/callback
@@ -209,6 +210,33 @@ services:
       # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
     expose:
       - 5000
+    depends_on: 
+      - management
+    networks:
+      - order-network
+      - greenfeast
+
+  order2: #name of service
+    container_name: order2
+    build:
+      context: ./order-service-2/backend #path to source backend (local)
+      dockerfile: Dockerfile
+    restart: always
+    environment: #override enviroment variable  (.env file)
+      - DB_PORT=27018 #27018 is port of service in Docker (not localhost)
+      - DB_HOST=orderDB # orderDB is service's name
+      - AMQP_SERVER_URL_HOST=rabbitmq #rabbitmq is service's name of rabbit mq
+      - AMQP_SERVER_URL_PORT=5672
+      - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
+      - API_GATEWAY_URL=https://greenfeast.space
+      - FRONT_END_URL_QRCODE=https://greenfeast.space
+      - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
+      # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
+    ports: 
+      - 5001:5001 #The first 5000 is your port local, the second 5000 is the port on docker container
+      # Any packets sent to port 27018 on the local machine will be forwarded to port 27018 in the docker container
+    expose:
+      - 50001
     depends_on: 
       - management
     networks:

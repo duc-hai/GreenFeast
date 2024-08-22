@@ -1,0 +1,423 @@
+[{
+  "_id": 1,
+  "name": "Tầng 1",
+  "description": "Khu vực tầng trệt",
+  "table_list": [
+    {
+      "_id": "A01",
+      "status": 1,
+      "slug": "9c48d924-a481-493e-8bbe-6d866e89eb70"
+    },
+    {
+      "_id": "A02",
+      "status": 0,
+      "slug": "506d9ecb-4467-49ff-84ab-48eff5ee1c14"
+    },
+    {
+      "_id": "A03",
+      "status": 0,
+      "slug": "d476bef1-23bf-4d81-8786-9f93268a72c8"
+    },
+    {
+      "_id": "A04",
+      "status": 0,
+      "slug": "781db1c5-6cd2-4eaf-916b-f280ea4f2bb5"
+    },
+    {
+      "_id": "A05",
+      "status": 0,
+      "slug": "3fd198bc-9f68-41c6-9bf3-eb44f8cc6fd3"
+    },
+    {
+      "_id": "A06",
+      "status": 0,
+      "slug": "163b7835-3a56-48bf-b193-f10c6f4d599b"
+    },
+    {
+      "_id": "A07",
+      "status": 0,
+      "slug": "3d4366f9-2c03-4615-ac55-adc19e561af3"
+    },
+    {
+      "_id": "A08",
+      "status": 0,
+      "slug": "6718a21d-d1ea-426d-ba11-c7b0c56c8dff"
+    },
+    {
+      "_id": "A09",
+      "status": 0,
+      "slug": "67d8aeea-158c-4819-81bb-94be0018e4fd"
+    },
+    {
+      "_id": "A10",
+      "status": 0,
+      "slug": "44dd0e15-ba97-4afb-81b8-7edb39e43bdd"
+    },
+    {
+      "_id": "A11",
+      "status": 0,
+      "slug": "604f2bff-d638-47f7-8497-8598fa25c6aa"
+    },
+    {
+      "_id": "A12",
+      "status": 0,
+      "slug": "87654108-f319-46ea-8451-ee3ab03b1e8d"
+    },
+    {
+      "_id": "A13",
+      "status": 0,
+      "slug": "b00d151a-a2f1-4523-b02d-48119208ce83"
+    },
+    {
+      "_id": "A14",
+      "status": 0,
+      "slug": "fc01013a-efb2-44aa-95ba-2c95facbf911"
+    },
+    {
+      "_id": "A15",
+      "status": 0,
+      "slug": "3a1b645c-3528-47bc-a5fc-0793e0fb3fd6"
+    },
+    {
+      "_id": "A16",
+      "status": 0,
+      "slug": "1f2b7707-8784-4873-a361-1e39cc129e3d"
+    },
+    {
+      "_id": "A17",
+      "status": 0,
+      "slug": "3b45ab0b-c9ef-4b71-a8bb-009fc9a0729d"
+    },
+    {
+      "_id": "A18",
+      "status": 0,
+      "slug": "63187a16-ca85-4a74-95d2-e88b67b3eb58"
+    },
+    {
+      "_id": "A19",
+      "status": 0,
+      "slug": "35275bc5-77ff-4ed7-9b96-502e78c9406b"
+    },
+    {
+      "_id": "A20",
+      "status": 0,
+      "slug": "a7ba097f-02ac-4327-9cdb-916e543d0541"
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 2,
+  "name": "Tầng 2",
+  "description": "Khu vực tầng 2",
+  "table_list": [
+    {
+      "_id": "B01",
+      "status": 0,
+      "slug": "2a2a5d39-a834-4dd5-bdd9-32c91059315c"
+    },
+    {
+      "_id": "B02",
+      "status": 0,
+      "slug": "b4806323-4f39-43c8-a71a-b7e078c12bd8"
+    },
+    {
+      "_id": "B03",
+      "status": 0,
+      "slug": "daf480f4-6164-4bbc-b246-d2e7e584fd1e"
+    },
+    {
+      "_id": "B04",
+      "status": 1,
+      "slug": "4afc9137-d518-4c5b-b5ec-a5f14f5459c7"
+    },
+    {
+      "_id": "B05",
+      "status": 0,
+      "slug": "be27ee79-3055-4e93-acee-6e712074876e"
+    },
+    {
+      "_id": "B06",
+      "status": 0,
+      "slug": "af88d6bc-14da-4fe8-84b3-b37c956885d1"
+    },
+    {
+      "_id": "B07",
+      "status": 0,
+      "slug": "763abb85-6a98-437d-bb24-bf59e86e1f1f"
+    },
+    {
+      "_id": "B08",
+      "status": 0,
+      "slug": "987ee0a4-3038-453b-8c80-c177ac7e1f6e"
+    },
+    {
+      "_id": "B09",
+      "status": 0,
+      "slug": "2fe5aca6-d693-4893-8361-42ebbe569528"
+    },
+    {
+      "_id": "B10",
+      "status": 0,
+      "slug": "861aaaf4-b891-4e5d-9f0f-8edc17331d2f"
+    },
+    {
+      "_id": "B11",
+      "status": 0,
+      "slug": "a2b66634-147d-420f-988b-9e871be4b021"
+    },
+    {
+      "_id": "B12",
+      "status": 0,
+      "slug": "039ab893-c68a-4675-96ed-7bac5ad0bedb"
+    },
+    {
+      "_id": "B13",
+      "status": 0,
+      "slug": "eae11426-bdf5-4d86-8917-180ca645373b"
+    },
+    {
+      "_id": "B14",
+      "status": 0,
+      "slug": "e1973ee8-cdc5-4976-89f7-44e4aa42f58c"
+    },
+    {
+      "_id": "B15",
+      "status": 0,
+      "slug": "4b37e421-c20a-40b4-a0b2-418122cf2b73"
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 3,
+  "name": "Mua mang về",
+  "description": "Dành cho khách mua mang về",
+  "table_list": [
+    {
+      "_id": "MMV01",
+      "status": 0,
+      "slug": "b1f2687c-2cb3-4654-9c24-acd33c3841e2"
+    },
+    {
+      "_id": "MMV02",
+      "status": 0,
+      "slug": "6db142bf-1b4a-40e8-a112-4e5f4302b49f"
+    },
+    {
+      "_id": "MMV03",
+      "status": 0,
+      "slug": "534577f5-94a3-4821-8c0d-fc2337a4d1aa"
+    },
+    {
+      "_id": "MMV04",
+      "status": 0,
+      "slug": "a5f6bd33-ae3d-450f-8dd6-7e8da7ade122"
+    },
+    {
+      "_id": "MMV05",
+      "status": 0,
+      "slug": "4417a65b-cdae-40fc-8ab0-061e63bf4404"
+    },
+    {
+      "_id": "MMV06",
+      "status": 0,
+      "slug": "84a87c43-9cd6-4172-a91a-a5474d287af7"
+    },
+    {
+      "_id": "MMV07",
+      "status": 0,
+      "slug": "c452ea30-dd1b-4809-8bbd-f93404b76ded"
+    },
+    {
+      "_id": "MMV08",
+      "status": 0,
+      "slug": "3ed48aad-6ea7-4bb0-804c-11990ef44513"
+    },
+    {
+      "_id": "MMV09",
+      "status": 0,
+      "slug": "aeb0b5fc-ec29-4763-a65e-c443c5e30d4d"
+    },
+    {
+      "_id": "MMV10",
+      "status": 0,
+      "slug": "87c8ee97-c1bb-4558-afd5-624c66159c9f"
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 4,
+  "name": "Grab",
+  "description": "Dành cho đơn Grab, giá cao hơn 15% so với mua tại quán",
+  "table_list": [
+    {
+      "_id": "GRAB01",
+      "status": 0,
+      "slug": "cc8b6a57-27cf-4b5c-95db-69b0ff672e7f"
+    },
+    {
+      "_id": "GRAB02",
+      "status": 0,
+      "slug": "b3dae054-c7bd-4953-9362-1af82f987f11"
+    },
+    {
+      "_id": "GRAB03",
+      "status": 0,
+      "slug": "e8a02e96-0413-4928-9ec5-ad831818a4b7"
+    },
+    {
+      "_id": "GRAB04",
+      "status": 0,
+      "slug": "7e2a775b-a260-476a-a44c-5d0a0ab95d69"
+    },
+    {
+      "_id": "GRAB05",
+      "status": 0,
+      "slug": "e17eee5a-b733-4600-9f58-7ca6e15ab834"
+    },
+    {
+      "_id": "GRAB06",
+      "status": 0,
+      "slug": "4c559a33-39ca-449c-afc3-4df5d0291505"
+    },
+    {
+      "_id": "GRAB07",
+      "status": 0,
+      "slug": "75eb015a-bff2-4e69-8037-c0c130bd984b"
+    },
+    {
+      "_id": "GRAB08",
+      "status": 0,
+      "slug": "e91648a1-0294-4621-8048-60479316f3d0"
+    },
+    {
+      "_id": "GRAB09",
+      "status": 0,
+      "slug": "720b9e1d-8d64-4f71-916e-fe47d193d011"
+    },
+    {
+      "_id": "GRAB10",
+      "status": 0,
+      "slug": "cb9a5251-2056-45b9-a730-48227d2537a9"
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 5,
+  "name": "Shopee",
+  "description": "Dành cho đơn Shopee Food, giá cao hơn 15% so với mua tại quán",
+  "table_list": [
+    {
+      "_id": "SHOPEE01",
+      "status": 0,
+      "slug": "2de66c83-a7be-48cd-a502-d7390cdeda69"
+    },
+    {
+      "_id": "SHOPEE02",
+      "status": 0,
+      "slug": "71a0e96e-6545-48a2-bbeb-0edc32111388"
+    },
+    {
+      "_id": "SHOPEE03",
+      "status": 0,
+      "slug": "1d3fc2ee-6f11-4511-a1c6-c029afe73f4e"
+    },
+    {
+      "_id": "SHOPEE04",
+      "status": 0,
+      "slug": "fc5e7580-c9a5-4229-bf56-2ef1fe522bbc"
+    },
+    {
+      "_id": "SHOPEE05",
+      "status": 0,
+      "slug": "e12f206b-84f0-4c94-853d-5f552ec8b8ce"
+    },
+    {
+      "_id": "SHOPEE06",
+      "status": 0,
+      "slug": "cc167b87-3a53-47f3-a892-7eabd130f79a"
+    },
+    {
+      "_id": "SHOPEE07",
+      "status": 0,
+      "slug": "1bf6d08f-02fe-4fbf-881a-636f4aa46888"
+    },
+    {
+      "_id": "SHOPEE08",
+      "status": 0,
+      "slug": "c52f51f6-af60-4899-a0a1-864b5c668fa0"
+    },
+    {
+      "_id": "SHOPEE09",
+      "status": 0,
+      "slug": "07304e01-214e-43e5-8d2c-4b8ab3690773"
+    },
+    {
+      "_id": "SHOPEE10",
+      "status": 0,
+      "slug": "6cf682fb-8e48-4389-9053-1df416c85f1a"
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": 6,
+  "name": "Nhân viên",
+  "description": "Đơn nhân viên, giảm 10%",
+  "table_list": [
+    {
+      "_id": "NV01",
+      "status": 0,
+      "slug": "073c3f2e-a6bc-410d-9247-f9701a985c5e"
+    },
+    {
+      "_id": "NV02",
+      "status": 0,
+      "slug": "06ccb580-f478-4eb3-8fbd-2e9192d7ed5e"
+    },
+    {
+      "_id": "NV03",
+      "status": 0,
+      "slug": "86da58f9-174e-41fb-afad-15ab0a5d733d"
+    },
+    {
+      "_id": "NV04",
+      "status": 0,
+      "slug": "7c31b8f5-78fb-4c21-934f-5c57efb963c2"
+    },
+    {
+      "_id": "NV05",
+      "status": 0,
+      "slug": "62487846-231c-478a-b888-5a3e8b633a25"
+    },
+    {
+      "_id": "NV06",
+      "status": 0,
+      "slug": "f1514260-81e4-4377-8538-08360e0f189e"
+    },
+    {
+      "_id": "NV07",
+      "status": 0,
+      "slug": "078615c6-46e9-4641-a1ec-d62184ac362b"
+    },
+    {
+      "_id": "NV08",
+      "status": 0,
+      "slug": "02699dc2-915c-4536-98e7-cd55ff497a7d"
+    },
+    {
+      "_id": "NV09",
+      "status": 0,
+      "slug": "a7da2fef-6158-4b49-8a15-413181e40a6f"
+    },
+    {
+      "_id": "NV10",
+      "status": 0,
+      "slug": "294b381e-bb38-4ded-bd8c-6f588e903666"
+    }
+  ],
+  "__v": 0
+}]
