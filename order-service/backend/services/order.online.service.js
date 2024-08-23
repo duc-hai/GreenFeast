@@ -57,6 +57,9 @@ class OrderOnlineService {
     getMenuById = async id => {
         const menu = await Menu.findOne({ _id: id, status: true }).lean()
         if (!menu) throw new Error(`Không tìm thấy đồ ăn hoặc thức uống yêu cầu với mã ${id}, vui lòng thử lại`)
+        if (menu?.discount_price) {
+            menu.price = menu.discount_price
+        }
         return menu
     }
 

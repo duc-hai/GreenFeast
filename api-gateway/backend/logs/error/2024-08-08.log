@@ -1,4 +1,0 @@
-[2024-08-08 20:34:27] 	POST /api/payment/querydr [status: 401 - message: Không thể xác thực, vui lòng kiểm tra trạng thái đăng nhập] - body: {"orderId":"66b4ba0ceb3105e70019a835-1723120141181","transDate":"20240808192934"}
-[2024-08-08 20:44:03] 	POST /api/payment/querydr [status: 500 - message: ] - body: {"orderId":"66b4ba0ceb3105e70019a835-1723120141181","transDate":"20240808192934"} - userid: 0123456789
-[2024-08-08 20:45:47] 	POST /api/payment/querydr [status: 500 - message: ] - body: {"orderId":"66b4ba0ceb3105e70019a835-1723120141181","transDate":"20240808192934"} - userid: 0123456789
-[2024-08-08 20:45:49] 	POST /api/payment/querydr [status: 500 - message: ] - body: {"orderId":"66b4ba0ceb3105e70019a835-1723120141181","transDate":"20240808192934"} - userid: 0123456789
