@@ -19,7 +19,8 @@
 - Management: [https://greenfeast.space/login](https://greenfeast.space/login) 
   - Username: 0123456789, password: 123456
   - Select the "Login admin" box to enter the management page
-- Demo script: [here]()
+- Demo script: [here](https://docs.google.com/document/d/151-uFlub3Yi4Z00npQgpLE7smJBD51eRycYk7ldC_tI/edit?usp=sharing)
+- VNPay test card information for payment feature: [here](https://sandbox.vnpayment.vn/apis/vnpay-demo/)
 
 ## 📑 Technologies & Skills 
 - Microservice architecture, BFF Pattern, Load balacing for order service
@@ -33,7 +34,7 @@
 ## 📋 Introduction
 This thesis analyzes and designs a system that supports food ordering and manages the information of a vegetarian restaurant. The objective is to enhance customer interaction with the system, making it easy for users to place orders, either in person or online via the restaurant's website. Customers dining at the restaurant can scan a QR code to place orders directly on their mobile phone. Additionally, online orders can be placed via the website, with delivery handled by the TMS shipping unit. The restaurant can manage order information, dishes, invoices, as well as business reports. The LightGCN and LightGBM models are applied to build a food recommendations. LightGCN is based on neighbor user interactions, while LightGBM considers both user and food features for recommendations. To meet the demands of a large-scale restaurant with high traffic and numerous features, we implemented the system using a microservices architecture, separating the application into independently functioning services. The frameworks used include Express.js and Nest.js for Node.js, alongside Flask for Python. The frontend is built with the React.js library. Services communicate via RabbitMQ message queues and Redis is used for improved response times. The system employs two instances of the ordering service with load balancing using the Round Robin algorithm. During the application deployment, RBAC role-based access control, JWT security, Google login, push notifications with SocketIO, VNPay payment integration, API exposure for the shipping unit, and system activity log tracking methods were applied. The website is deployed on the Amazon EC2 platform, uses Docker to package services into containers for production environments and config CI/CD to deploy automatically. Domain name is managed by Cloudflare. The application is primarily deployed on the web platform, with a minor portion on mobile.
 
-Use-case diagram: [here]()
+Use-case diagram: [here](https://drive.google.com/file/d/1KPw7t9B74QQZjmLroM4SeeZr6i0U6QMp/view?usp=sharing)
 
 UX/UI Design (Figma): [here](https://s.net.vn/ztMs)
 
