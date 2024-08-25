@@ -47,7 +47,7 @@ const validatorRegisterEmployee = () => [
     check('role')
         .exists().withMessage('Vui lòng chọn vai trò')
         .notEmpty().withMessage('Vai trò không được để trống')   
-        .isIn('cashier,waitstaff,other').withMessage('Vai trò không hợp lệ'),
+        .isIn('cashier,waitstaff,other,expeditor').withMessage('Vai trò không hợp lệ'),
 
     check('position')
         .optional(),

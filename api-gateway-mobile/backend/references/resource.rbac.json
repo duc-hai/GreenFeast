@@ -80,7 +80,8 @@
         "resource": "order-online",
         "name": "Đặt món trực tuyến",
         "actions": [
-            { "name": "Xem các đơn hàng đặt món", "slug": "read:any" }
+            { "name": "Xem các đơn hàng đặt món", "slug": "read:any" },
+            { "name": "Cập nhật trạng thái đơn hàng", "slug": "update:any" }
         ]
     },
     {

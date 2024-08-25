@@ -85,7 +85,7 @@ class UserService {
 
             //Create new user
             let newUser = new User({
-                _id: username, full_name, user_type: 2, role: 'customer', password: password
+                _id: username, full_name, user_type: 2, role: 'customer', password: password, phone_number: username
             })    
 
             newUser = await newUser.save() // password will be hashed before save in DB (middleware of mongoose)
@@ -183,7 +183,7 @@ class UserService {
             const employee = { position, experience }
 
             //Password will be hash in mongoose's middleware
-            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true })    
+            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true, phone_number: username })    
             newUser = await newUser.save()
 
             if (!newUser)

@@ -1,0 +1,409 @@
+[{
+  "_id": "093213213212",
+  "password": "$2b$10$i74uQUfg8AvjHPdJxgwWLekroxNFHWpCYAvaMV.oE1Hbs1USmDeuS",
+  "full_name": "Hải",
+  "gender": "Male",
+  "phone_number": "093213213212",
+  "address": "Quận 7",
+  "role": "admin",
+  "user_type": 1,
+  "customer": {
+    "order_id_history": []
+  },
+  "createdAt": {
+    "$date": "2024-05-28T07:18:13.421Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-21T04:45:26.412Z"
+  },
+  "salt": "3a9a761ade4d822037b4d1041d30359a",
+  "status": true,
+  "__v": 0,
+  "birthday": {
+    "$date": "2002-08-15T00:00:00.000Z"
+  },
+  "email": "luuduchai.nt@gmail.com",
+  "isVerifyEmail": true
+},
+{
+  "_id": "012345677",
+  "password": "$2b$10$cmi0rMJd3V0CuChfzhod/Orwgak5tIz0yaThmi.3JE0qKeXZnuyFG",
+  "full_name": "Ngan Tram",
+  "gender": "Female",
+  "phone_number": "012345677",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "createdAt": {
+    "$date": "2024-06-22T09:48:43.510Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-22T11:29:26.764Z"
+  },
+  "salt": "89d8774e3af3bdd57927982f5e5152f9",
+  "__v": 0,
+  "email": "leduchai2k3@gmail.com"
+},
+{
+  "_id": "0372976121",
+  "password": "$2b$10$QXblzBKN9ft4YPGRDNcBP.jLlLLcuJpv0H/jGYWWz7h8zuGRYtsui",
+  "full_name": "Ngân Trâm",
+  "gender": "Female",
+  "phone_number": "0372976121",
+  "address": "Quận 7",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "createdAt": {
+    "$date": "2024-06-23T06:20:40.977Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-23T10:39:38.229Z"
+  },
+  "salt": "02414b22f87e21ce8affccc7fd980dd3",
+  "__v": 0,
+  "email": "tramngan1007@gmail.com",
+  "birthday": {
+    "$date": "2002-08-19T00:00:00.000Z"
+  }
+},
+{
+  "_id": "0354723398",
+  "password": "$2b$10$w7di4ELnAeCzVvk3VyKyz.AOQTljdDY.2.N1zk7zbIRG74dSdNfGm",
+  "full_name": "Ngan Tram",
+  "gender": "Female",
+  "phone_number": "0354723398",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-06-28T18:25:37.104Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-28T18:25:37.104Z"
+  },
+  "salt": "ec7c5f6387a618113e532bb409533674",
+  "__v": 0
+},
+{
+  "_id": "0123456789",
+  "password": "$2b$10$k4kZkcABGGk0pomhLh4Ml.kyQyB6uN/Q8lVpMLTqRLPszrBaH3hke",
+  "full_name": "Lưu Đức Hải",
+  "gender": "Male",
+  "phone_number": "0123456789",
+  "address": "Quận 7",
+  "role": "super-admin",
+  "user_type": 1,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "createdAt": {
+    "$date": "2024-07-06T10:36:27.697Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-20T08:26:35.017Z"
+  },
+  "salt": "0f9e186af5f6aecd377bb3b9eea8d7f2",
+  "__v": 0,
+  "email": "admin@gmail.com",
+  "birthday": {
+    "$date": "2002-08-15T00:00:00.000Z"
+  }
+},
+{
+  "_id": "0888888888",
+  "password": "$2b$10$71ZwaJziVmvd18xsek.Rculv5TVOWJ84j2I1JlWhywDu700/diFRS",
+  "full_name": "test",
+  "gender": "Female",
+  "phone_number": "0888888888",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-07-13T11:37:38.364Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-13T11:37:38.364Z"
+  },
+  "salt": "4a3f78683b8836175f40e7b258afb7d7",
+  "__v": 0
+},
+{
+  "_id": "google:103859246793954049618",
+  "full_name": "Hải Lưu",
+  "gender": "Female",
+  "phone_number": "",
+  "email": "duchai621859@gmail.com",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-20T05:10:56.747Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-20T05:10:56.747Z"
+  }
+},
+{
+  "_id": "google:108060067457088315586",
+  "full_name": "Trâm Ngân",
+  "gender": "không",
+  "phone_number": "",
+  "email": "tramngantruong.1007@gmail.com",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-25T15:47:30.553Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-25T15:47:30.553Z"
+  }
+},
+{
+  "_id": "google:118174498639844896992",
+  "full_name": "Văn Thắng Nguyễn",
+  "gender": "không",
+  "phone_number": "",
+  "email": "thangdpi26@gmail.com",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-25T16:50:09.593Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-25T16:50:09.593Z"
+  }
+},
+{
+  "_id": "0999999999",
+  "password": "$2b$10$gwhAukNFHXCueAoY0OvU8.Bu3uknykt9VH2PO4OmXwiuiegxZCBj.",
+  "full_name": "Lưu Đức Hải",
+  "gender": "Female",
+  "phone_number": "0999999999",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-07-29T14:56:06.041Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-29T14:56:06.041Z"
+  },
+  "salt": "195877f96bb8a3c57a114cf19a5f33bb",
+  "__v": 0
+},
+{
+  "_id": "0918108222",
+  "password": "$2b$10$gY3WmnGg1ujIvWWts8ElquZNEM1fzpkTXhzndZPyUHhjvhct6a2U6",
+  "gender": "Female",
+  "phone_number": "0918108222",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-07-31T13:55:47.208Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-31T13:55:47.208Z"
+  },
+  "salt": "189107f08fe232bad3ecb3a22092b606",
+  "__v": 0
+},
+{
+  "_id": "0105289402",
+  "password": "$2b$10$BU76.wYOS0u6wpxdI7ihnuxDRECVCHj/FCbRxrURl39bI0zKvCJo.",
+  "full_name": "Đức Hải",
+  "gender": "Female",
+  "phone_number": "0105289402",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-08-02T09:52:46.451Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-02T09:52:46.451Z"
+  },
+  "salt": "c97dd0afdbeee810ce488ec5abf951fc",
+  "__v": 0,
+  "birthday": {
+    "$date": "1999-08-15T00:00:00.000Z"
+  }
+},
+{
+  "_id": "0354723333",
+  "password": "$2b$10$DPgBNnATxusq4zpuZwALs.titjAT0mYGlgpc.lv.k7rNdNyQ1CTdO",
+  "full_name": "Nhân viên phục vụ",
+  "gender": "Female",
+  "phone_number": "0354723333",
+  "address": "",
+  "role": "cashier",
+  "user_type": 1,
+  "status": true,
+  "employee": {
+    "position": "Phục vụ",
+    "experience": "1 năm"
+  },
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-08-11T01:46:14.512Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-11T01:46:14.512Z"
+  },
+  "salt": "ca3bdd217d747a5935d55357c2b85e55",
+  "__v": 0
+},
+{
+  "_id": "0123456788",
+  "password": "$2b$10$EvHYchblStTnlJMlCFcsLuUYFcIEg7OY0VyJld5pFBLlx7BCm7xiO",
+  "full_name": "Đức Hải 2",
+  "gender": "Female",
+  "phone_number": "0123456788",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-08-11T09:18:17.358Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-11T09:18:17.358Z"
+  },
+  "salt": "a4e256acbeb8f94dc490a75fa3c5a35f",
+  "__v": 0
+},
+{
+  "_id": "0123456787",
+  "password": "$2b$10$SbErr1bwSo8eQuSRTQnP/e6i5E4K.zQCAeQ/EtD3RJtSwjx3fXZBG",
+  "full_name": "Đức Hải",
+  "gender": "Female",
+  "phone_number": "0123456787",
+  "address": "",
+  "role": "cashier",
+  "user_type": 1,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": false,
+  "createdAt": {
+    "$date": "2024-08-11T09:29:25.942Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-11T09:29:25.942Z"
+  },
+  "salt": "08107d5cf1c70843c50a8aa9cc4cdcbd",
+  "__v": 0
+},
+{
+  "_id": "0123654789",
+  "password": "$2b$10$8KLjaFVdC7aO6tbC9A5bmubuRPBOl4TzhbVqjc4jVsyPSmCYbM5w.",
+  "full_name": "Khách hàng 1",
+  "gender": "Female",
+  "phone_number": "0123654789",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "createdAt": {
+    "$date": "2024-08-12T04:40:18.290Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-25T15:01:56.284Z"
+  },
+  "salt": "5a78b0d8fa2f45a5aa6fa36cb24a12e8",
+  "__v": 0,
+  "email": "dlb.hoang0603@gmail.com"
+},
+{
+  "_id": "0987654321",
+  "password": "$2b$10$U4yxqhO.YuSv/LBysnHjw.ou3I9Xjz8GlD4GFi.hvSvhejvaao9jy",
+  "full_name": "Khách hàng 2",
+  "gender": "Female",
+  "phone_number": "0987654321",
+  "address": "",
+  "role": "customer",
+  "user_type": 2,
+  "status": true,
+  "customer": {
+    "order_id_history": []
+  },
+  "isVerifyEmail": true,
+  "createdAt": {
+    "$date": "2024-08-15T08:14:10.084Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T08:24:08.741Z"
+  },
+  "salt": "e5334c65b5cab61404732e49766ba3e4",
+  "__v": 0,
+  "email": "ngantram1007@gmail.com"
+}]

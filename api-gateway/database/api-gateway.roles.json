@@ -10,10 +10,155 @@
 },
 {
   "_id": {
+    "$oid": "65d5fb4355bf131c362d5db0"
+  },
+  "name": "waitstaff",
+  "description": "Nhân viên phục vụ",
+  "grants": [
+    {
+      "resource": "order",
+      "actions": [
+        "read:any",
+        "create:any"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
     "$oid": "65d5f9da55bf131c362d5dad"
   },
   "name": "admin",
-  "description": "Vai trò quản lý, truy cập các chức năng chủ yếu trong management service",
+  "description": "Vai trò quản lý, truy cập các chức năng chủ yếu trong management service và quản lý một số chức năng khác",
+  "grants": [
+    {
+      "resource": "menu",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "table",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "area",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "category",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "printer",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "promotion",
+      "actions": [
+        "update:any",
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "employee",
+      "actions": [
+        "create:any",
+        "read:any"
+      ]
+    },
+    {
+      "resource": "order",
+      "actions": [
+        "read:any",
+        "delete:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "order-online",
+      "actions": [
+        "update:any",
+        "read:any"
+      ]
+    },
+    {
+      "resource": "revenue",
+      "actions": [
+        "read:any",
+        "create:any"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65d5fac555bf131c362d5dae"
+  },
+  "name": "cashier",
+  "description": "Nhân viên thu ngân",
+  "grants": [
+    {
+      "resource": "menu",
+      "actions": [
+        "update:any",
+        "read:any"
+      ]
+    },
+    {
+      "resource": "order",
+      "actions": [
+        "update:any",
+        "read:any"
+      ]
+    },
+    {
+      "resource": "revenue",
+      "actions": [
+        "read:any",
+        "create:any"
+      ]
+    },
+    {
+      "resource": "order-online",
+      "actions": [
+        "update:any",
+        "read:any"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "66cb909006fbe15c5e8d6842"
+  },
+  "name": "super-admin",
+  "description": "Vai trò quản lý cao nhất, truy cập được tất cả chức năng trong hệ thống",
   "grants": [
     {
       "resource": "menu",
@@ -89,9 +234,7 @@
       "resource": "order-online",
       "actions": [
         "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
+        "read:any"
       ]
     },
     {
@@ -105,57 +248,15 @@
 },
 {
   "_id": {
-    "$oid": "65d5fac555bf131c362d5dae"
+    "$oid": "66cb91de06fbe15c5e8d6845"
   },
-  "name": "cashier",
-  "description": "Nhân viên thu ngân",
-  "grants": [
-    {
-      "resource": "menu",
-      "actions": [
-        "update:any",
-        "read:any"
-      ]
-    },
-    {
-      "resource": "order",
-      "actions": [
-        "update:any",
-        "read:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "revenue",
-      "actions": [
-        "read:any",
-        "create:any"
-      ]
-    },
-    {
-      "resource": "order-online",
-      "actions": [
-        "update:any",
-        "read:any",
-        "delete:any",
-        "create:any"
-      ]
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "65d5fb4355bf131c362d5db0"
-  },
-  "name": "waitstaff",
-  "description": "Nhân viên phục vụ",
+  "name": "expeditor",
+  "description": "Nhân viên tiếp thực, có trách nhiệm lên món và cập nhật tình trạng lên món",
   "grants": [
     {
       "resource": "order",
       "actions": [
-        "update:any",
-        "read:any"
-      ]
+        "read:any"      ]
     }
   ]
 }]
