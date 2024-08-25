@@ -622,10 +622,10 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
           <div className="flex max-md:flex max-md:flex-col">
             <Menu
               onClick={onClick}
-              className="w-48 h-full max-md:hidden fixed top-24"
+              className="w-48 h-full max-md:hidden fixed top-24 overflow-auto"
               style={{
                 backgroundColor:'#E4E4D0',
-                
+                height: "calc(100vh - 100px)",
               }}
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}

@@ -72,6 +72,7 @@ const AreaManagement = () => {
       title: "Mô tả",
       dataIndex: "description",
       key: "description",
+      responsive: ["md"],
     },
     // {
     //   title: "Giảm giá",
@@ -85,6 +86,7 @@ const AreaManagement = () => {
       render: (text) => (
         <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
       ),
+      responsive: ["md"],
     },
     {
       title: "Thao tác",
@@ -163,10 +165,7 @@ const AreaManagement = () => {
   };
 
   return (
-    <div
-      className="content-component flex-1 "
-      style={{ minHeight: "calc(100vh - 100px)" }}
-    >
+    <div className="bg-[#E4E4D0] p-4">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Quản khu vực

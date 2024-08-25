@@ -756,7 +756,10 @@ const OrderOnline = () => {
                         defaultValue="bank"
                         onChange={handleChange}
                         options={[
-                          { value: "bank", label: "Thanh toán online" },
+                          {
+                            value: "bank",
+                            label: "Thanh toán online trực tuyến",
+                          },
                           { value: "cod", label: "Thanh toán khi nhận hàng" },
                         ]}
                       />

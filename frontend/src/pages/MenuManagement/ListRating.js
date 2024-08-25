@@ -20,8 +20,6 @@ const ListRating = ({ id }) => {
         message.success(
           res?.message || "Lấy danh sách đánh giá món ăn thành công"
         );
-      } else {
-        message.error("Lấy danh sách đánh giá món ăn thất bại");
       }
     } catch (err) {
       console.log(err);

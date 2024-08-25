@@ -249,7 +249,7 @@ const TableManagement = () => {
 
         message.success("Tạo mới món ăn thành công");
         setIsModalOpen(false);
-        fetchMenu();
+        fetchMenu(1, 10);
       }
     } catch (error) {
       console.log(error);
@@ -360,7 +360,7 @@ const TableManagement = () => {
                     <Form.Item label="Danh mục món ăn" name="category_id">
                       <Select
                         name="category_id"
-                        placeholder="chọn hình thức nhận hàng"
+                        placeholder="Chọn danh mục món ăn"
                         // onChange={onGenderChange}
                         allowClear
                       >

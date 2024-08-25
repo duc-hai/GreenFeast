@@ -35,6 +35,8 @@ class CallMicroservices {
             //Pass user infor through header in order to handle essential data
             //The header will not accept cases with accents, so you need to use encodeURIComponent to encode special characters such as accent, dot, comma, ... into safe characters that can be transmitted through the header, the receiver only needs to use the decode function to get the original data
             headers['user-infor-header'] = encodeURIComponent(JSON.stringify(req.user))
+
+        return headers
     }
 
     forwardRequest = async (alias, req, res, next) => {

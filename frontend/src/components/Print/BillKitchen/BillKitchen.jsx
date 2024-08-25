@@ -47,6 +47,7 @@ const BillKitchen =() => {
         render: (text,record,index) => <p>{text}</p>,
     },
     {
+        responsive: ["md"],
         title: 'Thời gian',
         dataIndex: 'createdAt',
         render: (text,record,index) => <p>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</p>,
@@ -64,7 +65,7 @@ const BillKitchen =() => {
         <div className="content-component flex-1">
         <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
             <div className="text-xl font-semibold pl-2 text-white">
-            Quản phiếu in bếp 
+            Quản lý phiếu in bếp 
             </div>
         </div>
 

@@ -49,6 +49,7 @@ const BillBar =() => {
     {
         title: 'Thời gian',
         dataIndex: 'createdAt',
+        responsive: ["md"],
         render: (text,record,index) => <p>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</p>,
     },
     {

@@ -76,17 +76,7 @@ const DefaultLayout = () => {
             key={index}
             path={item.path}
             element={
-              <div
-                className="mt-24 "
-                style={{
-                  marginLeft: "257px",
-                  display: "flex",
-                  width: "100%",
-                  height: "calc(100vh - 100px)",
-                }}
-              >
-                {item.Conponent()}
-              </div>
+              <div style={{ minHeight: "100vh" }}>{item.Conponent()}</div>
             }
           />
         );
@@ -99,35 +89,50 @@ const DefaultLayout = () => {
     navigate(e.key);
   };
   return (
-    <>
+    <div>
       <Header />
-      <div className="content-body ">
+      <div
+        className="flex max-sm:flex max-sm:flex-col  h-full mt-24"
+        style={{ backgroundColor: "#E4E4D0" }}
+      >
         <Menu
-          className="ant-menu-custom-2 display-menu-1 fixed top-24 left-0 w-48"
+          className="min-w-48 max-md:hidden fixed top-24 overflow-auto  "
           onClick={onClick}
           style={{
-            width: 256,
+            backgroundColor: "#d7e2d4",
+            height: "calc(100vh - 100px)",
           }}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
-          mode="inline"
+          mode="vertical"
           items={items}
         />
-
-        <Routes>{showContentMenu(routers)}</Routes>
+        <Menu
+          className=" sm:hidden max-sm:flex max-sm:flex-wrap "
+          onClick={onClick}
+          style={{
+            backgroundColor: "#d7e2d4",
+          }}
+          defaultSelectedKeys={["1"]}
+          defaultOpenKeys={["sub1"]}
+          mode="horizontal"
+          items={items}
+        />
+        <div className=" bg-[#E4E4D0]  md:ml-48 flex-1 p-4">
+          <Routes>{showContentMenu(routers)}</Routes>
+        </div>
+        {/* <div
+          class="card-footer text-center fixed -z-1 bottom-0 md:ml-52 p-10 left-0  "
+          style={{
+            backgroundColor: "#5C9F67",
+            color: "#fff",
+            width: "100%",
+          }}
+        >
+          @Copyright
+        </div> */}
       </div>
-      <div
-        class="card-footer text-center fixed bottom-0 left-0  "
-        style={{
-          backgroundColor: "#5C9F67",
-          color: "#fff",
-          marginLeft: "257px",
-          width: "100%",
-        }}
-      >
-        @Copyright
-      </div>
-    </>
+    </div>
   );
 };
 

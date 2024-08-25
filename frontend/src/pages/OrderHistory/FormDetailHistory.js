@@ -23,9 +23,9 @@ const FormDetailHistory = ({ detailData }) => {
       dataIndex: "quantity",
     },
   ];
-  useEffect(() => {
-    console.log(detailData);
-  }, []);
+  // useEffect(() => {
+  //   console.log(detailData);
+  // }, []);
   return (
     <div className="flex flex-col gap-5 max-h-96 overflow-auto">
       <Descriptions
@@ -46,7 +46,7 @@ const FormDetailHistory = ({ detailData }) => {
           {detailData?.delivery_information?.phone_number}
         </Descriptions.Item>
         <Descriptions.Item label="Phương thức thanh toán">
-          {detailData?.payment_method === "code"
+          {detailData?.payment_method === "cod"
             ? "Thanh toán khi nhận hàng"
             : "Thanh toán online"}
         </Descriptions.Item>
