@@ -32,9 +32,8 @@ class NotificationService {
   getNotifications = async (req, res, next) => {
     try {
       // console.log(req.headers['user-infor-header'])
-      const userInfor = JSON.parse(
-        decodeURIComponent(req.headers["user-infor-header"])
-      )
+      const userInfor = JSON.parse(decodeURIComponent(req.headers["user-infor-header"]))
+      if (!userInfor) return next([ StatusCodeEnum.InternalServerError_500, "error", `Trạng thái đăng nhập không hợp lệ` ])
       // console.log(userInfor)
       const notifications = await Notification.find({
         userId: userInfor._id,
