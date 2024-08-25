@@ -1,6 +1,6 @@
 [{
   "_id": {
-    "$oid": "66ba07a1364a99b635712c21"
+    "$oid": "66b9d5cc890c47f1f77f2144"
   },
   "menu_detail": [
     {
@@ -11,6 +11,7 @@
   ],
   "shipping_fee": 26500,
   "note": "1",
+  "total": 218500,
   "payment_method": "Thanh toán khi nhận hàng",
   "delivery_information": {
     "name": "Test Socket",
@@ -19,13 +20,471 @@
     "ward": "Phường Bến Nghé",
     "street": "1"
   },
+  "cod_amount": 218500,
+  "status": 5,
+  "delivery_notes": "Giao hang thanh cong",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-12T17:48:59.623Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-12T20:42:21.992Z"
+  },
+  "__v": 0,
+  "delivery_person": {
+    "name": "Nguyễn Văn A",
+    "phone": "0329232212"
+  }
+},
+{
+  "_id": {
+    "$oid": "66bb215d0f79b4e1c06019ee"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "Giao nhanh giùm nha",
+  "total": 289700,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Đa Kao",
+    "street": "Nguyễn Siêu"
+  },
+  "cod_amount": 289700,
+  "status": 4,
+  "delivery_notes": "Giao hang thanh cong",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-14T15:07:18.489Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-20T19:33:29.263Z"
+  },
+  "__v": 0,
+  "delivery_person": {
+    "name": "Nguyễn Văn A",
+    "phone": "0329232212"
+  }
+},
+{
+  "_id": {
+    "$oid": "66b8de7ce5de99a078ecd671"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 9
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "Giao nhanh giùm nha",
+  "total": 625700,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Đa Kao",
+    "street": "Nguyễn Siêu"
+  },
+  "cod_amount": 625700,
+  "status": 3,
   "delivery_notes": "",
   "send_tms": true,
   "createdAt": {
-    "$date": "2024-08-12T13:01:21.812Z"
+    "$date": "2024-08-14T16:02:45.797Z"
   },
   "updatedAt": {
-    "$date": "2024-08-12T13:01:21.934Z"
+    "$date": "2024-08-14T16:03:02.284Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bdc5d9d0d6bc5e25855e81"
+  },
+  "menu_detail": [
+    {
+      "_id": 39,
+      "name": "Trà chanh thái đỏ",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "",
+  "total": 59650,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Test tms",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Bến Nghé",
+    "street": "Số 1"
+  },
+  "cod_amount": 59650,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-15T09:10:11.336Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T09:12:28.288Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bef333845a92aa90c66051"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 22000,
+  "note": "",
+  "total": 130000,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Tram",
+    "phone_number": "0372976121",
+    "district": "Quận 10",
+    "ward": "Phường 02",
+    "street": "Số 1"
+  },
+  "cod_amount": 130000,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T06:36:45.549Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T06:37:08.723Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bf82ecdeaafdeaf28c6b87"
+  },
+  "menu_detail": [
+    {
+      "_id": 36,
+      "name": "Sữa chua trái cây",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 22000,
+  "note": "",
+  "total": 51750,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "test đơn",
+    "phone_number": "0123987654",
+    "district": "Quận 10",
+    "ward": "Phường 02",
+    "street": "Số 1"
+  },
+  "cod_amount": 51750,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T16:49:54.571Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T16:50:07.327Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bf8299deaafdeaf28c6b6b"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2
+    }
+  ],
+  "shipping_fee": 22000,
+  "note": "",
+  "total": 247000,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "test",
+    "phone_number": "0123456789",
+    "district": "Quận 10",
+    "ward": "Phường 02",
+    "street": "So 1"
+  },
+  "cod_amount": 247000,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T18:18:44.069Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T18:18:52.379Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bf85c1deaafdeaf28c6baf"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 2
+    }
+  ],
+  "shipping_fee": 17500,
+  "note": "",
+  "total": 209500,
+  "payment_method": "Đã chuyển khoản",
+  "delivery_information": {
+    "name": "thang",
+    "phone_number": "0398766536",
+    "district": "Quận 4",
+    "ward": "Phường 09",
+    "street": "dddd"
+  },
+  "cod_amount": 0,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T18:21:36.169Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T18:21:36.221Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bef328845a92aa90c66048"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 22000,
+  "note": "",
+  "total": 130000,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Tram",
+    "phone_number": "0372976121",
+    "district": "Quận 10",
+    "ward": "Phường 02",
+    "street": "Số 1"
+  },
+  "cod_amount": 130000,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T18:23:22.080Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T18:23:22.138Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bfa20edeaafdeaf28c6ca8"
+  },
+  "menu_detail": [
+    {
+      "_id": 34,
+      "name": "7up",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "",
+  "total": 45250,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Test",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Bến Nghé",
+    "street": "Số 1"
+  },
+  "cod_amount": 45250,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-16T19:02:38.523Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T19:02:38.589Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87e720fb9a2528f847077"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "Giao nhanh giùm nha",
+  "total": 289700,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Đa Kao",
+    "street": "Nguyễn Siêu"
+  },
+  "cod_amount": 289700,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-18T13:28:35.032Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T13:28:50.023Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b888b98d7374eaf15619c2"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 100
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1
+    }
+  ],
+  "shipping_fee": 26500,
+  "note": "Giao nhanh giùm nha",
+  "total": 5721700,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Lưu Đức Hải",
+    "phone_number": "0123456789",
+    "district": "Quận 1",
+    "ward": "Phường Đa Kao",
+    "street": "Nguyễn Siêu"
+  },
+  "cod_amount": 5721700,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-18T13:32:52.510Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T13:32:56.142Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c30d6b0fbcdc17e823a960"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3
+    }
+  ],
+  "shipping_fee": 27000,
+  "note": "",
+  "total": 351000,
+  "payment_method": "Thanh toán khi nhận hàng",
+  "delivery_information": {
+    "name": "Ngan Tram",
+    "phone_number": "0123456789",
+    "district": "Quận 10",
+    "ward": "Phường 01",
+    "street": "Số 1"
+  },
+  "cod_amount": 351000,
+  "status": 3,
+  "delivery_notes": "",
+  "send_tms": true,
+  "createdAt": {
+    "$date": "2024-08-19T09:45:19.238Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-19T09:45:19.315Z"
   },
   "__v": 0
 }]

@@ -20,7 +20,7 @@ const checkLogin = require('../helpers/check.login')
 
 class UserService {
     //For both client and admin (1 for admin, 2 for customer)
-    async loginAccount (req, res, next) {
+    loginAccount = async (req, res, next) => {
         try {
             let { username, password, ...rest } = req.body || null
             
@@ -41,7 +41,8 @@ class UserService {
 
             //Account is correct: create access token and refresh token
             const accessToken = await jwt.sign({ username: user._id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
-            const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+            const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '168h' })
+            await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
             
             res.cookie('access_token', accessToken, {
                 httpOnly: true, //Config cookie just accessed by server
@@ -126,6 +127,12 @@ class UserService {
             if (!username)    
                 return next(createError(StatusCode.BadRequest_400, 'Xảy ra lỗi khi decode refresh token'))
 
+            const client = await clientRedis()
+            if (!client) return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
+            const refreshToken = await client.get(`refresh:${username}`)
+            await client.quit()
+            if (!refreshToken || refreshToken !== req.body.refresh_token) return next(createError(StatusCode.BadRequest_400, 'Token đã bị thu hồi hoặc không hợp lệ!'))
+
             const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
     
             res.cookie('access_token', accessToken, {
@@ -151,6 +158,12 @@ class UserService {
 
     async logOut (req, res, next) {
         try {
+            //Using redis to delete token in cache
+            const client = await clientRedis()
+            if (client && req.user._id) {
+                client.del(`refresh:${req.user._id}`)
+            }
+            await client.quit()
             //Simply delete the access token stored on the client-side cookie and redirect to the desired page. JWT does not provide a method to delete access tokens on the server (unless using a blacklist, which is not really necessary).
             res.clearCookie('access_token')
 
@@ -287,6 +300,13 @@ class UserService {
         }
     }
 
+    setTokenToRedis = async (userId, token, dayNum) => {
+        const client = await clientRedis()
+        if (!client) throw new Error('Xảy ra lỗi khi kết nối Redis')
+        await client.set(userId, token, { EX: 60 * 60 * 24 * dayNum }) //Ex is second
+        await client.quit()
+    }
+
     async verifyEmail (req, res, next) {
         try {
             let { email }= req.body
@@ -332,7 +352,6 @@ class UserService {
                 return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
             const otpRedis = await client.get(`email:${userId}`)
             // console.log(otpRedis)
-            await client.quit()
 
             if (otpRedis != otp) 
                 return next(createError(StatusCode.BadRequest_400, 'Mã xác thực không đúng'))
@@ -348,6 +367,7 @@ class UserService {
             })
 
             client.del(`email:${userId}`)
+            await client.quit()
 
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
@@ -408,7 +428,8 @@ class UserService {
             async function(error, user, infor) {
                 if (error) return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi gọi đăng nhập Google: ${error.message}`))
                 const accessToken = await jwt.sign({ username: user._id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
-                const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '720h' })
+                const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '168h' })
+                await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
                     
                 res.cookie('access_token', accessToken, {
                     httpOnly: true, //Config cookie just accessed by server
@@ -450,7 +471,8 @@ class UserService {
             if (checkLogin.checkLoginTms(username, password, process.env.TMS_USERNAME, process.env.TMS_PASSWORD) === false)  return next(createError(StatusCode.BadRequest_400, 'Username or password is not correct'))
 
             const accessToken = await jwt.sign({ username: username }, process.env.TMS_ACCESS_SECRET || '', { algorithm: 'HS256', expiresIn: '10h' })
-            const refreshToken = await jwt.sign({ username: username }, process.env.TMS_REFRESH_SECRET || '', { algorithm: 'HS256', expiresIn: '720h' })
+            const refreshToken = await jwt.sign({ username: username }, process.env.TMS_REFRESH_SECRET || '', { algorithm: 'HS256', expiresIn: '168h' })
+            await this.setTokenToRedis(`refresh:${username}`, refreshToken, 7)
             
             return res.status(StatusCode.OK_200).json({
                 status: 'success',

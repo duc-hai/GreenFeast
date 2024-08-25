@@ -15,7 +15,7 @@ async function connectRedis() {
         })
 
         client.on('connect', () => {
-            console.log('Connect to Redis successfully')
+            console.log(`[${new Date().toLocaleString()}] Connect to Redis successfully`)
         })
 
         client.on('error', (err) => {

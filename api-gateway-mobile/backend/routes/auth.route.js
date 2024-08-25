@@ -12,7 +12,7 @@ router.post('/signin', validation.validatorLogin(), accountType.assignUserType(2
 //for customer
 router.post('/signup', validation.validatorRegister(), userService.signupAccount)
 
-router.get('/logout', userService.logOut)
+router.get('/logout', jwtTokenGuard.jwtTokenValidatorBoth, userService.logOut)
 
 router.post('/refresh-token', userService.refreshToken)
 

@@ -1,0 +1,2182 @@
+[{
+  "_id": {
+    "$oid": "66a9f2def8578d83c067e7d4"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-07-31T08:16:16.936Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66a9f338f8578d83c067e7d6"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-07-31T08:16:16.936Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66aa6c5ed71e0a9a4cfe12dd"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 19500,
+  "total": 249000,
+  "time": {
+    "$date": "2024-07-31T15:48:02.045Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66abb7797cbd7975b462c772"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 2,
+      "price": 70000
+    },
+    {
+      "_id": 7,
+      "name": "Bún chả giò",
+      "quantity": 2,
+      "price": 65000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 54000,
+  "surcharge": 0,
+  "shippingfee": 19500,
+  "total": 235500,
+  "time": {
+    "$date": "2024-08-01T09:27:49.021Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0918108222"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66abb78f25cc7eab0c1058f0"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 2,
+      "price": 70000
+    },
+    {
+      "_id": 7,
+      "name": "Bún chả giò",
+      "quantity": 2,
+      "price": 65000
+    },
+    {
+      "_id": 34,
+      "name": "7up",
+      "quantity": 4,
+      "price": 15000
+    }
+  ],
+  "subtotal": 330000,
+  "discount": 66000,
+  "surcharge": 0,
+  "shippingfee": 89000,
+  "total": 353000,
+  "time": {
+    "$date": "2024-08-01T09:27:49.021Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0918108222"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66abb79b7cbd7975b462c774"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 2,
+      "price": 70000
+    },
+    {
+      "_id": 7,
+      "name": "Bún chả giò",
+      "quantity": 2,
+      "price": 65000
+    },
+    {
+      "_id": 34,
+      "name": "7up",
+      "quantity": 4,
+      "price": 15000
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 3,
+      "price": 37000
+    }
+  ],
+  "subtotal": 441000,
+  "discount": 88200,
+  "surcharge": 0,
+  "shippingfee": 89000,
+  "total": 441800,
+  "time": {
+    "$date": "2024-08-01T09:27:49.021Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0918108222"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66abd41a25cc7eab0c1058f2"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    }
+  ],
+  "subtotal": 180000,
+  "discount": 27000,
+  "surcharge": 0,
+  "shippingfee": 37000,
+  "total": 190000,
+  "time": {
+    "$date": "2024-08-01T18:28:49.842Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ac7e47a123c949d3e520df"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    },
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    }
+  ],
+  "subtotal": 120000,
+  "discount": 24000,
+  "surcharge": 0,
+  "shippingfee": 15000,
+  "total": 111000,
+  "time": {
+    "$date": "2024-08-02T06:33:32.196Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66acb395a7f1c721bb5423cf"
+  },
+  "menu_detail": [
+    {
+      "_id": 12,
+      "name": "Nấm xào chay",
+      "quantity": 1,
+      "price": 70000
+    }
+  ],
+  "subtotal": 70000,
+  "discount": 14000,
+  "surcharge": 0,
+  "shippingfee": 15000,
+  "total": 71000,
+  "time": {
+    "$date": "2024-08-02T09:42:01.296Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0105289402",
+    "name": "Đức Hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66af39ef1cf8905e0f7a659b"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 15000,
+  "total": 244500,
+  "time": {
+    "$date": "2024-08-04T04:34:26.939Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66af4c6aef064f87c703b34a"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 39000,
+  "total": 268500,
+  "time": {
+    "$date": "2024-08-04T04:34:26.939Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66af4cc31cf8905e0f7a659d"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 4,
+      "price": 90000
+    }
+  ],
+  "subtotal": 360000,
+  "discount": 54000,
+  "surcharge": 0,
+  "shippingfee": 39000,
+  "total": 345000,
+  "time": {
+    "$date": "2024-08-04T04:34:26.939Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66af525d1cf8905e0f7a659f"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 18000,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 95000,
+  "time": {
+    "$date": "2024-08-03T09:45:07.667Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afc23a1cf8905e0f7a65a1"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    },
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    }
+  ],
+  "subtotal": 120000,
+  "discount": 0,
+  "surcharge": 0,
+  "shippingfee": 58000,
+  "total": 178000,
+  "time": {
+    "$date": "2024-08-04T18:02:00.082Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afd962ec0e37cd0fe68a61"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 54000,
+  "surcharge": 0,
+  "shippingfee": 30000,
+  "total": 246000,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afd99eec0e37cd0fe68a63"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    }
+  ],
+  "subtotal": 180000,
+  "discount": 27000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 175000,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afdb33ec0e37cd0fe68a65"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000,
+      "note": "wqeqwe"
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 13500,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 99500,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afdd72ec0e37cd0fe68a67"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000,
+      "note": "wqeqwe"
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 13500,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 99500,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afde45ec0e37cd0fe68a69"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 1,
+      "price": 70000
+    }
+  ],
+  "subtotal": 70000,
+  "discount": 14000,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 79000,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66afde9fec0e37cd0fe68a6b"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 1,
+      "price": 70000
+    },
+    {
+      "_id": 5,
+      "name": "Khoai tây chiên bơ",
+      "quantity": 2,
+      "price": 45000
+    }
+  ],
+  "subtotal": 160000,
+  "discount": 40000,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 143000,
+  "time": {
+    "$date": "2024-08-04T19:39:53.788Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b4ba3700a810c42af60ca2"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    },
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    }
+  ],
+  "subtotal": 120000,
+  "discount": 6000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 140500,
+  "time": {
+    "$date": "2024-08-08T12:24:43.375Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b4e4023298f50597ec5953"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 22500,
+  "surcharge": 0,
+  "shippingfee": 27000,
+  "total": 94500,
+  "time": {
+    "$date": "2024-08-08T14:55:24.057Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b4e4be3298f50597ec5955"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 22500,
+  "surcharge": 0,
+  "shippingfee": 19500,
+  "total": 87000,
+  "time": {
+    "$date": "2024-08-08T14:55:24.057Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b4e5b03298f50597ec5957"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 22500,
+  "surcharge": 0,
+  "shippingfee": 33500,
+  "total": 101000,
+  "time": {
+    "$date": "2024-08-08T14:55:24.057Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b4e8423298f50597ec5959"
+  },
+  "menu_detail": [
+    {
+      "_id": 6,
+      "name": "Cơm chiên thượng hải",
+      "quantity": 1,
+      "price": 75000
+    }
+  ],
+  "subtotal": 75000,
+  "discount": 15000,
+  "surcharge": 0,
+  "shippingfee": 20000,
+  "total": 80000,
+  "time": {
+    "$date": "2024-08-08T14:55:24.057Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b5c616fa40ada3ae0ac506"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 18000,
+  "surcharge": 0,
+  "shippingfee": 18500,
+  "total": 90500,
+  "time": {
+    "$date": "2024-08-08T14:57:43.054Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b5c690fa40ada3ae0ac508"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 18000,
+  "surcharge": 0,
+  "shippingfee": 18500,
+  "total": 90500,
+  "time": {
+    "$date": "2024-08-08T14:57:43.054Z"
+  },
+  "payment_method": "bank",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b6476ed282a50cec5b57ef"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 32000,
+  "total": 261500,
+  "time": {
+    "$date": "2024-08-09T15:45:44.566Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b753db6f9156b720acccba"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 33500,
+  "total": 263000,
+  "time": {
+    "$date": "2024-08-10T07:00:40.581Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b76e9b3f3a6187d49658bf"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    },
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 2,
+      "price": 30000
+    }
+  ],
+  "subtotal": 240000,
+  "discount": 48000,
+  "surcharge": 0,
+  "shippingfee": 40000,
+  "total": 232000,
+  "time": {
+    "$date": "2024-08-10T13:25:00.496Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b776203f3a6187d49658c1"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": 40500,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 252500,
+  "time": {
+    "$date": "2024-08-10T13:25:00.496Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b77d75f75f21c7ca2a424a"
+  },
+  "menu_detail": [
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    }
+  ],
+  "subtotal": 30000,
+  "discount": 4500,
+  "surcharge": 0,
+  "shippingfee": 15000,
+  "total": 40500,
+  "time": {
+    "$date": "2024-08-10T13:25:00.496Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b77e743f3a6187d49658c3"
+  },
+  "menu_detail": [
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 2,
+      "price": 30000
+    },
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 150000,
+  "discount": 22500,
+  "surcharge": 0,
+  "shippingfee": 30000,
+  "total": 157500,
+  "time": {
+    "$date": "2024-08-10T13:25:00.496Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b77e96f75f21c7ca2a424c"
+  },
+  "menu_detail": [
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    }
+  ],
+  "subtotal": 30000,
+  "discount": 4500,
+  "surcharge": 0,
+  "shippingfee": 17500,
+  "total": 43000,
+  "time": {
+    "$date": "2024-08-10T13:25:00.496Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87cab41538f553d2d3c81"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:53:41.058Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87d8041538f553d2d3c83"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87e0f41538f553d2d3c85"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87e7341538f553d2d3c87"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87ed441538f553d2d3c89"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b87fed41538f553d2d3c8b"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b880b341538f553d2d3c8d"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b8816641538f553d2d3c8f"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-11T08:57:28.757Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b8871d41538f553d2d3c91"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 100,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 7119000,
+  "discount": 1423800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 5721700,
+  "time": {
+    "$date": "2024-08-11T09:40:26.850Z"
+  },
+  "payment_method": "cod",
+  "status": 1,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b8de7d11298e7c123367be"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 9,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 749000,
+  "discount": 149800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 625700,
+  "time": {
+    "$date": "2024-08-11T15:53:27.604Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b99a6fe2b0055ead1fdb12"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000
+    },
+    {
+      "_id": 5,
+      "name": "Khoai tây chiên bơ",
+      "quantity": 2,
+      "price": 45000
+    },
+    {
+      "_id": 8,
+      "name": "Bánh ướt",
+      "quantity": 2,
+      "price": 50000
+    },
+    {
+      "_id": 9,
+      "name": "Mì xào thập cẩm",
+      "quantity": 2,
+      "price": 47000
+    }
+  ],
+  "subtotal": 364000,
+  "discount": 72800,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 313200,
+  "time": {
+    "$date": "2024-08-12T04:30:59.042Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123654789",
+    "name": "Khách hàng 1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b9d5cd042dc1bb1b483b90"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 3,
+      "price": 80000
+    }
+  ],
+  "subtotal": 240000,
+  "discount": 48000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 218500,
+  "time": {
+    "$date": "2024-08-11T08:19:51.972Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ba56491896f631cd70d02d"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 3,
+      "price": 80000
+    }
+  ],
+  "subtotal": 240000,
+  "discount": 36000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 230500,
+  "time": {
+    "$date": "2024-08-12T16:59:21.732Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123654789",
+    "name": "Khách hàng 1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bb215f3684a8e7d83fb40e"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 3,
+      "price": 70000,
+      "note": "Không hành"
+    },
+    {
+      "_id": 19,
+      "name": "Canh bông hẹ đậu hũ",
+      "quantity": 2,
+      "price": 37000,
+      "note": "Không hẹ"
+    },
+    {
+      "_id": 32,
+      "name": "Nha đam hạt chia",
+      "quantity": 1,
+      "price": 45000,
+      "note": "Ít ngọt"
+    }
+  ],
+  "subtotal": 329000,
+  "discount": 65800,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 289700,
+  "time": {
+    "$date": "2024-08-12T21:08:46.778Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123456789",
+    "name": "Lưu Đức hải"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bdc5db9d39e04f39fcdba2"
+  },
+  "menu_detail": [
+    {
+      "_id": 39,
+      "name": "Trà chanh thái đỏ",
+      "quantity": 1,
+      "price": 39000
+    }
+  ],
+  "subtotal": 39000,
+  "discount": 5850,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 59650,
+  "time": {
+    "$date": "2024-08-15T08:52:24.736Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bef3285c4976523de4bddf"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": -18000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 130000,
+  "time": {
+    "$date": "2024-08-16T06:27:25.258Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bef3335c4976523de4bde1"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": -18000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 130000,
+  "time": {
+    "$date": "2024-08-16T06:27:25.258Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bf829931ee08766c7792c4"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    }
+  ],
+  "subtotal": 180000,
+  "discount": -45000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 247000,
+  "time": {
+    "$date": "2024-08-16T14:18:32.146Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123654789",
+    "name": "Khách hàng 1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bf82ec31ee08766c7792c6"
+  },
+  "menu_detail": [
+    {
+      "_id": 36,
+      "name": "Sữa chua trái cây",
+      "quantity": 1,
+      "price": 35000
+    }
+  ],
+  "subtotal": 35000,
+  "discount": 5250,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 51750,
+  "time": {
+    "$date": "2024-08-16T14:18:32.146Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123654789",
+    "name": "Khách hàng 1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bfa20e31ee08766c7792c8"
+  },
+  "menu_detail": [
+    {
+      "_id": 34,
+      "name": "7up",
+      "quantity": 1,
+      "price": 15000
+    }
+  ],
+  "subtotal": 15000,
+  "discount": -3750,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 45250,
+  "time": {
+    "$date": "2024-08-16T14:18:32.146Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0123654789",
+    "name": "Khách hàng 1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c30d6cc3fbe0d81d196f4c"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 270000,
+  "discount": -54000,
+  "surcharge": 0,
+  "shippingfee": 27000,
+  "total": 351000,
+  "time": {
+    "$date": "2024-08-19T09:12:27.354Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Tram"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c31694c3fbe0d81d196f51"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 12,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 116488,
+  "time": {
+    "$date": "2024-08-19T09:12:27.354Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c3169ac3fbe0d81d196f53"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000
+    }
+  ],
+  "subtotal": 90000,
+  "discount": 12,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 116488,
+  "time": {
+    "$date": "2024-08-19T09:12:27.354Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c324bf329bb83a031e7907"
+  },
+  "menu_detail": [
+    {
+      "_id": 16,
+      "name": "Chả lụa kho tiêu",
+      "quantity": 1,
+      "price": 92000
+    }
+  ],
+  "subtotal": 92000,
+  "discount": -18400,
+  "surcharge": 0,
+  "shippingfee": 86000,
+  "total": 196400,
+  "time": {
+    "$date": "2024-08-18T18:27:01.779Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c324df329bb83a031e7909"
+  },
+  "menu_detail": [
+    {
+      "_id": 16,
+      "name": "Chả lụa kho tiêu",
+      "quantity": 1,
+      "price": 92000
+    }
+  ],
+  "subtotal": 92000,
+  "discount": -18400,
+  "surcharge": 0,
+  "shippingfee": 86000,
+  "total": 196400,
+  "time": {
+    "$date": "2024-08-18T18:27:01.779Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngan Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c6f7cf8c3ec92d7b85c9d7"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    }
+  ],
+  "subtotal": 180000,
+  "discount": 36000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 166000,
+  "time": {
+    "$date": "2024-08-22T05:29:56.492Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngân Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c6f81e85b4ad0ef75e9b5f"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 2,
+      "price": 90000
+    }
+  ],
+  "subtotal": 180000,
+  "discount": 36000,
+  "surcharge": 0,
+  "shippingfee": 22000,
+  "total": 166000,
+  "time": {
+    "$date": "2024-08-22T05:29:56.492Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "order_person": {
+    "_id": "0372976121",
+    "name": "Ngân Trâm"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66c766f93517cf2359f08a91"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000
+    },
+    {
+      "_id": 3,
+      "name": "Đậu hũ chiên giòn",
+      "quantity": 1,
+      "price": 30000
+    },
+    {
+      "_id": 5,
+      "name": "Khoai tây chiên bơ",
+      "quantity": 1,
+      "price": 45000
+    },
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 3,
+      "price": 90000
+    }
+  ],
+  "subtotal": 425000,
+  "discount": 85000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 366500,
+  "time": {
+    "$date": "2024-08-22T13:56:13.073Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca3713ea577be957cf9f61"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000,
+      "note": ""
+    }
+  ],
+  "subtotal": 80000,
+  "discount": 16000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 90500,
+  "time": {
+    "$date": "2024-08-22T18:09:07.322Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca3833ea577be957cf9f63"
+  },
+  "menu_detail": [
+    {
+      "_id": 4,
+      "name": "Bông cải xào tỏi",
+      "quantity": 1,
+      "price": 70000,
+      "note": ""
+    }
+  ],
+  "subtotal": 70000,
+  "discount": 14000,
+  "surcharge": 0,
+  "shippingfee": 23000,
+  "total": 79000,
+  "time": {
+    "$date": "2024-08-22T18:09:07.322Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca38b9ea577be957cf9f65"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000,
+      "note": ""
+    }
+  ],
+  "subtotal": 80000,
+  "discount": 16000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 90500,
+  "time": {
+    "$date": "2024-08-22T18:09:07.322Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca38ddea577be957cf9f67"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000,
+      "note": ""
+    }
+  ],
+  "subtotal": 80000,
+  "discount": 16000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 90500,
+  "time": {
+    "$date": "2024-08-22T18:09:07.354Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca3947ea577be957cf9f69"
+  },
+  "menu_detail": [
+    {
+      "_id": 2,
+      "name": "Chả giò",
+      "quantity": 1,
+      "price": 80000,
+      "note": ""
+    },
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 90000,
+      "note": ""
+    }
+  ],
+  "subtotal": 170000,
+  "discount": 34000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 162500,
+  "time": {
+    "$date": "2024-08-22T18:09:07.322Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca3b6601a280fe528b56a3"
+  },
+  "menu_detail": [
+    {
+      "_id": 1,
+      "name": "Gỏi cuốn sốt đậu phộng",
+      "quantity": 1,
+      "price": 72000
+    }
+  ],
+  "subtotal": 72000,
+  "discount": 14400,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 84100,
+  "time": {
+    "$date": "2024-08-24T19:11:15.551Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66ca3b7601a280fe528b56a5"
+  },
+  "menu_detail": [
+    {
+      "_id": 6,
+      "name": "Cơm chiên thượng hải",
+      "quantity": 2,
+      "price": 75000
+    }
+  ],
+  "subtotal": 150000,
+  "discount": 30000,
+  "surcharge": 0,
+  "shippingfee": 26500,
+  "total": 146500,
+  "time": {
+    "$date": "2024-08-24T19:11:15.551Z"
+  },
+  "payment_method": "cod",
+  "status": 2,
+  "__v": 0
+}]

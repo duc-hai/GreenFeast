@@ -1,0 +1,52 @@
+[{
+  "_id": "e337982ec9e341f09574d3e785deb276",
+  "response_code": "99: Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)",
+  "response_message": "Exception",
+  "tmn_code": "CVPSQQMS",
+  "txn_ref": "66b4ba0ceb3105e70019a835-1723120141181",
+  "amount": 600000,
+  "content": "Hoan tien GD ma:66b4ba0ceb3105e70019a835-1723120141181",
+  "bank_code": "NCB",
+  "createdAt": {
+    "$date": "2024-08-08T14:49:16.781Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-08T14:49:16.781Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "cf05061b8e85487db9f14934ecc42e7a",
+  "response_code": "99: Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)",
+  "response_message": "Exception",
+  "tmn_code": "CVPSQQMS",
+  "txn_ref": "66b4ba0ceb3105e70019a835-1723120141181",
+  "amount": 600000,
+  "content": "Hoan tien GD ma:66b4ba0ceb3105e70019a835-1723120141181",
+  "bank_code": "NCB",
+  "createdAt": {
+    "$date": "2024-08-08T14:52:35.943Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-08T14:52:35.943Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "1984217a2f064265a3337710a9a45312",
+  "response_code": "94: Giao dịch đã được gửi yêu cầu hoàn tiền trước đó. Yêu cầu này VNPAY đang xử lý",
+  "response_message": "Too many refund count (>0)",
+  "tmn_code": "CVPSQQMS",
+  "txn_ref": "66b4ba0ceb3105e70019a835-1723120141181",
+  "amount": 600000,
+  "content": "Hoan tien GD ma:66b4ba0ceb3105e70019a835-1723120141181",
+  "bank_code": "NCB",
+  "user_id": "0123456789",
+  "createdAt": {
+    "$date": "2024-08-08T14:54:10.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-08T14:54:10.343Z"
+  },
+  "__v": 0
+}]

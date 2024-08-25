@@ -1,0 +1,1634 @@
+[{
+  "_id": "0",
+  "amount": 7000000,
+  "bank_code": "VNPAY",
+  "card_type": "QRCODE",
+  "order_id": {
+    "$oid": "669bf140af22e23ea9daab5e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A669bf140af22e23ea9daab5e-1721495885288",
+  "response_code": "15",
+  "pay_time": {
+    "$date": "2611-05-28T14:30:01.809Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14523060",
+  "amount": 28500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14523060",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "669c77ceaf22e23ea9daac7d"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A669c77ceaf22e23ea9daac7d-1721530318329",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T14:31:35.246Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537504",
+  "amount": 24600000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537504",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7c655bf588e30acf77dc2"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7c655bf588e30acf77dc2-1722271317758",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T16:47:14.308Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537528",
+  "amount": 10200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537528",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7caa3bf588e30acf77de6"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7caa3bf588e30acf77de6-1722272419906",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:00.136Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537544",
+  "amount": 9650000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537544",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7cc48bf588e30acf77dee"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7cc48bf588e30acf77dee-1722272841228",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:00.750Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537553",
+  "amount": 8500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537553",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7ce49bf588e30acf77df6"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7ce49bf588e30acf77df6-1722273353506",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:01.623Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537562",
+  "amount": 10550000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537562",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7cf92bf588e30acf77dfe"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7cf92bf588e30acf77dfe-1722273683181",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:02.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537570",
+  "amount": 16350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537570",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d146bf588e30acf77e06"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d146bf588e30acf77e06-1722274118954",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:02.911Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537576",
+  "amount": 5000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537576",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "6659ea174e86ae1f9e43896e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A6659ea174e86ae1f9e43896e-1722274381996",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:03.355Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537590",
+  "amount": 7000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537590",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d48fbf588e30acf77e0e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d48fbf588e30acf77e0e-1722274960387",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:04.308Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537592",
+  "amount": 7550000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537592",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d531bf588e30acf77e16"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d531bf588e30acf77e16-1722275121701",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:04.542Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537595",
+  "amount": 7350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537595",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d624bf588e30acf77e1e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d624bf588e30acf77e1e-1722275365131",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:04.946Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537597",
+  "amount": 7900000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537597",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d6e2bf588e30acf77e26"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d6e2bf588e30acf77e26-1722275554896",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:05.255Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537599",
+  "amount": 20100000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537599",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d76cbf588e30acf77e2e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d76cbf588e30acf77e2e-1722275692808",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:05.513Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537601",
+  "amount": 16150000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537601",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7d879bf588e30acf77e36"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7d879bf588e30acf77e36-1722275961973",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:05.959Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537604",
+  "amount": 22200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537604",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7da7bbf588e30acf77e3e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7da7bbf588e30acf77e3e-1722276475772",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:10.823Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537606",
+  "amount": 8700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537606",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7dbc3bf588e30acf77e49"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7dbc3bf588e30acf77e49-1722276804241",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:11.348Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537608",
+  "amount": 9350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537608",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7ddb25368f7e3192d3987"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7ddb25368f7e3192d3987-1722277298550",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:12.204Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14537612",
+  "amount": 12600000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14537612",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a7e10c5368f7e3192d3993"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a7e10c5368f7e3192d3993-1722278156945",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:00:13.628Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539118",
+  "amount": 10200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539118",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a92b6ac31b00d372e928d0"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a92b6ac31b00d372e928d0-1722362730986",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:16:50.811Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539131",
+  "amount": 16150000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539131",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a93445c31b00d372e928fb"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a93445c31b00d372e928fb-1722364997467",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:16:54.347Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539135",
+  "amount": 8750000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539135",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a9381ec31b00d372e9290a"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a9381ec31b00d372e9290a-1722365982796",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:17:00.029Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539136",
+  "amount": 8750000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539136",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a93917c31b00d372e92915"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a93917c31b00d372e92915-1722366231936",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:17:00.420Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539137",
+  "amount": 8750000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539137",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a93be5c31b00d372e92928"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a93be5c31b00d372e92928-1722366949645",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:17:01.615Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539138",
+  "amount": 7500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539138",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a93d8ec31b00d372e9293f"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a93d8ec31b00d372e9293f-1722367374247",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:17:02.326Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14539140",
+  "amount": 7900000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14539140",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66a93eaac31b00d372e9294e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66a93eaac31b00d372e9294e-1722367658881",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:17:02.807Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540509",
+  "amount": 18350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540509",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa6bcffb10fbf3ce7476c8"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa6bcffb10fbf3ce7476c8-1722444751254",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-28T17:20:35.330Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540535",
+  "amount": 7350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540535",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa7261fb10fbf3ce7477d1"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa7261fb10fbf3ce7477d1-1722446433315",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:22.127Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540546",
+  "amount": 7125000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540546",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa76bcfb10fbf3ce7477e7"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa76bcfb10fbf3ce7477e7-1722447548617",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:23.935Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540549",
+  "amount": 9500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540549",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa774afb10fbf3ce7477f3"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa774afb10fbf3ce7477f3-1722447690787",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:24.158Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540552",
+  "amount": 7200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540552",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa788bfb10fbf3ce7477ff"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa788bfb10fbf3ce7477ff-1722448011658",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:24.719Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540554",
+  "amount": 9500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540554",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa7920fb10fbf3ce74780d"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa7920fb10fbf3ce74780d-1722448160194",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:25.005Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540557",
+  "amount": 14600000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540557",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa7b0ffb10fbf3ce74781e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa7b0ffb10fbf3ce74781e-1722448655600",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:25.810Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540561",
+  "amount": 12375000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540561",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa7c4dfb10fbf3ce74782b"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa7c4dfb10fbf3ce74782b-1722448973907",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:30.349Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14540566",
+  "amount": 16700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14540566",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66aa80c8fb10fbf3ce7478c5"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66aa80c8fb10fbf3ce7478c5-1722450120671",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T12:43:32.236Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14542365",
+  "amount": 14300000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14542365",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66ac69dd8cf69fd963857b6b"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66ac69dd8cf69fd963857b6b-1722575326533",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:02:01.032Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14542389",
+  "amount": 12300000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14542389",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66ac78a606e47eae28fc1d8d"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66ac78a606e47eae28fc1d8d-1722579110834",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:02:11.220Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14542417",
+  "amount": 11100000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14542417",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66ac7e2ba4128887d7a8e7d5"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66ac7e2ba4128887d7a8e7d5-1722580523913",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:02:13.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14542960",
+  "amount": 7100000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14542960",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66acb36add99f710af72478e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66acb36add99f710af72478e-1722594154826",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:02:52.306Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543971",
+  "amount": 14400000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543971",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af4ea2753731e92ce1a39b"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af4ea2753731e92ce1a39b-1722764963458",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:05.129Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543975",
+  "amount": 8700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543975",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af5056753731e92ce1a3aa"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af5056753731e92ce1a3aa-1722765399445",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:05.701Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543981",
+  "amount": 9500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543981",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af5236753731e92ce1a3b5"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af5236753731e92ce1a3b5-1722765878467",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:10.506Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543986",
+  "amount": 8700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543986",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af535c753731e92ce1a3c5"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af535c753731e92ce1a3c5-1722766172690",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:11.018Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543993",
+  "amount": 10550000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543993",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af552fa2c5481601e917d1"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af552fa2c5481601e917d1-1722766639559",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:11.752Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14543996",
+  "amount": 4700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14543996",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66af56bea2c5481601e917dd"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66af56bea2c5481601e917dd-1722767039050",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:36:12.441Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544187",
+  "amount": 8300000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544187",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afb7e8753731e92ce1a54f"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afb7e8753731e92ce1a54f-1722791912507",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:01.903Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544217",
+  "amount": 10850000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544217",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afc330702e219d347a97ea"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afc330702e219d347a97ea-1722794806145",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:10.744Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544224",
+  "amount": 8950000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544224",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afd27fc4dab44e7c52ca68"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afd27fc4dab44e7c52ca68-1722798719816",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:21.221Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544225",
+  "amount": 6750000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544225",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afd2d6c4dab44e7c52ca72"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afd2d6c4dab44e7c52ca72-1722798807007",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:21.351Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544226",
+  "amount": 16350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544226",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afd3cbc4dab44e7c52ca7e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afd3cbc4dab44e7c52ca7e-1722799052004",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:21.758Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14544233",
+  "amount": 14300000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14544233",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66afde73c8b9fa0b081e5a44"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66afde73c8b9fa0b081e5a44-1722801779563",
+  "response_code": "00",
+  "pay_time": {
+    "$date": "2611-05-29T13:50:30.324Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14549579",
+  "amount": 14050000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549579",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4ba0ceb3105e70019a835"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4ba0ceb3105e70019a835-1723120141181",
+  "response_code": "00",
+  "pay_time": "20240808192934",
+  "__v": 0
+},
+{
+  "_id": "14549742",
+  "amount": 9450000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549742",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4e3cda48b1aa0a6acf3a8"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4e3cda48b1aa0a6acf3a8-1723130829562",
+  "response_code": "00",
+  "pay_time": "20240808222755",
+  "__v": 0
+},
+{
+  "_id": "14549744",
+  "amount": 8700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549744",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4e496a48b1aa0a6acf3b6"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4e496a48b1aa0a6acf3b6-1723131030307",
+  "response_code": "00",
+  "pay_time": "20240808223101",
+  "__v": 0
+},
+{
+  "_id": "14549751",
+  "amount": 10100000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549751",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4e588a48b1aa0a6acf3c4"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4e588a48b1aa0a6acf3c4-1723131272964",
+  "response_code": "00",
+  "pay_time": "20240808223504",
+  "__v": 0
+},
+{
+  "_id": "14549764",
+  "amount": 8000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549764",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4e80ca48b1aa0a6acf3ed"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4e80ca48b1aa0a6acf3ed-1723131916921",
+  "response_code": "00",
+  "pay_time": "20240808224600",
+  "__v": 0
+},
+{
+  "_id": "14549780",
+  "amount": 9000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14549780",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b4ecd8a48b1aa0a6acf49f"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b4ecd8a48b1aa0a6acf49f-1723133162982",
+  "response_code": "00",
+  "pay_time": "20240808230638",
+  "__v": 0
+},
+{
+  "_id": "14550400",
+  "amount": 9050000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14550400",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66b5c63d54275909ed9f3fe4"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66b5c63d54275909ed9f3fe4-1723188797963",
+  "response_code": "00",
+  "pay_time": "20240809143427",
+  "txn_ref": "66b5c63d54275909ed9f3fe4-1723188797963",
+  "createdAt": {
+    "$date": "2024-08-09T07:34:37.484Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-09T07:34:37.484Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556770",
+  "amount": 214000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556770",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bb74050d4c728945370f71"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bb74050d4c728945370f71-1723736354532",
+  "response_code": "00",
+  "pay_time": "20240815223956",
+  "txn_ref": "66bb74050d4c728945370f71-1723736354532",
+  "createdAt": {
+    "$date": "2024-08-15T15:45:42.202Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T15:45:42.202Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556830",
+  "amount": 7000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556830",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be34cb0f3963c4bc1e3d14"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be34cb0f3963c4bc1e3d14-1723741416091",
+  "response_code": "00",
+  "pay_time": "20240816000444",
+  "txn_ref": "66be34cb0f3963c4bc1e3d14-1723741416091",
+  "createdAt": {
+    "$date": "2024-08-15T17:04:50.917Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:04:50.917Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556832",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556832",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be35c10f3963c4bc1e3d3d"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be35c10f3963c4bc1e3d3d-1723741672312",
+  "response_code": "00",
+  "pay_time": "20240816000823",
+  "txn_ref": "66be35c10f3963c4bc1e3d3d-1723741672312",
+  "createdAt": {
+    "$date": "2024-08-15T17:08:29.426Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:08:29.426Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556838",
+  "amount": 6000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556838",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be36ee0f3963c4bc1e3d66"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be36ee0f3963c4bc1e3d66-1723741978918",
+  "response_code": "00",
+  "pay_time": "20240816001330",
+  "txn_ref": "66be36ee0f3963c4bc1e3d66-1723741978918",
+  "createdAt": {
+    "$date": "2024-08-15T17:13:49.832Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:13:49.832Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556840",
+  "amount": 4500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556840",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be37dd0f3963c4bc1e3dc4"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be37dd0f3963c4bc1e3dc4-1723742184939",
+  "response_code": "00",
+  "pay_time": "20240816001713",
+  "txn_ref": "66be37dd0f3963c4bc1e3dc4-1723742184939",
+  "createdAt": {
+    "$date": "2024-08-15T17:17:23.675Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:17:23.675Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556848",
+  "amount": 6000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556848",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be3a050f3963c4bc1e3def"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be3a050f3963c4bc1e3def-1723742848379",
+  "response_code": "00",
+  "pay_time": "20240816002813",
+  "txn_ref": "66be3a050f3963c4bc1e3def-1723742848379",
+  "createdAt": {
+    "$date": "2024-08-15T17:28:19.949Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:28:19.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556849",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556849",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be3ae60f3963c4bc1e3e43"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be3ae60f3963c4bc1e3e43-1723742966525",
+  "response_code": "00",
+  "pay_time": "20240816003010",
+  "txn_ref": "66be3ae60f3963c4bc1e3e43-1723742966525",
+  "createdAt": {
+    "$date": "2024-08-15T17:30:33.967Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:30:33.967Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556852",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556852",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be3d270f3963c4bc1e3e6b"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be3d270f3963c4bc1e3e6b-1723743537056",
+  "response_code": "00",
+  "pay_time": "20240816003941",
+  "txn_ref": "66be3d270f3963c4bc1e3e6b-1723743537056",
+  "createdAt": {
+    "$date": "2024-08-15T17:39:46.579Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:39:46.579Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556855",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556855",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be3eab0f3963c4bc1e3e94"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be3eab0f3963c4bc1e3e94-1723743923552",
+  "response_code": "00",
+  "pay_time": "20240816004555",
+  "txn_ref": "66be3eab0f3963c4bc1e3e94-1723743923552",
+  "createdAt": {
+    "$date": "2024-08-15T17:48:05.085Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:48:05.085Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14556857",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14556857",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66be3f820f3963c4bc1e3ec0"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66be3f820f3963c4bc1e3ec0-1723744140655",
+  "response_code": "00",
+  "pay_time": "20240816004935",
+  "txn_ref": "66be3f820f3963c4bc1e3ec0-1723744140655",
+  "createdAt": {
+    "$date": "2024-08-15T17:49:40.095Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T17:49:40.095Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557228",
+  "amount": 36000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557228",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bedaccca9ad34b2b336347"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bedaccca9ad34b2b336347-1723784010410",
+  "response_code": "00",
+  "pay_time": "20240816115413",
+  "txn_ref": "66bedaccca9ad34b2b336347-1723784010410",
+  "createdAt": {
+    "$date": "2024-08-16T04:54:21.799Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T04:54:21.799Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557805",
+  "amount": 7200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557805",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf60f0deaafdeaf28c6508"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf60f0deaafdeaf28c6508-1723818255005",
+  "response_code": "00",
+  "pay_time": "20240816212521",
+  "txn_ref": "66bf60f0deaafdeaf28c6508-1723818255005",
+  "createdAt": {
+    "$date": "2024-08-16T14:25:36.892Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T14:25:36.892Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557809",
+  "amount": 14200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557809",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf64f5deaafdeaf28c6529"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf64f5deaafdeaf28c6529-1723819321269",
+  "response_code": "00",
+  "pay_time": "20240816214241",
+  "txn_ref": "66bf64f5deaafdeaf28c6529-1723819321269",
+  "createdAt": {
+    "$date": "2024-08-16T14:42:45.686Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T14:42:45.686Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557810",
+  "amount": 9000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557810",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf65cfdeaafdeaf28c655f"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf65cfdeaafdeaf28c655f-1723819478272",
+  "response_code": "00",
+  "pay_time": "20240816214517",
+  "txn_ref": "66bf65cfdeaafdeaf28c655f-1723819478272",
+  "createdAt": {
+    "$date": "2024-08-16T14:45:25.348Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T14:45:25.348Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557812",
+  "amount": 16200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557812",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf6658deaafdeaf28c657e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf6658deaafdeaf28c657e-1723819617532",
+  "response_code": "00",
+  "pay_time": "20240816214727",
+  "txn_ref": "66bf6658deaafdeaf28c657e-1723819617532",
+  "createdAt": {
+    "$date": "2024-08-16T14:47:33.186Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T14:47:33.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557815",
+  "amount": 7200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557815",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf6782deaafdeaf28c659e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf6782deaafdeaf28c659e-1723819914265",
+  "response_code": "00",
+  "pay_time": "20240816215242",
+  "txn_ref": "66bf6782deaafdeaf28c659e-1723819914265",
+  "createdAt": {
+    "$date": "2024-08-16T14:52:47.542Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T14:52:47.542Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557822",
+  "amount": 16200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557822",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf6997deaafdeaf28c65bd"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf6997deaafdeaf28c65bd-1723820742916",
+  "response_code": "00",
+  "pay_time": "20240816220618",
+  "txn_ref": "66bf6997deaafdeaf28c65bd-1723820742916",
+  "createdAt": {
+    "$date": "2024-08-16T15:07:59.858Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T15:07:59.858Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557826",
+  "amount": 14400000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557826",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf6c59deaafdeaf28c65fd"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf6c59deaafdeaf28c65fd-1723821150934",
+  "response_code": "00",
+  "pay_time": "20240816221309",
+  "txn_ref": "66bf6c59deaafdeaf28c65fd-1723821150934",
+  "createdAt": {
+    "$date": "2024-08-16T15:13:13.913Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T15:13:13.913Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557880",
+  "amount": 20950000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557880",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf85c1deaafdeaf28c6baf"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf85c1deaafdeaf28c6baf-1723827649426",
+  "response_code": "00",
+  "pay_time": "20240817000209",
+  "txn_ref": "66bf85c1deaafdeaf28c6baf-1723827649426",
+  "createdAt": {
+    "$date": "2024-08-16T17:02:12.729Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T17:02:12.729Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14557891",
+  "amount": 57500000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14557891",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bf8145deaafdeaf28c6ab3"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bf8145deaafdeaf28c6ab3-1723835090633",
+  "response_code": "00",
+  "pay_time": "20240817020526",
+  "txn_ref": "66bf8145deaafdeaf28c6ab3-1723835090633",
+  "createdAt": {
+    "$date": "2024-08-16T19:05:29.388Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-16T19:05:29.388Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14558118",
+  "amount": 14400000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14558118",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c07739ad5545fc7e2f0ff4"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c07739ad5545fc7e2f0ff4-1723889481181",
+  "response_code": "00",
+  "pay_time": "20240817171212",
+  "txn_ref": "66c07739ad5545fc7e2f0ff4-1723889481181",
+  "createdAt": {
+    "$date": "2024-08-17T10:12:15.327Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-17T10:12:15.327Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14558507",
+  "amount": 29700000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14558507",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bb72ab0d4c728945370ea2"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bb72ab0d4c728945370ea2-1723988242100",
+  "response_code": "00",
+  "pay_time": "20240818203814",
+  "txn_ref": "66bb72ab0d4c728945370ea2-1723988242100",
+  "createdAt": {
+    "$date": "2024-08-18T13:38:19.450Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T13:38:19.450Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14558518",
+  "amount": 7200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14558518",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c1fccb2cd202182caed30b"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c1fccb2cd202182caed30b-1723989546624",
+  "response_code": "00",
+  "pay_time": "20240818205938",
+  "txn_ref": "66c1fccb2cd202182caed30b-1723989546624",
+  "createdAt": {
+    "$date": "2024-08-18T13:59:44.571Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T13:59:44.571Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14558538",
+  "amount": 9400000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14558538",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c20bf12cd202182caed3d0"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c20bf12cd202182caed3d0-1723993073305",
+  "response_code": "00",
+  "pay_time": "20240818215856",
+  "txn_ref": "66c20bf12cd202182caed3d0-1723993073305",
+  "createdAt": {
+    "$date": "2024-08-18T14:59:08.715Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T14:59:08.715Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14558546",
+  "amount": 9100000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14558546",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c20f032cd202182caed3f2"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c20f032cd202182caed3f2-1723993859901",
+  "response_code": "00",
+  "pay_time": "20240818221128",
+  "txn_ref": "66c20f032cd202182caed3f2-1723993859901",
+  "createdAt": {
+    "$date": "2024-08-18T15:11:33.947Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-18T15:11:33.947Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14559636",
+  "amount": 14400000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14559636",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c32096dc9896eed0db9dbb"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c32096dc9896eed0db9dbb-1724064044643",
+  "response_code": "00",
+  "pay_time": "20240819174155",
+  "txn_ref": "66c32096dc9896eed0db9dbb-1724064044643",
+  "createdAt": {
+    "$date": "2024-08-19T10:42:02.368Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-19T10:42:02.368Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14559785",
+  "amount": 42600000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14559785",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66bb893fe8978680bda74db8"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66bb893fe8978680bda74db8-1724083321202",
+  "response_code": "00",
+  "pay_time": "20240819230255",
+  "txn_ref": "66bb893fe8978680bda74db8-1724083321202",
+  "createdAt": {
+    "$date": "2024-08-19T16:03:04.349Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-19T16:03:04.349Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14559794",
+  "amount": 7200000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14559794",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c37229752fc5b49fc9c703"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c37229752fc5b49fc9c703-1724084787336",
+  "response_code": "00",
+  "pay_time": "20240819232652",
+  "txn_ref": "66c37229752fc5b49fc9c703-1724084787336",
+  "createdAt": {
+    "$date": "2024-08-19T16:26:59.366Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-19T16:26:59.366Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14559807",
+  "amount": 20350000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14559807",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c3764f752fc5b49fc9c74c"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c3764f752fc5b49fc9c74c-1724085839892",
+  "response_code": "00",
+  "pay_time": "20240819234440",
+  "txn_ref": "66c3764f752fc5b49fc9c74c-1724085839892",
+  "createdAt": {
+    "$date": "2024-08-19T16:44:46.570Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-19T16:44:46.570Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14560959",
+  "amount": 3000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14560959",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c4803ae30b2d0165805b6e"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c4803ae30b2d0165805b6e-1724153936567",
+  "response_code": "00",
+  "pay_time": "20240820183958",
+  "txn_ref": "66c4803ae30b2d0165805b6e-1724153936567",
+  "createdAt": {
+    "$date": "2024-08-20T11:40:05.651Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-20T11:40:05.651Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14563160",
+  "amount": 16150000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14563160",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66c6f067b3399608ed63e42c"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66c6f067b3399608ed63e42c-1724313703738",
+  "response_code": "00",
+  "pay_time": "20240822150204",
+  "txn_ref": "66c6f067b3399608ed63e42c-1724313703738",
+  "createdAt": {
+    "$date": "2024-08-22T08:02:09.352Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-22T08:02:09.352Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14564876",
+  "amount": 5000000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14564876",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "6658082f66e00619d3d484ff"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A6658082f66e00619d3d484ff-1724413484166",
+  "response_code": "00",
+  "pay_time": "20240823184632",
+  "txn_ref": "6658082f66e00619d3d484ff-1724413484166",
+  "createdAt": {
+    "$date": "2024-08-23T11:46:51.015Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-23T11:46:51.015Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14565816",
+  "amount": 9490000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14565816",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66ca493532d5b7b3cefeae99"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66ca493532d5b7b3cefeae99-1724533045154",
+  "response_code": "00",
+  "pay_time": "20240825035747",
+  "txn_ref": "66ca493532d5b7b3cefeae99-1724533045154",
+  "createdAt": {
+    "$date": "2024-08-24T20:57:53.642Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-24T20:57:53.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "14566326",
+  "amount": 28800000,
+  "bank_code": "NCB",
+  "bank_transaction_number": "VNP14566326",
+  "card_type": "ATM",
+  "order_id": {
+    "$oid": "66cb3a17202307bf57c2f73d"
+  },
+  "order_infor": "Thanh+toan+cho+ma+GD%3A66cb3a17202307bf57c2f73d-1724594772014",
+  "response_code": "00",
+  "pay_time": "20240825210634",
+  "txn_ref": "66cb3a17202307bf57c2f73d-1724594772014",
+  "createdAt": {
+    "$date": "2024-08-25T14:06:40.875Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-25T14:06:40.875Z"
+  },
+  "__v": 0
+}]
