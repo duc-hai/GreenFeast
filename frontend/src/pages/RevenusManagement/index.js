@@ -60,7 +60,7 @@ const RevenusManagement = () => {
       </div>
 
       <br />
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         <Card title="Doanh thu" className="flex-1">
           <div className="bg-white p-3">
             <div className="flex gap-2 items-center">

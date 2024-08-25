@@ -72,6 +72,7 @@ const AreaManagement = () => {
       title: "Kinh nghiệm",
       dataIndex: "experience",
       key: "experience",
+      responsive: ["md"],
     },
     // {
     //   title: "Thao tác",
@@ -162,10 +163,10 @@ const AreaManagement = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className="content-component flex-1">
+    <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
-          Quản nhân viên
+          Quản lý nhân viên
         </div>
         <div>
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
@@ -215,7 +216,7 @@ const AreaManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item label="Username" name="username">
+                  <Form.Item label="Số điện thoại" name="username">
                     <Input />
                   </Form.Item>
                 </Col>

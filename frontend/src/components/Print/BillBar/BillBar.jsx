@@ -40,6 +40,7 @@ const BillBar =() => {
         title: 'STT',
         dataIndex: 'name',
         render: (text,record,index) => <p>{` ${index +1}`}</p>,
+        responsive: ["md"],
     },
     {
         title: 'Bàn',
@@ -49,6 +50,7 @@ const BillBar =() => {
     {
         title: 'Thời gian',
         dataIndex: 'createdAt',
+        responsive: ["sm"],
         render: (text,record,index) => <p>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</p>,
     },
     {
@@ -61,7 +63,7 @@ const BillBar =() => {
     },
     ];
     return (
-        <div className="content-component flex-1">
+        <div className="bg-[#E4E4D0] md:p-4 ">
         <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
             <div className="text-xl font-semibold pl-2 text-white">
             Quản phiếu in pha chế 

@@ -66,7 +66,7 @@ const HistoryOrderAdmin = () => {
       if (search.page) param = `page=${search.page}`;
       if (search.status) param = `status=${search.status}&${param}`;
       const res = await getOrderHistoryListAdmin(param);
-      console.log(res);
+
       setDataTable(res?.data);
       setTotalElement(res?.pagination?.totalItem);
     } catch (err) {
@@ -165,6 +165,7 @@ const HistoryOrderAdmin = () => {
       dataIndex: "_id",
       key: "_id",
       align: "center",
+      responsive: ["md"],
       render: (text, record, index) => <span>{index + 1}</span>,
       width: 70,
     },
@@ -178,6 +179,7 @@ const HistoryOrderAdmin = () => {
       title: "Thời gian",
       key: "time",
       dataIndex: "time",
+      responsive: ["md"],
       render: (text) => (
         <span>
           {dayjs.utc(text).utcOffset(7).format("YYYY-MM-DD HH:mm:ss")}
@@ -227,6 +229,7 @@ const HistoryOrderAdmin = () => {
       key: "send_tms",
       dataIndex: "send_tms",
       align: "center",
+      responsive: ["md"],
       render: (text, record) =>
         record?.status === optionStatus[2].label && (
           <div className="flex gap-2 items-center justify-center">
@@ -253,7 +256,6 @@ const HistoryOrderAdmin = () => {
       dataIndex: "total",
       align: "center",
       render: (text) => <span>{text.toLocaleString()} đ</span>,
-      width: 120,
     },
 
     {
@@ -261,7 +263,7 @@ const HistoryOrderAdmin = () => {
       dataIndex: "_id",
       key: "_id",
       align: "center",
-      width: 120,
+
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
           <DetailHistoryAdmin id={text} />
@@ -320,13 +322,13 @@ const HistoryOrderAdmin = () => {
     <div className="flex gap-2 flex-col">
       <div
         className="flex gap-2 mt-2 flex-col "
-        style={{ maxWidth: "calc(100vw - 290px)" }}
+        // style={{ maxWidth: "calc(100vw - 290px)" }}
       >
         <Menu
           onClick={(e) => onClickMenu(e?.key)}
           mode="horizontal"
           items={items}
-          className="flex justify-between"
+          className=" flex flex-wrap "
         />
       </div>
       {loading ? (
@@ -336,7 +338,7 @@ const HistoryOrderAdmin = () => {
           dataSource={dataTable || []}
           loading={loading}
           columns={columns}
-          scroll={{ y: "calc(100vh - 410px) ", x: "500px" }}
+          scroll={{ y: "calc(100vh - 410px) " }}
           pagination={{
             total: totalElement,
             current: search.page,

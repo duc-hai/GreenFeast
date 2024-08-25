@@ -131,11 +131,8 @@ const TableManagement = () => {
   };
 
   return (
-    <div
-      className="content-component "
-      style={{ width: "fit-content", maxWidth: "calc(100vw - 250px)" }}
-    >
-      <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm mb-8">
+    <div className="bg-[#E4E4D0] md:p-4 ">
+      <div className="flex justify-between flex-wrap gap-2 bg-[#5c9f67] p-2 rounded-sm mb-8">
         <div className="text-xl font-semibold pl-2 text-white">
           Quản lý danh mục món
         </div>

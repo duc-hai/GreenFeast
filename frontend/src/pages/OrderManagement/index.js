@@ -154,6 +154,7 @@ const OrderManagement = () => {
         return checkStatus(text);
       },
       align: "center",
+      responsive: ["sm"],
     },
 
     {
@@ -163,7 +164,7 @@ const OrderManagement = () => {
           return "Trống";
         } else {
           return (
-            <p className="flex justify-center gap-5">
+            <p className="flex justify-center gap-5 flex-wrap">
               <span
                 onClick={() => {
                   setTableSlug(record.slug);
@@ -218,6 +219,7 @@ const OrderManagement = () => {
       dataIndex: "price",
       key: "price",
       align: "center",
+
       render: (text, record) => (
         <span>{record?.price?.toLocaleString()} VNĐ</span>
       ),
@@ -241,6 +243,7 @@ const OrderManagement = () => {
       dataIndex: "note",
       key: "note",
       align: "center",
+      responsive: ["md"],
     },
   ];
 
@@ -251,6 +254,27 @@ const OrderManagement = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
+
+  const fetchCloseTable = async (tableValue, values) => {
+    try {
+      const res = await closeTable(tableValue, values);
+      if (res?.status === "success") {
+        message.success(res?.message || "Đóng bàn thành công");
+        setIsModalCloseTable(false);
+        if (area) {
+          fetchData(area);
+        } else {
+          if (valueArea.length > 0) {
+            fetchData(valueArea[0].id);
+          }
+        }
+      } else {
+        message.error(res?.message || "Đóng bàn thất bại");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const onFinish = async () => {
     const values = form.getFieldsValue();
 
@@ -259,15 +283,14 @@ const OrderManagement = () => {
         message.error("Vui lòng chọn loại thanh toán");
         return;
       }
-      message.success("Đóng bàn thành công");
-      await closeTable(tableSlug, values);
-      await fetchData(area);
+      fetchCloseTable(tableSlug, values);
+      // await closeTable(tableSlug, values);
     } catch (error) {
       console.log(error);
       message.error("Đóng bàn thất bại");
     }
-    fetchData(area);
-    setIsModalCloseTable(false);
+    // fetchData(area);
+    // setIsModalCloseTable(false);
   };
   const [form] = Form.useForm();
   const [form1] = Form.useForm();
@@ -283,10 +306,10 @@ const OrderManagement = () => {
     return sum;
   };
   return (
-    <div className="content-component  flex-1">
+    <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
-          Quản lý order
+          Quản lý đơn hàng
         </div>
       </div>
       <div className="flex gap-1 mt-1">
@@ -302,7 +325,7 @@ const OrderManagement = () => {
       </div>
       <div className=" flex">
         {tab ? (
-          <div className="flex">
+          <div>
             <HistoryOrderAdmin />
           </div>
         ) : (
@@ -325,17 +348,18 @@ const OrderManagement = () => {
               </select>
             </div>
             <br />
-
-            <Table
-              columns={columns}
-              dataSource={
-                listData?.length > 0 &&
-                listData?.map((item, index) => {
-                  return { ...item, key: index };
-                })
-              }
-              scroll={{ y: "calc(100vh - 400px)" }}
-            />
+            <div>
+              <Table
+                columns={columns}
+                dataSource={
+                  listData?.length > 0 &&
+                  listData?.map((item, index) => {
+                    return { ...item, key: index };
+                  })
+                }
+                scroll={{ y: "calc(100vh - 400px)" }}
+              />
+            </div>
           </div>
         )}
       </div>
@@ -483,7 +507,6 @@ const OrderManagement = () => {
                             return { ...item, key: index };
                           })
                         }
-                        scroll={{ x: "max-content" }}
                       />
                       <p className="justify-end flex gap-2 mt-3">
                         <span>Tổng giá 1:</span>
@@ -510,11 +533,11 @@ const OrderManagement = () => {
                     // onChange={onGenderChange}
                     allowClear
                   >
-                    <Select.Option key={1} value={"Tiền mặt"}>
-                      Tiền mặt
+                    <Select.Option key={1} value={"cash"}>
+                      Tiền mặt tại nhà hàng
                     </Select.Option>
-                    <Select.Option key={2} value={"Bank"}>
-                      Bank
+                    <Select.Option key={2} value={"transfer"}>
+                      Chuyển khoản tại nhà hàng
                     </Select.Option>
                   </Select>
                 </Form.Item>
@@ -570,7 +593,7 @@ const OrderManagement = () => {
               <span className="font-semibold text-green-700">
                 {/* {orderDetail?.total?.toLocaleString("vi-VN", {}) ||
                   orderDetail?.subtotal?.toLocaleString("vi-VN", {})} */}
-                {orderDetail?.subtotal?.toLocaleString("vi-VN", {})}
+                {orderDetail?.total?.toLocaleString("vi-VN", {})}
                 VNĐ
               </span>
             </p>

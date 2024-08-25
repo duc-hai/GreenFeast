@@ -45,6 +45,7 @@ const HistoryOrder = () => {
       title: "Tên",
       dataIndex: "table",
       key: "table",
+      width: 100,
       render: (name) => <span className="font-semibold">{name}</span>,
     },
     {
@@ -57,6 +58,7 @@ const HistoryOrder = () => {
       title: "Ghi chú",
       dataIndex: "note",
       key: "note ",
+      responsive: ["md"],
       render: (total) => (
         <span className="font-semibold">{total ? total : "Không có"}</span>
       ),
@@ -64,6 +66,7 @@ const HistoryOrder = () => {
     {
       title: "Checkout",
       dataIndex: "checkout",
+      responsive: ["sm"],
       key: "checkout ",
       render: (checkout) => (
         <span className="font-semibold">
@@ -89,7 +92,7 @@ const HistoryOrder = () => {
   ];
 
   return (
-    <div className="content-component flex-1">
+    <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Lịch sử order

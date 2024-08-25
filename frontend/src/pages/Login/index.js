@@ -54,7 +54,7 @@ const Login = () => {
     } catch (error) {
       notification.open({
         message: "Đăng nhập thất bại",
-        description: "Đăng nhập thất bại",
+        description: "Vui lòng kiểm tra lại tài khoản và mật khẩu.",
         icon: <CloseOutlined style={{ color: "green" }} />,
       });
     }
