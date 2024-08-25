@@ -110,6 +110,7 @@ const ListMeal = ({
       dataIndex: "price",
       key: "price",
       align: "center",
+      responsive: ["sm"],
       render: (text, record) => {
         return record.price?.toLocaleString("vi-VN", {});
       },
@@ -118,6 +119,7 @@ const ListMeal = ({
       title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
+      // responsive: ["md"],
       align: "center",
     },
     {
@@ -132,16 +134,15 @@ const ListMeal = ({
       title: "Ghi chú",
       dataIndex: "note",
       key: "note",
-
+      responsive: ["md"],
       align: "center",
     },
     {
       title: <span className="flex justify-center">Trạng thái</span>,
       dataIndex: "processing_status",
       key: "processing_status",
-
       render: (text, record) => (
-        <span className="flex items-center justify-center gap-2">
+        <span className="flex items-center justify-center gap-2 flex-wrap">
           {/* <Select
             showSearch
             optionFilterProp="value"
@@ -156,7 +157,7 @@ const ListMeal = ({
           {loading ? (
             <Spin />
           ) : (
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-center items-center">
               <Button
                 type="primary"
                 onClick={() =>
@@ -225,7 +226,7 @@ const ListMeal = ({
             columns={columnOrder}
             pagination={false}
             dataSource={data}
-            scroll={{ x: "max-content" }}
+
             // bordered
           />
         </div>

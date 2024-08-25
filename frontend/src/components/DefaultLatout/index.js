@@ -45,7 +45,7 @@ const DefaultLayout = () => {
       <UsergroupDeleteOutlined />
     ),
     getItem("Quản lý máy in", "/printf-management", <PrinterOutlined />),
-    getItem("Quản lý order", "/order-management", <BorderOuterOutlined />),
+    getItem("Quản lý đơn hàng", "/order-management", <BorderOuterOutlined />),
     getItem("Quản lý doanh thu", "/revenue-management", <BorderTopOutlined />),
     getItem("Quản lý phiếu in bếp", "/bill-kitchen", <PrinterOutlined />),
     getItem("Quản lý phiếu in pha chế", "/bill-bar", <PrinterOutlined />),
@@ -118,7 +118,7 @@ const DefaultLayout = () => {
           mode="horizontal"
           items={items}
         />
-        <div className=" bg-[#E4E4D0]  md:ml-48 flex-1 p-4">
+        <div className=" bg-[#E4E4D0]  md:ml-48 flex-1 p-4 md:p-1">
           <Routes>{showContentMenu(routers)}</Routes>
         </div>
         {/* <div

@@ -24,6 +24,7 @@ ChartJS.register(
 const BarChartDemo = ({ color, label, dataChart, xLabel, text }) => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -47,7 +48,7 @@ const BarChartDemo = ({ color, label, dataChart, xLabel, text }) => {
     ],
   };
   return (
-    <div style={{ width: "100%", minWidth: "800px" }}>
+    <div style={{ width: '100%', minHeight: '400px' }}>
       <Bar options={options} data={data} />
     </div>
   );

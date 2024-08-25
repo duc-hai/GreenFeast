@@ -219,6 +219,7 @@ const OrderManagement = () => {
       dataIndex: "price",
       key: "price",
       align: "center",
+
       render: (text, record) => (
         <span>{record?.price?.toLocaleString()} VNĐ</span>
       ),
@@ -242,6 +243,7 @@ const OrderManagement = () => {
       dataIndex: "note",
       key: "note",
       align: "center",
+      responsive: ["md"],
     },
   ];
 
@@ -304,10 +306,10 @@ const OrderManagement = () => {
     return sum;
   };
   return (
-    <div className="bg-[#E4E4D0] p-4">
+    <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
-          Quản lý order
+          Quản lý đơn hàng
         </div>
       </div>
       <div className="flex gap-1 mt-1">
@@ -355,7 +357,7 @@ const OrderManagement = () => {
                     return { ...item, key: index };
                   })
                 }
-                scroll={{ y: "calc(100vh - 400px)", x: "calc(100vw - 400px)" }}
+                scroll={{ y: "calc(100vh - 400px)" }}
               />
             </div>
           </div>
@@ -505,7 +507,6 @@ const OrderManagement = () => {
                             return { ...item, key: index };
                           })
                         }
-                        scroll={{ x: "max-content" }}
                       />
                       <p className="justify-end flex gap-2 mt-3">
                         <span>Tổng giá 1:</span>

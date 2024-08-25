@@ -14,7 +14,7 @@ const AdminDemo =() => {
       setChoseOption(value);
     };
     return (
-      <div className="container-admin">
+      <div className="bg-[#ffffff] md:ml-6 md:p-4 max-md:p-1 rounded-md  flex flex-col gap-2 ">
         <Select
           defaultValue={1}
           style={{ width: 200 }}
@@ -28,13 +28,13 @@ const AdminDemo =() => {
             { value: 6, label: "Khách hàng" },
           ]}
         />
-        <div className="box-admin">
+        <div className="flex  justify-center items-center">
           {/* <div className="container-admin-header">
             <HeaderAdminChart title="Cao nhất" content="" quality={123} />
             <HeaderAdminChart title="Thấp nhất" content="" quality={82} />
             <HeaderAdminChart title="Trung bình" content="" quality={100} />
           </div> */}
-          <div className="container-admin-chart">
+          <div >
             {choseOption === 1 && <RevenueChart />}
             {choseOption === 2 && <CustomerChart />}
             {choseOption === 3 && <AreaChart />}

@@ -164,7 +164,7 @@ const Header = () => {
     {
       label: (
         <Link to="/order-online" style={{ fontSize: 18 }}>
-          Đặt món Online
+          Đặt món trực tuyến
         </Link>
       ),
       key: "order-online",
@@ -199,7 +199,7 @@ const Header = () => {
     {
       label: (
         <Link to="/order-online" style={{ fontSize: 18 }}>
-          Đặt món Online
+          Đặt món trực tuyến
         </Link>
       ),
       key: "order-online",
@@ -562,7 +562,7 @@ const Header = () => {
                 </Link>
 
                 <Link to="/order-online" style={{ fontSize: 18 }}>
-                  Đặt món Online
+                  Đặt món trực tuyến
                 </Link>
                 <Link to="/order-history" style={{ fontSize: 18 }}>
                   Lịch sử đặt món
@@ -580,7 +580,7 @@ const Header = () => {
                 </Link>
 
                 <Link to="/order-online" style={{ fontSize: 18 }}>
-                  Đặt món online
+                  Đặt món trực tuyến
                 </Link>
 
                 {us?.role === "admin" && (

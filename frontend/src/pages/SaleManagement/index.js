@@ -68,6 +68,7 @@ const SaleManagement = () => {
       title: "Mã Khuyến mãi",
       dataIndex: "id",
       key: "id",
+      responsive: ["md"],
       render: (saleId) => <span className="font-semibold">{saleId}</span>,
     },
     {
@@ -80,6 +81,7 @@ const SaleManagement = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
+      responsive: ["md"],
       render: (status) => (
         <span className="font-semibold">
           {status ? "Đang hoạt động" : "Dừng hoạt động"}
@@ -227,8 +229,8 @@ const SaleManagement = () => {
   console.log(formPromotion);
   return (
     <>
-      <div className="content-component flex-1">
-        <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
+      <div className="bg-[#E4E4D0] md:p-4 ">
+        <div className="flex justify-between flex-wrap gap-1 bg-[#5c9f67] p-2 rounded-sm">
           <div className="text-xl font-semibold pl-2 text-white">
             Quản lý khuyến mãi
           </div>

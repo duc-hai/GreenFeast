@@ -38,20 +38,19 @@ const RevenueChart = () => {
   return (
     <div>
       <div
-       className="flex justify-end gap-6"
+       className="flex  gap-6 flex-wrap"
        
       >
-        <div className="flex items-center gap-4">
-        <p>Phương thức </p>
-        <Select value={dataSearch.form} className="w-32" onChange={(e)=> setDataSearch(pre => ({...pre,form:e}))} options={[
-         { value:"online", label:"Online"},
-         { value:"offline", label:"Nhà hàng"}
-        ]}/>
+        <div className="flex items-center gap-4 ">
+          <p>Phương thức </p>
+          <Select value={dataSearch.form} className="w-24 max-md:w-24" onChange={(e)=> setDataSearch(pre => ({...pre,form:e}))} options={[
+          { value:"online", label:"Online"},
+          { value:"offline", label:"Nhà hàng"}
+          ]}/>
         </div>
-        <div className="flex items-center gap-4">
-
-        <p>Chọn thời gian </p>
-        <DatePickerDemo onChange={onChangeDate}/>
+        <div className="flex gap-2 items-center flex-wrap ">
+          <p >Chọn thời gian </p>
+          <DatePickerDemo onChange={onChangeDate}/>
         </div>
       </div>
       <BarChartDemo

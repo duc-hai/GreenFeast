@@ -163,7 +163,7 @@ const AreaManagement = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className="bg-[#E4E4D0] p-4">
+    <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
           Quản lý nhân viên
