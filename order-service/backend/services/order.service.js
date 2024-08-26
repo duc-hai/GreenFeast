@@ -466,6 +466,12 @@ class OrderService {
                 { $set: { 'table_list.$.status': 0 } }
             )
 
+            const client = await clientRedis()
+            if (client) {
+                await client.del(tableSlug)
+                await client.quit()
+            }
+
             producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updatedOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
             
             producer.sendQueueStatistics('offline', updatedOrder)

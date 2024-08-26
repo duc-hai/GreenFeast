@@ -21,6 +21,7 @@
   - Select the "Login admin" box to enter the management page
 - Demo script: [here](https://docs.google.com/document/d/151-uFlub3Yi4Z00npQgpLE7smJBD51eRycYk7ldC_tI/edit?usp=sharing)
 - VNPay test card information for payment feature: [here](https://sandbox.vnpayment.vn/apis/vnpay-demo/)
+- API Document for TMS: [here](https://greenfeast.space/tms/docs)
 
 ## 📑 Technologies & Skills 
 - Microservice architecture, BFF Pattern, Load balacing for order service
