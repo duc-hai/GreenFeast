@@ -1,10 +1,10 @@
 import { FileSearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { getOrderHistoryDetailAdmin } from "../../Services/OrderAPI";
-import { Button, Descriptions, Modal, Spin, Table } from "antd";
+import { Button, Descriptions, message, Modal, Spin, Table } from "antd";
 import dayjs from "dayjs";
 
-const DetailHistoryAdmin = ({ id }) => {
+const DetailHistoryAdmin = ({ id, element }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dataDetail, setDataDetail] = useState(null);
@@ -13,8 +13,12 @@ const DetailHistoryAdmin = ({ id }) => {
     setLoading(true);
     try {
       const res = await getOrderHistoryDetailAdmin(idDetail);
-      console.log(res);
-      setDataDetail(res?.data);
+      if (res?.status === "success") {
+        setDataDetail(res?.data);
+        handleOpen();
+      } else {
+        message.error("Đơn hàng không tồn tại");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -26,6 +30,8 @@ const DetailHistoryAdmin = ({ id }) => {
   };
   const handleOpen = () => {
     setIsOpen(true);
+  };
+  const handleFetchApiHistory = () => {
     fetchDetailHistory(id);
   };
   const columns = [
@@ -62,9 +68,7 @@ const DetailHistoryAdmin = ({ id }) => {
   ];
   return (
     <div>
-      <span onClick={handleOpen}>
-        <FileSearchOutlined />
-      </span>
+      <span onClick={handleFetchApiHistory}>{element}</span>
       <Modal
         closeIcon={false}
         open={isOpen}
@@ -80,7 +84,7 @@ const DetailHistoryAdmin = ({ id }) => {
           <Spin />
         ) : (
           <div className="flex flex-column gap-1 max-h-96 overflow-auto">
-            <p className="font-semibold bg-lime-700 text-white p-1">
+            <p className="font-semibold bg-emerald-600 text-white p-1">
               Chi tiết lịch sử đặt hàng
             </p>
             <Descriptions bordered>

@@ -7,6 +7,7 @@ import {
 } from "../../Services/OrderAPI";
 import {
   Button,
+  Input,
   Menu,
   message,
   Popconfirm,
@@ -27,9 +28,11 @@ import {
   ContactsOutlined,
   DeleteFilled,
   EditFilled,
+  FileSearchOutlined,
   IssuesCloseOutlined,
   MailOutlined,
   PauseCircleFilled,
+  SearchOutlined,
   UndoOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -54,6 +57,7 @@ const HistoryOrderAdmin = () => {
   const [dataTable, setDataTable] = useState([]);
   const [search, setSearch] = useState({ status: null, page: null });
   const [totalElement, setTotalElement] = useState(0);
+  const [searchOrder, setSearchOrder] = useState("");
   const [updateStatus, setUpdateStatus] = useState({
     orderId: null,
     status: null,
@@ -266,7 +270,7 @@ const HistoryOrderAdmin = () => {
 
       render: (text, record) => (
         <div className="flex justify-center items-center gap-3">
-          <DetailHistoryAdmin id={text} />
+          <DetailHistoryAdmin id={text} element={<FileSearchOutlined />} />
         </div>
       ),
     },
@@ -319,7 +323,20 @@ const HistoryOrderAdmin = () => {
     }
   };
   return (
-    <div className="flex gap-2 flex-col">
+    <div className="flex gap-2 flex-col   ">
+      <div className="flex gap-1 justify-end content-end items-end">
+        <DetailHistoryAdmin
+          id={searchOrder}
+          element={
+            <Button type="primary" shape="circle" icon={<SearchOutlined />} />
+          }
+        />
+
+        <Input
+          className="max-w-56"
+          onChange={(e) => setSearchOrder(e.target.value)}
+        />
+      </div>
       <div
         className="flex gap-2 mt-2 flex-col "
         // style={{ maxWidth: "calc(100vw - 290px)" }}

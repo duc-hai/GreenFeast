@@ -142,22 +142,14 @@ const ListMeal = ({
       dataIndex: "processing_status",
       key: "processing_status",
       render: (text, record) => (
-        <span className="flex items-center justify-center gap-2 flex-wrap">
-          {/* <Select
-            showSearch
-            optionFilterProp="value"
-            defaultValue={String(1)}
-            className="w-full"
-            options={optionUpDateStatus}
-            onChange={(e) => handleOnchangeStatus(record._id, e)}
-          /> */}
+        <span className="flex items-center justify-end gap-2 flex-wrap">
           <p onClick={() => console.log(record)}>
             {optionUpDateStatus[text].label}
           </p>
           {loading ? (
             <Spin />
           ) : (
-            <div className="flex gap-2 flex-wrap justify-center items-center">
+            <div className="flex gap-1 flex-wrap justify-center items-center">
               <Button
                 type="primary"
                 onClick={() =>
@@ -170,42 +162,44 @@ const ListMeal = ({
                 }
                 //   disabled={orderStatus.menuId !== record?._id}
               >
-                Cập nhật
+                {text === 0
+                  ? optionUpDateStatus[1].label
+                  : optionUpDateStatus[0].label}
               </Button>
-              {
-                <Button
-                  type="link"
-                  onClick={() => deleteUpdateStatus(record)}
-                  // disabled={!(total >= 500000 || total * -1 >= 500000)}
-                >
-                  Hủy
-                </Button>
-              }
+
+              <Button
+                type="default"
+                color="#263a29"
+                className="border border-solid border-red-500"
+                onClick={() => deleteUpdateStatus(record)}
+                // disabled={!(total >= 500000 || total * -1 >= 500000)}
+              >
+                Hủy món
+              </Button>
             </div>
           )}
         </span>
       ),
-      width: 300,
     },
   ];
   return (
     <div>
       {data.length > 0 && (
         <div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 justify-end">
             <Button
               type="text"
               onClick={() =>
                 handleUpdateAll({
                   orderId: orderId,
                   orderDetailId: orderDetailId,
-                  status: status,
+                  status: 1,
                 })
               }
             >
-              Cập nhật tất cả{" "}
+              Cập nhật tất cả
             </Button>
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <div className="flex flex-col justify-center items-center">
                 <p>Đang chế biến</p>
                 <Checkbox
@@ -220,7 +214,7 @@ const ListMeal = ({
                   onChange={(e) => checkStatus(e.target.checked, 1)}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <Table
             columns={columnOrder}
