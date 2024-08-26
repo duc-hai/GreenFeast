@@ -15,6 +15,7 @@ import {
   ArrowRightOutlined,
   EyeOutlined,
   CloseCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import "./index.css";
 import { getAllArea, getTable } from "../../Services/ManagementServiceAPI";
@@ -197,7 +198,7 @@ const OrderManagement = () => {
                 type="primary"
                 onClick={() => handleOrderEmployee(record?.slug)}
               >
-                Nhân viên
+                Đặt món
               </Button>
             </p>
           );
@@ -312,16 +313,21 @@ const OrderManagement = () => {
           Quản lý đơn hàng
         </div>
       </div>
-      <div className="flex gap-1 mt-1">
-        <Button
-          type={!tab ? "primary" : "dashed"}
-          onClick={() => setTab(false)}
-        >
-          Nhà hàng
-        </Button>
-        <Button type={tab ? "primary" : "dashed"} onClick={() => setTab(true)}>
-          Online
-        </Button>
+      <div className="flex gap-1 mt-1 justify-between">
+        <div className="flex gap-2">
+          <Button
+            type={!tab ? "primary" : "dashed"}
+            onClick={() => setTab(false)}
+          >
+            Nhà hàng
+          </Button>
+          <Button
+            type={tab ? "primary" : "dashed"}
+            onClick={() => setTab(true)}
+          >
+            Online
+          </Button>
+        </div>
       </div>
       <div className=" flex">
         {tab ? (
@@ -477,7 +483,9 @@ const OrderManagement = () => {
                         <span>
                           Thời gian đặt:{"  "}
                           <span className="font-semibold">
-                            {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
+                            {dayjs(orderDetail?.checkin).format(
+                              "DD-MM-YYYY HH:mm:ss"
+                            )}
                           </span>
                         </span>
 
@@ -629,7 +637,7 @@ const OrderManagement = () => {
               }}
               type="primary"
             >
-              Close
+              Đóng
             </Button>,
           ]}
           bodyStyle={{ height: "1280" }}

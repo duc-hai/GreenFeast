@@ -55,8 +55,8 @@ const AreaManagement = () => {
     },
     {
       title: "Số điện thoại",
-      dataIndex: "role",
-      key: "role",
+      dataIndex: "phone_number",
+      key: "phone_number",
     },
     {
       title: "Giới tính",

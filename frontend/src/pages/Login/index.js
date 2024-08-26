@@ -8,7 +8,7 @@ import { loginAdmin, loginUser } from "../../Services/AuthAPI";
 import { setCookie } from "../../utils/Cookie";
 
 import AuthGoogle from "../AuthGoogle/AuthoGoogle";
-import io from "socket.io-client";
+
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);

@@ -390,7 +390,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
   
     const columnsOrder = [
       {
-        title: "Tên món 1",
+        title: "Tên món",
         dataIndex: "name",
         key: "name",
         render: (text,record) =>

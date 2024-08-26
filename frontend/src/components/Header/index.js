@@ -583,7 +583,7 @@ const Header = () => {
                   Đặt món trực tuyến
                 </Link>
 
-                {us?.role === "admin" && (
+                {us?.role !== "customer" && (
                   <Link to="/admin-chart" style={{ fontSize: 18 }}>
                     Báo cáo kinh doanh
                   </Link>
