@@ -98,10 +98,10 @@ npm run all
 </div>
 
 **1**. **Luu Duc Hai** (Leader): BA, System Architect, Backend, DevOps </br>
-Come up with ideas, analyze design requirements, specifications, build use-case diagrams, design databases, build system architecture, complete the entire backend part of the website (all folders except frontend folder in source code structure), manage domain name, transfer management to cloudflare, write docker compose configuration, work with ubuntu OS on EC2 in order to deploy website.
+Come up with ideas, analyze design requirements, specifications, build use-case diagrams, design databases, build system architecture, complete the entire backend part of the website (all folders except frontend, mobile folder in source code structure), manage domain name, transfer management to cloudflare, write docker compose configuration, work with ubuntu OS on EC2 in order to deploy website, implement recommender models
 
 **2**. **Truong Thi Ngan Tram**: BA, Frontend, UX/UI Design </br>
-Come up with ideas, analyze design requirements, specifications, write use-case specifications, design ux/ui user interface with figma, complete the entire frontend part (frontend folder)
+Come up with ideas, analyze design requirements, specifications, write use-case specifications, design ux/ui user interface with figma, complete the entire frontend part (frontend folder) and mobile part (mobile folder)
 
 ## ❤️ Thanks 
 I would like to express my deep gratitude to my lecturers at Ton Duc Thang University. I learned a lot of useful knowledge from the subjects that the lecturers taught. I applied knowledge from many subjects to this project. Sincere appreciation to lecturers.

@@ -201,9 +201,25 @@ class CallMicroservices {
     }
 
     simulateReceiveNewOrderTms = (req, res, next) => {
+        try {
+            global.orders.push(req.body)
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
         return res.status(200).json({
             statusCode: 200,
             message: 'The shipping unit has received the order',
+        })
+    }
+
+    getOrderTms = (req, res, next) => {
+        const data = global.orders || []
+        return res.status(200).json({
+            statusCode: 200,
+            infor: 'API này để mô phỏng các đơn hàng mà đơn vị vận chuyển TMS nhận được',
+            message: 'Lấy danh sách thành công',
+            data: data.reverse()
         })
     }
 }
