@@ -268,6 +268,11 @@ const TableManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
+                  <Form.Item label="Khu vực" name="ip_address">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
                   <Form.Item label="Chọn loại máy in" name="printer_type">
                     <Select
                       name="printer_type"

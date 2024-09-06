@@ -16,6 +16,17 @@ const CheckTokenOrder =() => {
         else{
             message.error("Mã đặt bàn không hợp lệ, vui lòng quét lại QR")
         }
+        const handleBeforeUnload = () => {
+            Cookies.remove('tableSlug');
+            Cookies.remove('nameTable');
+          };
+      
+          window.addEventListener('beforeunload', handleBeforeUnload);
+      
+          return () => {
+            // Xóa sự kiện 'beforeunload' khi component bị huỷ
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+          };
         // navigate('/order')
     },[])
 
@@ -29,8 +40,8 @@ const CheckTokenOrder =() => {
             window.location.replace('/order/at-restaurant')
             // navigate("/order/at-restaurant")
             message.success(res?.message || "Đã tìm thấy bàn hợp lệ")
-            Cookies.set('tableSlug', token);
-            Cookies.set('nameTable', res?.data?._id);
+            Cookies.set('tableSlug', token,{expires:0.5/24});
+            Cookies.set('nameTable', res?.data?._id,{expires:0.5/24});
            }
            console.log(res)
         }

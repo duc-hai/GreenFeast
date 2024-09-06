@@ -90,7 +90,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Username!",
+                  message: "Vui lòng nhập số điện thoại!",
                 },
               ]}
             >
@@ -101,7 +101,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: "Vui lòng nhập mật khẩu!",
                 },
               ]}
             >

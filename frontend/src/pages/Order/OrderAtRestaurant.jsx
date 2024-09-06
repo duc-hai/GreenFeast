@@ -60,9 +60,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
   const OrderAtRestaurant = () => {
     const [us, setUs] = useState({});
     const user = sessionStorage.getItem("user");
-    const [getArea, setGetArea] = useState([]);
-    const [area, setArea] = useState();
-    const [tableList, setTableList] = useState([]);
+
     const [tableSlug, setTableSlug] = useState();
     const [listDataCate, setListDataCate] = useState([]);
     const [getListMenu, setListMenu] = useState([]);
@@ -875,7 +873,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
                   <span>
                     Thời gian đặt:{"  "}
                     <span className="font-semibold">
-                      {dayjs(item.time).format("DD-MM-YYYY")}
+                      {dayjs(item.time).format("DD-MM-YYYY HH:mm:ss")}
                     </span>
                   </span>
 

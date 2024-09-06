@@ -14,21 +14,33 @@ const RatingMenu = ({ id, disabled, refetch }) => {
     orderId: null,
     order: [],
   });
+
   const fetchDetailHistory = async (idDetail) => {
     setLoading(true);
     try {
       const res = await getOrderHistoryDetailAtRestaurant(idDetail);
-      console.log(res);
+
       let orderIdNew = res?.data?._id;
-      let newOrder = res?.data?.order_detail?.map((item) => ({
-        menuId: item?._id,
-        comment: "",
-        rating: 5,
-      }));
+      let newOrder = res?.data?.order_detail?.reduce((acc, cur) => {
+        const dataMenu = cur?.menu.map((item) => ({
+          menuId: item?._id,
+          comment: "",
+          rating: 5,
+          name: item?.name,
+        }));
+        return [...acc, ...dataMenu];
+      }, []);
+      const uniqueItems = Array.from(
+        new Set(newOrder.map((item) => item.menuId)) // Lấy danh sách các `id` duy nhất
+      ).map((id) => {
+        return newOrder.find((item) => item.menuId === id); // Tìm đối tượng đầu tiên có `id` tương ứng
+      });
+
+      console.log(uniqueItems);
       setDataDetail((pre) => ({
         ...pre,
         orderId: orderIdNew,
-        order: newOrder,
+        order: uniqueItems,
       }));
     } catch (err) {
       console.log(err);
@@ -36,9 +48,6 @@ const RatingMenu = ({ id, disabled, refetch }) => {
     setLoading(false);
   };
   const handleClose = () => {
-    // localStorage.setItem("rating", false);
-    // localStorage.setItem("payment", false);
-    // window.location.reload();
     setIsOpen(false);
   };
   const onChangeRating = (menuId, field, value) => {
@@ -86,29 +95,26 @@ const RatingMenu = ({ id, disabled, refetch }) => {
         onClick={handleOpen}
         size={24}
       />
-      {/* <Button
-        onClick={handleOpen}
-        size="small"
-        disabled={disabled}
-        type="primary"
-      >
-        Danh gia
-      </Button> */}
+
       <Modal
         open={isOpen}
-        okText="Đánh giá"
+        okText="Đánh giá 2"
         cancelText="Để lần sau"
         onOk={handleRating}
         onCancel={handleClose}
+        closeIcon={false}
       >
         {dataDetail?.order?.map((item) => (
-          <div key={item?.menuId}>
-            <Rate
-              value={item.rating}
-              onChange={(e) => onChangeRating(item?.menuId, "rating", e)}
-            />
+          <div key={item?.menuId} className="flex flex-col gap-2">
+            <div className="flex gap-1 flex-wrap items-center">
+              <span>{item?.name}</span>
+              <Rate
+                value={item.rating}
+                onChange={(e) => onChangeRating(item?.menuId, "rating", e)}
+              />
+            </div>
             <Form>
-              <Form.Item label="Đánh giá">
+              <Form.Item>
                 <Input
                   onChange={(e) =>
                     onChangeRating(item?.menuId, "comment", e.target.value)

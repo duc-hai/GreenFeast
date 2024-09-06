@@ -19,8 +19,9 @@ const AreaManagement = () => {
   const [resource, setResource] = useState([]);
   const [grants, setGrants] = useState([]);
   const [role, setRole] = useState("");
-  const [valueCate, setValueCate] = useState({});
+  // const [valueCate, setValueCate] = useState({});
   const [listDataEmployee, setListDataEmployee] = useState([]);
+  const [gender, setGender] = useState(null);
 
   const fetchDataEmployee = async () => {
     try {
@@ -62,18 +63,14 @@ const AreaManagement = () => {
       title: "Giới tính",
       dataIndex: "gender",
       key: "gender ",
+      render: (text) => <span>{text === "Male" ? "Nam" : "Nữ"}</span>,
     },
     {
       title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
     },
-    {
-      title: "Kinh nghiệm",
-      dataIndex: "experience",
-      key: "experience",
-      responsive: ["md"],
-    },
+
     // {
     //   title: "Thao tác",
     //   render: (_, record) => (
@@ -127,7 +124,8 @@ const AreaManagement = () => {
       values.full_name === "" ||
       values.role === "" ||
       values.position === "" ||
-      values.experience === ""
+      values.experience === "" ||
+      !values?.gender
     ) {
       message.error("Nhập đầy đủ thông tin");
       return;
@@ -141,6 +139,7 @@ const AreaManagement = () => {
         role: values.role,
         position: values.position,
         experience: values.experience,
+        gender: values?.gender,
         grants: grants?.map((item) => {
           return {
             ...item,
@@ -207,7 +206,7 @@ const AreaManagement = () => {
           ]}
           bodyStyle={{ height: "1280" }}
         >
-          <div className="ant_body">
+          <div className="ant_body overflow-auto max-h-[400px]">
             <Form layout="vertical" form={form} name="form" onFinish={onFinish}>
               <Row>
                 <Col span={24}>
@@ -231,6 +230,18 @@ const AreaManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
+                  <Form.Item label="Giới tính" name="gender">
+                    <Select
+                      name="role"
+                      onChange={(e) => setGender(e)}
+                      allowClear
+                    >
+                      <Select.Option value={"Male"}>Nam</Select.Option>
+                      <Select.Option value={"Female"}>Nữ</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
                   <Form.Item label="Vai trò" name="role">
                     <Select
                       name="role"
@@ -244,6 +255,9 @@ const AreaManagement = () => {
                       <Select.Option value={"waitstaff"}>
                         Waitstaff{" "}
                       </Select.Option>
+                      <Select.Option value={"expeditor"}>
+                        Nhân viên tiếp thực
+                      </Select.Option>
                       <Select.Option value={"other"}>Other</Select.Option>
                     </Select>
                   </Form.Item>
@@ -253,11 +267,7 @@ const AreaManagement = () => {
                     <Input />
                   </Form.Item>
                 </Col>
-                <Col span={24}>
-                  <Form.Item label="Kinh nghiệm" name="experience">
-                    <Input />
-                  </Form.Item>
-                </Col>
+
                 {role === "other" && (
                   <Col span={24}>
                     <Form.Item label="Cấp quyền">

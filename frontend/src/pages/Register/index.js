@@ -69,7 +69,7 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Số điện thoại!",
+                  message: "Vui lòng nhập số điện thoại!",
                 },
               ]}
             >
@@ -80,7 +80,7 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Fullname!",
+                  message: "Vui lòng nhập họ tên!",
                 },
               ]}
             >
@@ -95,7 +95,7 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: "Vui lòng nhập mật khẩu!",
                 },
               ]}
             >
@@ -110,7 +110,7 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: "Vui lòng nhập lại mật khẩu!",
                 },
               ]}
             >

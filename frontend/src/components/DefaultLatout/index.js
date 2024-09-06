@@ -17,6 +17,7 @@ import {
 import { Menu } from "antd";
 import "./index.css";
 import BillKitchen from "../Print/BillKitchen/BillKitchen";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -29,8 +30,32 @@ function getItem(label, key, icon, children, type) {
 const DefaultLayout = () => {
   const user = sessionStorage.getItem("user");
   const [us, setUs] = useState();
+
+  const checkRoleAdmin = () => {
+    const userCheck = JSON.parse(user);
+    if (userCheck?.role === "admin" || userCheck?.role === "admin") return true;
+    return false;
+  };
+
+  const checkRoleCashier = () => {
+    const userCheck = JSON.parse(user);
+    if (checkRoleAdmin() || userCheck?.role === "cashier") return true;
+    return false;
+  };
+
+  const checkRoleWaiter = () => {
+    const userCheck = JSON.parse(user);
+    if (checkRoleCashier() || userCheck?.role === "cashier") return true;
+    return false;
+  };
   const items = [
-    getItem("Quản lý thực đơn", "/menu-management", <AppstoreOutlined />),
+    getItem(
+      "Quản lý thực đơn",
+      "/menu-management",
+      <ProtectedRoute isAuth={checkRoleCashier}>
+        <AppstoreOutlined />
+      </ProtectedRoute>
+    ),
     getItem(
       "Quản lý danh mục món",
       "/categories-management",

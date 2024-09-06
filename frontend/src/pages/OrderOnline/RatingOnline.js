@@ -19,17 +19,26 @@ const RatingOnline = ({ id, disabled, refetch }) => {
     setLoading(true);
     try {
       const res = await getHistoryDetail(idDetail);
-      console.log(res);
       let orderIdNew = res?.data?._id;
-      let newOrder = res?.data?.menu_detail?.map((item) => ({
-        menuId: item?._id,
-        comment: "",
-        rating: 5,
-      }));
+      let newOrder = res?.data?.order_detail?.reduce((acc, cur) => {
+        const dataMenu = cur?.menu.map((item) => ({
+          menuId: item?._id,
+          comment: "",
+          rating: 5,
+          name: item?.name,
+        }));
+        return [...acc, ...dataMenu];
+      }, []);
+      const uniqueItems = Array.from(
+        new Set(newOrder.map((item) => item.menuId)) // Lấy danh sách các `id` duy nhất
+      ).map((id) => {
+        return newOrder.find((item) => item.menuId === id); // Tìm đối tượng đầu tiên có `id` tương ứng
+      });
+
       setDataDetail((pre) => ({
         ...pre,
         orderId: orderIdNew,
-        order: newOrder,
+        order: uniqueItems,
       }));
     } catch (err) {
       console.log(err);
@@ -84,17 +93,10 @@ const RatingOnline = ({ id, disabled, refetch }) => {
         onClick={handleOpen}
         size={24}
       />
-      {/* <Button
-        onClick={handleOpen}
-        size="small"
-        disabled={disabled}
-        type="primary"
-      >
-        Danh gia
-      </Button> */}
+
       <Modal
         open={isOpen}
-        okText="Đánh giá"
+        okText="Đánh giá 1"
         cancelText="Để lần sau"
         onOk={handleRating}
         onCancel={handleClose}

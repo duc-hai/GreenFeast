@@ -10,8 +10,10 @@ import {
   Input,
   Menu,
   message,
+  notification,
   Popconfirm,
   Select,
+  Space,
   Spin,
   Steps,
   Table,
@@ -62,6 +64,30 @@ const HistoryOrderAdmin = () => {
     orderId: null,
     status: null,
   });
+  const [api, contextHolder] = notification.useNotification();
+  const btn = (
+    <Space>
+      <Button type="link" size="small" onClick={() => api.destroy()}>
+        Đóng
+      </Button>
+      <Button
+        type="primary"
+        size="small"
+        onClick={() => handleSendTms(updateStatus?.orderId)}
+      >
+        Xác nhận
+      </Button>
+    </Space>
+  );
+  const openNotificationWithIcon = () => {
+    api.open({
+      message: "Thông báo trạng thái gửi hàng",
+      description:
+        "Đơn hàng chưa được gửi cho đơn vị vận chuyển. Nhấn xác nhận để cập nhật trạng thái gửi hàng!",
+      btn,
+    });
+  };
+
   const fetchHistoryOderList = async () => {
     setLoading(true);
     try {
@@ -72,6 +98,17 @@ const HistoryOrderAdmin = () => {
       const res = await getOrderHistoryListAdmin(param);
 
       setDataTable(res?.data);
+      if (updateStatus?.orderId) {
+        const checkData = res?.data?.find(
+          (item) => item?._id === updateStatus?.orderId
+        );
+        console.log(checkData);
+        if (checkData?.send_tms === false) {
+          openNotificationWithIcon();
+          //  await handleSendTms(updateStatus?.orderId);
+        }
+      }
+
       setTotalElement(res?.pagination?.totalItem);
     } catch (err) {
       console.log(err);
@@ -82,7 +119,7 @@ const HistoryOrderAdmin = () => {
   const fetchSendTms = async (data) => {
     setLoading(true);
     try {
-      const res = await postSendTMS(data);
+      const res = await postSendTMS({ orderId: data });
       if (res?.status === "success")
         message.success(
           res?.message || "Cập nhật trạng thái gửi hàng thành công"
@@ -127,6 +164,7 @@ const HistoryOrderAdmin = () => {
 
   const handleSendTms = (data) => {
     fetchSendTms(data);
+    api.destroy();
   };
   const handleChoseItem = (record) => {
     let tempStatus = [...optionStatus].find(
@@ -228,32 +266,32 @@ const HistoryOrderAdmin = () => {
         </div>
       ),
     },
-    {
-      title: "Trạng thái gửi hàng",
-      key: "send_tms",
-      dataIndex: "send_tms",
-      align: "center",
-      responsive: ["md"],
-      render: (text, record) =>
-        record?.status === optionStatus[2].label && (
-          <div className="flex gap-2 items-center justify-center">
-            {text ? (
-              <span>Đã gửi</span>
-            ) : (
-              <div className="flex gap-2 items-center justify-center">
-                <span className="text-red-600">Chưa gửi</span>
-                <Button
-                  type="primary"
-                  size="small"
-                  onClick={() => handleSendTms({ orderId: record?._id })}
-                >
-                  Gửi hàng
-                </Button>
-              </div>
-            )}
-          </div>
-        ),
-    },
+    // {
+    //   title: "Trạng thái gửi hàng",
+    //   key: "send_tms",
+    //   dataIndex: "send_tms",
+    //   align: "center",
+    //   responsive: ["md"],
+    //   render: (text, record) =>
+    //     record?.status === optionStatus[2].label && (
+    //       <div className="flex gap-2 items-center justify-center">
+    //         {text ? (
+    //           <span>Đã gửi</span>
+    //         ) : (
+    //           <div className="flex gap-2 items-center justify-center">
+    //             <span className="text-red-600">Chưa gửi</span>
+    //             <Button
+    //               type="primary"
+    //               size="small"
+    //               onClick={() => handleSendTms({ orderId: record?._id })}
+    //             >
+    //               Gửi hàng
+    //             </Button>
+    //           </div>
+    //         )}
+    //       </div>
+    //     ),
+    // },
     {
       title: "Tổng tiền",
       key: "total",
@@ -324,6 +362,7 @@ const HistoryOrderAdmin = () => {
   };
   return (
     <div className="flex gap-2 flex-col   ">
+      {contextHolder}
       <div className="flex gap-1 justify-end content-end items-end">
         <DetailHistoryAdmin
           id={searchOrder}
