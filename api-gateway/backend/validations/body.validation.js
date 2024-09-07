@@ -49,6 +49,13 @@ const validatorRegisterEmployee = () => [
         .notEmpty().withMessage('Vai trò không được để trống')   
         .isIn('cashier,waitstaff,other,expeditor').withMessage('Vai trò không hợp lệ'),
 
+    check('gender')
+        .optional()
+        .isIn('nam,nữ,Female,Male').withMessage('Giới tính không hợp lệ'),
+
+    check('address')
+        .optional(),
+
     check('position')
         .optional(),
 

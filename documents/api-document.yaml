@@ -598,6 +598,12 @@ paths:
                 experience:
                   type: string
                   example: "1 năm"
+                gender:
+                  type: string
+                  example: Female
+                address:
+                  type: string
+                  example: "Nguyễn Hữu Thọ, Quận 7"
                 grants:
                   type: array
                   items: 

@@ -178,7 +178,11 @@ class UserService {
 
     createEmployeeeAccount = async (req, res, next) => {
         try {
-            const { username, password, full_name, role, position, experience, grants, ... rest } = req.body || null
+            const { username, password, full_name, role, position, experience, grants, address, ... rest } = req.body || null
+
+            let gender = req.body.gender
+            if (gender === 'nam') gender = 'Male'
+            else if (gender === 'nữ') gender = 'Female'
 
             if (checkValidation(req) !== null)      
                 return next(createError(StatusCode.BadRequest_400, checkValidation(req))) 
@@ -196,7 +200,7 @@ class UserService {
             const employee = { position, experience }
 
             //Password will be hash in mongoose's middleware
-            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true, phone_number: username })    
+            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true, phone_number: username, gender, address })    
             newUser = await newUser.save()
 
             if (!newUser)
