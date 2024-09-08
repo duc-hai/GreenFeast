@@ -107,7 +107,7 @@ const AreaManagement = () => {
 
   const onFinish = async (values) => {
     if (role === "other" && !grants) {
-      message.error("Chọn tài trợ");
+      message.error("Chọn quyền");
       return;
     }
 
@@ -136,6 +136,7 @@ const AreaManagement = () => {
         username: values.username,
         password: values.password,
         full_name: values.full_name,
+        address: values.address,
         role: values.role,
         position: values.position,
         experience: values.experience,
@@ -230,6 +231,11 @@ const AreaManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
+                  <Form.Item label="Địa chỉ" name="address">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
                   <Form.Item label="Giới tính" name="gender">
                     <Select
                       name="role"
@@ -251,14 +257,16 @@ const AreaManagement = () => {
                       }}
                       allowClear
                     >
-                      <Select.Option value={"cashier"}>Cashier</Select.Option>
+                      <Select.Option value={"cashier"}>
+                        Nhân viên thu ngân
+                      </Select.Option>
                       <Select.Option value={"waitstaff"}>
-                        Waitstaff{" "}
+                        Nhân viên phục vụ{" "}
                       </Select.Option>
                       <Select.Option value={"expeditor"}>
                         Nhân viên tiếp thực
                       </Select.Option>
-                      <Select.Option value={"other"}>Other</Select.Option>
+                      <Select.Option value={"other"}>Khác</Select.Option>
                     </Select>
                   </Form.Item>
                 </Col>

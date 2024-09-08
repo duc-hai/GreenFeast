@@ -24,18 +24,21 @@ const MenuManagement = () => {
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
   const [dataDelete, setDataDelete] = useState([]);
+  const [area, setArea] = useState(null);
   const [choseItem, setChoseItem] = useState(0);
   useEffect(() => {
     const fetchArea = async () => {
       try {
         const res = await getAllArea();
         setValueArea(res.data);
+        setArea(res?.data[0]?.id);
       } catch (error) {
         console.log(error);
       }
     };
     fetchArea();
   }, []);
+
   const fetchData = async (id) => {
     try {
       const res = await getTable(id);
@@ -45,11 +48,12 @@ const MenuManagement = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    if (valueArea.length > 0) {
-      fetchData(valueArea[0].id);
+    if (area) {
+      fetchData(area);
     }
-  }, [valueArea]);
+  }, [area]);
 
   const columns = [
     {
@@ -80,7 +84,7 @@ const MenuManagement = () => {
               await deleteTable({
                 ids: [record.id],
               });
-              fetchData(valueArea[0].id);
+              await fetchData(valueArea[0].id);
               message.success("Xóa thành công");
             } catch (error) {
               console.log(error);
@@ -100,7 +104,9 @@ const MenuManagement = () => {
   const rowSelection = {
     onChange: (_, selectedRows) => {
       console.log("selectedRows: ", selectedRows);
-      setDataDelete(selectedRows?.map((item) => item.id));
+      const newData = selectedRows?.map((item) => item._id);
+      console.log(newData);
+      setDataDelete(newData);
     },
     onSelect: (record, selected, selectedRows) => {
       console.log(record, selected, selectedRows);
@@ -137,9 +143,9 @@ const MenuManagement = () => {
     handleCancel();
   };
   const [form] = Form.useForm();
-  console.log(dataDelete);
+
   return (
-    <div className="bg-[#E4E4D0] md:p-4 ">
+    <div className="bg-[#E4E4D0] md:p-3 ">
       <div className="flex justify-between flex-wrap gap-2 bg-[#5c9f67] p-2 rounded-sm ">
         <div className="text-xl font-semibold pl-2 text-white">Quản lý bàn</div>
         <div>
@@ -148,15 +154,15 @@ const MenuManagement = () => {
           </Button>
 
           <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
+            title="Xóa "
+            description="Bạn có chắc muốn xóa bàn?"
             onConfirm={async () => {
               try {
                 if (dataDelete.length > 0) {
                   await deleteTable({
                     ids: dataDelete,
                   });
-                  fetchData(valueArea[0].id);
+                  await fetchData(area);
                   message.success("Xóa thành công");
                 } else {
                   message.error("Vui lòng chọn bàn cần xóa");
@@ -167,8 +173,8 @@ const MenuManagement = () => {
               }
             }}
             onCancel={() => {}}
-            okText="Yes"
-            cancelText="No"
+            okText="Xóa"
+            cancelText="Hủy"
           >
             <Button className="bg-red-600 mx-4 border-none outline-none text-white hover:!bg-red-900 py-1 px-3 rounded-md">
               Xóa
@@ -182,7 +188,7 @@ const MenuManagement = () => {
           className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
           defaultValue={valueArea?.length > 0 && valueArea[0]?.id}
           onChange={(e) => {
-            fetchData(e.target.value);
+            setArea(e.target.value);
           }}
         >
           {valueArea?.length > 0 &&
@@ -203,7 +209,7 @@ const MenuManagement = () => {
         dataSource={
           listData?.length > 0 &&
           listData?.map((item, index) => {
-            return { ...item, key: index };
+            return { ...item, key: `${item?.id}_${index}` };
           })
         }
         scroll={{ y: "calc(100vh - 400px)" }}

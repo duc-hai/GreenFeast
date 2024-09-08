@@ -47,9 +47,13 @@ const AreaManagement = () => {
     fetchData();
   }, []);
 
+  const isRole = (valueRole) => {
+    if (valueRole === "admin" || valueRole === "super-admin") return true;
+    return false;
+  };
   const handleCheckRole = (listColumns) => {
     let user = JSON.parse(sessionStorage.getItem("user"));
-    if (user?.role !== "admin") {
+    if (!isRole(user?.role)) {
       let listNew = [...listColumns].filter(
         (item, index) => index < listColumns?.length - 1
       );
@@ -79,15 +83,15 @@ const AreaManagement = () => {
     //   dataIndex: "price_percentage",
     //   key: "price_percentage",
     // },
-    {
-      title: "Thời gian ",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (text) => (
-        <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
-      ),
-      responsive: ["md"],
-    },
+    // {
+    //   title: "Thời gian ",
+    //   dataIndex: "created_at",
+    //   key: "created_at",
+    //   render: (text) => (
+    //     <span>{dayjs(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    //   ),
+    //   responsive: ["md"],
+    // },
     {
       title: "Thao tác",
       render: (_, record) => (

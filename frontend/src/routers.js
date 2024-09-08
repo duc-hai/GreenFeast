@@ -13,8 +13,6 @@ import AdminDemo from "./components/ChartDemo/PageDemo/Amin";
 import OrderOnline from "./pages/OrderOnline";
 import BillKitchen from "./components/Print/BillKitchen/BillKitchen";
 import BillBar from "./components/Print/BillBar/BillBar";
-import GoogleCallback from "./pages/AuthGoogle/GoogleCallBack";
-import WaitPayment from "./pages/OrderOnline/WaitPayment";
 
 const routers = [
   {

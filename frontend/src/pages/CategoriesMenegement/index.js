@@ -155,7 +155,7 @@ const TableManagement = () => {
       <div className="modal">
         <Modal
           className="headerModal"
-          title="Tạo mới đơn"
+          title={valueCate.id ? "Cập nhật danh mục" : "Tạo mới danh mục"}
           open={isModalOpen}
           onCancel={handleCancel}
           footer={[
@@ -168,7 +168,7 @@ const TableManagement = () => {
               onClick={handleOk}
               loading={loading}
             >
-              Tạo mới
+              {valueCate.id ? "Cập nhật" : "Tạo mới"}
             </Button>,
           ]}
         >

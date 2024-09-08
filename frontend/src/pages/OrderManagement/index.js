@@ -517,7 +517,7 @@ const OrderManagement = () => {
                         }
                       />
                       <p className="justify-end flex gap-2 mt-3">
-                        <span>Tổng giá 1:</span>
+                        <span>Tổng giá:</span>
                         <span className="font-semibold text-green-700">
                           {handleSum([...item?.menu])?.toLocaleString(
                             "vi-VN",
@@ -657,16 +657,9 @@ const OrderManagement = () => {
                         <span>
                           Thời gian đặt:{"  "}
                           <span className="font-semibold">
-                            {dayjs(orderDetail?.checkin).format("DD-MM-YYYY")}
-                          </span>
-                        </span>
-                        <span>
-                          Giảm giá:{" "}
-                          <span className="font-semibold">
-                            {" "}
-                            {orderDetail?.discount > 0
-                              ? `${orderDetail?.discount.toLocaleString()} VNĐ`
-                              : "Không giảm giá"}
+                            {dayjs(orderDetail?.checkin).format(
+                              "DD-MM-YYYY HH:mm:ss"
+                            )}
                           </span>
                         </span>
                         <span>
@@ -721,8 +714,8 @@ const OrderManagement = () => {
               {!checkOrderMenu(orderDetail?.order_detail) && (
                 <p>Bàn này chưa được đặt món!</p>
               )}
-              <p className=" flex gap-2 mt-3">
-                <span>Tổng giá:</span>
+              <p className="justify-end flex gap-2 mt-3">
+                <span>Hóa đơn tạm tính:</span>
                 <span className="font-semibold text-green-700">
                   {orderDetail?.subtotal.toLocaleString("vi-VN", {})} VNĐ
                 </span>

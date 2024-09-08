@@ -98,7 +98,7 @@ const RatingMenu = ({ id, disabled, refetch }) => {
 
       <Modal
         open={isOpen}
-        okText="Đánh giá 2"
+        okText="Đánh giá"
         cancelText="Để lần sau"
         onOk={handleRating}
         onCancel={handleClose}

@@ -299,7 +299,7 @@ const TableManagement = () => {
           columns={columns}
           dataSource={getListMenu}
           loading={loading}
-          scroll={{ y: "calc(100vh - 380px)" }}
+          scroll={{ y: "calc(100vh - 360px)" }}
           pagination={{
             total: totalElement,
             pageSize: pagination?.size,
@@ -311,7 +311,7 @@ const TableManagement = () => {
         <div className="modal">
           <Modal
             className="headerModal"
-            title="Tạo mới đơn"
+            title="Tạo mới món ăn"
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}

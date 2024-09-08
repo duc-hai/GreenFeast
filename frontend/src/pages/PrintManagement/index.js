@@ -268,12 +268,21 @@ const TableManagement = () => {
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item label="Khu vực" name="ip_address">
-                    <Input />
+                  <Form.Item label="Khu vực" name="area_id">
+                    <Select name="area_id" allowClear>
+                      {listCateArea?.length > 0 &&
+                        listCateArea.map((item, index) => {
+                          return (
+                            <Select.Option key={index} value={item?.id}>
+                              {item.name}
+                            </Select.Option>
+                          );
+                        })}
+                    </Select>
                   </Form.Item>
                 </Col>
                 <Col span={24}>
-                  <Form.Item label="Chọn loại máy in" name="printer_type">
+                  <Form.Item label="Loại máy in" name="printer_type">
                     <Select
                       name="printer_type"
                       allowClear
@@ -292,7 +301,7 @@ const TableManagement = () => {
                     </Select>
                   </Form.Item>
                 </Col>
-                {printType === "1" && (
+                {/* {printType === "1" && (
                   <Col span={24}>
                     <Form.Item label="Chọn khu vực" name="area_id">
                       <Select name="area_id" allowClear>
@@ -307,7 +316,7 @@ const TableManagement = () => {
                       </Select>
                     </Form.Item>
                   </Col>
-                )}
+                )} */}
               </Row>
             </Form>
           </div>
