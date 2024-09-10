@@ -62,7 +62,7 @@ const DefaultLayout = () => {
       <SettingOutlined />,
       undefined,
       undefined,
-      "cashier"
+      "admin"
     ),
     getItem("Quản lý bàn", "/table-management", <CalculatorFilled />),
     getItem("Quản khu vực", "/area-management", <ProductOutlined />),

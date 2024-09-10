@@ -35,6 +35,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const OrderManagement = () => {
+  const user = sessionStorage.getItem("user");
   const navigate = useNavigate();
   const [listData, setListData] = useState([]);
   const [valueArea, setValueArea] = useState({});
@@ -306,6 +307,13 @@ const OrderManagement = () => {
     }, 0);
     return sum;
   };
+
+  const checkRole = () => {
+    const checkUser = JSON.parse(user);
+    if (checkUser?.role === "waitstaff" || checkUser?.role === "expeditor")
+      return false;
+    return true;
+  };
   return (
     <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between bg-[#5c9f67] p-2 rounded-sm">
@@ -321,12 +329,14 @@ const OrderManagement = () => {
           >
             Nhà hàng
           </Button>
-          <Button
-            type={tab ? "primary" : "dashed"}
-            onClick={() => setTab(true)}
-          >
-            Online
-          </Button>
+          {checkRole() && (
+            <Button
+              type={tab ? "primary" : "dashed"}
+              onClick={() => setTab(true)}
+            >
+              Online
+            </Button>
+          )}
         </div>
       </div>
       <div className=" flex">

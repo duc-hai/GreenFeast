@@ -11,6 +11,7 @@ import {
   Row,
   Popconfirm,
   message,
+  Checkbox,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import "./index.css";
@@ -54,8 +55,36 @@ const MenuManagement = () => {
       fetchData(area);
     }
   }, [area]);
+  const handleChoseTable = (value, checked) => {
+    if (checked) {
+      setDataDelete((pre) => [...pre, value]);
+    } else {
+      setDataDelete((pre) => pre.filter((item) => item === value));
+    }
+  };
+  const handleDeleteTable = async (dataTable) => {
+    console.log(dataTable);
+    const res = await deleteTable({ ids: dataTable });
+    if (res?.status === "success") {
+      await fetchData(area);
+      message.success("Xóa bàn thành công");
+    } else {
+      message.error(res?.message || "Xóa bàn thất bại");
+    }
+  };
 
   const columns = [
+    {
+      title: "",
+      dataIndex: "_id",
+      key: "_id",
+      render: (text) => (
+        <Checkbox
+          value={!!dataDelete.find((item) => item === text)}
+          onChange={(e) => handleChoseTable(text, e.target.checked)}
+        ></Checkbox>
+      ),
+    },
     {
       title: "Mã bàn",
       dataIndex: "_id",
@@ -79,18 +108,7 @@ const MenuManagement = () => {
         <Popconfirm
           title="Xóa"
           description="Bạn có chắc chắn muốn xóa?"
-          onConfirm={async () => {
-            try {
-              await deleteTable({
-                ids: [record.id],
-              });
-              await fetchData(valueArea[0].id);
-              message.success("Xóa thành công");
-            } catch (error) {
-              console.log(error);
-              message.error("Xóa thất bại");
-            }
-          }}
+          onConfirm={() => handleDeleteTable(dataDelete)}
           onCancel={() => {}}
           okText="Đồng ý"
           cancelText="Hủy bỏ"
@@ -100,21 +118,6 @@ const MenuManagement = () => {
       ),
     },
   ];
-
-  const rowSelection = {
-    onChange: (_, selectedRows) => {
-      console.log("selectedRows: ", selectedRows);
-      const newData = selectedRows?.map((item) => item._id);
-      console.log(newData);
-      setDataDelete(newData);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -139,7 +142,7 @@ const MenuManagement = () => {
       console.log(error);
       message.error("Tạo mới danh mục món thất bại");
     }
-    fetchData(valueArea[0].id);
+    fetchData(area);
     handleCancel();
   };
   const [form] = Form.useForm();
@@ -156,22 +159,7 @@ const MenuManagement = () => {
           <Popconfirm
             title="Xóa "
             description="Bạn có chắc muốn xóa bàn?"
-            onConfirm={async () => {
-              try {
-                if (dataDelete.length > 0) {
-                  await deleteTable({
-                    ids: dataDelete,
-                  });
-                  await fetchData(area);
-                  message.success("Xóa thành công");
-                } else {
-                  message.error("Vui lòng chọn bàn cần xóa");
-                }
-              } catch (error) {
-                console.log(error);
-                message.error("Xóa thất bại");
-              }
-            }}
+            onConfirm={() => handleDeleteTable(dataDelete)}
             onCancel={() => {}}
             okText="Xóa"
             cancelText="Hủy"
@@ -203,9 +191,6 @@ const MenuManagement = () => {
       <br />
       <Table
         columns={columns}
-        rowSelection={{
-          ...rowSelection,
-        }}
         dataSource={
           listData?.length > 0 &&
           listData?.map((item, index) => {

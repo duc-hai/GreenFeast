@@ -1,9 +1,9 @@
 import { createContext } from "react";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
-export const SOCKET_URL = "http://localhost:5020";
+export const SOCKET_URL = `${process.env.REACT_APP_API}`;
 const token = Cookies.get("accessToken");
-const socket = io("http://localhost:5020/notification", {
+const socket = io(`${process.env.REACT_APP_API}/notification`, {
   auth: {
     token: token,
   },

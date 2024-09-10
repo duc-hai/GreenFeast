@@ -78,11 +78,11 @@ const AreaManagement = () => {
       key: "description",
       responsive: ["md"],
     },
-    // {
-    //   title: "Giảm giá",
-    //   dataIndex: "price_percentage",
-    //   key: "price_percentage",
-    // },
+    {
+      title: "Giảm giá",
+      dataIndex: "price_percentage",
+      key: "price_percentage",
+    },
     // {
     //   title: "Thời gian ",
     //   dataIndex: "created_at",

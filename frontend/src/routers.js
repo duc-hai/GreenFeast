@@ -13,6 +13,7 @@ import AdminDemo from "./components/ChartDemo/PageDemo/Amin";
 import OrderOnline from "./pages/OrderOnline";
 import BillKitchen from "./components/Print/BillKitchen/BillKitchen";
 import BillBar from "./components/Print/BillBar/BillBar";
+import RoleAdmin from "./components/ProtectedRoute/RoleAdmin";
 
 const routers = [
   {
@@ -21,27 +22,51 @@ const routers = [
   },
   {
     path: "/categories-management",
-    Conponent: () => <CategoriesMenegement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <CategoriesMenegement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/table-management",
-    Conponent: () => <TableManagement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <TableManagement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/area-management",
-    Conponent: () => <AreaManagement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <AreaManagement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/sale-management",
-    Conponent: () => <SaleManagement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <SaleManagement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/staff-management",
-    Conponent: () => <StaffManagement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <StaffManagement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/printf-management",
-    Conponent: () => <PrintManagement />,
+    Conponent: () => (
+      <RoleAdmin>
+        <PrintManagement />
+      </RoleAdmin>
+    ),
   },
   {
     path: "/order-management",

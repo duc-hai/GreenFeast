@@ -43,7 +43,7 @@ export const getTable = (id) => {
 };
 
 export const deleteTable = (body) => {
-  return ApiManagementService.patch(`/table/delete`, body);
+  return ApiManagementService.delete(`/table/delete`, { data: body });
 };
 
 export const createPromotion = (body) => {
