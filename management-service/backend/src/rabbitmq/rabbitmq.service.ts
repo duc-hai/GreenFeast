@@ -21,7 +21,7 @@ export class RabbitmqService {
             //Send data to queue
             //Buffer is a binary form of data, faster than regular objects, supports encoding
             channel.sendToQueue(queueName, Buffer.from(data), {
-                expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
+                expiration: '7200000', // Time to live (TTL): 2 hours //If the queue remains unprocessed, it will be deleted (it's means error occurred)
                 persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
             })
            

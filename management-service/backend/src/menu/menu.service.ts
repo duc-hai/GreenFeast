@@ -274,7 +274,7 @@ export class MenuService {
             this.rabbitMQService.sendMessage('management-order', {
                 title: 'menu',
                 action: 'update',
-                data: updateMenuDto,
+                data: updateData,
                 id
             })
         }

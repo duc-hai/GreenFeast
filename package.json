@@ -9,7 +9,7 @@
     "host": " hostname -I",
     "apigateway": "cd ./api-gateway/backend/ && npm run start",
     "apigateway-mobile": "cd ./api-gateway-mobile/backend/ && npm run start",
-    "management": "cd ./management-service/backend/ && npm run start:hotreload",
+    "management": "cd ./management-service/backend/ && npm run start",
     "notification": "cd ./notification-service/backend/ && npm run start",
     "order": "cd ./order-service/backend/ && npm run start",
     "order2": "cd ./order-service-2/backend/ && npm run start",

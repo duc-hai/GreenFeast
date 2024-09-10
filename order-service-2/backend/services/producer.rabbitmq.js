@@ -25,7 +25,7 @@ const sendQueueNotification = async (userId, title, message, link = '', broadcas
         //Send data to queue
         //Buffer is a binary form of data, faster than regular objects, supports encoding
         await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(msg)), {
-            expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
+            expiration: '7200000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
 
@@ -77,7 +77,7 @@ const sendQueueStatistics = async (type, order) => {
         //Send data to queue
         //Buffer is a binary form of data, faster than regular objects, supports encoding
         await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(msg)), {
-            expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
+            expiration: '7200000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
 
@@ -109,7 +109,7 @@ const sendQueueTms = async (data) => {
         //Send data to queue
         //Buffer is a binary form of data, faster than regular objects, supports encoding
         await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(msg)), {
-            expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
+            expiration: '7200000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
 
@@ -142,7 +142,7 @@ const sendQueueStatusOrder = async (orderId, status, userId) => {
         //Send data to queue
         //Buffer is a binary form of data, faster than regular objects, supports encoding
         await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(msg)), {
-            expiration: '10000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
+            expiration: '7200000', // Time to live (TTL): 10s //If the queue remains unprocessed, it will be deleted (it's means error occurred)
             persistent: true //persistent, messages will be saved to disk or cache so that if an error occurs, the message will still be available. This parameter is required for durable to work
         })
 
