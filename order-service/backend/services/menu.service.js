@@ -3,9 +3,20 @@ const Area = require('../models/area')
 const qrcode = require('qrcode')
 const createError = require('http-errors')
 const StatusCode = require('../enums/http.status.code')
+const checkValidDiscountMenu = require('../helpers/check.discount.menu')
 
 class MenuService {
-    async getAllMenu(req, res, next) {
+    getMenuByDiscountPrice = menus => {
+        return menus.map(menu => {
+            if (menu.discount_price) {
+                const discount = checkValidDiscountMenu(menu.price, menu.discount_price, menu.discount_start, menu.discount_end)
+                if (discount == menu.price) menu.discount_price = null
+            }
+            return menu
+        })
+    }
+
+    getAllMenu = async (req, res, next) => {
         const page = req.query.page || 1
         const perPage = req.query.perPage || 10
         try {
@@ -20,14 +31,16 @@ class MenuService {
             let menus, total
             if (user_type == 1) {
                 //Restaurant side, show full menu
-                menus = await Menu.find().sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
+                menus = await Menu.find().sort({ _id: 1 }).select({ __v: 0, rating_sum: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
                 total = await Menu.countDocuments()
             }
             else {
                 //Customer side, hidden menus with status is false
-                menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
+                menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
                 total = await Menu.countDocuments({ status: true })
             }
+
+            const menusResult = this.getMenuByDiscountPrice(menus)
 
             const paginationResult = {
                 currentPage: page,
@@ -40,7 +53,7 @@ class MenuService {
                 status: 'success',
                 message: 'Lấy danh sách thành công',
                 paginationResult,
-                data: menus
+                data: menusResult
             })
         }
         catch (err) {
@@ -63,12 +76,14 @@ class MenuService {
                     { name: { $regex: regex } }, //Search by specific keyword
                     { name: { $regex: searchShortKeyword } }, //Search by short keyword
                 ]
-            }).sort({ _id: 1 }).select({ __v: 0 })
+            }).sort({ _id: 1 }).select({ __v: 0, discount_start: 0, discount_end: 0 })
+
+            const menusResult = this.getMenuByDiscountPrice(menus)
 
             return res.status(StatusCode.OK_200).json({
                 status: 'success',
                 message: 'Tìm kiếm thành công',
-                data: menus
+                data: menusResult
             })
         }
         catch (err) {
@@ -76,7 +91,7 @@ class MenuService {
         }
     }
 
-    async getMenuByCategory (req, res, next) {
+    getMenuByCategory = async (req, res, next) => {
         try {
             if (!req.params.id)
                 return next(createError(StatusCode.BadRequest_400, 'Thiếu mã danh mục')) 
@@ -86,7 +101,9 @@ class MenuService {
 
             const skip = (perPage * page) - perPage //In first page, skip 0 index
 
-            const menus = await Menu.find({ status: true, category_id: req.params.id }).sort({ name: 1 }).select({ __v: 0 }).skip(skip).limit(perPage) 
+            const menus = await Menu.find({ status: true, category_id: req.params.id }).sort({ name: 1 }).select({ __v: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
+
+            const menusResult = this.getMenuByDiscountPrice(menus)
 
             const total = await Menu.countDocuments({ status: true, category_id: req.params.id })
 
@@ -101,7 +118,7 @@ class MenuService {
                 status: 'success',
                 message: 'Lấy danh sách thành công',
                 paginationResult,
-                data: menus
+                data: menusResult
             })
         }
         catch (err) {

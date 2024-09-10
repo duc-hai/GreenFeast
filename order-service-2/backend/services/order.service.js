@@ -12,6 +12,7 @@ const hiddenProperties = require('../config/hidden.properties')
 const checkValidation = require('../helpers/check.validation')
 const OrderOnline = require('../models/online_order')
 const producer = require('./producer.rabbitmq')
+const checkValidDiscountMenu = require('../helpers/check.discount.menu')
 
 class OrderService {
     getMenuById = async id => {
@@ -57,8 +58,8 @@ class OrderService {
             if (!menuFromDB) 
                 throw new Error(`Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`)
                 // return next(createError(StatusCode.BadRequest_400, `Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`))
-            if (menuFromDB?.discount_price)
-                menuData[i].price = menuFromDB?.discount_price
+            if (menuFromDB.discount_price)
+                menuData[i].price = checkValidDiscountMenu(menuFromDB.price, menuFromDB.discount_price, menuFromDB.discount_start, menuFromDB.discount_end)
             else
                 menuData[i].price = menuFromDB?.price
             menuData[i].name = menuFromDB.name
@@ -466,7 +467,13 @@ class OrderService {
                 { $set: { 'table_list.$.status': 0 } }
             )
 
-            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updateOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
+            const client = await clientRedis()
+            if (client) {
+                await client.del(tableSlug)
+                await client.quit()
+            }
+
+            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updatedOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
             
             producer.sendQueueStatistics('offline', updatedOrder)
 
@@ -785,21 +792,18 @@ class OrderService {
         try {
             let { promotionId, tableId } = req.body
 
-            if (!promotionId || !tableId)
-                return next(createError(StatusCode.BadRequest_400, 'Thiếu mã khuyến mãi hoặc mã đơn hàng'))
+            if (!promotionId || !tableId) return next(createError(StatusCode.BadRequest_400, 'Thiếu mã khuyến mãi hoặc mã đơn hàng'))
 
             promotionId = parseInt(promotionId.toString())
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const today = new Date()
+            today.setHours(0, 0, 0, 0)
 
             const order = await Order.findOne({ table: tableId, status: false })
-            if (!order)
-                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ'))
+            if (!order) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy mã hóa đơn hợp lệ'))
             
             const promotion = await Promotion.findOne({ _id: promotionId, status: true, start_at: { $lte: today }, end_at: { $gte: today } }).lean()
-            if (!promotion)
-                return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy chương trình khuyến mãi, vui lòng kiểm tra lại'))
+            if (!promotion) return next(createError(StatusCode.BadRequest_400, 'Không tìm thấy chương trình khuyến mãi, vui lòng kiểm tra lại'))
 
             // console.log(promotion.condition_apply)
             // console.log(order.subtotal)

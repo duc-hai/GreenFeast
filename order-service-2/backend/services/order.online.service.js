@@ -8,6 +8,7 @@ const calculateDistance = require('../helpers/calculate.distance')
 const Promotion = require('../models/promotion')
 const orderService = require('./order.service')
 const producer = require('./producer.rabbitmq')
+const checkValidDiscountMenu = require('../helpers/check.discount.menu')
 const checkValidPhoneNumber = require('../helpers/check.valid.phonenumber')
 
 class OrderOnlineService {
@@ -57,6 +58,9 @@ class OrderOnlineService {
     getMenuById = async id => {
         const menu = await Menu.findOne({ _id: id, status: true }).lean()
         if (!menu) throw new Error(`Không tìm thấy đồ ăn hoặc thức uống yêu cầu với mã ${id}, vui lòng thử lại`)
+        if (menu?.discount_price) {
+            menu.price = checkValidDiscountMenu(menu.price, menu.discount_price, menu.discount_start, menu.discount_end)
+        }
         return menu
     }
 

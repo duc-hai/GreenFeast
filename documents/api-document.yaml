@@ -2185,6 +2185,14 @@ paths:
                 text_email: 
                   type: string
                   example: "Nhận ngay giảm giá đến 50% khi đặt bàn trực tuyến. Chương trình áp dụng từ 10/6/2024 đến 20/6/2024."
+                start_at:
+                  type: string
+                  description: "Tùy chọn"
+                  example: "2024-09-01"
+                end_at:
+                  type: string
+                  description: "Tùy chọn"
+                  example: "2024-09-09"
         required: true
       responses:
         '200':

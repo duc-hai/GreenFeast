@@ -53,6 +53,15 @@ export class PromotionService {
 
             //In case it is not found, the form_promotion_name field will be ignored
             const newResult = resultDataFromDB.map(value => {
+                //If promotion is expired, status will be false (stop promotion working)
+                if (value.start_at && value.end_at) {
+                    const currentDate = new Date()
+                    const startDate = new Date(value.start_at)
+                    const endDate = new Date(value.end_at)
+                    if (currentDate < startDate || currentDate > endDate) value.status = false
+                }
+
+                //Get form promotion string
                 for (let element of keysValuesArray) {
                     if (parseInt(element[0]) === value.form_promotion) {
                         value["form_promotion_name"] = element[1]
@@ -75,7 +84,7 @@ export class PromotionService {
     }
 
     async createPromotion(createPromotionDto: CreatePromotionDto): Promise<any> {
-        try {
+        try {   
             if (!createPromotionDto)
                 throw new HttpException({
                     status: 'error',

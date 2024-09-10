@@ -226,52 +226,54 @@ const handleAddDataPromotion = async (message) => {
     const Model = require(`../models/${message.title}`)
     switch (message.action) {
         case 'create': 
-            if (message?.data?.form_promotion == 2) {
+            if (message.data?.form_promotion == 2) {
                 //In case of promotion for a specific menu, we save the promotion directly in the table menu
-                const menu = await require('../models/menu').findOne({ _id: message?.data?.condition_apply })
+                const menu = await require('../models/menu').findOne({ _id: message.data?.condition_apply })
+                if (!menu) return
+
                 let discount_price
-                if (message?.data?.promotion_value.includes('%')) {
+                if (message.data?.promotion_value.includes('%')) {
                     //Example: price is 100.000, promotion value is -20%, it's mean price which customer have to pay is 80.000
-                    discount_price = Math.floor((100 + parseInt(message?.data?.promotion_value.replace('%', ''))) / 100 * menu?.price)
+                    discount_price = Math.floor((100 + parseInt(message.data?.promotion_value.replace('%', ''))) / 100 * menu?.price)
                 }
                 else {
-                    discount_price = menu?.price + parseInt(message?.data?.promotion_value)
+                    discount_price = menu?.price + parseInt(message.data?.promotion_value)
                 }
                 
-                await require('../models/menu').findOneAndUpdate({ _id: message?.data?.condition_apply }, { discount_price })
+                await require('../models/menu').findOneAndUpdate({ _id: message.data?.condition_apply }, { discount_price, discount_start: message.data?.start_at, discount_end: message.data?.end_at })
             }
             else {
                 //In the remaining cases, we save it to the database like a normal table
-                const _id = message?.data?.id //ID in MySQL is 'id', while Mongo is '_id'
+                const _id = message.data?.id //ID in MySQL is 'id', while Mongo is '_id'
 
-                delete message?.data?.id
+                delete message.data?.id
         
                 await new Model({...message.data, ...{ _id }}).save() 
             }
             break
         case 'update':
             //May be have error here
-            if (message?.data?.form_promotion &&  message?.data?.form_promotion== 2) {
+            if (message.data?.form_promotion &&  message.data?.form_promotion== 2) {
                 //In case of promotion for a specific menu, we save the promotion directly in the table menu
-                const menu = await require('../models/menu').findOne({ _id: message?.data?.condition_apply })
+                const menu = await require('../models/menu').findOne({ _id: message.data?.condition_apply })
                 let discount_price
-                if (message?.data?.promotion_value.includes('%')) {
+                if (message.data?.promotion_value.includes('%')) {
                     //Example: price is 100.000, promotion value is -20%, it's mean price which customer have to pay is 80.000
-                    discount_price = Math.floor((100 + parseInt(message?.data?.promotion_value.replace('%', ''))) / 100 * menu?.price)
+                    discount_price = Math.floor((100 + parseInt(message.data?.promotion_value.replace('%', ''))) / 100 * menu?.price)
                 }
                 else {
-                    discount_price = menu?.price + parseInt(message?.data?.promotion_value)
+                    discount_price = menu?.price + parseInt(message.data?.promotion_value)
                 }
                 
-                await require('../models/menu').findOneAndUpdate({ _id: message?.data?.condition_apply }, { discount_price })
+                await require('../models/menu').findOneAndUpdate({ _id: message.data?.condition_apply }, { discount_price })
             }
             else
                 //In the remaining cases, we save it to the database like a normal table
                 await Model.findOneAndUpdate({ _id: message?.id }, message?.data)
             break
         case 'delete':
-            if (message?.data?.form_promotion &&  message?.data?.form_promotion== 2) {
-                await require('../models/menu').findOneAndUpdate({ _id: message?.data?.condition_apply }, { discount_price: '' })
+            if (message.data?.form_promotion &&  message.data?.form_promotion== 2) {
+                await require('../models/menu').findOneAndUpdate({ _id: message.data?.condition_apply }, { discount_price: '' })
             }
             else 
                 await Model.deleteOne({ _id: message?.id })

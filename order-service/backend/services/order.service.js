@@ -12,6 +12,7 @@ const hiddenProperties = require('../config/hidden.properties')
 const checkValidation = require('../helpers/check.validation')
 const OrderOnline = require('../models/online_order')
 const producer = require('./producer.rabbitmq')
+const checkValidDiscountMenu = require('../helpers/check.discount.menu')
 
 class OrderService {
     getMenuById = async id => {
@@ -58,7 +59,7 @@ class OrderService {
                 throw new Error(`Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`)
                 // return next(createError(StatusCode.BadRequest_400, `Món ${menu._id} không tồn tại, vui lòng kiểm tra lại`))
             if (menuFromDB.discount_price)
-                menuData[i].price = menuFromDB.discount_price
+                menuData[i].price = checkValidDiscountMenu(menuFromDB.price, menuFromDB.discount_price, menuFromDB.discount_start, menuFromDB.discount_end)
             else
                 menuData[i].price = menuFromDB?.price
             menuData[i].name = menuFromDB.name
