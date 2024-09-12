@@ -112,6 +112,7 @@ const OrderManagement = () => {
       try {
         const res = await getAllArea();
         setValueArea(res.data);
+        setArea(res?.data[0]?.id);
       } catch (error) {
         console.log(error);
       }
@@ -130,10 +131,6 @@ const OrderManagement = () => {
   useEffect(() => {
     if (area) {
       fetchData(area);
-    } else {
-      if (valueArea.length > 0) {
-        fetchData(valueArea[0].id);
-      }
     }
   }, [area, valueArea]);
 
@@ -353,7 +350,7 @@ const OrderManagement = () => {
               <select
                 className="bg-[#263a29] text-white outline-none px-2 py-1 rounded-md"
                 onChange={(e) => {
-                  fetchData(e.target.value);
+                  // fetchData(e.target.value);
                   setArea(e.target.value);
                 }}
               >
@@ -401,7 +398,7 @@ const OrderManagement = () => {
                 try {
                   await moveTable(tableId, values.to);
                   message.success("Chuyển bàn thành công");
-                  fetchData(area);
+                  await fetchData(area);
                 } catch (error) {
                   console.log(error);
                   message.error("Chuyển bàn thất bại");

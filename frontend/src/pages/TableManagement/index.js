@@ -203,7 +203,7 @@ const MenuManagement = () => {
       <div className="modal">
         <Modal
           className="headerModal"
-          title="Tạo mới đơn"
+          title="Tạo mới đơn "
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}

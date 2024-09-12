@@ -28,6 +28,7 @@ const NotifyHeader =() => {
       });
     const handleClick=() => {
         setIsOpen(pre =>!pre)
+        setValue(pre => ({...pre,numberNotify:0}))
     }
 
     const fetchDataNotifyHeader = async () => {
@@ -38,6 +39,7 @@ const NotifyHeader =() => {
         } catch (err) {
           console.log(err);
         }
+        setLoading(false);
       };
       const fetchQualityNotify = async () => {
         setLoading(true);
@@ -57,7 +59,7 @@ const NotifyHeader =() => {
           fetchQualityNotify()
         })
       
-    },[])
+    },[socket])
     useEffect(()=> {
       fetchDataNotifyHeader()
       fetchQualityNotify()

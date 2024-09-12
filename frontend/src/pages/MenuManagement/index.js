@@ -49,6 +49,7 @@ const TableManagement = () => {
   const onSearch = (e) => {
     setTextSearch(e.target.value);
   };
+
   const fetchMenu = async (page, size) => {
     setLoading(true);
     try {
@@ -70,9 +71,9 @@ const TableManagement = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchDataByKeywork(textSearch);
-  // }, [textSearch]);
+  useEffect(() => {
+    if (textSearch !== "") fetchDataByKeywork(textSearch);
+  }, [textSearch]);
 
   // useEffect(() => {
   //   if (textSearch === "") {
@@ -83,7 +84,7 @@ const TableManagement = () => {
     if (textSearch === "") {
       fetchMenu(pagination.page, pagination.size);
     }
-  }, [pagination]);
+  }, [pagination, textSearch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -152,7 +153,7 @@ const TableManagement = () => {
       render: (text, record) => (
         <span className="flex items-center gap-1">
           <Rate value={Number(text)} disabled allowHalf />
-          {`(${record?.rating_count})`}
+          {`(${record?.rating_count || 0} )`}
           <ListRating id={record?._id} />
         </span>
       ),
@@ -258,8 +259,6 @@ const TableManagement = () => {
   };
 
   const onChangePagination = (page, size) => {
-    console.log(page);
-    console.log(size);
     setPagination((pre) => ({ ...pre, page: page, size: size }));
   };
   const [form] = Form.useForm();
@@ -300,18 +299,22 @@ const TableManagement = () => {
           dataSource={getListMenu}
           loading={loading}
           scroll={{ y: "calc(100vh - 360px)" }}
-          pagination={{
-            total: totalElement,
-            pageSize: pagination?.size,
-            current: pagination?.page,
-            onChange: (page, size) => onChangePagination(page, size),
-          }}
+          pagination={
+            !!textSearch
+              ? false
+              : {
+                  total: totalElement,
+                  pageSize: pagination?.size,
+                  current: pagination?.page,
+                  onChange: (page, size) => onChangePagination(page, size),
+                }
+          }
         />
 
         <div className="modal">
           <Modal
             className="headerModal"
-            title="Tạo mới món ăn"
+            title={isEdit?._id ? "Cập nhật món ăn" : "Tạo mới món ăn"}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -326,7 +329,7 @@ const TableManagement = () => {
                 form="form"
                 name="form"
               >
-                GỬI
+                {isEdit?._id ? "Cập nhật " : "Tạo mới"}
               </Button>,
             ]}
             bodyStyle={{ height: "1280" }}

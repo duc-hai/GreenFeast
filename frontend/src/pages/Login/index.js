@@ -22,7 +22,7 @@ const Login = () => {
         response = await loginAdmin(values);
 
         console.log(response);
-        navigate("/menu-management");
+        navigate("/order-management");
       } else {
         response = await loginUser(values);
 

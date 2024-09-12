@@ -78,11 +78,11 @@ const AreaManagement = () => {
       key: "description",
       responsive: ["md"],
     },
-    {
-      title: "Giảm giá",
-      dataIndex: "price_percentage",
-      key: "price_percentage",
-    },
+    // {
+    //   title: "Giảm giá",
+    //   dataIndex: "price_percentage",
+    //   key: "price_percentage",
+    // },
     // {
     //   title: "Thời gian ",
     //   dataIndex: "created_at",
@@ -172,7 +172,7 @@ const AreaManagement = () => {
     <div className="bg-[#E4E4D0] md:p-4 ">
       <div className="flex justify-between flex-wrap bg-[#5c9f67] p-2 rounded-sm">
         <div className="text-xl font-semibold pl-2 text-white">
-          Quản khu vực
+          Quản lý khu vực
         </div>
         <div>
           <Button type="primary" className="bg-[#263a29]" onClick={showModal}>
@@ -245,7 +245,7 @@ const AreaManagement = () => {
                     <Input />
                   </Form.Item>
                 </Col>
-                <Col span={24}>
+                {/* <Col span={24}>
                   <Form.Item
                     label="Giảm giá"
                     name="price_percentage"
@@ -255,7 +255,7 @@ const AreaManagement = () => {
                   >
                     <Input />
                   </Form.Item>
-                </Col>
+                </Col> */}
               </Row>
             </Form>
           </div>

@@ -29,7 +29,8 @@ function getItem(label, key, icon, children, type, role) {
   };
 }
 export const checkRoleAdmin = (userCheck) => {
-  if (userCheck?.role === "admin" || userCheck?.role === "admin") return true;
+  if (userCheck?.role === "admin" || userCheck?.role === "super-admin")
+    return true;
   return false;
 };
 
@@ -65,7 +66,7 @@ const DefaultLayout = () => {
       "admin"
     ),
     getItem("Quản lý bàn", "/table-management", <CalculatorFilled />),
-    getItem("Quản khu vực", "/area-management", <ProductOutlined />),
+    getItem("Quản lý khu vực", "/area-management", <ProductOutlined />),
     getItem("Quản lý khuyến mãi", "/sale-management", <PercentageOutlined />),
     getItem(
       "Quản lý nhân viên",

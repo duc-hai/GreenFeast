@@ -57,7 +57,7 @@ const optionStatus = [
 const HistoryOrderAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState([]);
-  const [search, setSearch] = useState({ status: null, page: null });
+  const [search, setSearch] = useState({ status: null, page: 1 });
   const [totalElement, setTotalElement] = useState(0);
   const [searchOrder, setSearchOrder] = useState("");
   const [updateStatus, setUpdateStatus] = useState({
@@ -102,9 +102,9 @@ const HistoryOrderAdmin = () => {
         const checkData = res?.data?.find(
           (item) => item?._id === updateStatus?.orderId
         );
-        console.log(checkData);
+        // console.log(checkData);
         if (checkData?.send_tms === false) {
-          openNotificationWithIcon();
+          // openNotificationWithIcon();
           //  await handleSendTms(updateStatus?.orderId);
         }
       }
@@ -120,13 +120,11 @@ const HistoryOrderAdmin = () => {
     setLoading(true);
     try {
       const res = await postSendTMS({ orderId: data });
-      if (res?.status === "success")
-        message.success(
-          res?.message || "Cập nhật trạng thái gửi hàng thành công"
-        );
-      else {
-        message.error(res?.message || "Cập nhật trạng thái gửi hàng thất bại");
-      }
+      // if (res?.status === "success")
+      message.success("Cập nhật trạng thái gửi hàng thành công");
+      // else {
+      //   message.error(res?.message || "Cập nhật trạng thái gửi hàng thất bại");
+      // }
     } catch (err) {
       message.error("Cập nhật trạng thái gửi hàng thất bại");
       console.log(err);
@@ -138,7 +136,6 @@ const HistoryOrderAdmin = () => {
   const fetchUpdateStatus = async () => {
     setLoading(true);
     try {
-      console.log(updateStatus);
       if (updateStatus.status <= 7) {
         let body = { ...updateStatus, status: updateStatus.status };
         const res = await postUpdateStatus(body);
@@ -163,8 +160,8 @@ const HistoryOrderAdmin = () => {
   }, [search]);
 
   const handleSendTms = (data) => {
-    fetchSendTms(data);
-    api.destroy();
+    fetchSendTms(data?.orderId);
+    // api.destroy();
   };
   const handleChoseItem = (record) => {
     let tempStatus = [...optionStatus].find(
@@ -266,32 +263,32 @@ const HistoryOrderAdmin = () => {
         </div>
       ),
     },
-    // {
-    //   title: "Trạng thái gửi hàng",
-    //   key: "send_tms",
-    //   dataIndex: "send_tms",
-    //   align: "center",
-    //   responsive: ["md"],
-    //   render: (text, record) =>
-    //     record?.status === optionStatus[2].label && (
-    //       <div className="flex gap-2 items-center justify-center">
-    //         {text ? (
-    //           <span>Đã gửi</span>
-    //         ) : (
-    //           <div className="flex gap-2 items-center justify-center">
-    //             <span className="text-red-600">Chưa gửi</span>
-    //             <Button
-    //               type="primary"
-    //               size="small"
-    //               onClick={() => handleSendTms({ orderId: record?._id })}
-    //             >
-    //               Gửi hàng
-    //             </Button>
-    //           </div>
-    //         )}
-    //       </div>
-    //     ),
-    // },
+    {
+      title: "Trạng thái gửi hàng",
+      key: "send_tms",
+      dataIndex: "send_tms",
+      align: "center",
+      responsive: ["md"],
+      render: (text, record) =>
+        record?.status === optionStatus[2].label && (
+          <div className="flex gap-2 items-center justify-center">
+            {text ? (
+              <span>Đã gửi</span>
+            ) : (
+              <div className="flex gap-2 items-center justify-center">
+                <span className="text-red-600">Chưa gửi</span>
+                <Button
+                  type="primary"
+                  size="small"
+                  onClick={() => handleSendTms({ orderId: record?._id })}
+                >
+                  Gửi hàng
+                </Button>
+              </div>
+            )}
+          </div>
+        ),
+    },
     {
       title: "Tổng tiền",
       key: "total",
@@ -360,6 +357,12 @@ const HistoryOrderAdmin = () => {
       setSearch((pre) => ({ ...pre, status: e, page: 1 }));
     }
   };
+  const handleFilterColumns = (value) => {
+    if (Number(search.status) !== 3) {
+      return value.filter((item, index) => index !== 4);
+    }
+    return value;
+  };
   return (
     <div className="flex gap-2 flex-col   ">
       {contextHolder}
@@ -385,6 +388,7 @@ const HistoryOrderAdmin = () => {
           mode="horizontal"
           items={items}
           className=" flex flex-wrap "
+          defaultValue={1}
         />
       </div>
       {loading ? (
@@ -393,13 +397,12 @@ const HistoryOrderAdmin = () => {
         <Table
           dataSource={dataTable || []}
           loading={loading}
-          columns={columns}
+          columns={handleFilterColumns(columns)}
           scroll={{ y: "calc(100vh - 410px) " }}
           pagination={{
             total: totalElement,
             current: search.page,
-            onChange: (page) =>
-              setSearch((pre) => ({ ...pre, page: page, status: null })),
+            onChange: (page) => setSearch((pre) => ({ ...pre, page: page })),
           }}
         />
       )}

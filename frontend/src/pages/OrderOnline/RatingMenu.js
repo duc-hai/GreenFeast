@@ -84,9 +84,7 @@ const RatingMenu = ({ id, disabled, refetch }) => {
     setIsOpen(true);
     fetchDetailHistory(id);
   };
-  useEffect(() => {
-    console.log(dataDetail);
-  }, []);
+
   return (
     <>
       <EditFilled
