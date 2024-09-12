@@ -87,7 +87,7 @@ class OrderService {
             subtotal: subtotalPrice,
             total: subtotalPrice,
             table: table._id,
-            checkin: new Date(),
+            checkin: Date.now(),
             status: false, //Unpaid
             order_person: {
                 _id: userId,
@@ -113,7 +113,7 @@ class OrderService {
 
         order?.order_detail.push({
             menu: menuData,
-            time: new Date(),
+            time: Date.now(),
             order_person: {
                 _id: user._id,
                 name: user.full_name
@@ -457,7 +457,7 @@ class OrderService {
                 note,
                 payment_method,
                 status: true,
-                checkout: new Date(),
+                checkout: Date.now(),
                 total: order.subtotal
             }, { returnDocument: 'after' }).lean()
 
@@ -909,7 +909,7 @@ class OrderService {
                     order_detail: [
                         {
                             menu: menuData,
-                            time: new Date(),
+                            time: Date.now(),
                             order_person: {
                                 _id: user._id,
                                 name: user.full_name
@@ -918,7 +918,7 @@ class OrderService {
                     ],
                     subtotal: subtotalPrice,
                     table: table._id,
-                    checkin: new Date(),
+                    checkin: Date.now(),
                     total: subtotalPrice,
                     status: false, //Unpaid
                 }).save()
@@ -933,7 +933,7 @@ class OrderService {
 
                 order?.order_detail.push({
                     menu: menuData,
-                    time: new Date(),
+                    time: Date.now(),
                     order_person: {
                         _id: user._id,
                         name: user.full_name
