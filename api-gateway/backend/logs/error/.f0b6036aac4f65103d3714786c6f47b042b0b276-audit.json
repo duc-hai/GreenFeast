@@ -53,21 +53,12 @@
         {
             "date": 1726135677811,
             "name": "logs\\error\\2024-09-12.log",
-<<<<<<< HEAD
-            "hash": "5efe45dd43a01364a22b2494f68f7a35368e83f3fc8f9e6594b11e97dd1e0481"
-        },
-        {
-            "date": 1726160554766,
-            "name": "logs\\error\\2024-09-13.log",
-            "hash": "8a7b77d796ac4ebfe9a6d8bc64e15971a0cc295b064ca58feb0c67cb4a212df7"
-=======
             "hash": "0ed6abee4fe46a1678b10d0bfd81a5eb0d5227122292a9f36906071544a4803e"
         },
         {
             "date": 1726192832411,
             "name": "logs\\error\\2024-09-13.log",
             "hash": "e6f3a48219c5e1b45519b35094f272a0ca6c2cf766ebfa345f97cdcc27210997"
->>>>>>> 004865bb73c25a6d7d3718ee1fd032cce3e8ee2d
         }
     ],
     "hashType": "sha256"
