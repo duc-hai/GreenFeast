@@ -211,7 +211,7 @@ CREATE TABLE `promotion` (
 
 INSERT INTO `promotion` (`id`, `name`, `status`, `note`, `form_promotion`, `condition_apply`, `promotion_value`, `auto_apply`, `start_at`, `end_at`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`, `description`) VALUES
 (1, 'Khuyến mãi ngày tết', 0, 'Giảm giá 50k trên hóa đơn 500k', 1, 500000, '-50000', 1, '2024-09-01 00:00:00', '2024-09-09 00:00:00', '2024-03-14 22:39:18', '2024-05-29 15:34:12', NULL, 0, ''),
-(2, 'Khuyến mãi mùa lễ hội', 1, 'Giảm 10% cho món chả giò, đặc sản lễ hội', 2, 2, '-10%', 1, '2024-01-01 00:00:00', '2024-12-12 00:00:00', '2024-05-29 15:33:52', NULL, NULL, 0, 'mô tả')
+(2, 'Khuyến mãi mùa lễ hội', 1, 'Giảm 10% cho món chả giò, đặc sản lễ hội', 2, 2, '-10%', 1, '2024-01-01 00:00:00', '2024-12-12 00:00:00', '2024-05-29 15:33:52', NULL, NULL, 0, 'mô tả'),
 (3, 'Khuyến mãi tất cả hóa đơn', 1, 'Giảm 5% tất cả hóa đơn', 1, 0, '-5%', 1, '2024-01-01 00:00:00', '2024-12-12 00:00:00', '2024-05-29 15:33:52', NULL, NULL, 0, 'mô tả');
 
 -- --------------------------------------------------------

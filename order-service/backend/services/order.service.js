@@ -87,7 +87,7 @@ class OrderService {
             subtotal: subtotalPrice,
             total: subtotalPrice,
             table: table._id,
-            checkin: Date.now(),
+            checkin: new Date(),
             status: false, //Unpaid
             order_person: {
                 _id: userId,
@@ -919,7 +919,7 @@ class OrderService {
                     ],
                     subtotal: subtotalPrice,
                     table: table._id,
-                    checkin: Date.now(),
+                    checkin: new Date(),
                     total: subtotalPrice,
                     status: false, //Unpaid
                 }).save()

@@ -34,7 +34,7 @@ class SocketIoService {
 
       if (userId) {
         this.io.emit("notification", { title, message })
-        this.io.to(userId).emit("notification", { title, message })
+        this.io.to(socketId).emit("notification", { title, message })
       }
       //if user is not connected, don't send notification
     } catch (error) {
