@@ -18,7 +18,7 @@ const onlineOrder = new Schema (
         surcharge: { type: Number, default: 0 },
         shippingfee: { type: Number, default: 0 },
         total: { type: Number },
-        time: { type: Date, default: Date.now() },
+        time: { type: Date, default: Date.now },
         payment_method: { type: String },
         status: { type: Number, default: 1 },
         order_person: {

@@ -19,7 +19,7 @@ const onlineOrder = new Schema (
         shippingfee: { type: Number, default: 0 },
         note: { type: String },
         total: { type: Number },
-        time: { type: Date, default: Date.now() },
+        time: { type: Date, default: Date.now },
         payment_method: { type: String },
         status: { type: Number, default: 1 },
         delivery_information: {

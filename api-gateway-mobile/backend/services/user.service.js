@@ -433,7 +433,7 @@ class UserService {
                 if (error) return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi gọi đăng nhập Google: ${error.message}`))
                 const accessToken = await jwt.sign({ username: user._id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
                 const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '168h' })
-                await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
+                // await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
                     
                 res.cookie('access_token', accessToken, {
                     httpOnly: true, //Config cookie just accessed by server
