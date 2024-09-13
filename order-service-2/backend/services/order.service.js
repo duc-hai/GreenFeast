@@ -77,7 +77,7 @@ class OrderService {
             order_detail: [
                 {
                     menu: menuData,
-                    time: Date.now(),
+                    time: new Date(),
                     order_person: {
                         _id: user._id,
                         name: user.full_name
@@ -473,10 +473,11 @@ class OrderService {
                 await client.quit()
             }
 
-            producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updatedOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
+            // producer.sendQueueNotification(null, 'Bàn đã được thanh toán', `Bàn ${updatedOrder.table} tại nhà hàng đã được đóng bằng hình thức thanh toán VNPay`, '', 1)
             
             producer.sendQueueStatistics('offline', updatedOrder)
 
+            res.clearCookie('tableSlug')
             return res.status(StatusCode.OK_200).json({ status: 'success', message: 'Đóng bàn thành công' })
         }
         catch (err) {

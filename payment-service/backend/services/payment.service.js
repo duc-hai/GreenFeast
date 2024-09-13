@@ -131,12 +131,14 @@ class PaymentService {
             if (!resultSaveDatabase)
                 return res.status(500).json({ status: 'error', message: 'Đã xảy ra lỗi khi lưu giao dịch vào cơ sở dữ liệu' })
 
-            if (vnp_Params['vnp_TransactionStatus'] == '00' && vnp_Params['vnp_ResponseCode'] == '00')
+            if (vnp_Params['vnp_TransactionStatus'] == '00' && vnp_Params['vnp_ResponseCode'] == '00') {
+                res.clearCookie('tableSlug')
                 return res.status(200).json({
                     status: 'success',
                     code: vnp_Params['vnp_ResponseCode'],
                     message: 'Giao dịch thành công'
                 })
+            }
             
             return res.status(500).json({  
                 status: 'error',

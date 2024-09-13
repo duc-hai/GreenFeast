@@ -125,7 +125,7 @@ class PdfService {
                 doc.fontSize(10).text(`Máy in: ${printer.name}`)
                 doc.moveDown()
             }
-            const dateTime = formatDateTime(order.checkin)
+            const dateTime = formatDateTime(new Date(order.checkin))
 
             doc.fontSize(10).text(`Giờ vào: ${dateTime}`)
             doc.moveDown()
