@@ -12,6 +12,7 @@ class MenuService {
                 const discount = checkValidDiscountMenu(menu.price, menu.discount_price, menu.discount_start, menu.discount_end)
                 if (discount == menu.price) menu.discount_price = null
             }
+
             return menu
         })
     }
@@ -31,12 +32,12 @@ class MenuService {
             let menus, total
             if (user_type == 1) {
                 //Restaurant side, show full menu
-                menus = await Menu.find().sort({ _id: 1 }).select({ __v: 0, rating_sum: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
+                menus = await Menu.find().sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
                 total = await Menu.countDocuments()
             }
             else {
                 //Customer side, hidden menus with status is false
-                menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
+                menus = await Menu.find({ status: true }).sort({ _id: 1 }).select({ __v: 0, rating_sum: 0 }).skip(skip).limit(perPage) 
                 total = await Menu.countDocuments({ status: true })
             }
 
@@ -76,7 +77,7 @@ class MenuService {
                     { name: { $regex: regex } }, //Search by specific keyword
                     { name: { $regex: searchShortKeyword } }, //Search by short keyword
                 ]
-            }).sort({ _id: 1 }).select({ __v: 0, discount_start: 0, discount_end: 0 })
+            }).sort({ _id: 1 }).select({ __v: 0 })
 
             const menusResult = this.getMenuByDiscountPrice(menus)
 
@@ -101,7 +102,7 @@ class MenuService {
 
             const skip = (perPage * page) - perPage //In first page, skip 0 index
 
-            const menus = await Menu.find({ status: true, category_id: req.params.id }).sort({ name: 1 }).select({ __v: 0, discount_start: 0, discount_end: 0 }).skip(skip).limit(perPage) 
+            const menus = await Menu.find({ status: true, category_id: req.params.id }).sort({ name: 1 }).select({ __v: 0 }).skip(skip).limit(perPage) 
 
             const menusResult = this.getMenuByDiscountPrice(menus)
 
