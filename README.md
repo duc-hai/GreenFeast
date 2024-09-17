@@ -26,10 +26,10 @@
 ## 📑 Technologies & Skills 
 - Microservice architecture, BFF Pattern, Load balacing for order service
 - Express.js, NestJS, MongoDB, MySQL, Flask
-- Frontend: ReactJS
-- Docker, Rabbit MQ
+- Frontend web: ReactJS, App Mobile: React Native
+- Docker, Rabbit MQ, Redis
 - Deploy with EC2 AWS, DNS was managed by Cloudflare, config CI/CD with Github Actions
-- LightGCN and LightGBM deep learning models for food recommendations
+- LightGCN and LightGBM machine learning models for food recommendations
 - Json Web Token, Access control RBAC, Tracking Logs (winston), push notification SocketIO, VNPay integration, login with Google,...
 
 ## 📋 Introduction
@@ -37,7 +37,7 @@ This thesis analyzes and designs a system that supports food ordering and manage
 
 Use-case diagram: [here](https://drive.google.com/file/d/1KPw7t9B74QQZjmLroM4SeeZr6i0U6QMp/view?usp=sharing)
 
-UX/UI Design (Figma): [here](https://s.net.vn/ztMs)
+UX/UI Design (Figma): [here](https://s.net.vn/FRI6)
 
 Report Link (**important**): [here]()
 
