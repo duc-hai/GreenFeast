@@ -22,6 +22,7 @@
 - Demo script: [here](https://docs.google.com/document/d/151-uFlub3Yi4Z00npQgpLE7smJBD51eRycYk7ldC_tI/edit?usp=sharing)
 - VNPay test card information for payment feature: [here](https://sandbox.vnpayment.vn/apis/vnpay-demo/)
 - API Document for TMS: [here](https://greenfeast.space/tms/docs)
+- App mobile APK File: [here](https://drive.google.com/file/d/1AY1cx5zrxxVsJsuyRw3Kgt75hDU3Xpfj/view?usp=sharing)
 
 ## 📑 Technologies & Skills 
 - Microservice architecture, BFF Pattern, Load balacing for order service
@@ -100,7 +101,7 @@ npm run all
 **1**. **Luu Duc Hai** (Leader): BA, System Architect, Backend, DevOps </br>
 Come up with ideas, analyze design requirements, specifications, build use-case diagrams, design databases, build system architecture, complete the entire backend part of the website (all folders except frontend, mobile folder in source code structure), manage domain name, transfer management to cloudflare, write docker compose configuration, work with ubuntu OS on EC2 in order to deploy website, implement recommender models
 
-**2**. **Truong Thi Ngan Tram**: BA, Frontend, UX/UI Design </br>
+**2**. **Truong Thi Ngan Tram**: BA, Frontend (Web + Mobile), UX/UI Design </br>
 Come up with ideas, analyze design requirements, specifications, write use-case specifications, design ux/ui user interface with figma, complete the entire frontend part (frontend folder) and mobile part (mobile folder)
 
 ## ❤️ Thanks 
