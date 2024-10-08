@@ -21,7 +21,7 @@ services:
       - REDIS_PORT=6379
       - GOOGLE_REDIRECT_URI=http://localhost/api/auth/google/callback
       - RECOMMEND_SERVICE_URL=http://recommend:5090
-      - ORDER2_SERVICE_URL=http://order2:5001
+      - ORDER2_SERVICE_URL=http://order-service-2:5001
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 3000:3000 #The first 3000 is your port local, the second 3000 is the port on docker container
@@ -49,7 +49,7 @@ services:
       - MANAGEMENT_SERVICE_URL=http://management:4000
       - TMS_SERVICE_URL=http://tms:5010
       - STATISTICS_SERVICE_URL=http://statistics:5030
-      - ORDER2_SERVICE_URL=http://order2:5001
+      - ORDER2_SERVICE_URL=http://order-service-2:5001
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - GOOGLE_REDIRECT_URI=https://greenfeast.space/api-mobile/auth/google/callback
@@ -174,8 +174,8 @@ services:
       - order-network
       - greenfeast
 
-  order2: #name of service
-    container_name: order2
+  order-service-2: #name of service
+    container_name: order-service-2
     build:
       context: ./order-service-2/backend #path to source backend (local)
       dockerfile: Dockerfile
