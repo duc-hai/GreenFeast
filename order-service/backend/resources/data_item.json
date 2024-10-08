@@ -1,0 +1,310 @@
+[
+  {
+    "_id": 1,
+    "name": "Gỏi cuốn sốt đậu phộng",
+    "price": 90000,
+    "category_id": 1,
+    "menu_type": 1
+  },
+  {
+    "_id": 3,
+    "name": "Đậu hũ chiên giòn",
+    "price": 30000,
+    "category_id": 1,
+    "menu_type": 1
+  },
+  {
+    "_id": 4,
+    "name": "Bông cải xào tỏi",
+    "price": 70000,
+    "category_id": 1,
+    "menu_type": 1
+  },
+  {
+    "_id": 9,
+    "name": "Mì xào thập cẩm",
+    "price": 47000,
+    "category_id": 2,
+    "menu_type": 1
+  },
+  {
+    "_id": 17,
+    "name": "Sườn non chay rim chua ngọt",
+    "price": 110000,
+    "category_id": 4,
+    "menu_type": 1
+  },
+  {
+    "_id": 19,
+    "name": "Canh bông hẹ đậu hũ",
+    "price": 37000,
+    "category_id": 5,
+    "menu_type": 1
+  },
+  {
+    "_id": 22,
+    "name": "Lẩu nấm thập cẩm",
+    "price": 157000,
+    "category_id": 6,
+    "menu_type": 1
+  },
+  {
+    "_id": 23,
+    "name": "Lẩu nhiệt đới",
+    "price": 180000,
+    "category_id": 6,
+    "menu_type": 1
+  },
+  {
+    "_id": 25,
+    "name": "Gỏi chôm chôm chua ngọt",
+    "price": 82000,
+    "category_id": 7,
+    "menu_type": 1
+  },
+  {
+    "_id": 27,
+    "name": "Cơm thêm",
+    "price": 10000,
+    "category_id": 8,
+    "menu_type": 1
+  },
+  {
+    "_id": 29,
+    "name": "Rau thêm",
+    "price": 10000,
+    "category_id": 8,
+    "menu_type": 1
+  },
+  {
+    "_id": 5,
+    "name": "Khoai tây chiên bơ",
+    "price": 45000,
+    "category_id": 1,
+    "menu_type": 1
+  },
+  {
+    "_id": 6,
+    "name": "Cơm chiên thượng hải",
+    "price": 75000,
+    "category_id": 2,
+    "menu_type": 1
+  },
+  {
+    "_id": 8,
+    "name": "Bánh ướt",
+    "price": 50000,
+    "category_id": 2,
+    "menu_type": 1
+  },
+  {
+    "_id": 10,
+    "name": "Ngó sen xào nấm",
+    "price": 55000,
+    "category_id": 3,
+    "menu_type": 1
+  },
+  {
+    "_id": 13,
+    "name": "Rong biển xào xả",
+    "price": 53000,
+    "category_id": 3,
+    "menu_type": 1
+  },
+  {
+    "_id": 15,
+    "name": "Chân nấm kho gừng",
+    "price": 57000,
+    "category_id": 4,
+    "menu_type": 1
+  },
+  {
+    "_id": 28,
+    "name": "Bún thêm",
+    "price": 10000,
+    "category_id": 8,
+    "menu_type": 1
+  },
+  {
+    "_id": 31,
+    "name": "Dừa tươi",
+    "price": 35000,
+    "category_id": 9,
+    "menu_type": 2
+  },
+  {
+    "_id": 36,
+    "name": "Sữa chua trái cây",
+    "price": 35000,
+    "category_id": 11,
+    "menu_type": 2
+  },
+  {
+    "_id": 37,
+    "name": "Sữa đậu nành",
+    "price": 30000,
+    "category_id": 11,
+    "menu_type": 2
+  },
+  {
+    "_id": 39,
+    "name": "Trà chanh thái đỏ",
+    "price": 39000,
+    "category_id": 12,
+    "menu_type": 2
+  },
+  {
+    "_id": 2,
+    "name": "Chả giò",
+    "price": 80000,
+    "category_id": 1,
+    "menu_type": 1
+  },
+  {
+    "_id": 7,
+    "name": "Bún chả giò",
+    "price": 65000,
+    "category_id": 2,
+    "menu_type": 1
+  },
+  {
+    "_id": 11,
+    "name": "Vịt chay xào",
+    "price": 85000,
+    "category_id": 3,
+    "menu_type": 1
+  },
+  {
+    "_id": 12,
+    "name": "Nấm xào chay",
+    "price": 70000,
+    "category_id": 3,
+    "menu_type": 1
+  },
+  {
+    "_id": 20,
+    "name": "Canh cải chua tứ xuyên",
+    "price": 46000,
+    "category_id": 5,
+    "menu_type": 1
+  },
+  {
+    "_id": 26,
+    "name": "Xà lách trộn",
+    "price": 45000,
+    "category_id": 7,
+    "menu_type": 1
+  },
+  {
+    "_id": 30,
+    "name": "Cam cà rốt",
+    "price": 40000,
+    "category_id": 9,
+    "menu_type": 2
+  },
+  {
+    "_id": 32,
+    "name": "Nha đam hạt chia",
+    "price": 45000,
+    "category_id": 9,
+    "menu_type": 2
+  },
+  {
+    "_id": 34,
+    "name": "7up",
+    "price": 15000,
+    "category_id": 10,
+    "menu_type": 2
+  },
+  {
+    "_id": 35,
+    "name": "Sting",
+    "price": 15000,
+    "category_id": 10,
+    "menu_type": 2
+  },
+  {
+    "_id": 40,
+    "name": "Trà vải cam sả",
+    "price": 40000,
+    "category_id": 12,
+    "menu_type": 2
+  },
+  {
+    "_id": 14,
+    "name": "Đậu hũ kho nấm rơm",
+    "price": 45000,
+    "category_id": 4,
+    "menu_type": 1
+  },
+  {
+    "_id": 16,
+    "name": "Chả lụa kho tiêu",
+    "price": 92000,
+    "category_id": 4,
+    "menu_type": 1
+  },
+  {
+    "_id": 18,
+    "name": "Tôm chay kho tàu",
+    "price": 120000,
+    "category_id": 4,
+    "menu_type": 1
+  },
+  {
+    "_id": 21,
+    "name": "Canh khổ qua",
+    "price": 52000,
+    "category_id": 5,
+    "menu_type": 1
+  },
+  {
+    "_id": 24,
+    "name": "Gỏi xoài khô mặn",
+    "price": 57000,
+    "category_id": 7,
+    "menu_type": 1
+  },
+  {
+    "_id": 33,
+    "name": "Coca",
+    "price": 15000,
+    "category_id": 10,
+    "menu_type": 2
+  },
+  {
+    "_id": 38,
+    "name": "Trà trái cây nhiệt đới",
+    "price": 43000,
+    "category_id": 12,
+    "menu_type": 2
+  },
+  {
+    "_id": 42,
+    "name": "món test 1",
+    "price": 12345,
+    "category_id": 16,
+    "menu_type": 1
+  },
+  {
+    "_id": 43,
+    "name": "test món 2",
+    "price": 234343,
+    "category_id": 11,
+    "menu_type": 2
+  },
+  {
+    "_id": 44,
+    "name": "Test món 2",
+    "price": 20000,
+    "category_id": 12,
+    "menu_type": 2
+  },
+  {
+    "_id": 45,
+    "name": "demo 1",
+    "price": 455,
+    "category_id": 1,
+    "menu_type": 1
+  }
+]

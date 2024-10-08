@@ -160,6 +160,7 @@ services:
       - AMQP_SERVER_URL_PORT=5672
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=http://localhost
+      - RECOMMEND_SERVICE_URL=http://recommend:5090
       - FRONT_END_URL_QRCODE=http://localhost
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -187,6 +188,7 @@ services:
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=http://localhost
       - FRONT_END_URL_QRCODE=http://localhost
+      - RECOMMEND_SERVICE_URL=http://recommend:5090
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
       - 5001:5001 #The first 5000 is your port local, the second 5000 is the port on docker container

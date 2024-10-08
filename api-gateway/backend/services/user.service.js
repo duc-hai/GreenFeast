@@ -516,6 +516,39 @@ class UserService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
+
+    getUserList = async (req, res, next) => {
+        try {
+            if (req.body?.token !== process.env.TOKEN_USER_LIST) {
+                return next(createError(StatusCode.BadRequest_400, 'Token is not valid')) 
+            }
+            const users = await User.find({ status: true }).select({
+                _id: 1,
+                gender: 1,
+                birthday: 1
+            }).lean()
+
+            const newFormatUsers = users.map(value => {
+                const dateObj = new Date(value.birthday)
+                let formattedDate
+                if (!isNaN(dateObj.getTime())) {
+                    const year = dateObj.getFullYear()
+                    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0')
+                    const day = dateObj.getDate().toString().padStart(2, '0')
+                    formattedDate = `${year}-${month}-${day}`
+                }
+                return {
+                    ...value,
+                    birthday: formattedDate || ''
+                }
+            })
+            
+            return res.status(StatusCode.OK_200).json(newFormatUsers)
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
 }
 
 module.exports = new UserService()

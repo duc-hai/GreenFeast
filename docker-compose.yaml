@@ -203,6 +203,7 @@ services:
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=https://greenfeast.space
       - FRONT_END_URL_QRCODE=https://greenfeast.space
+      - RECOMMEND_SERVICE_URL=http://recommend:5090
       - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 
@@ -230,6 +231,7 @@ services:
       - AMQP_SERVER_URL_DOCKER=amqp://rabbitmq:5672
       - API_GATEWAY_URL=https://greenfeast.space
       - FRONT_END_URL_QRCODE=https://greenfeast.space
+      - RECOMMEND_SERVICE_URL=http://recommend:5090
       - AMQP_SERVER_URL_CLOUD=amqps://qzxmvblu:jcd5Gnh2wck7bh30-3DM6FFXM6BUE_EE@armadillo.rmq.cloudamqp.com/qzxmvblu
       # - DB_HOST=host.docker.internal #it's means 'localhost' in Docker
     ports: 

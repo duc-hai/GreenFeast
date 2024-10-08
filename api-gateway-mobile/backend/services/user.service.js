@@ -200,7 +200,7 @@ class UserService {
             const employee = { position, experience }
 
             //Password will be hash in mongoose's middleware
-            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true, phone_number: username, gender, address,  })    
+            let newUser = new User({ _id: username, password, full_name, user_type: 1, role, employee, isVerifyEmail: true, phone_number: username, gender, address })    
             newUser = await newUser.save()
 
             if (!newUser)
@@ -433,7 +433,7 @@ class UserService {
                 if (error) return next(createError(StatusCode.BadRequest_400, `Đã xảy ra lỗi khi gọi đăng nhập Google: ${error.message}`))
                 const accessToken = await jwt.sign({ username: user._id }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
                 const refreshToken = await jwt.sign({ username: user._id }, process.env.REFRESH_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '168h' })
-                // await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
+                //await this.setTokenToRedis(`refresh:${user._id}`, refreshToken, 7)
                     
                 res.cookie('access_token', accessToken, {
                     httpOnly: true, //Config cookie just accessed by server
@@ -511,6 +511,39 @@ class UserService {
                 message: 'Get new access token successfully',
                 token: accessToken,
             })   
+        }
+        catch (err) {
+            return next(createError(StatusCode.InternalServerError_500, err.message)) 
+        }
+    }
+
+    getUserList = async (req, res, next) => {
+        try {
+            if (req.body?.token !== process.env.TOKEN_USER_LIST) {
+                return next(createError(StatusCode.BadRequest_400, 'Token is not valid')) 
+            }
+            const users = await User.find({ status: true }).select({
+                _id: 1,
+                gender: 1,
+                birthday: 1
+            }).lean()
+
+            const newFormatUsers = users.map(value => {
+                const dateObj = new Date(value.birthday)
+                let formattedDate
+                if (!isNaN(dateObj.getTime())) {
+                    const year = dateObj.getFullYear()
+                    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0')
+                    const day = dateObj.getDate().toString().padStart(2, '0')
+                    formattedDate = `${year}-${month}-${day}`
+                }
+                return {
+                    ...value,
+                    birthday: formattedDate || ''
+                }
+            })
+            
+            return res.status(StatusCode.OK_200).json(newFormatUsers)
         }
         catch (err) {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
