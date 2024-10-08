@@ -35,6 +35,8 @@ jobs:
           else
             for service in ${{ env.CHANGED_SERVICES }}; do
               echo "Building and running $service..."
+              docker compose stop $service
+              docker compose rm -f $service 
               docker compose -p greenfeast up -d --build $service
             done
           fi
