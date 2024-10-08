@@ -18,8 +18,7 @@ jobs:
         run: |
           echo "Changed services:"
           CHANGED_SERVICES=""
-          SERVICES=("api-gateway" "api-gateway-mobile" "management-service" "notification-service" "order-service" "payment-service" "recommend-service" "statistics-service" "tms-service" "
-          order-service-2" "frontend")
+          SERVICES=("api-gateway" "api-gateway-mobile" "management-service" "notification-service" "order-service" "payment-service" "recommend-service" "statistics-service" "tms-service" "order-service-2" "frontend")
           for service in "${SERVICES[@]}"; do
             if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "$service/"; then
               CHANGED_SERVICES="$service $CHANGED_SERVICES"
