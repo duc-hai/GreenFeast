@@ -128,10 +128,12 @@ class UserService {
                 return next(createError(StatusCode.BadRequest_400, 'Xảy ra lỗi khi decode refresh token'))
 
             const client = await clientRedis()
-            if (!client) return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
-            const refreshToken = await client.get(`refresh:${username}`)
-            await client.quit()
-            if (!refreshToken || refreshToken !== req.body.refresh_token) return next(createError(StatusCode.BadRequest_400, 'Token đã bị thu hồi hoặc không hợp lệ!'))
+            // if (!client) return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
+            if (client) {
+                const refreshToken = await client.get(`refresh:${username}`)
+                await client.quit()
+                if (!refreshToken || refreshToken !== req.body.refresh_token) return next(createError(StatusCode.BadRequest_400, 'Token đã bị thu hồi hoặc không hợp lệ!'))
+            }
 
             const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET_KEY || '', { algorithm: 'HS256', expiresIn: '10h' })
     
@@ -306,9 +308,11 @@ class UserService {
 
     setTokenToRedis = async (userId, token, dayNum) => {
         const client = await clientRedis()
-        if (!client) throw new Error('Xảy ra lỗi khi kết nối Redis')
-        await client.set(userId, token, { EX: 60 * 60 * 24 * dayNum }) //Ex is second
-        await client.quit()
+        // if (!client) throw new Error('Xảy ra lỗi khi kết nối Redis')
+        if (client) {
+            await client.set(userId, token, { EX: 60 * 60 * 24 * dayNum }) //Ex is second
+            await client.quit()
+        }
     }
 
     async verifyEmail (req, res, next) {
@@ -320,10 +324,11 @@ class UserService {
             const otp = generateOtp()
 
             const client = await clientRedis()
-            if (!client)
-                return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
-            await client.set(`email:${req.user._id}`, otp, { EX: 60 * 5 }) //Ex is second
-            await client.quit()
+            if (client) {
+                await client.set(`email:${req.user._id}`, otp, { EX: 60 * 5 }) //Ex is second
+                await client.quit()
+            }
+            // return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))    
 
             producer.sendQueue('email', {
                 action: 'verify',
@@ -352,13 +357,14 @@ class UserService {
         try {
             const { userId, otp } = req.body
             const client = await clientRedis()
-            if (!client)
-                return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
-            const otpRedis = await client.get(`email:${userId}`)
-            // console.log(otpRedis)
-
-            if (otpRedis != otp) 
-                return next(createError(StatusCode.BadRequest_400, 'Mã xác thực không đúng'))
+            if (client) {
+                const otpRedis = await client.get(`email:${userId}`)
+                // console.log(otpRedis)
+    
+                if (otpRedis != otp) 
+                    return next(createError(StatusCode.BadRequest_400, 'Mã xác thực không đúng'))
+            }
+            // return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))    
 
             const user = await User.findOneAndUpdate({ _id: userId, status: true }, {
                 isVerifyEmail: true
