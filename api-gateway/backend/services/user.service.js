@@ -127,7 +127,7 @@ class UserService {
             if (!username)    
                 return next(createError(StatusCode.BadRequest_400, 'Xảy ra lỗi khi decode refresh token'))
 
-            const client = await clientRedis()
+            const client = null //await clientRedis()
             // if (!client) return next(createError(StatusCode.InternalServerError_500, 'Xảy ra lỗi khi kết nối Redis'))
             if (client) {
                 const refreshToken = await client.get(`refresh:${username}`)
@@ -161,7 +161,7 @@ class UserService {
     async logOut (req, res, next) {
         try {
             //Using redis to delete token in cache
-            const client = await clientRedis()
+            const client = null//await clientRedis()
             if (client && req.user._id) {
                 client.del(`refresh:${req.user._id}`)
             }
@@ -290,7 +290,6 @@ class UserService {
             return next(createError(StatusCode.InternalServerError_500, err.message)) 
         }
     }
-
     async getEmployeees (req, res, next) {
         try {
             const users = await User.find({ user_type: 1, status: true }).select(hiddenPropertiesOption.employeesList)
@@ -307,7 +306,7 @@ class UserService {
     }
 
     setTokenToRedis = async (userId, token, dayNum) => {
-        const client = await clientRedis()
+        const client = null; //await clientRedis()
         // if (!client) throw new Error('Xảy ra lỗi khi kết nối Redis')
         if (client) {
             await client.set(userId, token, { EX: 60 * 60 * 24 * dayNum }) //Ex is second
@@ -323,7 +322,7 @@ class UserService {
                 return next(createError(StatusCode.BadRequest_400, 'Thiếu thông tin email'))
             const otp = generateOtp()
 
-            const client = await clientRedis()
+            const client = null //await clientRedis()
             if (client) {
                 await client.set(`email:${req.user._id}`, otp, { EX: 60 * 5 }) //Ex is second
                 await client.quit()
@@ -356,7 +355,7 @@ class UserService {
     async verifyOtpEmail (req, res, next) {
         try {
             const { userId, otp } = req.body
-            const client = await clientRedis()
+            const client = null //await clientRedis()
             if (client) {
                 const otpRedis = await client.get(`email:${userId}`)
                 // console.log(otpRedis)
