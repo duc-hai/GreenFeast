@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   apigateway: #name of service
     container_name: apigateway
