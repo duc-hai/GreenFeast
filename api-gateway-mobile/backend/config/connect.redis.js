@@ -20,7 +20,7 @@ async function connectRedis() {
 
         client.on('error', (err) => {
             console.error(`Error occured when connect to Redis: ${err}`)
-            throw new Error(`Error occured when connect to Redis: ${err}`)
+            // throw new Error(`Error occured when connect to Redis: ${err}`)
         })
 
         await client.connect()
