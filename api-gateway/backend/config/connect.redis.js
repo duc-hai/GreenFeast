@@ -11,6 +11,9 @@ async function connectRedis() {
             socket: {
                 host: 'redis-12855.c325.us-east-1-4.ec2.redns.redis-cloud.com',
                 port: 12855
+            },
+            socket: {
+                connectTimeout: 10000
             }
         })
 
